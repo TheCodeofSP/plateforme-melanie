@@ -1,0 +1,53 @@
+@use "../abstracts/mixins.scss" as *;
+
+body {
+  background: var(--color-background);
+  color: var(--color-text);
+
+  font-family: var(--font-body);
+  line-height: 1.6;
+
+  -webkit-font-smoothing: antialiased;
+}
+
+button,
+input,
+textarea,
+select {
+  color: inherit;
+}
+
+a {
+  text-decoration: none;
+}
+
+.page-container {
+  @include container;
+}
+
+.page-section {
+  @include section-spacing;
+}
+
+.text-muted {
+  color: var(--color-text-muted);
+}
+
+.section-eyebrow {
+  display: inline-flex;
+  align-items: center;
+
+  margin-bottom: var(--space-sm);
+  padding: 6px 14px;
+
+  border-radius: var(--radius-pill);
+
+  background: var(--color-primary-soft);
+
+  color: var(--color-primary);
+
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}

@@ -1,0 +1,68 @@
+:root {
+  /* Fonts */
+  --font-title: "Cormorant Garamond", serif;
+  --font-body: "Inter", sans-serif;
+
+  /* Main colors */
+  --color-white: #fffdfb;
+  --color-cream: #fbf4ef;
+  --color-blush: #f6d8d6;
+  --color-blush-soft: #fae8e6;
+  --color-rose: #c98986;
+  --color-rose-deep: #9f5f5d;
+
+  --color-sage: #8fa99b;
+  --color-sage-soft: #dfe9e3;
+  --color-green: #496b5a;
+  --color-green-deep: #2f4a3a;
+
+  --color-ink: #302827;
+  --color-muted: #756967;
+  --color-border: #eadbd6;
+
+  /* Semantic colors */
+  --color-background: var(--color-white);
+  --color-surface: var(--color-cream);
+  --color-surface-soft: var(--color-blush-soft);
+
+  --color-primary: var(--color-green-deep);
+  --color-primary-soft: var(--color-sage-soft);
+
+  --color-secondary: var(--color-rose);
+  --color-secondary-soft: var(--color-blush);
+
+  --color-text: var(--color-ink);
+  --color-text-muted: var(--color-muted);
+
+  /* States */
+  --color-success: #587a62;
+  --color-warning: #c69555;
+  --color-error: #b9605c;
+  --color-info: #6f8f9a;
+
+  /* Layout */
+  --container-width: 1120px;
+  --container-padding: 20px;
+
+  /* Spacing */
+  --space-xs: 8px;
+  --space-sm: 12px;
+  --space-md: 20px;
+  --space-lg: 32px;
+  --space-xl: 48px;
+  --space-xxl: 72px;
+
+  /* Radius */
+  --radius-sm: 10px;
+  --radius-md: 18px;
+  --radius-lg: 28px;
+  --radius-pill: 999px;
+
+  /* Shadows */
+  --shadow-soft: 0 16px 40px rgba(47, 74, 58, 0.1);
+  --shadow-card: 0 12px 28px rgba(47, 74, 58, 0.08);
+
+  /* Transitions */
+  --transition-fast: 180ms ease;
+  --transition-base: 250ms ease;
+}

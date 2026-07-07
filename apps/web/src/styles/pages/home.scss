@@ -1,0 +1,91 @@
+@use "../abstracts/mixins" as *;
+
+.home-page {
+  min-height: calc(100vh - 160px);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: var(--space-xl) 0;
+
+  background: linear-gradient(
+    180deg,
+    var(--color-background) 0%,
+    var(--color-surface) 100%
+  );
+}
+
+.home-header {
+  max-width: 90%;
+
+  margin: 0 auto;
+  padding: 24px;
+
+
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+
+  background: rgba(255, 255, 255, 0.82);
+  backdrop-filter: blur(10px);
+
+  box-shadow: var(--shadow-soft);
+
+  &__eyebrow {
+    display: inline-block;
+    text-align: left;
+
+    margin-bottom: var(--space-md);
+    padding: 8px 18px;
+
+    border-radius: var(--radius-pill);
+
+
+    color: var(--color-primary);
+
+    font-size: 0.85rem;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+
+  &__title {
+      text-align: center;
+
+    margin-bottom: var(--space-lg);
+
+    color: var(--color-primary);
+
+    font-family: var(--font-title);
+    font-size: clamp(2.6rem, 5vw, 4.5rem);
+    line-height: 1.1;
+  }
+
+  &__text {
+  text-align: center;
+
+    margin: 0 auto var(--space-md);
+
+    color: var(--color-text-muted);
+
+    font-size: 1.1rem;
+    line-height: 1.8;
+  }
+
+  &__signature {
+      text-align: right;
+
+    margin-top: var(--space-xl);
+
+    color: var(--color-secondary);
+
+    font-weight: 600;
+  }
+}
+
+.home-header__logo {
+  width: 180px;
+  height: auto;
+
+  margin: 0 auto var(--space-xl);
+}

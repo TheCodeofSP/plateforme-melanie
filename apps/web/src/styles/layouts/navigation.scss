@@ -1,0 +1,47 @@
+@use "../abstracts/mixins.scss" as *;
+
+.navigation {
+  border-bottom: 1px solid var(--color-border);
+
+  background: rgba(255, 253, 251, 0.92);
+  backdrop-filter: blur(10px);
+}
+
+.navigation__container {
+  @include container;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-md);
+
+  min-height: 72px;
+}
+
+.navigation__brand {
+  color: var(--color-primary);
+
+  font-family: var(--font-title);
+  font-size: 1.5rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.navigation__tagline {
+  display: none;
+
+  color: var(--color-text-muted);
+
+  font-size: 0.9rem;
+}
+
+@include tablet {
+  .navigation__brand-block {
+    display: grid;
+    gap: 2px;
+  }
+
+  .navigation__tagline {
+    display: block;
+  }
+}
