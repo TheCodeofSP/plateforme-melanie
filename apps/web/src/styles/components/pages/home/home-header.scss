@@ -1,0 +1,77 @@
+@use "../../../abstracts/mixins.scss" as *;
+
+.home-header {
+  padding: 5rem 0;
+}
+
+.home-header__container {
+  display: grid;
+  gap: 3rem;
+
+  align-items: center;
+}
+
+.home-header__content {
+  display: flex;
+  flex-direction: column;
+
+  gap: 1.5rem;
+}
+
+.home-header__eyebrow {
+  font-size: 0.875rem;
+  font-weight: 600;
+
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.home-header__subtitle {
+  font-size: 1.125rem;
+}
+
+.home-header__mission {
+  font-size: 1.35rem;
+  font-weight: 700;
+}
+
+.home-header__actions {
+  display: flex;
+  flex-direction: column;
+
+  gap: 1rem;
+
+  margin-top: 1rem;
+}
+
+.home-header__image {
+  display: flex;
+  justify-content: center;
+}
+
+.home-header__image img {
+  width: 100%;
+  max-width: 420px;
+  height: auto;
+}
+
+@include tablet {
+  .home-header {
+    padding: 6rem 0;
+  }
+
+  .home-header__actions {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+}
+
+@include desktop {
+  .home-header__container {
+    grid-template-columns: 1.2fr 1fr;
+  }
+
+  .home-header__image {
+    justify-content: flex-end;
+  }
+}

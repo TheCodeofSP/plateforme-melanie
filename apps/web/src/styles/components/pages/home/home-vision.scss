@@ -1,0 +1,113 @@
+@use "../../../abstracts/mixins.scss" as *;
+
+.home-vision {
+  background:
+    radial-gradient(circle at top right, var(--color-primary-soft), transparent 34%),
+    var(--color-surface);
+}
+
+.home-vision__container {
+  display: grid;
+  gap: var(--space-xl);
+}
+
+.home-vision__header {
+
+  margin-inline: auto;
+
+  text-align: center;
+}
+
+.home-vision__header h2 {
+  margin-top: var(--space-sm);
+
+  color: var(--color-primary);
+
+  font-family: var(--font-title);
+  font-size: clamp(2.2rem, 8vw, 4rem);
+  line-height: 1;
+  letter-spacing: -0.03em;
+}
+
+.home-vision__header p {
+  margin-top: var(--space-md);
+
+  color: var(--color-text-muted);
+
+  font-size: 1.05rem;
+}
+
+.home-vision__grid {
+  display: grid;
+  gap: var(--space-lg);
+}
+
+.home-vision__card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+
+  padding: var(--space-lg);
+
+  border-radius: var(--radius-lg);
+
+  background: rgba(255, 253, 251, 0.9);
+
+  box-shadow: var(--shadow-card);
+
+  text-align: center;
+}
+
+.home-vision__card span {
+  font-size: 2.5rem;
+}
+
+.home-vision__card h3 {
+  color: var(--color-primary);
+
+  font-family: var(--font-title);
+  font-size: 1.7rem;
+}
+
+.home-vision__card p {
+  color: var(--color-text-muted);
+}
+
+.home-vision__quote {
+  max-width: 760px;
+
+  margin-inline: auto;
+  padding: var(--space-xl);
+
+  border-radius: var(--radius-lg);
+
+  background: var(--color-white);
+
+  box-shadow: var(--shadow-card);
+
+  color: var(--color-rose-deep);
+
+  font-family: var(--font-title);
+  font-size: clamp(1.7rem, 5vw, 2.5rem);
+  font-style: italic;
+  text-align: center;
+}
+
+.home-vision__action {
+  display: flex;
+  justify-content: center;
+}
+
+.home-vision__action .btn {
+  width: 100%;
+}
+
+@include tablet {
+  .home-vision__grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .home-vision__action .btn {
+    width: auto;
+  }
+}

@@ -1,0 +1,65 @@
+@use "../../../abstracts/mixins.scss" as *;
+
+.home-testimonials {
+  background:
+    radial-gradient(circle at bottom right, var(--color-sage-soft), transparent 30%),
+    var(--color-background);
+}
+
+.home-testimonials__header {
+
+  margin-inline: auto;
+
+  text-align: center;
+}
+
+.home-testimonials__header h2 {
+  margin-top: var(--space-sm);
+
+  color: var(--color-primary);
+
+  font-family: var(--font-title);
+  font-size: clamp(2.2rem, 8vw, 3.8rem);
+  line-height: 1;
+}
+
+.home-testimonials__header p {
+  margin-top: var(--space-md);
+
+  color: var(--color-text-muted);
+}
+
+.home-testimonials__header small {
+  display: inline-block;
+
+  margin-top: var(--space-sm);
+
+  color: var(--color-warning);
+}
+
+.home-testimonials__grid {
+  display: grid;
+  gap: var(--space-lg);
+
+  margin-top: var(--space-xl);
+}
+
+@include tablet {
+  .home-testimonials__grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .home-testimonials__grid .testimonial-card:last-child {
+    grid-column: 1 / -1;
+  }
+}
+
+@include desktop {
+  .home-testimonials__grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .home-testimonials__grid .testimonial-card:last-child {
+    grid-column: auto;
+  }
+}

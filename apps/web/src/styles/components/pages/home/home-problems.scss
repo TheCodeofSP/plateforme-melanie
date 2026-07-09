@@ -1,0 +1,122 @@
+@use "../../../abstracts/mixins.scss" as *;
+
+.home-problems {
+  background:
+    radial-gradient(circle at top right, var(--color-blush-soft), transparent 32%),
+    var(--color-background);
+}
+
+
+.home-problems__header h2 {
+  margin-top: var(--space-sm);
+
+  color: var(--color-primary);
+
+  font-family: var(--font-title);
+  font-size: clamp(2.2rem, 8vw, 3.8rem);
+  line-height: 1;
+  letter-spacing: -0.03em;
+}
+
+.home-problems__header p {
+  margin-top: var(--space-md);
+
+  color: var(--color-text-muted);
+
+  font-size: 1.05rem;
+}
+
+.home-problems__grid {
+  display: grid;
+  gap: var(--space-md);
+
+  margin-top: var(--space-xl);
+}
+
+.home-problems__card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+
+  padding: var(--space-lg);
+
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+
+  background: var(--color-white);
+
+  box-shadow: var(--shadow-card);
+}
+
+.home-problems__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 52px;
+  height: 52px;
+
+  border-radius: var(--radius-pill);
+
+  background: var(--color-surface-soft);
+
+  font-size: 1.7rem;
+}
+
+.home-problems__card h3 {
+  color: var(--color-primary);
+
+  font-family: var(--font-title);
+  font-size: 1.7rem;
+  line-height: 1.1;
+}
+
+.home-problems__card ul {
+  display: grid;
+  gap: var(--space-sm);
+
+  padding: 0;
+  margin: 0;
+
+  list-style: none;
+}
+
+.home-problems__card li {
+  display: flex;
+  gap: var(--space-sm);
+
+  color: var(--color-text-muted);
+}
+
+.home-problems__card li::before {
+  content: "•";
+
+  color: var(--color-secondary);
+
+  font-weight: 700;
+}
+
+.home-problems__actions {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+
+  margin-top: auto;
+}
+
+.home-problems__actions .btn {
+  width: 100%;
+}
+
+@include tablet {
+  .home-problems__grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-lg);
+  }
+}
+
+@include desktop {
+  .home-problems__grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}

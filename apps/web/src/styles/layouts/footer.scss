@@ -1,38 +1,113 @@
 @use "../abstracts/mixins.scss" as *;
 
 .footer {
-  border-top: 1px solid var(--color-border);
-
-  background: var(--color-surface);
+  background: var(--color-primary);
+  color: var(--color-white);
 }
 
 .footer__container {
-  @include container;
+  display: grid;
+  gap: var(--space-xl);
 
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-xs);
-
-  padding-block: var(--space-lg);
-
-  color: var(--color-text-muted);
-
-  font-size: 0.95rem;
-  text-align: center;
+  padding-block: var(--space-xl);
 }
 
-.footer__signature {
-  color: var(--color-primary);
+.footer__brand {
+  display: grid;
+  gap: var(--space-md);
+}
 
-  font-weight: 700;
+.footer__brand img {
+  width: 72px;
+  height: 72px;
+
+  object-fit: contain;
+
+  border-radius: var(--radius-md);
+
+  background: var(--color-white);
+}
+
+.footer__mission {
+  max-width: 760px;
+
+  font-family: var(--font-title);
+  font-size: clamp(2rem, 7vw, 3.2rem);
+  line-height: 1;
+}
+
+.footer__description {
+  max-width: 620px;
+
+  margin-top: var(--space-md);
+
+  color: rgba(255, 253, 251, 0.78);
+}
+
+.footer__columns {
+  display: grid;
+  gap: var(--space-lg);
+}
+
+.footer__column {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.footer__column h2 {
+  color: var(--color-secondary-soft);
+
+  font-family: var(--font-title);
+  font-size: 1.5rem;
+}
+
+.footer__column a,
+.footer__column p {
+  color: rgba(255, 253, 251, 0.82);
+}
+
+.footer__column a:hover {
+  color: var(--color-white);
+}
+
+.footer__bottom {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+
+  padding-top: var(--space-lg);
+
+  border-top: 1px solid rgba(255, 253, 251, 0.18);
+
+  color: rgba(255, 253, 251, 0.72);
+
+  font-size: 0.9rem;
+}
+
+.footer__legal {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.footer__legal a:hover {
+  color: var(--color-white);
 }
 
 @include tablet {
-  .footer__container {
+  .footer__columns {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .footer__bottom {
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
+  }
 
-    text-align: left;
+  .footer__legal {
+    flex-direction: row;
+    flex-wrap: wrap;
   }
 }

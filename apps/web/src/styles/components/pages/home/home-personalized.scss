@@ -1,0 +1,124 @@
+@use "../../../abstracts/mixins.scss" as *;
+
+.home-personalized {
+  background:
+    radial-gradient(circle at top left, var(--color-blush-soft), transparent 32%),
+    var(--color-surface);
+}
+
+.home-personalized__container {
+  display: grid;
+  gap: var(--space-xl);
+
+  align-items: center;
+}
+
+.home-personalized__intro,
+.home-personalized__text {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+.home-personalized__intro h2 {
+  color: var(--color-primary);
+
+  font-family: var(--font-title);
+  font-size: clamp(2.2rem, 8vw, 3.8rem);
+  line-height: 1;
+}
+
+.home-personalized__text p {
+  color: var(--color-text-muted);
+}
+
+.home-personalized__image {
+  display: flex;
+  justify-content: center;
+}
+
+.home-personalized__image img {
+  width: min(100%, 420px);
+}
+
+.home-personalized__points {
+  display: grid;
+  gap: var(--space-md);
+}
+
+.home-personalized__point {
+  display: flex;
+  gap: var(--space-md);
+
+  padding: var(--space-md);
+
+  border-radius: var(--radius-md);
+
+  background: var(--color-white);
+
+  box-shadow: var(--shadow-card);
+}
+
+.home-personalized__point > span {
+  font-size: 2rem;
+}
+
+.home-personalized__point h3 {
+  color: var(--color-primary);
+
+  font-family: var(--font-title);
+  font-size: 1.4rem;
+}
+
+.home-personalized__point p {
+  color: var(--color-text-muted);
+}
+
+.home-personalized__future {
+  padding: var(--space-md);
+
+  border-left: 3px solid var(--color-secondary);
+
+  background: var(--color-primary-soft);
+
+  color: var(--color-primary);
+
+  font-style: italic;
+}
+
+@include tablet {
+  .home-personalized__points {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@include desktop {
+  .home-personalized__container {
+    grid-template-columns: 1fr 0.9fr;
+    grid-template-areas:
+      "intro image"
+      "text image"
+      "points points"
+      "future future";
+  }
+
+  .home-personalized__intro {
+    grid-area: intro;
+  }
+
+  .home-personalized__image {
+    grid-area: image;
+  }
+
+  .home-personalized__text {
+    grid-area: text;
+  }
+
+  .home-personalized__points {
+    grid-area: points;
+  }
+
+  .home-personalized__future {
+    grid-area: future;
+  }
+}

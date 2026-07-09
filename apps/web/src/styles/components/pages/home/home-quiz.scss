@@ -1,0 +1,105 @@
+@use "../../../abstracts/mixins.scss" as *;
+
+.home-quiz {
+  background: var(--color-surface);
+}
+
+.home-quiz__container {
+  display: grid;
+  gap: var(--space-xl);
+
+  align-items: center;
+}
+
+.home-quiz__content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+.home-quiz h2 {
+  color: var(--color-primary);
+
+  font-family: var(--font-title);
+  font-size: clamp(2.2rem, 8vw, 4rem);
+  line-height: 1;
+}
+
+.home-quiz__description {
+  color: var(--color-text-muted);
+
+  font-size: 1.05rem;
+}
+
+.home-quiz__benefits {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+
+  padding: 0;
+  margin: 0;
+
+  list-style: none;
+}
+
+.home-quiz__benefits li {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+
+  color: var(--color-text);
+}
+
+.home-quiz__benefits li::before {
+  content: "✓";
+
+  color: var(--color-success);
+
+  font-weight: 700;
+}
+
+.home-quiz__reassurance {
+  padding: var(--space-md);
+
+  border-radius: var(--radius-md);
+
+  background: var(--color-primary-soft);
+
+  color: var(--color-primary);
+}
+
+.home-quiz__actions {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.home-quiz__actions .btn {
+  width: 100%;
+}
+
+.home-quiz__image {
+  display: flex;
+  justify-content: center;
+}
+
+.home-quiz__image img {
+  width: min(100%, 420px);
+}
+
+@include tablet {
+  .home-quiz__actions {
+    flex-direction: row;
+  }
+
+  .home-quiz__actions .btn {
+    width: auto;
+  }
+  .home-quiz__container {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .home-quiz__image {
+    justify-content: flex-end;
+  }
+}

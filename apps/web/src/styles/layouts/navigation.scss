@@ -1,47 +1,181 @@
 @use "../abstracts/mixins.scss" as *;
 
 .navigation {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+
+  background: rgba(255, 253, 251, 0.94);
+
   border-bottom: 1px solid var(--color-border);
 
-  background: rgba(255, 253, 251, 0.92);
-  backdrop-filter: blur(10px);
+  backdrop-filter: blur(14px);
 }
 
 .navigation__container {
-  @include container;
-
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: var(--space-md);
 
-  min-height: 72px;
+  padding-block: var(--space-sm);
 }
 
 .navigation__brand {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+
+  min-width: 0;
+}
+
+.navigation__brand img {
+  width: 52px;
+  height: 52px;
+
+  object-fit: contain;
+}
+
+.navigation__brand div {
+  display: flex;
+  flex-direction: column;
+
+  min-width: 0;
+}
+
+.navigation__brand span {
   color: var(--color-primary);
 
   font-family: var(--font-title);
   font-size: 1.5rem;
   font-weight: 700;
-  letter-spacing: -0.02em;
+  line-height: 1;
 }
 
-.navigation__tagline {
+.navigation__brand small {
   display: none;
 
   color: var(--color-text-muted);
 
-  font-size: 0.9rem;
+  font-size: 0.8rem;
+}
+
+.navigation__toggle {
+  display: inline-flex;
+  flex-direction: column;
+  gap: 5px;
+
+  padding: 10px;
+
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+
+  background: var(--color-white);
+}
+
+.navigation__toggle span {
+  width: 22px;
+  height: 2px;
+
+  border-radius: var(--radius-pill);
+
+  background: var(--color-primary);
+}
+
+.navigation__menu {
+  position: absolute;
+  top: 100%;
+  right: var(--container-padding);
+  left: var(--container-padding);
+
+  display: none;
+  flex-direction: column;
+  gap: var(--space-lg);
+
+  padding: var(--space-lg);
+
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+
+  background: var(--color-white);
+
+  box-shadow: var(--shadow-soft);
+}
+
+.navigation__menu--open {
+  display: flex;
+}
+
+.navigation__links,
+.navigation__actions {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.navigation__link {
+  color: var(--color-text-muted);
+
+  font-weight: 700;
+}
+
+.navigation__link:hover,
+.navigation__link--active {
+  color: var(--color-primary);
+}
+
+.navigation__actions .btn {
+  width: 100%;
 }
 
 @include tablet {
-  .navigation__brand-block {
-    display: grid;
-    gap: 2px;
+  .navigation__brand small {
+    display: block;
+  }
+}
+
+@include desktop {
+  .navigation__container {
+    padding-block: var(--space-md);
   }
 
-  .navigation__tagline {
-    display: block;
+  .navigation__toggle {
+    display: none;
+  }
+
+  .navigation__menu {
+    position: static;
+
+    display: flex;
+    flex: 1;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-end;
+
+    padding: 0;
+
+    border: none;
+    border-radius: 0;
+
+    background: transparent;
+
+    box-shadow: none;
+  }
+
+  .navigation__links {
+    flex-direction: row;
+    align-items: center;
+    gap: var(--space-lg);
+  }
+
+  .navigation__actions {
+    flex-direction: row;
+    align-items: center;
+
+    margin-left: var(--space-lg);
+  }
+
+  .navigation__actions .btn {
+    width: auto;
   }
 }
