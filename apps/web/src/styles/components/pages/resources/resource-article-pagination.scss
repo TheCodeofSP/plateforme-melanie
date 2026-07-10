@@ -1,0 +1,51 @@
+@use "../../../abstracts/mixins.scss" as *;
+
+.resource-article-pagination {
+  display: grid;
+  gap: var(--space-sm);
+
+  margin-top: var(--space-xl);
+  padding-top: var(--space-lg);
+
+  border-top: 1px solid var(--color-primary-soft);
+}
+
+.resource-article-pagination__link {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+
+  padding: var(--space-md);
+
+  border-radius: var(--radius-lg);
+
+  background: var(--color-cream);
+  color: inherit;
+
+  text-decoration: none;
+}
+
+.resource-article-pagination__link span {
+  color: var(--color-rose-deep);
+
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+
+.resource-article-pagination__link strong {
+  color: var(--color-primary);
+
+  font-family: var(--font-title);
+  font-size: 1.2rem;
+  line-height: 1.1;
+}
+
+@include tablet {
+  .resource-article-pagination {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .resource-article-pagination__link--next {
+    text-align: right;
+  }
+}

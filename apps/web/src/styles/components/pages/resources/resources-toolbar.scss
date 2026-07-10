@@ -1,0 +1,41 @@
+@use "../../../abstracts/mixins.scss" as *;
+
+.resources-toolbar {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+
+  margin-bottom: var(--space-xl);
+}
+
+.resources-toolbar__search input {
+  width: 100%;
+
+  padding: 0.9rem 1rem;
+
+  border: 1px solid var(--color-primary-soft);
+  border-radius: var(--radius-pill);
+
+  background: var(--color-white);
+
+  font: inherit;
+}
+
+.resources-toolbar__search input:focus {
+  outline: none;
+  border-color: var(--color-primary);
+
+  box-shadow: 0 0 0 3px var(--color-primary-soft);
+}
+
+.resources-toolbar__count {
+  color: var(--color-text-muted);
+
+  font-size: 0.9rem;
+}
+
+@include desktop {
+  .resources-toolbar__search {
+    max-width: 420px;
+  }
+}

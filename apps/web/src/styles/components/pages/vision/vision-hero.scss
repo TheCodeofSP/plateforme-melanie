@@ -1,0 +1,28 @@
+@use "../../../abstracts/mixins.scss" as *;
+
+.vision-hero {
+  padding-block: var(--space-xl);
+
+  background:
+    radial-gradient(circle at top right, var(--color-blush-soft), transparent 34%),
+    linear-gradient(180deg, var(--color-white), var(--color-cream));
+}
+
+.vision-hero__container {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+
+}
+
+
+.vision-hero__subtitle {
+
+  color: var(--color-text-muted);
+}
+
+@include desktop {
+  .vision-hero {
+    padding-block: var(--space-xxl);
+  }
+}

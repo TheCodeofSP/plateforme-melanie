@@ -11,7 +11,7 @@ export default function HomeApproach() {
     <section className="home-approach page-section">
       <div className="page-container home-approach__container">
         <div className="home-approach__header">
-          <span className="section-eyebrow">{approach.eyebrow}</span>
+          <span className="eyebrow">{approach.eyebrow}</span>
 
           <h2>{approach.title}</h2>
 

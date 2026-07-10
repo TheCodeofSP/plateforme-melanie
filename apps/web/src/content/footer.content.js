@@ -10,7 +10,7 @@ export const footerContent = {
     links: [
       { label: "Accueil", to: "/" },
       { label: "À propos", to: "/about" },
-      { label: "Ressources", to: "/ressources" },
+      { label: "Ressources", to: "/resources" },
       { label: "Accompagnements", to: "/accompagnements" },
       { label: "Contact", to: "/contact" },
     ],
@@ -20,7 +20,7 @@ export const footerContent = {
     title: "Plateforme",
     links: [
       { label: "Forum GYNECE", to: "/gynece" },
-      { label: "Quiz SPM", to: "https://quiz-spm-web.vercel.app/" },
+      { label: "Quiz SPM", to: "/quiz" },
     ],
   },
 

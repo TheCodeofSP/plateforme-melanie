@@ -19,6 +19,7 @@ select {
 
 a {
   text-decoration: none;
+  max-width: auto;
 }
 
 .page-container {
@@ -50,4 +51,27 @@ a {
   font-weight: 700;
   letter-spacing: 0.08em;
   text-transform: uppercase;
+}
+
+.eyebrow {
+  width: fit-content;
+
+  color: var(--color-rose-deep);
+
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+h1 {
+  color: var(--color-primary);
+
+  font-family: var(--font-title);
+  font-size: clamp(2.5rem, 12vw, 4.6rem);
+  line-height: 0.95;
+  letter-spacing: -0.04em;
+
+  margin-bottom: var(--space-sm);
+  margin-top: var(--space-sm);
 }

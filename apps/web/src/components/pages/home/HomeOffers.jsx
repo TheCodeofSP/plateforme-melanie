@@ -17,7 +17,7 @@ export default function HomeOffers() {
     <section className="home-offers page-section">
       <div className="page-container">
         <div className="home-offers__header">
-          <span className="section-eyebrow">{offers.eyebrow}</span>
+          <span className="eyebrow">{offers.eyebrow}</span>
 
           <h2>{offers.title}</h2>
 

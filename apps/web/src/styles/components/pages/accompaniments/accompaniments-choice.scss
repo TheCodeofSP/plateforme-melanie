@@ -1,0 +1,102 @@
+@use "../../../abstracts/mixins.scss" as *;
+
+.accompaniments-choice {
+  padding-block: var(--space-xl);
+
+  background: var(--color-white);
+}
+
+.accompaniments-choice__grid {
+  display: grid;
+  gap: var(--space-md);
+}
+
+.accompaniments-choice-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: var(--space-md);
+
+  padding: var(--space-md);
+
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+
+  background: var(--color-cream);
+
+  box-shadow: var(--shadow-soft);
+}
+
+.accompaniments-choice-card h3 {
+  margin-bottom: var(--space-xs);
+
+  color: var(--color-primary);
+}
+
+.accompaniments-choice-card p {
+  color: var(--color-text-muted);
+}
+
+.accompaniments-choice-card__recommendation {
+  padding-top: var(--space-md);
+
+  border-top: 1px solid var(--color-border);
+}
+
+.accompaniments-choice-card__result {
+  display: flex;
+  align-items: center;
+}
+.accompaniments-choice-card__recommendation span {
+  display: block;
+
+  color: var(--color-text-muted);
+
+  font-weight: 700;
+
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.accompaniments-choice-card__recommendation strong {
+  color: var(--color-primary);
+
+  font-family: var(--font-title);
+  font-size: 1.25rem;
+}
+
+@include tablet {
+  .accompaniments-choice__grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@include desktop {
+  .accompaniments-choice {
+    padding-block: calc(var(--space-xxl) + var(--space-md));
+  }
+}
+
+.accompaniments-choice-card__icon {
+  display: grid;
+  place-items: center;
+
+  width: 46px;
+  height: 46px;
+
+  margin-bottom: var(--space-sm);
+
+  border-radius: var(--radius-pill);
+
+  background: var(--color-primary-soft);
+  color: var(--color-primary);
+
+  font-family: var(--font-title);
+  font-size: 1.4rem;
+}
+
+.accompaniments-choice-card--emotional
+  .accompaniments-choice-card__icon {
+  background: var(--color-blush-soft);
+  color: var(--color-rose-deep);
+}

@@ -11,7 +11,7 @@ export default function HomeVision() {
     <section className="home-vision page-section">
       <div className="page-container home-vision__container">
         <div className="home-vision__header">
-          <span className="section-eyebrow">{vision.eyebrow}</span>
+          <span className="eyebrow">{vision.eyebrow}</span>
 
           <h2>{vision.title}</h2>
 
@@ -22,10 +22,7 @@ export default function HomeVision() {
 
         <div className="home-vision__grid">
           {vision.convictions.map((conviction) => (
-            <article
-              key={conviction.title}
-              className="home-vision__card"
-            >
+            <article key={conviction.title} className="home-vision__card">
               <span>{conviction.icon}</span>
 
               <h3>{conviction.title}</h3>
@@ -40,10 +37,7 @@ export default function HomeVision() {
         </blockquote>
 
         <div className="home-vision__action">
-          <Link
-            to={vision.action.to}
-            className="btn btn-primary"
-          >
+          <Link to={vision.action.to} className="btn btn-primary">
             {vision.action.label}
           </Link>
         </div>

@@ -14,7 +14,7 @@ export default function HomeHeader() {
     <header className="home-header">
       <div className="page-container home-header__container">
         <div className="home-header__content">
-          <span className="home-header__eyebrow">{hero.eyebrow}</span>
+          <span className="eyebrow">{hero.eyebrow}</span>
 
           <div className="home-header__image home-header__image--mobile">
             <img

@@ -13,7 +13,7 @@ export default function HomeAbout() {
     <section className="home-about page-section">
       <div className="page-container home-about__container">
         <div className="home-about__intro">
-          <span className="section-eyebrow">{about.eyebrow}</span>
+          <span className="eyebrow">{about.eyebrow}</span>
 
           <h2>{about.title}</h2>
         </div>

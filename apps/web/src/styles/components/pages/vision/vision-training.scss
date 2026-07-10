@@ -1,0 +1,36 @@
+@use "../../../abstracts/mixins.scss" as *;
+
+.vision-training {
+  padding-block: var(--space-xl);
+}
+
+.vision-training__container {
+  display: grid;
+  gap: var(--space-xl);
+}
+
+.vision-training__content p {
+  margin-top: var(--space-sm);
+
+  color: var(--color-text-muted);
+}
+
+.vision-training__list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+
+  padding-left: 1.2rem;
+}
+
+.vision-training__list li {
+  color: var(--color-text-muted);
+}
+
+@include desktop {
+  .vision-training__container {
+    grid-template-columns: 1fr 1fr;
+
+    align-items: start;
+  }
+}

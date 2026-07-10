@@ -16,7 +16,7 @@ export default function HomeTestimonials() {
     <section className="home-testimonials page-section">
       <div className="page-container">
         <div className="home-testimonials__header">
-          <span className="section-eyebrow">{testimonials.eyebrow}</span>
+          <span className="eyebrow">{testimonials.eyebrow}</span>
 
           <h2>{testimonials.title}</h2>
 
@@ -27,10 +27,7 @@ export default function HomeTestimonials() {
 
         <div className="home-testimonials__grid">
           {publishedTestimonials.map((testimonial) => (
-            <TestimonialCard
-              key={testimonial.id}
-              testimonial={testimonial}
-            />
+            <TestimonialCard key={testimonial.id} testimonial={testimonial} />
           ))}
         </div>
       </div>

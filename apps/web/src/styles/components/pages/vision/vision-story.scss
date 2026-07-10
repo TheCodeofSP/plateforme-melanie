@@ -1,0 +1,19 @@
+@use "../../../abstracts/mixins.scss" as *;
+
+.vision-story {
+  padding-block: var(--space-xl);
+}
+
+.vision-story__container {
+  max-width: 860px;
+}
+
+.vision-story__content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+
+  margin-top: var(--space-md);
+
+  color: var(--color-text-muted);
+}

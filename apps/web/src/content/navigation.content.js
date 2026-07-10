@@ -5,7 +5,7 @@ export const navigationContent = {
   links: [
     { label: "Accueil", to: "/" },
     { label: "Vison", to: "/vision" },
-    { label: "Ressources", to: "/ressources" },
+    { label: "Ressources", to: "/resources" },
     { label: "Accompagnements", to: "/accompagnements" },
   ],
 

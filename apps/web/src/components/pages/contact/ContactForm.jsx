@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-import FormField from "../../ui/FormField";
+import FormField from "../../ui/FormField.jsx";
 
 import { contactContent } from "../../../content/contact.content.js";
 

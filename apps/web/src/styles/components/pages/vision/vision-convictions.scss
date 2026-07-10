@@ -1,0 +1,68 @@
+@use "../../../abstracts/mixins.scss" as *;
+
+.vision-convictions {
+  padding-block: var(--space-xl);
+
+  background: var(--color-white);
+}
+
+.vision-convictions__grid {
+  display: grid;
+  gap: var(--space-md);
+}
+
+.vision-card {
+  padding: var(--space-md);
+
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+
+  background: var(--color-cream);
+
+  box-shadow: var(--shadow-soft);
+}
+
+.vision-card__icon {
+  display: grid;
+  place-items: center;
+
+  width: 46px;
+  height: 46px;
+
+  margin-bottom: var(--space-sm);
+
+  border-radius: var(--radius-pill);
+
+  background: var(--color-primary-soft);
+
+  font-size: 1.3rem;
+}
+
+.vision-card h3 {
+  margin-bottom: var(--space-xs);
+
+  color: var(--color-primary);
+}
+
+.vision-card p {
+  color: var(--color-text-muted);
+}
+
+.vision-convictions__quote {
+  margin-top: var(--space-xl);
+
+  padding-left: var(--space-md);
+
+  border-left: 3px solid var(--color-secondary);
+
+  color: var(--color-rose-deep);
+
+  font-family: var(--font-title);
+  font-size: clamp(1.3rem, 5vw, 1.9rem);
+}
+
+@include tablet {
+  .vision-convictions__grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}

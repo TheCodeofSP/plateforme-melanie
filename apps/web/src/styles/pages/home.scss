@@ -39,14 +39,7 @@
   text-transform: uppercase;
 }
 
-.home-header h1 {
-  color: var(--color-primary);
 
-  font-family: var(--font-title);
-  font-size: clamp(2.5rem, 12vw, 4.6rem);
-  line-height: 0.95;
-  letter-spacing: -0.04em;
-}
 
 .home-header__subtitle,
 .home-header__content > p:not(.home-header__mission) {

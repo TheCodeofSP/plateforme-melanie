@@ -17,7 +17,7 @@ export default function HomeResources() {
     <section className="home-resources page-section">
       <div className="page-container">
         <div className="home-resources__header">
-          <span className="section-eyebrow">{resources.eyebrow}</span>
+          <span className="eyebrow">{resources.eyebrow}</span>
 
           <h2>{resources.title}</h2>
 

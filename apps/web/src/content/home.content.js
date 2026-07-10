@@ -26,7 +26,7 @@ export const homeContent = {
 
       secondary: {
         label: "Faire le quiz SPM",
-        to: "https://quiz-spm-web.vercel.app/",
+        to: "/quiz",
       },
     },
   },
@@ -102,12 +102,12 @@ export const homeContent = {
     actions: {
       primary: {
         label: "Faire le quiz",
-        to: "https://quiz-spm-web.vercel.app/",
+        to: "/quiz",
       },
 
       secondary: {
         label: "Découvrir les ressources",
-        to: "/ressources",
+        to: "/resources",
       },
     },
   },
@@ -250,11 +250,11 @@ export const homeContent = {
         actions: {
           resource: {
             label: "Voir les ressources",
-            to: "/ressources",
+            to: "/resources",
           },
           quiz: {
             label: "Faire le quiz",
-            to: "https://quiz-spm-web.vercel.app/",
+            to: "/quiz",
           },
         },
       },
@@ -270,11 +270,11 @@ export const homeContent = {
         actions: {
           resource: {
             label: "Voir les ressources",
-            to: "/ressources",
+            to: "/resources",
           },
           quiz: {
             label: "Faire le quiz",
-            to: "https://quiz-spm-web.vercel.app/",
+            to: "/quiz",
           },
         },
       },
@@ -290,11 +290,11 @@ export const homeContent = {
         actions: {
           resource: {
             label: "Voir les ressources",
-            to: "/ressources",
+            to: "/resources",
           },
           quiz: {
             label: "Faire le quiz",
-            to: "https://quiz-spm-web.vercel.app/",
+            to: "/quiz",
           },
         },
       },
@@ -310,11 +310,11 @@ export const homeContent = {
         actions: {
           resource: {
             label: "Voir les ressources",
-            to: "/ressources",
+            to: "/resources",
           },
           quiz: {
             label: "Faire le quiz",
-            to: "https://quiz-spm-web.vercel.app/",
+            to: "/quiz",
           },
         },
       },
@@ -330,11 +330,11 @@ export const homeContent = {
         actions: {
           resource: {
             label: "Voir les ressources",
-            to: "/ressources",
+            to: "/resources",
           },
           quiz: {
             label: "Faire le quiz",
-            to: "https://quiz-spm-web.vercel.app/",
+            to: "/quiz",
           },
         },
       },
@@ -350,11 +350,11 @@ export const homeContent = {
         actions: {
           resource: {
             label: "Voir les ressources",
-            to: "/ressources",
+            to: "/resources",
           },
           quiz: {
             label: "Faire le quiz",
-            to: "https://quiz-spm-web.vercel.app/",
+            to: "/quiz",
           },
         },
       },
@@ -470,7 +470,7 @@ export const homeContent = {
         isNew: true,
         cta: {
           label: "Lire l’article",
-          to: "/ressources/comprendre-ton-cycle",
+          to: "/resources/comprendre-ton-cycle",
         },
       },
       {
@@ -551,14 +551,14 @@ export const homeContent = {
         isNew: false,
         cta: {
           label: "Découvrir l’outil",
-          to: "/ressources/roue-du-cycle",
+          to: "/resources/roue-du-cycle",
         },
       },
     ],
 
     action: {
       label: "Explorer toutes les ressources",
-      to: "/ressources",
+      to: "/resources",
     },
   },
   latestResources: {
@@ -573,7 +573,7 @@ export const homeContent = {
 
     action: {
       label: "Voir toutes les ressources",
-      to: "/ressources",
+      to: "/resources",
     },
   },
   offers: {
@@ -815,7 +815,7 @@ export const homeContent = {
 
           cta: {
             label: "Faire le quiz",
-            to: "https://quiz-spm-web.vercel.app/",
+            to: "/quiz",
           },
         },
       },
@@ -839,7 +839,7 @@ export const homeContent = {
 
     action: {
       label: "Explorer toutes les ressources",
-      to: "/ressources",
+      to: "/resources",
     },
   },
 };

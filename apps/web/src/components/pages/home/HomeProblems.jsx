@@ -11,7 +11,7 @@ export default function HomeProblems() {
     <section className="home-problems page-section">
       <div className="page-container">
         <div className="home-problems__header">
-          <span className="section-eyebrow">{problems.eyebrow}</span>
+          <span className="eyebrow">{problems.eyebrow}</span>
 
           <h2>{problems.title}</h2>
 

@@ -1,0 +1,30 @@
+.tag {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  width: fit-content;
+
+  padding: 0.35rem 0.8rem;
+
+  border-radius: var(--radius-pill);
+
+  font-size: 0.8rem;
+  font-weight: 600;
+  line-height: 1;
+}
+
+.tag--primary {
+  background: var(--color-primary-soft);
+  color: var(--color-primary);
+}
+
+.tag--secondary {
+  background: var(--color-secondary-soft);
+  color: var(--color-secondary);
+}
+
+.tag--neutral {
+  background: var(--color-cream);
+  color: var(--color-text-muted);
+}

@@ -50,7 +50,7 @@ export default function HomeCarousel() {
     <section className="home-carousel page-section">
       <div className="page-container home-carousel__container">
         <div className="home-carousel__header">
-          <span className="section-eyebrow">{resourcesCarousel.eyebrow}</span>
+          <span className="eyebrow">{resourcesCarousel.eyebrow}</span>
 
           <h2>{resourcesCarousel.title}</h2>
 

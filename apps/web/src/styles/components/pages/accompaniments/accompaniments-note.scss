@@ -1,0 +1,28 @@
+@use "../../../abstracts/mixins.scss" as *;
+
+
+.accompaniments-note {
+  padding-block: var(--space-lg);
+
+  background: var(--color-white);
+}
+
+
+.accompaniments-note h2 {
+  margin-bottom: var(--space-sm);
+
+  color: var(--color-primary);
+}
+
+.accompaniments-note p {
+  padding-left: var(--space-md);
+
+  border-left: 3px solid var(--color-secondary);
+
+  color: var(--color-rose-deep);
+
+  font-family: var(--font-title);
+  font-size: clamp(1.25rem, 5vw, 1.8rem);
+  font-weight: 700;
+  line-height: 1.2;
+}

@@ -11,7 +11,7 @@ export default function HomePersonalized() {
     <section className="home-personalized page-section">
       <div className="page-container home-personalized__container">
         <div className="home-personalized__intro">
-          <span className="section-eyebrow">{personalized.eyebrow}</span>
+          <span className="eyebrow">{personalized.eyebrow}</span>
 
           <h2>{personalized.title}</h2>
         </div>
@@ -42,9 +42,7 @@ export default function HomePersonalized() {
           ))}
         </div>
 
-        <p className="home-personalized__future">
-          {personalized.futureNote}
-        </p>
+        <p className="home-personalized__future">{personalized.futureNote}</p>
       </div>
     </section>
   );

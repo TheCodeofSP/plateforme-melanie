@@ -9,7 +9,7 @@ export default function HomeValues() {
     <section className="home-values page-section">
       <div className="page-container">
         <div className="home-values__header">
-          <span className="section-eyebrow">{values.eyebrow}</span>
+          <span className="eyebrow">{values.eyebrow}</span>
 
           <h2>{values.title}</h2>
 

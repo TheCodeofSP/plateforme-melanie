@@ -1,0 +1,148 @@
+@use "../../../abstracts/mixins.scss" as *;
+
+.vision-melanie {
+  position: relative;
+
+  overflow: hidden;
+
+  padding-block: var(--space-xl);
+
+  background:
+    radial-gradient(
+      circle at top left,
+      var(--color-blush-soft),
+      transparent 32%
+    ),
+    linear-gradient(180deg, var(--color-white), var(--color-cream));
+}
+
+.vision-melanie__container {
+  display: grid;
+  gap: var(--space-xl);
+}
+
+.vision-melanie__aside {
+  display: flex;
+  justify-content: center;
+}
+
+.vision-melanie__image {
+  position: relative;
+
+  width: 100%;
+  max-width: 360px;
+}
+
+.vision-melanie__image::before {
+  content: "";
+
+  position: absolute;
+
+  top: -20px;
+  left: -20px;
+
+  width: 100%;
+  height: 100%;
+
+  border-radius: var(--radius-xl);
+
+  background: var(--color-blush-soft);
+
+  transform: rotate(-5deg);
+
+  z-index: 0;
+}
+
+.vision-melanie__image img {
+  position: relative;
+  z-index: 1;
+
+  display: block;
+
+  width: 100%;
+  height: auto;
+
+  border-radius: var(--radius-xl);
+
+  box-shadow: var(--shadow-soft);
+
+  transform: rotate(2deg);
+
+  transition:
+    transform var(--transition-base),
+    box-shadow var(--transition-base);
+}
+
+.vision-melanie__image:hover img {
+  transform: rotate(0deg) scale(1.02);
+
+  box-shadow: var(--shadow-medium);
+}
+
+.vision-melanie__content {
+  display: flex;
+  flex-direction: column;
+}
+
+.vision-melanie__text {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+
+  margin-top: var(--space-md);
+
+  color: var(--color-text-muted);
+}
+
+.vision-melanie__quote {
+  max-width: 900px;
+
+  margin: 0 auto;
+
+  padding-left: var(--space-lg);
+
+  border-left: 4px solid var(--color-secondary);
+
+  color: var(--color-rose-deep);
+
+  font-family: var(--font-title);
+  font-size: clamp(1.45rem, 4vw, 2.2rem);
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+@include tablet {
+  .vision-melanie__image {
+    max-width: 420px;
+  }
+}
+
+@include desktop {
+  .vision-melanie {
+    padding-block: var(--space-xxl);
+  }
+
+  .vision-melanie__container {
+    grid-template-columns: 380px minmax(0, 1fr);
+    grid-template-areas:
+      "image content"
+      "quote quote";
+
+    align-items: center;
+    column-gap: calc(var(--space-xl) * 1.5);
+  }
+
+  .vision-melanie__aside {
+    grid-area: image;
+  }
+
+  .vision-melanie__content {
+    grid-area: content;
+  }
+
+  .vision-melanie__quote {
+    grid-area: quote;
+
+    margin-top: var(--space-lg);
+  }
+}

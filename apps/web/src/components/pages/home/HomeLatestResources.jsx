@@ -18,7 +18,7 @@ export default function HomeLatestResources() {
     <section className="home-latest-resources page-section">
       <div className="page-container">
         <div className="home-latest-resources__header">
-          <span className="section-eyebrow">{latestResources.eyebrow}</span>
+          <span className="eyebrow">{latestResources.eyebrow}</span>
 
           <h2>{latestResources.title}</h2>
 

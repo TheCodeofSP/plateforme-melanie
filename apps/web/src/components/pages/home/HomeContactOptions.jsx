@@ -17,9 +17,7 @@ export default function HomeContactOptions() {
     <section className="home-contact page-section">
       <div className="page-container">
         <div className="home-contact__header">
-          <span className="section-eyebrow">
-            {contactOptions.eyebrow}
-          </span>
+          <span className="eyebrow">{contactOptions.eyebrow}</span>
 
           <h2>{contactOptions.title}</h2>
 
@@ -28,18 +26,12 @@ export default function HomeContactOptions() {
 
         <div className="home-contact__grid">
           {options.map((option) => (
-            <ContactOptionCard
-              key={option.id}
-              option={option}
-            />
+            <ContactOptionCard key={option.id} option={option} />
           ))}
         </div>
 
         <div className="home-contact__action">
-          <Link
-            to={contactOptions.action.to}
-            className="btn btn-primary"
-          >
+          <Link to={contactOptions.action.to} className="btn btn-primary">
             {contactOptions.action.label}
           </Link>
         </div>

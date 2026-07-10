@@ -26,9 +26,7 @@ export default function HomeRecommendedResources() {
     <section className="home-recommended-resources page-section">
       <div className="page-container">
         <div className="home-recommended-resources__header">
-          <span className="section-eyebrow">
-            {recommendedResources.eyebrow}
-          </span>
+          <span className="eyebrow">{recommendedResources.eyebrow}</span>
 
           <h2>{recommendedResources.title}</h2>
 

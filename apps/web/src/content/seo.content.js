@@ -23,5 +23,21 @@ export const seoContent = {
         "Contacter Mélanie Dizet pour poser une question, échanger ou préparer un accompagnement en bien-être gynécologique.",
       url: "/contact",
     },
+    resources: {
+      title: "Ressources pédagogiques — Mélanie Dizet",
+      description:
+        "Explore les ressources pédagogiques de Mélanie Dizet : articles, vidéos, podcasts et supports pour mieux comprendre ton corps, ton cycle et ton équilibre gynécologique.",
+      url: "/resources",
+    },
+    accompaniments: {
+      title: "Accompagnements | Mélanie Dizet",
+      description:
+        "Découvre les accompagnements proposés par Mélanie Dizet pour mieux comprendre ton cycle, tes émotions et ton bien-être gynécologique.",
+    },
+    vision: {
+  title: "Vision | Mélanie Dizet",
+  description:
+    "Découvre la vision, le parcours, les valeurs et l'approche de Mélanie Dizet autour du bien-être gynécologique.",
+},
   },
 };

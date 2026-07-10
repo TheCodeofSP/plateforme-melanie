@@ -1,0 +1,24 @@
+@use "../../../abstracts/mixins.scss" as *;
+
+.accompaniments-cta {
+  padding-block: var(--space-xxl);
+
+  background:
+    radial-gradient(circle at bottom left, var(--color-blush-soft), transparent 35%),
+    linear-gradient(180deg, var(--color-white), var(--color-cream));
+}
+
+.accompaniments-cta__container {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+
+  align-items: center;
+
+
+  text-align: center;
+}
+
+.accompaniments-cta__container p {
+  color: var(--color-text-muted);
+}

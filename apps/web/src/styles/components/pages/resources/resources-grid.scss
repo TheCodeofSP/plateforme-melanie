@@ -1,0 +1,41 @@
+@use "../../../abstracts/mixins.scss" as *;
+
+.resources-grid-section {
+  padding-block: var(--space-xl);
+}
+
+.resources-grid-section__header {
+  max-width: 720px;
+  margin-bottom: var(--space-lg);
+}
+
+.resources-grid-section__header h2 {
+  margin-top: var(--space-sm);
+
+  color: var(--color-primary);
+
+  font-family: var(--font-title);
+}
+
+.resources-grid-section__header p {
+  margin-top: var(--space-sm);
+
+  color: var(--color-text-muted);
+}
+
+.resources-grid {
+  display: grid;
+  gap: var(--space-md);
+}
+
+@include tablet {
+  .resources-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@include desktop {
+  .resources-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}

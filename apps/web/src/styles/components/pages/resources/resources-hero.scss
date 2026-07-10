@@ -1,0 +1,49 @@
+@use "../../../abstracts/mixins.scss" as *;
+
+.resources-hero {
+  padding-block: var(--space-xl);
+
+  background:
+    radial-gradient(
+      circle at top right,
+      var(--color-blush-soft),
+      transparent 34%
+    ),
+    linear-gradient(180deg, var(--color-white), var(--color-cream));
+
+  text-align: center;
+}
+
+.resources-hero h1 {
+  font-size: clamp(2.4rem, 10vw, 4rem);
+}
+
+.resources-hero p {
+  margin-top: var(--space-md);
+
+  color: var(--color-text-muted);
+}
+
+.resources-hero__count {
+  display: inline-flex;
+  justify-content: center;
+
+  margin-top: var(--space-lg);
+  padding: 6px 14px;
+
+  border-radius: var(--radius-pill);
+
+  background: var(--color-primary-soft);
+  color: var(--color-primary);
+
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+@include tablet {
+  .resources-hero {
+    padding-block: var(--space-xxl);
+  }
+}

@@ -1,0 +1,22 @@
+@use "../../../abstracts/mixins.scss" as *;
+
+.vision-approach {
+  padding-block: var(--space-xl);
+}
+
+.vision-approach__grid {
+  display: grid;
+  gap: var(--space-md);
+}
+
+@include tablet {
+  .vision-approach__grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@include desktop {
+  .vision-approach__grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}

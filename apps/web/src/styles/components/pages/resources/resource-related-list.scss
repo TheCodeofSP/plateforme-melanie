@@ -1,0 +1,41 @@
+@use "../../../abstracts/mixins.scss" as *;
+
+.resource-related-list {
+  padding-block: var(--space-xl);
+}
+
+.resource-related-list__header {
+  max-width: 720px;
+  margin-bottom: var(--space-lg);
+}
+
+.resource-related-list__header h2 {
+  margin-top: var(--space-sm);
+
+  color: var(--color-primary);
+
+  font-family: var(--font-title);
+}
+
+.resource-related-list__header p {
+  margin-top: var(--space-sm);
+
+  color: var(--color-text-muted);
+}
+
+.resource-related-list__grid {
+  display: grid;
+  gap: var(--space-md);
+}
+
+@include tablet {
+  .resource-related-list__grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@include desktop {
+  .resource-related-list__grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}

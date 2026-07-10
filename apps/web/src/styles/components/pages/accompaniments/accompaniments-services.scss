@@ -1,0 +1,128 @@
+@use "../../../abstracts/mixins.scss" as *;
+
+
+.accompaniments-services {
+  padding-block: var(--space-xl);
+}
+
+.accompaniments-services__container {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xl);
+}
+
+.accompaniment-card {
+  position: relative;
+
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+
+  overflow: hidden;
+
+  padding: var(--space-lg);
+
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+
+  background: var(--color-white);
+
+  box-shadow: var(--shadow-soft);
+}
+
+.accompaniment-card::before {
+  content: "";
+
+  position: absolute;
+  inset: 0 auto 0 0;
+
+  width: 6px;
+
+  background: var(--color-secondary);
+}
+
+.accompaniment-card--clarity::before {
+  background: var(--color-secondary);
+}
+
+.accompaniment-card--emotional::before {
+  background: var(--color-rose-deep);
+}
+
+.accompaniment-card--cycle::before {
+  background: var(--color-primary);
+}
+
+.accompaniment-card__header {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.accompaniment-card__icon {
+  display: grid;
+  place-items: center;
+
+  width: 46px;
+  height: 46px;
+
+  border-radius: var(--radius-pill);
+
+  background: var(--color-primary-soft);
+  color: var(--color-primary);
+
+  font-family: var(--font-title);
+  font-size: 1.4rem;
+}
+
+.accompaniment-card--emotional .accompaniment-card__icon {
+  background: var(--color-blush-soft);
+  color: var(--color-rose-deep);
+}
+
+.accompaniment-card__subtitle {
+  color: var(--color-secondary);
+
+  font-weight: 700;
+}
+
+.accompaniment-card__header p:last-child {
+  color: var(--color-text-muted);
+}
+
+.accompaniment-card__content {
+  display: grid;
+  gap: var(--space-lg);
+}
+
+.accompaniment-card__content h3 {
+  margin-bottom: var(--space-sm);
+
+  color: var(--color-primary);
+}
+
+.accompaniment-card__content ul {
+  display: flex;
+  flex-direction: column;
+  gap: .65rem;
+
+  padding-left: 1.25rem;
+
+  color: var(--color-text-muted);
+}
+
+.accompaniment-card .btn {
+  align-self: flex-start;
+}
+
+@include tablet {
+  .accompaniment-card__content {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@include desktop {
+  .accompaniments-services {
+    padding-block: calc(var(--space-xxl) + var(--space-md));
+  }
+}

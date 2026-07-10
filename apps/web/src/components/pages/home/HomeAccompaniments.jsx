@@ -11,7 +11,7 @@ export default function HomeAccompaniments() {
     <section className="home-accompaniments page-section">
       <div className="page-container">
         <div className="home-accompaniments__header">
-          <span className="section-eyebrow">{accompaniments.eyebrow}</span>
+          <span className="eyebrow">{accompaniments.eyebrow}</span>
 
           <h2>{accompaniments.title}</h2>
 

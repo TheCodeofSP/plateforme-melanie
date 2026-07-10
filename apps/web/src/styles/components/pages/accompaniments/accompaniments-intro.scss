@@ -1,0 +1,22 @@
+@use "../../../abstracts/mixins.scss" as *;
+
+.accompaniments-intro {
+  padding-block: var(--space-xl);
+
+  background: var(--color-white);
+}
+
+.accompaniments-intro__container {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+
+}
+
+.accompaniments-intro__content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+
+  color: var(--color-text-muted);
+}

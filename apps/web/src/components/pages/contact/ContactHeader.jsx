@@ -5,9 +5,7 @@ export default function ContactHeader() {
 
   return (
     <header className="contact-header">
-      <span className="section-eyebrow">
-        {hero.eyebrow}
-      </span>
+      <span className="eyebrow">{hero.eyebrow}</span>
 
       <h1>{hero.title}</h1>
 

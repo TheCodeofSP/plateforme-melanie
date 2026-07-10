@@ -1,0 +1,47 @@
+@use "../../../abstracts/mixins.scss" as *;
+
+.vision-cta {
+  padding-block: var(--space-xxl);
+
+  background:
+    radial-gradient(circle at bottom left, var(--color-blush-soft), transparent 34%),
+    linear-gradient(180deg, var(--color-white), var(--color-cream));
+}
+
+.vision-cta__container {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+
+  align-items: center;
+
+  max-width: 760px;
+
+  text-align: center;
+}
+
+.vision-cta__container p {
+  color: var(--color-text-muted);
+}
+
+.vision-cta__actions {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+
+  margin-top: var(--space-sm);
+}
+
+.vision-cta__actions .btn {
+  width: 100%;
+}
+
+@include tablet {
+  .vision-cta__actions {
+    flex-direction: row;
+  }
+
+  .vision-cta__actions .btn {
+    width: auto;
+  }
+}

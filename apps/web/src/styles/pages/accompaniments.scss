@@ -1,0 +1,13 @@
+@use "../abstracts/mixins.scss" as *;
+
+@use "../components/pages/accompaniments/accompaniments-hero.scss";
+@use "../components/pages/accompaniments/accompaniments-intro.scss";
+@use "../components/pages/accompaniments/accompaniments-services.scss";
+@use "../components/pages/accompaniments/accompaniments-choice.scss";
+@use "../components/pages/accompaniments/accompaniments-process.scss";
+@use "../components/pages/accompaniments/accompaniments-note.scss";
+@use "../components/pages/accompaniments/accompaniments-cta.scss";
+
+.accompaniments-page {
+  background: var(--color-cream);
+}
