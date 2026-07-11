@@ -2,11 +2,11 @@ import "../styles/pages/gynece.scss";
 
 export default function Gynece() {
   return (
-    <main className="gynece-page">
+    <main className="page-content gynece-page">
       <section className="gynece-auth">
         <div className="page-container gynece-auth__container">
           <div className="gynece-auth__content">
-            <p className="eyebrow">Forum GYNECE</p>
+            <span className="eyebrow">Forum GYNECE</span>
 
             <h1>Un espace intime pour mieux comprendre ton corps.</h1>
 

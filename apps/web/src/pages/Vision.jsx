@@ -18,7 +18,7 @@ export default function Vision() {
     <>
       <SEO {...seoContent.pages.vision} />
 
-      <main className="vision-page">
+      <main className="page-content vision-page">
         <VisionHero />
         <VisionMelanie />
         <VisionStory />

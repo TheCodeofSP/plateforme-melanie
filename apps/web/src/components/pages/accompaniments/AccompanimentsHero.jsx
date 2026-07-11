@@ -6,17 +6,19 @@ export default function AccompanimentsHero() {
   const { hero } = accompanimentsContent;
 
   return (
-    <section className="accompaniments-hero">
-      <div className="page-container accompaniments-hero__container">
-        <p className="eyebrow">{hero.badge}</p>
+    <section className="page-hero">
+      <div className="page-container">
+        <div className="section-header">
+          <span className="eyebrow">{hero.badge}</span>
 
-        <h1>{hero.title}</h1>
+          <h1 className="page-title">{hero.title}</h1>
 
-        <p className="accompaniments-hero__subtitle">{hero.subtitle}</p>
+          <p className="page-intro">{hero.subtitle}</p>
 
-        <Link to={hero.primaryCta.href} className="btn btn-primary">
-          {hero.primaryCta.label}
-        </Link>
+          <Link to={hero.primaryCta.href} className="btn btn-primary">
+            {hero.primaryCta.label}
+          </Link>
+        </div>
       </div>
     </section>
   );

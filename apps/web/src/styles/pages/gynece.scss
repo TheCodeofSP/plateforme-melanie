@@ -1,8 +1,6 @@
 @use "../abstracts/mixins.scss" as *;
 
-.gynece-page {
-  background: var(--color-cream);
-}
+
 
 .gynece-auth {
   min-height: calc(100vh - 90px);

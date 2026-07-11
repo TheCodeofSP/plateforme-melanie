@@ -5,8 +5,6 @@ import { homeContent } from "../../../content/home.content.js";
 import logoMelanieMobile from "../../../assets/images/logo_melanie_mobile.png";
 import logoMelanieDesktop from "../../../assets/images/logo_melanie_desktop.png";
 
-import "../../../styles/components/pages/home/home-header.scss";
-
 export default function HomeHeader() {
   const { hero } = homeContent;
 
@@ -27,15 +25,17 @@ export default function HomeHeader() {
 
           <h1>{hero.title}</h1>
 
-          {hero.introduction.map((paragraph) => (
-            <p key={paragraph} className="home-header__subtitle">
-              {paragraph}
-            </p>
-          ))}
+          <div className="home-header__introduction">
+            {hero.introduction.map((paragraph) => (
+              <p key={paragraph} className="home-header__subtitle">
+                {paragraph}
+              </p>
+            ))}
+          </div>
 
           <p className="home-header__mission">{hero.mission}</p>
 
-          <p>{hero.description}</p>
+          <p className="home-header__description">{hero.description}</p>
 
           <div className="home-header__actions">
             <Link to={hero.actions.primary.to} className="btn btn-primary">

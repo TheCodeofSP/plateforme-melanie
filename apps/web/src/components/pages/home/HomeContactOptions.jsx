@@ -4,8 +4,6 @@ import { homeContent } from "../../../content/home.content.js";
 
 import ContactOptionCard from "../../ui/ContactOptionCard.jsx";
 
-import "../../../styles/components/pages/home/home-contact-options.scss";
-
 export default function HomeContactOptions() {
   const { contactOptions } = homeContent;
 
@@ -13,10 +11,14 @@ export default function HomeContactOptions() {
     .filter((item) => item.isEnabled)
     .sort((a, b) => a.order - b.order);
 
+  if (options.length === 0) {
+    return null;
+  }
+
   return (
     <section className="home-contact page-section">
-      <div className="page-container">
-        <div className="home-contact__header">
+      <div className="page-container home-contact__container">
+        <div className="section-header">
           <span className="eyebrow">{contactOptions.eyebrow}</span>
 
           <h2>{contactOptions.title}</h2>

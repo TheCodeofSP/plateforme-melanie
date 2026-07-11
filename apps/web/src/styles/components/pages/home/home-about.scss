@@ -1,20 +1,23 @@
 @use "../../../abstracts/mixins.scss" as *;
 
 .home-about {
+  position: relative;
+
+  overflow: hidden;
+
   background:
     radial-gradient(
       circle at bottom left,
-      var(--color-blush-soft),
-      transparent 32%
+      rgba(166, 120, 122, 0.1) 0%,
+      transparent 36%
     ),
-    var(--color-white);
+    var(--gradient-section-warm);
 }
 
 .home-about__container {
   display: grid;
-  gap: var(--space-xl);
-
   align-items: center;
+  gap: var(--space-xl);
 }
 
 .home-about__intro,
@@ -26,7 +29,9 @@
 }
 
 .home-about__intro h2 {
-  color: var(--color-primary);
+  margin: 0;
+
+  color: var(--color-secondary);
 
   font-family: var(--font-title);
   font-size: clamp(2.1rem, 8vw, 3.8rem);
@@ -37,65 +42,109 @@
 .home-about__image {
   display: flex;
   justify-content: center;
+  align-items: center;
 }
 
 .home-about__image img {
-  width: min(100%, 380px);
+  display: block;
 
+  width: 100%;
+  max-width: 380px;
+  max-height: 520px;
+
+  border: 1px solid var(--color-border-primary);
   border-radius: var(--radius-lg);
 
   box-shadow: var(--shadow-soft);
+
+  object-fit: cover;
+  object-position: center;
+}
+
+.home-about__content {
+  gap: var(--space-sm);
 }
 
 .home-about__content p {
+  margin: 0;
+
   color: var(--color-text-muted);
+
+  line-height: 1.75;
 }
 
 .home-about__highlight {
   display: grid;
-  gap: var(--space-sm);
+  gap: var(--space-md);
 
-  padding: var(--space-md);
+  padding: var(--space-lg);
 
-  border-left: 3px solid var(--color-secondary);
-  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border-primary);
+  border-radius: var(--radius-lg);
 
-  background: var(--color-surface);
+  background: var(--gradient-surface-primary);
+
+  box-shadow: var(--shadow-card);
+
   text-align: left;
 }
 
-.home-about__highlight p {
+.home-about__highlight-item {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-sm);
+}
+
+.home-about__highlight-item > span {
+  flex-shrink: 0;
+
+  color: var(--color-primary);
+
+  font-size: 1rem;
+  line-height: 1.7;
+}
+
+.home-about__highlight-item p {
+  margin: 0;
+
   color: var(--color-text);
 
+  line-height: 1.7;
 }
 
 .home-about__quote {
+  max-width: 780px;
   margin: 0;
+  padding-top: var(--space-lg);
 
-  color: var(--color-rose-deep);
+  border-top: 1px solid var(--color-border);
+
+  color: var(--color-primary-active);
 
   font-family: var(--font-title);
   font-size: clamp(1.5rem, 6vw, 2.2rem);
+  font-style: italic;
   font-weight: 700;
-  line-height: 1.1;
+  line-height: 1.15;
+  text-align: center;
+}
+
+.home-about__footer {
+  align-items: stretch;
 }
 
 .home-about__footer .btn {
-  align-self: flex-end;
-}
-
-.home-about__quote {
-  border-top: 1px solid var(--color-border);
-  padding-top: var(--space-lg);
+  width: 100%;
 }
 
 @include tablet {
   .home-about__container {
-    grid-template-columns: 0.9fr 1.1fr;
+    grid-template-columns: minmax(280px, 0.9fr) minmax(0, 1.1fr);
     grid-template-areas:
       "image intro"
       "image content"
       "footer footer";
+    gap: var(--space-xl) var(--space-xxl);
   }
 
   .home-about__intro {
@@ -112,6 +161,26 @@
 
   .home-about__footer {
     grid-area: footer;
+    align-items: center;
+
     text-align: center;
+  }
+
+  .home-about__highlight {
+    width: min(100%, 860px);
+  }
+
+  .home-about__footer .btn {
+    width: auto;
+  }
+}
+
+@include desktop {
+  .home-about__image img {
+    width: min(100%, 440px);
+  }
+
+  .home-about__footer {
+    margin-top: var(--space-md);
   }
 }

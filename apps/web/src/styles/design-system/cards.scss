@@ -1,0 +1,188 @@
+@use "../abstracts/mixins.scss" as *;
+
+.card {
+  @include card-base;
+
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+
+  padding: var(--space-lg);
+
+  background: var(--gradient-surface-neutral);
+}
+
+/* Carte neutre : gris chaud très léger */
+
+.card-neutral {
+  @include surface-neutral;
+}
+
+/* Carte chaleureuse : blanc vers crème */
+
+.card-warm {
+  @include surface-warm;
+}
+
+/* Carte principale : blanc vers rose très clair */
+
+.card-primary {
+  @include surface-primary;
+}
+
+/* Carte d’accent : blanc vers vert très clair */
+
+.card-accent {
+  @include surface-accent;
+}
+
+/* Carte interactive */
+
+.card-interactive {
+  @include card-hover;
+
+  cursor: pointer;
+}
+
+/* Carte mise en avant */
+
+.card-featured {
+  border-color: var(--color-border-primary);
+
+  background: var(--gradient-surface-primary);
+
+  box-shadow: var(--shadow-soft);
+}
+
+/* En-tête */
+
+.card-header {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+}
+
+/* Eyebrow ou catégorie */
+
+.card-eyebrow {
+  color: var(--color-primary);
+
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+/* Titre */
+
+.card-title {
+  margin: 0;
+
+  color: var(--color-secondary);
+
+  font-family: var(--font-title);
+  font-size: clamp(1.7rem, 4vw, 2.2rem);
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+}
+
+/* Description */
+
+.card-text {
+  margin: 0;
+
+  color: var(--color-text-muted);
+
+  line-height: 1.7;
+}
+
+/* Image */
+
+.card-image {
+  width: 100%;
+  aspect-ratio: 16 / 10;
+
+  border-radius: var(--radius-md);
+
+  object-fit: cover;
+}
+
+/* Contenu */
+
+.card-content {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+/* Pied de carte */
+
+.card-footer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-sm);
+
+  margin-top: auto;
+  padding-top: var(--space-sm);
+}
+
+/* Badge */
+
+.card-badge {
+  display: inline-flex;
+  align-items: center;
+
+  width: fit-content;
+  padding: 6px 12px;
+
+  border: 1px solid var(--color-border-primary);
+  border-radius: var(--radius-pill);
+
+  background: var(--color-primary-extra-soft);
+  color: var(--color-primary-active);
+
+  font-size: 0.82rem;
+  font-weight: 700;
+}
+
+/* Badge vert ponctuel */
+
+.card-badge-accent {
+  border-color: var(--color-border-accent);
+
+  background: var(--color-accent-extra-soft);
+  color: var(--color-accent-hover);
+}
+
+/* Liste de cartes */
+
+.cards-grid {
+  display: grid;
+  gap: var(--space-md);
+
+  @include tablet {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  @include desktop {
+    gap: var(--space-lg);
+  }
+}
+
+/* Variante trois colonnes */
+
+.cards-grid-three {
+  display: grid;
+  gap: var(--space-md);
+
+  @include tablet {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  @include desktop {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--space-lg);
+  }
+}

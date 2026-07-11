@@ -1,48 +1,101 @@
-@use "../../../../styles//abstracts/mixins.scss" as *;
-
+@use "../../../abstracts/mixins.scss" as *;
 
 .testimonial-card {
+  position: relative;
+
   display: flex;
   flex-direction: column;
   gap: var(--space-md);
 
+  min-width: 0;
+  height: 100%;
   padding: var(--space-lg);
 
+  overflow: hidden;
+
+  border: 1px solid var(--color-border);
   border-radius: var(--radius-lg);
 
-  background: var(--color-white);
+  background: var(--gradient-surface-neutral);
 
   box-shadow: var(--shadow-card);
+
+  transition:
+    transform var(--transition-fast),
+    border-color var(--transition-base),
+    box-shadow var(--transition-base);
+}
+
+.testimonial-card:hover {
+  border-color: var(--color-border-primary);
+
+  box-shadow: var(--shadow-card-hover);
+
+  transform: translateY(-4px);
 }
 
 .testimonial-card__quote {
-  color: var(--color-secondary);
+  height: 44px;
+
+  color: var(--color-primary);
 
   font-family: var(--font-title);
-  font-size: 4rem;
+  font-size: 4.5rem;
+  font-weight: 700;
   line-height: 1;
+
+  opacity: 0.75;
+
+  transition:
+    color var(--transition-base),
+    transform var(--transition-fast);
 }
 
-.testimonial-card p {
+.testimonial-card:hover .testimonial-card__quote {
+  color: var(--color-primary-active);
+
+  transform: translateY(-2px);
+}
+
+.testimonial-card__text {
   flex: 1;
+
+  margin: 0;
 
   color: var(--color-text-muted);
 
+  font-family: var(--font-title);
+  font-size: clamp(1.2rem, 3vw, 1.45rem);
   font-style: italic;
+  line-height: 1.5;
 }
 
-.testimonial-card footer {
+.testimonial-card__footer {
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  gap: 4px;
+
+  padding-top: var(--space-md);
+
+  border-top: 1px solid var(--color-border-soft);
 }
 
-.testimonial-card strong {
-  color: var(--color-primary);
+.testimonial-card__name {
+  color: var(--color-secondary);
+
+  font-size: 1rem;
+  font-weight: 700;
 }
 
-.testimonial-card span {
+.testimonial-card__context {
   color: var(--color-text-muted);
 
   font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+@include tablet {
+  .testimonial-card {
+    padding: var(--space-xl);
+  }
 }

@@ -6,7 +6,7 @@ export default function VisionValues() {
   return (
     <section className="vision-values">
       <div className="page-container vision-values__container">
-        <header className="vision-section-header">
+        <header className="section-header">
           <h2>{values.title}</h2>
         </header>
 

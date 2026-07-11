@@ -1,132 +1,21 @@
 @use "../abstracts/mixins.scss" as *;
 
-.home-header {
-  position: relative;
-
-  padding-block: var(--space-xl);
-
-  background:
-    radial-gradient(circle at top right, var(--color-blush-soft), transparent 34%),
-    linear-gradient(180deg, var(--color-white), var(--color-cream));
-}
-
-.home-header__container {
-  display: grid;
-  gap: var(--space-xl);
-
-  align-items: center;
-}
-
-.home-header__content {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-md);
-}
-
-.home-header__eyebrow {
-  width: fit-content;
-
-  padding: 6px 14px;
-
-  border-radius: var(--radius-pill);
-
-  background: var(--color-primary-soft);
-  color: var(--color-primary);
-
-  font-size: 0.78rem;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-}
+@use "../components/pages/home/home-header.scss";
+@use "../components/pages/home/home-accompaniments.scss";
+@use "../components/pages/home/home-approach.scss";
+@use "../components/pages/home/home-carousel.scss";
+@use "../components/pages/home/home-contact-options.scss";
+@use "../components/pages/home/home-offers.scss";
+@use "../components/pages/home/home-personalized.scss";
+@use "../components/pages/home/home-problems.scss";
+@use "../components/pages/home/home-quiz.scss";
+@use "../components/pages/home/home-testimonials.scss";
+@use "../components/pages/home/home-values.scss";
+@use "../components/pages/home/home-vision.scss";
+@use "../components/pages/home/home-about.scss";
 
 
-
-.home-header__subtitle,
-.home-header__content > p:not(.home-header__mission) {
-  color: var(--color-text-muted);
-
-  font-size: 1rem;
-}
-
-.home-header__mission {
-  padding-left: var(--space-md);
-
-  border-left: 3px solid var(--color-secondary);
-
-  color: var(--color-rose-deep);
-
-  font-family: var(--font-title);
-  font-size: clamp(1.45rem, 6vw, 2.2rem);
-  font-weight: 700;
-  line-height: 1.1;
-}
-
-.home-header__actions {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-sm);
-
-  margin-top: var(--space-sm);
-}
-
-.home-header__actions .btn {
-  width: 100%;
-}
-
-.home-header__image {
-  display: flex;
-  justify-content: center;
-}
-
-.home-header__image img {
-  width: min(100%, 260px);
-
-  border-radius: var(--radius-lg);
-
-  filter: drop-shadow(var(--shadow-soft));
-}
-
-.home-header__image--desktop {
-  display: none;
-}
-
-@include tablet {
-  .home-header {
-    padding-block: var(--space-xxl);
-  }
-
-  .home-header__actions {
-    flex-direction: row;
-    flex-wrap: wrap;
-  }
-
-  .home-header__actions .btn {
-    width: auto;
-  }
-
-  .home-header__image img {
-    width: min(100%, 420px);
-  }
-}
-
-@include desktop {
-  .home-header {
-    min-height: calc(100vh - 90px);
-
-    display: flex;
-    align-items: center;
-  }
-
-  .home-header__container {
-    grid-template-columns: minmax(0, 1.15fr) minmax(320px, 0.85fr);
-  }
-
-  .home-header__image--mobile {
-    display: none;
-  }
-
-  .home-header__image--desktop {
-    display: flex;
-    justify-content: flex-end;
-  }
-}
+@use "../components/pages/ui/testimonial-card.scss";
+@use "../components/pages/ui/offer-card.scss";
+@use "../components/pages/ui/contact-option-card.scss";
+@use "../components/pages/ui/section-divider.scss";

@@ -12,14 +12,14 @@ export default function Quiz() {
     <>
       <SEO {...seoContent.pages.quiz} />
 
-      <main className="quiz-page">
-        <section className="quiz-hero">
-          <div className="page-container quiz-hero__container">
-            <p className="eyebrow">{quizContent.hero.badge}</p>
+      <main className="page-content quiz-page">
+        <section className="page-hero">
+          <div className="section-header">
+            <span className="eyebrow">{quizContent.hero.badge}</span>
 
-            <h1>{quizContent.hero.title}</h1>
+            <h1 className="page-title">{quizContent.hero.title}</h1>
 
-            <p className="quiz-hero__subtitle">{quizContent.hero.subtitle}</p>
+            <p className="page-intro">{quizContent.hero.subtitle}</p>
 
             <div className="quiz-hero__text">
               {quizContent.hero.text.map((paragraph) => (

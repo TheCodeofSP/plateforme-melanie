@@ -15,11 +15,12 @@ input,
 textarea,
 select {
   color: inherit;
+  font: inherit;
 }
 
 a {
+  color: inherit;
   text-decoration: none;
-  max-width: auto;
 }
 
 .page-container {
@@ -28,50 +29,121 @@ a {
 
 .page-section {
   @include section-spacing;
+
+  background: var(--color-white);
+}
+
+.page-section--white {
+  @include section-white;
+}
+
+.page-section--warm {
+  @include section-warm;
+}
+
+.page-section--neutral {
+  @include section-neutral;
+}
+
+.page-section--primary {
+  @include section-primary;
+}
+
+.page-section--accent {
+  @include section-accent;
 }
 
 .text-muted {
   color: var(--color-text-muted);
 }
 
-.section-eyebrow {
-  display: inline-flex;
-  align-items: center;
-
-  margin-bottom: var(--space-sm);
-  padding: 6px 14px;
-
-  border-radius: var(--radius-pill);
-
-  background: var(--color-primary-soft);
-
-  color: var(--color-primary);
-
-  font-size: 0.8rem;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-}
+/* Eyebrow */
 
 .eyebrow {
-  width: fit-content;
+  @include eyebrow-style;
+}
 
-  color: var(--color-rose-deep);
+/* Main titles */
 
-  font-size: 0.78rem;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
+h1,
+h2 {
+  @include title-style;
 }
 
 h1 {
-  color: var(--color-primary);
+  margin-top: var(--space-sm);
+  margin-bottom: var(--space-sm);
 
-  font-family: var(--font-title);
   font-size: clamp(2.5rem, 12vw, 4.6rem);
   line-height: 0.95;
   letter-spacing: -0.04em;
+}
 
-  margin-bottom: var(--space-sm);
+h2 {
   margin-top: var(--space-sm);
+
+  font-size: clamp(2.2rem, 8vw, 3.8rem);
+}
+
+/* Section header */
+
+.section-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-md);
+
+  max-width: 760px;
+  margin-inline: auto;
+
+  text-align: center;
+
+  p {
+    color: var(--color-text-muted);
+
+    font-size: 1.05rem;
+  }
+
+  a {
+    width: fit-content;
+  }
+}
+
+/* Page hero */
+
+.page-hero {
+  padding-block: var(--space-xl);
+
+  background: var(--gradient-hero);
+
+  text-align: center;
+
+  .page-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-md);
+  }
+
+  .page-title {
+    max-width: 900px;
+    margin: 0;
+
+    font-size: clamp(2.4rem, 10vw, 4rem);
+  }
+
+  .page-intro {
+    max-width: 720px;
+    margin: 0;
+
+    color: var(--color-text-muted);
+
+    font-size: 1.05rem;
+  }
+}
+
+@include tablet {
+  .page-hero {
+    padding-block: var(--space-xxl);
+  }
 }

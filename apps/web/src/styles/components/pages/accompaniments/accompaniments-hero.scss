@@ -1,11 +1,14 @@
 @use "../../../abstracts/mixins.scss" as *;
 
-
 .accompaniments-hero {
   padding-block: var(--space-xl);
 
   background:
-    radial-gradient(circle at top right, var(--color-blush-soft), transparent 34%),
+    radial-gradient(
+      circle at top right,
+      var(--color-blush-soft),
+      transparent 34%
+    ),
     linear-gradient(180deg, var(--color-white), var(--color-cream));
 }
 
@@ -14,13 +17,6 @@
   flex-direction: column;
   gap: var(--space-md);
   align-items: flex-start;
-
-}
-
-
-.accompaniments-hero__subtitle {
-
-  color: var(--color-text-muted);
 }
 
 @include desktop {

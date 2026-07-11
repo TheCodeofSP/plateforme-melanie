@@ -1,16 +1,23 @@
 @use "../../../abstracts/mixins.scss" as *;
 
 .home-personalized {
+  position: relative;
+
+  overflow: hidden;
+
   background:
-    radial-gradient(circle at top left, var(--color-blush-soft), transparent 32%),
-    var(--color-surface);
+    radial-gradient(
+      circle at top left,
+      rgba(166, 120, 122, 0.1) 0%,
+      transparent 34%
+    ),
+    var(--gradient-section-primary);
 }
 
 .home-personalized__container {
   display: grid;
-  gap: var(--space-xl);
-
   align-items: center;
+  gap: var(--space-xl);
 }
 
 .home-personalized__intro,
@@ -21,15 +28,26 @@
 }
 
 .home-personalized__intro h2 {
-  color: var(--color-primary);
+  margin: 0;
+
+  color: var(--color-secondary);
 
   font-family: var(--font-title);
   font-size: clamp(2.2rem, 8vw, 3.8rem);
   line-height: 1;
+  letter-spacing: -0.03em;
+}
+
+.home-personalized__text {
+  gap: var(--space-sm);
 }
 
 .home-personalized__text p {
+  margin: 0;
+
   color: var(--color-text-muted);
+
+  line-height: 1.75;
 }
 
 .home-personalized__image {
@@ -38,7 +56,17 @@
 }
 
 .home-personalized__image img {
+  display: block;
+
   width: min(100%, 420px);
+  height: auto;
+
+  border: 1px solid var(--color-border-primary);
+  border-radius: var(--radius-lg);
+
+  box-shadow: var(--shadow-soft);
+
+  object-fit: cover;
 }
 
 .home-personalized__points {
@@ -48,58 +76,126 @@
 
 .home-personalized__point {
   display: flex;
+  align-items: flex-start;
   gap: var(--space-md);
 
-  padding: var(--space-md);
+  min-width: 0;
+  padding: var(--space-lg);
 
-  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
 
-  background: var(--color-white);
+  background: var(--gradient-surface-neutral);
 
   box-shadow: var(--shadow-card);
+
+  transition:
+    transform var(--transition-fast),
+    border-color var(--transition-base),
+    box-shadow var(--transition-base);
 }
 
-.home-personalized__point > span {
-  font-size: 2rem;
+.home-personalized__point:hover {
+  border-color: var(--color-border-primary);
+
+  box-shadow: var(--shadow-card-hover);
+
+  transform: translateY(-3px);
 }
 
-.home-personalized__point h3 {
+.home-personalized__point-icon {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+
+  width: 54px;
+  height: 54px;
+
+  border: 1px solid var(--color-border-primary);
+  border-radius: var(--radius-pill);
+
+  background: var(--gradient-surface-primary);
   color: var(--color-primary);
+
+  font-size: 1.7rem;
+
+  transition:
+    background var(--transition-base),
+    color var(--transition-base),
+    transform var(--transition-fast);
+}
+
+.home-personalized__point:hover .home-personalized__point-icon {
+  background: var(--color-primary);
+  color: var(--color-white);
+
+  transform: scale(1.04);
+}
+
+.home-personalized__point-content {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: var(--space-xs);
+}
+
+.home-personalized__point-content h3 {
+  margin: 0;
+
+  color: var(--color-secondary);
 
   font-family: var(--font-title);
   font-size: 1.4rem;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
 }
 
-.home-personalized__point p {
+.home-personalized__point-content p {
+  margin: 0;
+
   color: var(--color-text-muted);
+
+  line-height: 1.65;
 }
 
 .home-personalized__future {
-  padding: var(--space-md);
+  margin: 0;
+  padding: var(--space-md) var(--space-lg);
 
-  border-left: 3px solid var(--color-secondary);
+  border: 1px solid var(--color-border-primary);
+  border-left: 4px solid var(--color-primary);
+  border-radius: 0 var(--radius-md) var(--radius-md) 0;
 
-  background: var(--color-primary-soft);
+  background: var(--gradient-surface-primary);
+  color: var(--color-primary-active);
 
-  color: var(--color-primary);
+  box-shadow: var(--shadow-card);
 
   font-style: italic;
+  line-height: 1.7;
 }
 
 @include tablet {
   .home-personalized__points {
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--space-lg);
+  }
+
+  .home-personalized__point {
+    flex-direction: column;
   }
 }
 
 @include desktop {
   .home-personalized__container {
-    grid-template-columns: 1fr 0.9fr;
+    grid-template-columns: minmax(0, 1fr) minmax(320px, 0.9fr);
     grid-template-areas:
       "intro image"
       "text image"
       "points points"
       "future future";
+    gap: var(--space-xl) var(--space-xxl);
   }
 
   .home-personalized__intro {
@@ -108,6 +204,7 @@
 
   .home-personalized__image {
     grid-area: image;
+    justify-content: flex-end;
   }
 
   .home-personalized__text {
@@ -120,5 +217,9 @@
 
   .home-personalized__future {
     grid-area: future;
+  }
+
+  .home-personalized__image img {
+    width: min(100%, 460px);
   }
 }

@@ -4,12 +4,15 @@
   align-items: center;
   gap: var(--space-md);
 
+  min-width: 0;
+  height: 100%;
   padding: var(--space-xl);
 
   border: 1px solid var(--color-border);
   border-radius: var(--radius-lg);
 
-  background: var(--color-white);
+  background: var(--gradient-surface-neutral);
+  color: inherit;
 
   box-shadow: var(--shadow-card);
 
@@ -18,38 +21,96 @@
 
   transition:
     transform var(--transition-fast),
-    box-shadow var(--transition-base),
-    border-color var(--transition-base);
+    border-color var(--transition-base),
+    box-shadow var(--transition-base);
 }
 
 .contact-option-card:hover {
-  transform: translateY(-3px);
+  border-color: var(--color-border-primary);
 
-  border-color: var(--color-secondary-soft);
+  box-shadow: var(--shadow-card-hover);
 
-  box-shadow: var(--shadow-soft);
+  transform: translateY(-4px);
+}
+
+.contact-option-card:focus-visible {
+  outline: 3px solid var(--color-primary-soft);
+  outline-offset: 4px;
 }
 
 .contact-option-card__icon {
-  font-size: 2.8rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 68px;
+  height: 68px;
+
+  border: 1px solid var(--color-border-primary);
+  border-radius: var(--radius-pill);
+
+  background: var(--gradient-surface-primary);
+  color: var(--color-primary);
+
+  font-size: 2.2rem;
+
+  transition:
+    background var(--transition-base),
+    color var(--transition-base),
+    transform var(--transition-fast);
 }
 
-.contact-option-card h3 {
-  color: var(--color-primary);
+.contact-option-card:hover .contact-option-card__icon {
+  background: var(--color-primary);
+  color: var(--color-white);
+
+  transform: scale(1.04);
+}
+
+.contact-option-card__content {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.contact-option-card__title {
+  margin: 0;
+
+  color: var(--color-secondary);
 
   font-family: var(--font-title);
   font-size: 1.7rem;
   line-height: 1.1;
+  letter-spacing: -0.02em;
 }
 
-.contact-option-card p {
+.contact-option-card__description {
+  margin: 0;
+
   color: var(--color-text-muted);
+
+  line-height: 1.7;
 }
 
 .contact-option-card__link {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-xs);
+
   margin-top: auto;
 
   color: var(--color-primary);
 
   font-weight: 700;
+
+  transition:
+    color var(--transition-base),
+    gap var(--transition-fast);
+}
+
+.contact-option-card:hover .contact-option-card__link {
+  gap: var(--space-sm);
+
+  color: var(--color-primary-active);
 }

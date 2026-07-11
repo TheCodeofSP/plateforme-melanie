@@ -2,15 +2,13 @@ import { Link } from "react-router-dom";
 
 import { homeContent } from "../../../content/home.content.js";
 
-import "../../../styles/components/pages/home/home-problems.scss";
-
 export default function HomeProblems() {
   const { problems } = homeContent;
 
   return (
     <section className="home-problems page-section">
-      <div className="page-container">
-        <div className="home-problems__header">
+      <div className="page-container home-problems__container">
+        <div className="section-header">
           <span className="eyebrow">{problems.eyebrow}</span>
 
           <h2>{problems.title}</h2>
@@ -21,13 +19,26 @@ export default function HomeProblems() {
         <div className="home-problems__grid">
           {problems.items.map((problem) => (
             <article className="home-problems__card" key={problem.slug}>
-              <span className="home-problems__icon">{problem.icon}</span>
+              <div className="home-problems__heading">
+                <span className="home-problems__icon" aria-hidden="true">
+                  {problem.icon}
+                </span>
 
-              <h3>{problem.title}</h3>
+                <h3>{problem.title}</h3>
+              </div>
 
-              <ul>
+              <ul className="home-problems__symptoms">
                 {problem.symptoms.map((symptom) => (
-                  <li key={symptom}>{symptom}</li>
+                  <li key={symptom}>
+                    <span
+                      className="home-problems__symptom-icon"
+                      aria-hidden="true"
+                    >
+                      ✓
+                    </span>
+
+                    <span>{symptom}</span>
+                  </li>
                 ))}
               </ul>
 

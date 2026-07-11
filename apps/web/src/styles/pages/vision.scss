@@ -9,18 +9,3 @@
 @use "../components/pages/vision/vision-training.scss";
 @use "../components/pages/vision/vision-cta.scss";
 
-
-
-.vision-page {
-  background: var(--color-cream);
-}
-
-.vision-section-header {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-sm);
-
-  max-width: 760px;
-
-  margin-bottom: var(--space-lg);
-}

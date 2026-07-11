@@ -1,17 +1,7 @@
 @use "../../../abstracts/mixins.scss" as *;
 
-
 .accompaniments-process {
   padding-block: var(--space-xl);
-}
-
-.accompaniments-section-header {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-sm);
-
-
-  margin-bottom: var(--space-lg);
 }
 
 .accompaniments-process__steps {

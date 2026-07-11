@@ -11,6 +11,7 @@ import HomeOffers from "../components/pages/home/HomeOffers.jsx";
 import HomeVision from "../components/pages/home/HomeVision.jsx";
 import HomeContactOptions from "../components/pages/home/HomeContactOptions.jsx";
 import HomeCarousel from "../components/pages/home/HomeCarousel.jsx";
+import SectionDivider from "../components/ui/SectionDivider.jsx";
 
 import SEO from "../components/seo/SEO.jsx";
 
@@ -22,19 +23,39 @@ export default function Home() {
   return (
     <>
       <SEO {...seoContent.pages.home} />
-      <main className="home">
+      <main className="page-content home-page">
         <HomeHeader />
+        <SectionDivider />
         <HomeCarousel />
+        <SectionDivider />
+
         <HomeAccompaniments />
+        <SectionDivider />
+
         <HomeQuiz />
+        <SectionDivider />
+
         <HomeAbout />
+        <SectionDivider />
+
         <HomeApproach />
+        <SectionDivider />
+
         <HomeValues />
+        <SectionDivider />
+
         <HomeProblems />
+        <SectionDivider />
+
         <HomePersonalized />
+        <SectionDivider />
+
         <HomeTestimonials />
+        <SectionDivider variant="primary" />
         <HomeOffers />
+        <SectionDivider variant="neutral" />
         <HomeVision />
+        <SectionDivider variant="accent" />
         <HomeContactOptions />
       </main>
     </>

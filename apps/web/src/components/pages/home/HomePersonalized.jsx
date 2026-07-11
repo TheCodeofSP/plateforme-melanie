@@ -2,8 +2,6 @@ import { homeContent } from "../../../content/home.content.js";
 
 import personalizedIllustration from "../../../assets/images/personalized.jpg";
 
-import "../../../styles/components/pages/home/home-personalized.scss";
-
 export default function HomePersonalized() {
   const { personalized } = homeContent;
 
@@ -20,6 +18,7 @@ export default function HomePersonalized() {
           <img
             src={personalizedIllustration}
             alt="Illustration représentant un accompagnement personnalisé"
+            loading="lazy"
           />
         </div>
 
@@ -32,17 +31,25 @@ export default function HomePersonalized() {
         <div className="home-personalized__points">
           {personalized.points.map((point) => (
             <article className="home-personalized__point" key={point.title}>
-              <span>{point.icon}</span>
+              <span
+                className="home-personalized__point-icon"
+                aria-hidden="true"
+              >
+                {point.icon}
+              </span>
 
-              <div>
+              <div className="home-personalized__point-content">
                 <h3>{point.title}</h3>
+
                 <p>{point.description}</p>
               </div>
             </article>
           ))}
         </div>
 
-        <p className="home-personalized__future">{personalized.futureNote}</p>
+        <p className="home-personalized__future">
+          {personalized.futureNote}
+        </p>
       </div>
     </section>
   );

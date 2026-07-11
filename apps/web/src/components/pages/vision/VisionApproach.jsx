@@ -6,7 +6,7 @@ export default function VisionApproach() {
   return (
     <section className="vision-approach">
       <div className="page-container vision-approach__container">
-        <header className="vision-section-header">
+        <header className="section-header">
           <h2>{approach.title}</h2>
           <p>{approach.description}</p>
         </header>

@@ -1,37 +1,22 @@
 @use "../../../abstracts/mixins.scss" as *;
 
 .home-approach {
+  position: relative;
+
+  overflow: hidden;
+
   background:
     radial-gradient(
       circle at top left,
-      var(--color-sage-soft),
-      transparent 30%
+      rgba(120, 143, 130, 0.1) 0%,
+      transparent 34%
     ),
-    var(--color-surface);
+    var(--gradient-section-neutral);
 }
 
 .home-approach__container {
   display: grid;
   gap: var(--space-xl);
-}
-
-.home-approach__header h2 {
-  margin-top: var(--space-sm);
-
-  color: var(--color-primary);
-
-  font-family: var(--font-title);
-  font-size: clamp(2.1rem, 8vw, 3.8rem);
-  line-height: 1;
-  letter-spacing: -0.03em;
-}
-
-.home-approach__header p {
-  margin-top: var(--space-md);
-
-  color: var(--color-text-muted);
-
-  font-size: 1.05rem;
 }
 
 .home-approach__grid {
@@ -42,16 +27,30 @@
 .home-approach__card {
   display: flex;
   flex-direction: column;
-  gap: var(--space-sm);
+  gap: var(--space-md);
 
+  min-width: 0;
   padding: var(--space-lg);
 
   border: 1px solid var(--color-border);
   border-radius: var(--radius-lg);
 
-  background: rgba(255, 253, 251, 0.82);
+  background: var(--gradient-surface-neutral);
 
   box-shadow: var(--shadow-card);
+
+  transition:
+    transform var(--transition-fast),
+    border-color var(--transition-base),
+    box-shadow var(--transition-base);
+}
+
+.home-approach__card:hover {
+  border-color: var(--color-border-accent);
+
+  box-shadow: var(--shadow-card-hover);
+
+  transform: translateY(-4px);
 }
 
 .home-approach__icon {
@@ -59,27 +58,55 @@
   align-items: center;
   justify-content: center;
 
-  width: 52px;
-  height: 52px;
+  width: 56px;
+  height: 56px;
 
+  border: 1px solid var(--color-border-accent);
   border-radius: var(--radius-pill);
 
-  background: var(--color-primary-soft);
+  background: var(--gradient-surface-accent);
+  color: var(--color-accent-hover);
 
   font-size: 1.7rem;
+
+  transition:
+    background var(--transition-base),
+    color var(--transition-base),
+    transform var(--transition-fast);
+}
+
+.home-approach__card:hover .home-approach__icon {
+  background: var(--color-accent);
+  color: var(--color-white);
+
+  transform: scale(1.04);
+}
+
+.home-approach__card-content {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: var(--space-sm);
 }
 
 .home-approach__card h3,
 .home-approach__benefits h3 {
-  color: var(--color-primary);
+  margin: 0;
+
+  color: var(--color-secondary);
 
   font-family: var(--font-title);
   font-size: 1.7rem;
   line-height: 1.1;
+  letter-spacing: -0.02em;
 }
 
 .home-approach__card p {
+  margin: 0;
+
   color: var(--color-text-muted);
+
+  line-height: 1.7;
 }
 
 .home-approach__footer {
@@ -88,9 +115,16 @@
 
   padding: var(--space-lg);
 
+  border: 1px solid var(--color-border-primary);
   border-radius: var(--radius-lg);
 
-  background: var(--color-white);
+  background:
+    linear-gradient(
+      145deg,
+      var(--color-white) 0%,
+      var(--color-rose-extra-light) 58%,
+      var(--color-grey-extra-light) 100%
+    );
 
   box-shadow: var(--shadow-card);
 }
@@ -104,24 +138,38 @@
   display: grid;
   gap: var(--space-sm);
 
-  padding: 0;
   margin: 0;
+  padding: 0;
 
   list-style: none;
 }
 
 .home-approach__benefits li {
   display: flex;
+  align-items: flex-start;
   gap: var(--space-sm);
 
   color: var(--color-text-muted);
+
+  line-height: 1.6;
 }
 
-.home-approach__benefits li::before {
-  content: "✓";
+.home-approach__benefit-icon {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
 
-  color: var(--color-success);
+  width: 28px;
+  height: 28px;
 
+  border: 1px solid var(--color-border-accent);
+  border-radius: var(--radius-pill);
+
+  background: var(--color-accent-extra-soft);
+  color: var(--color-accent-hover);
+
+  font-size: 0.9rem;
   font-weight: 700;
 }
 
@@ -131,13 +179,15 @@
 
 @include tablet {
   .home-approach__grid {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: var(--space-lg);
   }
 
   .home-approach__footer {
-    grid-template-columns: 1fr auto;
+    grid-template-columns: minmax(0, 1fr) auto;
     align-items: center;
+
+    padding: var(--space-xl);
   }
 
   .home-approach__footer .btn {
@@ -147,6 +197,6 @@
 
 @include desktop {
   .home-approach__grid {
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(4, minmax(0, 1fr));
   }
 }

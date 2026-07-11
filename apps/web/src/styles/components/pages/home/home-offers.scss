@@ -1,43 +1,32 @@
 @use "../../../abstracts/mixins.scss" as *;
 
 .home-offers {
+  position: relative;
+
+  overflow: hidden;
+
   background:
-    radial-gradient(circle at top left, var(--color-blush-soft), transparent 32%),
-    var(--color-background);
+    radial-gradient(
+      circle at top left,
+      rgba(166, 120, 122, 0.08) 0%,
+      transparent 34%
+    ),
+    var(--gradient-section-primary);
 }
 
-
-.home-offers__header h2 {
-  margin-top: var(--space-sm);
-
-  color: var(--color-primary);
-
-  font-family: var(--font-title);
-  font-size: clamp(2.2rem, 8vw, 3.8rem);
-  line-height: 1;
-  letter-spacing: -0.03em;
-}
-
-.home-offers__header p {
-  margin-top: var(--space-md);
-
-  color: var(--color-text-muted);
-
-  font-size: 1.05rem;
+.home-offers__container {
+  display: grid;
+  gap: var(--space-xl);
 }
 
 .home-offers__grid {
   display: grid;
   gap: var(--space-lg);
-
-  margin-top: var(--space-xl);
 }
 
 .home-offers__action {
   display: flex;
   justify-content: center;
-
-  margin-top: var(--space-xl);
 }
 
 .home-offers__action .btn {
@@ -46,7 +35,7 @@
 
 @include tablet {
   .home-offers__grid {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
   .home-offers__action .btn {
@@ -56,6 +45,6 @@
 
 @include desktop {
   .home-offers__grid {
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 }

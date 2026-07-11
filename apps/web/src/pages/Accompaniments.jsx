@@ -17,7 +17,7 @@ export default function Accompaniments() {
     <>
       <SEO {...seoContent.pages.accompaniments} />
 
-      <main className="accompaniments-page">
+      <main className="page-content accompaniments-page">
         <AccompanimentsHero />
         <AccompanimentsIntro />
         <AccompanimentsServices />

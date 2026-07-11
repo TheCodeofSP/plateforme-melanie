@@ -37,7 +37,7 @@ export default function ResourceDetail() {
 
   if (!resource || !resource.body) {
     return (
-      <main className="resource-detail-page">
+      <main className="page-content resource-detail-page">
         <section className="resource-detail-page__not-found page-container">
           <h1>Ressource introuvable</h1>
           <p>Cette ressource n’existe pas ou n’est pas encore disponible.</p>

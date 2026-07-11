@@ -1,48 +1,32 @@
 @use "../../../abstracts/mixins.scss" as *;
 
 .home-contact {
+  position: relative;
+
+  overflow: hidden;
+
   background:
-    radial-gradient(circle at bottom right, var(--color-blush-soft), transparent 35%),
-    var(--color-surface);
+    radial-gradient(
+      circle at bottom right,
+      rgba(166, 120, 122, 0.1) 0%,
+      transparent 36%
+    ),
+    var(--gradient-section-primary);
 }
 
-.home-contact__header {
-
-  margin-inline: auto;
-
-  text-align: center;
-}
-
-.home-contact__header h2 {
-  margin-top: var(--space-sm);
-
-  color: var(--color-primary);
-
-  font-family: var(--font-title);
-  font-size: clamp(2.4rem, 8vw, 4rem);
-  line-height: 1;
-}
-
-.home-contact__header p {
-  margin-top: var(--space-md);
-
-  color: var(--color-text-muted);
-
-  font-size: 1.05rem;
+.home-contact__container {
+  display: grid;
+  gap: var(--space-xl);
 }
 
 .home-contact__grid {
   display: grid;
   gap: var(--space-lg);
-
-  margin-top: var(--space-xl);
 }
 
 .home-contact__action {
   display: flex;
   justify-content: center;
-
-  margin-top: var(--space-xl);
 }
 
 .home-contact__action .btn {
@@ -51,7 +35,7 @@
 
 @include tablet {
   .home-contact__grid {
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 
   .home-contact__action .btn {

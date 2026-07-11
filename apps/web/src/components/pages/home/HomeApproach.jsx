@@ -2,15 +2,13 @@ import { Link } from "react-router-dom";
 
 import { homeContent } from "../../../content/home.content.js";
 
-import "../../../styles/components/pages/home/home-approach.scss";
-
 export default function HomeApproach() {
   const { approach } = homeContent;
 
   return (
     <section className="home-approach page-section">
       <div className="page-container home-approach__container">
-        <div className="home-approach__header">
+        <div className="section-header">
           <span className="eyebrow">{approach.eyebrow}</span>
 
           <h2>{approach.title}</h2>
@@ -21,11 +19,15 @@ export default function HomeApproach() {
         <div className="home-approach__grid">
           {approach.pillars.map((pillar) => (
             <article className="home-approach__card" key={pillar.title}>
-              <span className="home-approach__icon">{pillar.icon}</span>
+              <span className="home-approach__icon" aria-hidden="true">
+                {pillar.icon}
+              </span>
 
-              <h3>{pillar.title}</h3>
+              <div className="home-approach__card-content">
+                <h3>{pillar.title}</h3>
 
-              <p>{pillar.description}</p>
+                <p>{pillar.description}</p>
+              </div>
             </article>
           ))}
         </div>
@@ -36,7 +38,16 @@ export default function HomeApproach() {
 
             <ul>
               {approach.benefits.map((benefit) => (
-                <li key={benefit}>{benefit}</li>
+                <li key={benefit}>
+                  <span
+                    className="home-approach__benefit-icon"
+                    aria-hidden="true"
+                  >
+                    ✓
+                  </span>
+
+                  <span>{benefit}</span>
+                </li>
               ))}
             </ul>
           </div>

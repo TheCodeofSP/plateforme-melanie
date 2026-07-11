@@ -4,8 +4,6 @@ import { homeContent } from "../../../content/home.content.js";
 
 import OfferCard from "../../ui/OfferCard.jsx";
 
-import "../../../styles/components/pages/home/home-offers.scss";
-
 export default function HomeOffers() {
   const { offers } = homeContent;
 
@@ -13,10 +11,14 @@ export default function HomeOffers() {
     .filter((offer) => offer.isPublished)
     .sort((a, b) => a.order - b.order);
 
+  if (publishedOffers.length === 0) {
+    return null;
+  }
+
   return (
     <section className="home-offers page-section">
-      <div className="page-container">
-        <div className="home-offers__header">
+      <div className="page-container home-offers__container">
+        <div className="section-header">
           <span className="eyebrow">{offers.eyebrow}</span>
 
           <h2>{offers.title}</h2>

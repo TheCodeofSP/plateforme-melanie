@@ -4,8 +4,6 @@ import { homeContent } from "../../../content/home.content.js";
 
 import melaniePortrait from "../../../assets/images/melanie-portrait.jpg";
 
-import "../../../styles/components/pages/home/home-about.scss";
-
 export default function HomeAbout() {
   const { about } = homeContent;
 
@@ -34,14 +32,24 @@ export default function HomeAbout() {
 
         <div className="home-about__footer">
           <div className="home-about__highlight">
-            <p>{about.mission}</p>
-            <p>{about.vision}</p>
+            <div className="home-about__highlight-item">
+              <span aria-hidden="true">✦</span>
+
+              <p>{about.mission}</p>
+            </div>
+
+            <div className="home-about__highlight-item">
+              <span aria-hidden="true">✦</span>
+
+              <p>{about.vision}</p>
+            </div>
           </div>
+
           <blockquote className="home-about__quote">
             « {about.quote} »
           </blockquote>
 
-          <Link to={about.action.to} className="btn btn-secondary">
+          <Link to={about.action.to} className="btn btn-primary">
             {about.action.label}
           </Link>
         </div>

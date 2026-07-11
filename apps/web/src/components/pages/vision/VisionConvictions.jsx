@@ -6,7 +6,7 @@ export default function VisionConvictions() {
   return (
     <section className="vision-convictions">
       <div className="page-container vision-convictions__container">
-        <header className="vision-section-header">
+        <header className="section-header">
           <h2>{vision.title}</h2>
           <p>{vision.description}</p>
         </header>

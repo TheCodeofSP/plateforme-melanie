@@ -1,20 +1,24 @@
 import { Link } from "react-router-dom";
 
-import "../../styles/components/pages/ui/contact-option-card.scss";
-
 export default function ContactOptionCard({ option }) {
   const content = (
     <>
-      <span className="contact-option-card__icon">
+      <span className="contact-option-card__icon" aria-hidden="true">
         {option.icon}
       </span>
 
-      <h3>{option.title}</h3>
+      <div className="contact-option-card__content">
+        <h3 className="contact-option-card__title">{option.title}</h3>
 
-      <p>{option.description}</p>
+        <p className="contact-option-card__description">
+          {option.description}
+        </p>
+      </div>
 
       <span className="contact-option-card__link">
         {option.cta}
+
+        <span aria-hidden="true">→</span>
       </span>
     </>
   );
@@ -33,10 +37,7 @@ export default function ContactOptionCard({ option }) {
   }
 
   return (
-    <Link
-      to={option.href}
-      className="contact-option-card"
-    >
+    <Link to={option.href} className="contact-option-card">
       {content}
     </Link>
   );

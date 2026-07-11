@@ -1,29 +1,17 @@
 @use "../../../abstracts/mixins.scss" as *;
 
 .home-problems {
+  position: relative;
+
+  overflow: hidden;
+
   background:
-    radial-gradient(circle at top right, var(--color-blush-soft), transparent 32%),
-    var(--color-background);
-}
-
-
-.home-problems__header h2 {
-  margin-top: var(--space-sm);
-
-  color: var(--color-primary);
-
-  font-family: var(--font-title);
-  font-size: clamp(2.2rem, 8vw, 3.8rem);
-  line-height: 1;
-  letter-spacing: -0.03em;
-}
-
-.home-problems__header p {
-  margin-top: var(--space-md);
-
-  color: var(--color-text-muted);
-
-  font-size: 1.05rem;
+    radial-gradient(
+      circle at top right,
+      rgba(166, 120, 122, 0.08) 0%,
+      transparent 34%
+    ),
+    var(--gradient-section-warm);
 }
 
 .home-problems__grid {
@@ -38,14 +26,28 @@
   flex-direction: column;
   gap: var(--space-md);
 
+  min-width: 0;
   padding: var(--space-lg);
 
   border: 1px solid var(--color-border);
   border-radius: var(--radius-lg);
 
-  background: var(--color-white);
+  background: var(--gradient-surface-neutral);
 
   box-shadow: var(--shadow-card);
+
+  transition:
+    transform var(--transition-fast),
+    border-color var(--transition-base),
+    box-shadow var(--transition-base);
+}
+
+.home-problems__card:hover {
+  border-color: var(--color-border-primary);
+
+  box-shadow: var(--shadow-card-hover);
+
+  transform: translateY(-4px);
 }
 
 .home-problems__icon {
@@ -53,47 +55,71 @@
   align-items: center;
   justify-content: center;
 
-  width: 52px;
-  height: 52px;
+  width: 56px;
+  height: 56px;
 
+  border: 1px solid var(--color-border-primary);
   border-radius: var(--radius-pill);
 
-  background: var(--color-surface-soft);
+  background: var(--gradient-surface-primary);
+  color: var(--color-primary);
 
   font-size: 1.7rem;
+
+  transition:
+    background var(--transition-base),
+    color var(--transition-base),
+    transform var(--transition-fast);
+}
+
+.home-problems__card:hover .home-problems__icon {
+  background: var(--color-primary);
+  color: var(--color-white);
+
+  transform: scale(1.04);
 }
 
 .home-problems__card h3 {
-  color: var(--color-primary);
+  margin: 0;
+
+  color: var(--color-secondary);
 
   font-family: var(--font-title);
   font-size: 1.7rem;
   line-height: 1.1;
+  letter-spacing: -0.02em;
 }
 
 .home-problems__card ul {
   display: grid;
   gap: var(--space-sm);
 
-  padding: 0;
   margin: 0;
+  padding: 0;
 
   list-style: none;
 }
 
 .home-problems__card li {
   display: flex;
+  align-items: flex-start;
   gap: var(--space-sm);
 
   color: var(--color-text-muted);
+
+  line-height: 1.6;
 }
 
 .home-problems__card li::before {
+  flex-shrink: 0;
+
+  color: var(--color-accent);
+
   content: "•";
 
-  color: var(--color-secondary);
-
+  font-size: 1.25rem;
   font-weight: 700;
+  line-height: 1.25;
 }
 
 .home-problems__actions {
@@ -102,6 +128,9 @@
   gap: var(--space-sm);
 
   margin-top: auto;
+  padding-top: var(--space-sm);
+
+  border-top: 1px solid var(--color-border-soft);
 }
 
 .home-problems__actions .btn {
@@ -110,13 +139,13 @@
 
 @include tablet {
   .home-problems__grid {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: var(--space-lg);
   }
 }
 
 @include desktop {
   .home-problems__grid {
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 }

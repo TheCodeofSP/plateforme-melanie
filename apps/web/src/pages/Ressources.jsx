@@ -12,7 +12,7 @@ export default function Resources() {
     <>
       <SEO {...seoContent.pages.resources} />
 
-      <main className="resources-page">
+      <main className="page-content resources-page">
         <ResourcesHero />
         <ResourcesGrid />
       </main>

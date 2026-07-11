@@ -3,42 +3,160 @@
   --font-title: "Cormorant Garamond", serif;
   --font-body: "Inter", sans-serif;
 
-  /* Main colors */
+  /* Base colors */
   --color-white: #ffffff;
-  --color-cream: #fbf4ef;
-  --color-blush: #f6d8d6;
-  --color-blush-soft: #fae8e6;
-  --color-rose: #c98986;
-  --color-rose-deep: #9f5f5d;
 
-  --color-sage: #8fa99b;
-  --color-sage-soft: #dfe9e3;
-  --color-green: #496b5a;
-  --color-green-deep: #2f4a3a;
+  /* Rose palette */
+  --color-rose-deep: #765354;
+  --color-rose-dark: #8d6264;
+  --color-rose: #a6787a;
+  --color-rose-medium: #bc9697;
+  --color-rose-soft: #dec4c4;
+  --color-rose-light: #f0dfdf;
+  --color-rose-extra-light: #f8eeee;
 
-  --color-ink: #302827;
-  --color-muted: #756967;
-  --color-border: #eadbd6;
+  /* Grey palette */
+  --color-grey-deep: #514849;
+  --color-grey-dark: #645a5b;
+  --color-grey: #786e6f;
+  --color-grey-medium: #a79d9e;
+  --color-grey-soft: #d8d1d1;
+  --color-grey-light: #eeeaea;
+  --color-grey-extra-light: #f7f5f5;
+
+  /* Green palette */
+  --color-green-deep: #52685b;
+  --color-green: #788f82;
+  --color-green-medium: #9caf9f;
+  --color-green-soft: #dfe8e2;
+  --color-green-light: #eff4f1;
+
+  /* Warm neutral surfaces */
+  --color-cream: #fbf7f4;
+  --color-cream-deep: #f4ece7;
 
   /* Semantic colors */
   --color-background: var(--color-white);
-  --color-surface: var(--color-cream);
-  --color-surface-soft: var(--color-blush-soft);
 
-  --color-primary: var(--color-green-deep);
-  --color-primary-soft: var(--color-sage-soft);
+  --color-surface: var(--color-grey-extra-light);
+  --color-surface-soft: var(--color-rose-extra-light);
+  --color-surface-neutral: var(--color-cream);
+  --color-surface-accent: var(--color-green-light);
 
-  --color-secondary: var(--color-rose);
-  --color-secondary-soft: var(--color-blush);
+  /* Primary: rose */
+  --color-primary: var(--color-rose);
+  --color-primary-hover: var(--color-rose-dark);
+  --color-primary-active: var(--color-rose-deep);
+  --color-primary-soft: var(--color-rose-light);
+  --color-primary-extra-soft: var(--color-rose-extra-light);
 
-  --color-text: var(--color-ink);
-  --color-text-muted: var(--color-muted);
+  /* Secondary: warm grey */
+  --color-secondary: var(--color-grey-deep);
+  --color-secondary-hover: var(--color-grey-dark);
+  --color-secondary-soft: var(--color-grey-light);
+  --color-secondary-extra-soft: var(--color-grey-extra-light);
+
+  /* Accent: green */
+  --color-accent: var(--color-green);
+  --color-accent-hover: var(--color-green-deep);
+  --color-accent-soft: var(--color-green-soft);
+  --color-accent-extra-soft: var(--color-green-light);
+
+  /* Text */
+  --color-text: var(--color-grey-deep);
+  --color-text-soft: var(--color-grey-dark);
+  --color-text-muted: var(--color-grey);
+
+  /* Borders */
+  --color-border: var(--color-grey-soft);
+  --color-border-soft: var(--color-grey-light);
+  --color-border-primary: var(--color-rose-soft);
+  --color-border-accent: var(--color-green-soft);
+
+  /* Gradients */
+  --gradient-surface-neutral: linear-gradient(
+    180deg,
+    var(--color-white) 0%,
+    var(--color-grey-extra-light) 100%
+  );
+
+  --gradient-surface-warm: linear-gradient(
+    180deg,
+    var(--color-white) 0%,
+    var(--color-cream) 100%
+  );
+
+  --gradient-surface-primary: linear-gradient(
+    180deg,
+    var(--color-white) 0%,
+    var(--color-rose-extra-light) 100%
+  );
+
+  --gradient-surface-accent: linear-gradient(
+    180deg,
+    var(--color-white) 0%,
+    var(--color-green-light) 100%
+  );
+
+  --gradient-primary: linear-gradient(
+    135deg,
+    var(--color-rose) 0%,
+    var(--color-rose-dark) 100%
+  );
+
+  --gradient-primary-soft: linear-gradient(
+    135deg,
+    var(--color-rose-extra-light) 0%,
+    var(--color-grey-extra-light) 100%
+  );
+
+  /* Hero */
+
+  --gradient-hero:
+    radial-gradient(
+      circle at 88% 10%,
+      rgba(166, 120, 122, 0.12) 0%,
+      transparent 38%
+    ),
+    linear-gradient(
+      180deg,
+      var(--color-rose-extra-light) 0%,
+      var(--color-white) 40%,
+      var(--color-cream) 100%
+    );
+
+  /* Section gradients */
+
+  --gradient-section-warm: linear-gradient(
+    145deg,
+    var(--color-white) 0%,
+    #fcf8f6 48%,
+    var(--color-cream) 100%
+  );
+
+  --gradient-section-neutral: linear-gradient(
+    145deg,
+    var(--color-white) 0%,
+    var(--color-grey-extra-light) 100%
+  );
+
+  --gradient-section-primary: linear-gradient(
+    145deg,
+    var(--color-white) 0%,
+    var(--color-rose-extra-light) 100%
+  );
+
+  --gradient-section-accent: linear-gradient(
+    145deg,
+    var(--color-white) 0%,
+    var(--color-green-light) 100%
+  );
 
   /* States */
-  --color-success: #587a62;
-  --color-warning: #c69555;
-  --color-error: #b9605c;
-  --color-info: #6f8f9a;
+  --color-success: var(--color-green-deep);
+  --color-warning: #b7854f;
+  --color-error: #a65353;
+  --color-info: #687f8b;
 
   /* Layout */
   --container-width: 1120px;
@@ -59,8 +177,10 @@
   --radius-pill: 999px;
 
   /* Shadows */
-  --shadow-soft: 0 16px 40px rgba(47, 74, 58, 0.1);
-  --shadow-card: 0 12px 28px rgba(47, 74, 58, 0.08);
+  --shadow-soft: 0 16px 40px rgba(81, 72, 73, 0.1);
+  --shadow-card: 0 12px 28px rgba(81, 72, 73, 0.08);
+  --shadow-card-hover: 0 18px 38px rgba(81, 72, 73, 0.13);
+  --shadow-primary: 0 12px 28px rgba(166, 120, 122, 0.22);
 
   /* Transitions */
   --transition-fast: 180ms ease;

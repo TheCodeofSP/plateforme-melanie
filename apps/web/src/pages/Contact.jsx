@@ -11,7 +11,7 @@ export default function Contact() {
   return (
     <>
       <SEO {...seoContent.pages.contact} />
-      <section className="contact page-section">
+      <section className="page-content contact-page">
         <div className="page-container">
           <ContactHeader />
 

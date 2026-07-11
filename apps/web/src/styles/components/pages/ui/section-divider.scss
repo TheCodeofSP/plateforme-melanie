@@ -1,0 +1,75 @@
+.section-divider {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-sm);
+
+  width: 100%;
+  padding-inline: var(--container-padding);
+margin:var(--space-xs) 0;
+  background: var(--color-white);
+}
+
+.section-divider__line {
+  width: min(100%, 180px);
+  height: 1px;
+
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    var(--divider-color) 100%
+  );
+}
+
+.section-divider__line:last-child {
+  background: linear-gradient(
+    90deg,
+    var(--divider-color) 0%,
+    transparent 100%
+  );
+}
+
+.section-divider__symbol {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+
+  width: 34px;
+  height: 34px;
+
+  border: 1px solid var(--divider-border);
+  border-radius: var(--radius-pill);
+
+  background: var(--divider-background);
+  color: var(--divider-color);
+
+  font-size: 0.9rem;
+  line-height: 1;
+
+  box-shadow: var(--shadow-card);
+}
+
+/* Rose principal */
+
+.section-divider--primary {
+  --divider-color: var(--color-primary);
+  --divider-border: var(--color-border-primary);
+  --divider-background: var(--gradient-surface-primary);
+}
+
+/* Gris chaud */
+
+.section-divider--neutral {
+  --divider-color: var(--color-secondary);
+  --divider-border: var(--color-border);
+  --divider-background: var(--gradient-surface-neutral);
+}
+
+/* Vert ponctuel */
+
+.section-divider--accent {
+  --divider-color: var(--color-accent);
+  --divider-border: var(--color-border-accent);
+  --divider-background: var(--gradient-surface-accent);
+}

@@ -4,8 +4,6 @@ import { homeContent } from "../../../content/home.content.js";
 
 import quizIllustration from "../../../assets/images/quiz.png";
 
-import "../../../styles/components/pages/home/home-quiz.scss";
-
 export default function HomeQuiz() {
   const { quiz } = homeContent;
 
@@ -21,11 +19,24 @@ export default function HomeQuiz() {
 
           <ul className="home-quiz__benefits">
             {quiz.benefits.map((benefit) => (
-              <li key={benefit}>{benefit}</li>
+              <li key={benefit}>
+                <span
+                  className="home-quiz__benefit-icon"
+                  aria-hidden="true"
+                >
+                  ✓
+                </span>
+
+                <span>{benefit}</span>
+              </li>
             ))}
           </ul>
 
-          <p className="home-quiz__reassurance">{quiz.reassurance}</p>
+          <div className="home-quiz__reassurance">
+            <span aria-hidden="true">♡</span>
+
+            <p>{quiz.reassurance}</p>
+          </div>
 
           <div className="home-quiz__actions">
             <Link to={quiz.actions.primary.to} className="btn btn-primary">
@@ -39,7 +50,11 @@ export default function HomeQuiz() {
         </div>
 
         <div className="home-quiz__image">
-          <img src={quizIllustration} alt="Illustration du quiz SPM" />
+          <img
+            src={quizIllustration}
+            alt="Illustration du quiz SPM"
+            loading="lazy"
+          />
         </div>
       </div>
     </section>

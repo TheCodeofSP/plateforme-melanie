@@ -1,94 +1,147 @@
 @use "../../../abstracts/mixins.scss" as *;
 
 .home-values {
-  background: var(--color-white);
+  position: relative;
+
+  overflow: hidden;
+
+  background:
+    radial-gradient(
+      circle at bottom right,
+      rgba(166, 120, 122, 0.08) 0%,
+      transparent 34%
+    ),
+    var(--gradient-section-neutral);
 }
 
-.home-values__header {
-
-  margin-inline: auto;
-
-  text-align: center;
-}
-
-.home-values__header h2 {
-  margin-top: var(--space-sm);
-
-  color: var(--color-primary);
-
-  font-family: var(--font-title);
-  font-size: clamp(2.2rem, 8vw, 3.8rem);
-  line-height: 1;
-}
-
-.home-values__header p {
-  margin-top: var(--space-md);
-
-  color: var(--color-text-muted);
+.home-values__container {
+  display: grid;
+  gap: var(--space-xl);
 }
 
 .home-values__grid {
   display: grid;
   gap: var(--space-md);
-
-  margin-top: var(--space-xl);
 }
 
 .home-values__card {
   display: flex;
   flex-direction: column;
-  gap: var(--space-sm);
+  align-items: center;
+  gap: var(--space-md);
 
+  min-width: 0;
   padding: var(--space-lg);
 
+  border: 1px solid var(--color-border);
   border-radius: var(--radius-lg);
 
-  background: var(--color-surface);
+  background: var(--gradient-surface-neutral);
+
+  box-shadow: var(--shadow-card);
 
   text-align: center;
 
   transition:
     transform var(--transition-fast),
+    border-color var(--transition-base),
     box-shadow var(--transition-base);
 }
 
 .home-values__card:hover {
+  border-color: var(--color-border-primary);
+
+  box-shadow: var(--shadow-card-hover);
+
   transform: translateY(-4px);
+}
+
+.home-values__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 64px;
+  height: 64px;
+
+  border: 1px solid var(--color-border-primary);
+  border-radius: var(--radius-pill);
+
+  background: var(--gradient-surface-primary);
+  color: var(--color-primary);
+
+  font-size: 2rem;
+
+  transition:
+    background var(--transition-base),
+    color var(--transition-base),
+    transform var(--transition-fast);
+}
+
+.home-values__card:hover .home-values__icon {
+  background: var(--color-primary);
+  color: var(--color-white);
+
+  transform: scale(1.04);
+}
+
+.home-values__content {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.home-values__content h3 {
+  margin: 0;
+
+  color: var(--color-secondary);
+
+  font-family: var(--font-title);
+  font-size: 1.7rem;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+
+.home-values__content p {
+  margin: 0;
+
+  color: var(--color-text-muted);
+
+  line-height: 1.7;
+}
+
+.home-values__card:last-child {
+  border-color: var(--color-border-primary);
+
+  background: var(--gradient-surface-primary);
 
   box-shadow: var(--shadow-soft);
 }
 
-.home-values__icon {
-  font-size: 2.4rem;
-}
-
-.home-values__card h3 {
-  color: var(--color-primary);
-
-  font-family: var(--font-title);
-  font-size: 1.7rem;
-}
-
-.home-values__card p {
-  color: var(--color-text-muted);
-}
-
 .home-values__quote {
-  max-width: 720px;
+  position: relative;
 
-  margin: var(--space-xxl) auto 0;
+  max-width: 760px;
+  margin: var(--space-md) auto 0;
+  padding-top: var(--space-xl);
 
-  color: var(--color-rose-deep);
+  border-top: 1px solid var(--color-border);
+
+  color: var(--color-primary-active);
 
   font-family: var(--font-title);
   font-size: clamp(1.6rem, 5vw, 2.4rem);
   font-style: italic;
+  font-weight: 700;
+  line-height: 1.2;
   text-align: center;
 }
 
 @include tablet {
   .home-values__grid {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--space-lg);
   }
 
   .home-values__card:last-child {
@@ -96,10 +149,8 @@
   }
 }
 
-.home-values__card:last-child {
-  background: linear-gradient(
-    135deg,
-    var(--color-primary-soft),
-    var(--color-surface)
-  );
+@include desktop {
+  .home-values__card {
+    padding: var(--space-xl);
+  }
 }

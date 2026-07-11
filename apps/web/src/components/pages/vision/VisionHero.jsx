@@ -4,13 +4,13 @@ export default function VisionHero() {
   const { hero } = visionContent;
 
   return (
-    <section className="vision-hero">
+    <section className="page-hero">
       <div className="page-container vision-hero__container">
-        <p className="eyebrow">{hero.badge}</p>
+        <span className="eyebrow">{hero.badge}</span>
 
-        <h1>{hero.title}</h1>
+        <h1 className="page-title">{hero.title}</h1>
 
-        <p className="vision-hero__subtitle">{hero.subtitle}</p>
+        <p className="page-intro">{hero.subtitle}</p>
       </div>
     </section>
   );

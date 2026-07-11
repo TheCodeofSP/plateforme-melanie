@@ -1,23 +1,5 @@
 @use "../abstracts/mixins.scss" as *;
 
-.quiz-page {
-  background: var(--color-cream);
-}
-
-.quiz-hero {
-  position: relative;
-
-  padding-block: var(--space-xl);
-
-  background:
-    radial-gradient(
-      circle at top right,
-      var(--color-blush-soft),
-      transparent 34%
-    ),
-    linear-gradient(180deg, var(--color-white), var(--color-cream));
-}
-
 .quiz-hero__container {
   display: flex;
   flex-direction: column;
@@ -27,22 +9,6 @@
   .btn {
     align-self: center;
   }
-}
-
-.quiz-hero__subtitle {
-  color: var(--color-text-muted);
-
-  font-size: 1rem;
-  
-}
-
-.quiz-hero__text {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-sm);
-  text-align: center;
-
-  color: var(--color-text-muted);
 }
 
 .quiz-section {
