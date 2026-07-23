@@ -1,0 +1,8 @@
+const layout = require("./layout");
+module.exports = ({ title, date }) => ({
+  subject: `Webinaire reporté — ${title}`,
+  htmlContent: layout(
+    "Nouvelle date",
+    `« ${title} » est reporté au ${date}. Ton inscription est conservée et tu peux l’annuler depuis ton espace.`,
+  ),
+});

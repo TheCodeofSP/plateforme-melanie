@@ -1,0 +1,96 @@
+const express = require("express");
+const c = require("../../controllers/webinars/webinar.controller");
+const optionalAuth = require("../../middlewares/optionalAuthenticate.middleware");
+const auth = require("../../middlewares/authenticate.middleware");
+const roles = require("../../middlewares/authorize.middleware");
+const validateBody = require("../../middlewares/validate.middleware");
+const validateParams = require("../../middlewares/validateParams.middleware");
+const validateQuery = require("../../middlewares/validateQuery.middleware");
+const v = require("../../validations/webinar.validation");
+const rate = require("../../middlewares/rateLimit.middleware");
+const router = express.Router();
+router.get("/", optionalAuth, validateQuery(v.listSchema), c.list);
+router.get("/me", auth, roles("MEMBER", "INTERVENANT", "ADMIN"), c.mine);
+router.get(
+  "/:webinarId",
+  optionalAuth,
+  validateParams(v.webinarIdSchema),
+  c.detail,
+);
+router.post(
+  "/sessions/:sessionId/register",
+  auth,
+  roles("MEMBER", "INTERVENANT", "ADMIN"),
+  rate({ max: 20, code: "WEBINAR_REGISTRATION_RATE_LIMIT" }),
+  validateParams(v.sessionIdSchema),
+  c.register,
+);
+router.post(
+  "/registrations/:registrationId/confirm",
+  auth,
+  roles("MEMBER", "INTERVENANT", "ADMIN"),
+  validateParams(v.registrationIdSchema),
+  c.confirm,
+);
+router.post(
+  "/registrations/:registrationId/cancel",
+  auth,
+  roles("MEMBER", "INTERVENANT", "ADMIN"),
+  validateParams(v.registrationIdSchema),
+  c.cancel,
+);
+router.post(
+  "/registrations/:registrationId/change-session",
+  auth,
+  roles("MEMBER", "INTERVENANT", "ADMIN"),
+  validateParams(v.registrationIdSchema),
+  validateBody(v.changeSessionSchema),
+  c.changeSession,
+);
+router.post(
+  "/sessions/:sessionId/questions",
+  auth,
+  roles("MEMBER", "INTERVENANT", "ADMIN"),
+  rate({ max: 30 }),
+  validateParams(v.sessionIdSchema),
+  validateBody(v.questionSchema),
+  c.question,
+);
+router.patch(
+  "/questions/:questionId",
+  auth,
+  roles("MEMBER", "INTERVENANT", "ADMIN"),
+  validateParams(v.questionIdSchema),
+  validateBody(v.questionSchema),
+  c.updateQuestion,
+);
+router.delete(
+  "/questions/:questionId",
+  auth,
+  roles("MEMBER", "INTERVENANT", "ADMIN"),
+  validateParams(v.questionIdSchema),
+  c.deleteQuestion,
+);
+router.put(
+  "/sessions/:sessionId/evaluation",
+  auth,
+  roles("MEMBER", "INTERVENANT", "ADMIN"),
+  validateParams(v.sessionIdSchema),
+  validateBody(v.evaluationSchema),
+  c.evaluation,
+);
+router.get(
+  "/:webinarId/replay",
+  auth,
+  roles("MEMBER", "INTERVENANT", "ADMIN"),
+  validateParams(v.webinarIdSchema),
+  c.replay,
+);
+router.post(
+  "/:webinarId/replay/view",
+  auth,
+  roles("MEMBER", "INTERVENANT", "ADMIN"),
+  validateParams(v.webinarIdSchema),
+  c.replayView,
+);
+module.exports = router;

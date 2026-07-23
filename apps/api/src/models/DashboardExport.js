@@ -1,0 +1,31 @@
+const mongoose = require("mongoose");
+const { EXPORT_POPULATIONS } = require("../config/dashboard.constants");
+const schema = new mongoose.Schema(
+  {
+    requestedBy: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
+      index: true,
+    },
+    population: { type: String, enum: EXPORT_POPULATIONS, required: true },
+    filters: { type: mongoose.Schema.Types.Mixed, default: {} },
+    columns: [{ type: String, required: true }],
+    status: {
+      type: String,
+      enum: ["PENDING", "PROCESSING", "READY", "FAILED"],
+      default: "PENDING",
+      index: true,
+    },
+    rowCount: { type: Number, default: 0 },
+    file: {
+      publicId: { type: String, default: null },
+      resourceType: { type: String, default: "raw" },
+    },
+    expiresAt: { type: Date, required: true, index: true },
+    error: { type: String, default: null, maxlength: 1000 },
+    readyAt: { type: Date, default: null },
+  },
+  { timestamps: true },
+);
+module.exports = mongoose.model("DashboardExport", schema);

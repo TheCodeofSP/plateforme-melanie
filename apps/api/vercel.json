@@ -1,0 +1,31 @@
+{
+  "rewrites": [
+    { "source": "/(.*)", "destination": "/api" }
+  ],
+  "crons": [
+    { "path": "/api/internal/cron/publish-resources", "schedule": "*/15 * * * *" },
+    { "path": "/api/internal/cron/retry-quiz-deliveries", "schedule": "*/15 * * * *" },
+    { "path": "/api/internal/cron/cleanup-incomplete-quizzes", "schedule": "15 2 * * *" },
+    { "path": "/api/internal/cron/cleanup-expired-guest-quizzes", "schedule": "30 2 * * *" },
+    { "path": "/api/internal/cron/cleanup-application-documents", "schedule": "45 2 * * *" },
+    { "path": "/api/internal/cron/cleanup-media", "schedule": "0 3 * * *" },
+    { "path": "/api/internal/cron/expire-safe-place-suspensions", "schedule": "15 3 * * *" },
+    { "path": "/api/internal/cron/cleanup-safe-place-notifications", "schedule": "30 3 * * *" },
+    { "path": "/api/internal/cron/cleanup-safe-place-deleted-content", "schedule": "45 3 * * *" },
+    { "path": "/api/internal/cron/cleanup-safe-place-media", "schedule": "0 4 * * *" },
+    { "path": "/api/internal/cron/webinar-reminders-24", "schedule": "*/15 * * * *" },
+    { "path": "/api/internal/cron/webinar-reminders-1", "schedule": "*/15 * * * *" },
+    { "path": "/api/internal/cron/maintain-webinars", "schedule": "*/15 * * * *" },
+    { "path": "/api/internal/cron/send-scheduled-communications", "schedule": "*/15 * * * *" },
+    { "path": "/api/internal/cron/process-communication-batches", "schedule": "*/15 * * * *" },
+    { "path": "/api/internal/cron/retry-communication-deliveries", "schedule": "*/15 * * * *" },
+    { "path": "/api/internal/cron/anonymize-old-communication-recipients", "schedule": "15 4 * * *" },
+    { "path": "/api/internal/cron/cleanup-communication-media", "schedule": "30 4 * * *" }
+    ,{ "path": "/api/internal/cron/process-notification-deliveries", "schedule": "*/15 * * * *" }
+    ,{ "path": "/api/internal/cron/cleanup-notifications", "schedule": "45 4 * * *" }
+    ,{ "path": "/api/internal/cron/notify-dashboard-tasks", "schedule": "0 * * * *" }
+    ,{ "path": "/api/internal/cron/expire-dashboard-invitations", "schedule": "0 5 * * *" }
+    ,{ "path": "/api/internal/cron/process-dashboard-exports", "schedule": "*/15 * * * *" }
+    ,{ "path": "/api/internal/cron/cleanup-dashboard-exports", "schedule": "15 5 * * *" }
+  ]
+}

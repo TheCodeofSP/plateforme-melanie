@@ -1,0 +1,14 @@
+const DOCUMENT_VERSIONS = {
+  TERMS: "draft-1",
+  PRIVACY_POLICY: "draft-1",
+  NEWSLETTER: "draft-1",
+  COMMERCIAL_EMAIL: "draft-1",
+  PARENTAL_AUTHORIZATION: "draft-1",
+  SPM_DATA_PROCESSING: "draft-1",
+  QUIZ_RESULT_EMAIL: "draft-1",
+  MARKETING_COMMUNICATIONS: "draft-1",
+  PERSONAL_CONTACT: "draft-1",
+  SAFE_PLACE_CHARTER: "draft-1",
+};
+
+module.exports = DOCUMENT_VERSIONS;

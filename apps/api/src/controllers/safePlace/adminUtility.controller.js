@@ -1,0 +1,81 @@
+const statsService = require("../../services/safePlace/stats.service");
+const notification = require("../../services/notification.service");
+const SafePlacePost = require("../../models/SafePlacePost");
+const SafePlaceCategory = require("../../models/SafePlaceCategory");
+const ConsentRecord = require("../../models/ConsentRecord");
+const User = require("../../models/User");
+const SafePlaceSuspension = require("../../models/SafePlaceSuspension");
+const DOCUMENT_VERSIONS = require("../../config/documentVersions");
+async function stats(req, res, next) {
+  try {
+    res.json({
+      success: true,
+      stats: await statsService.stats(req.validatedQuery),
+    });
+  } catch (e) {
+    next(e);
+  }
+}
+async function broadcast(req, res, next) {
+  try {
+    const post = await SafePlacePost.findOne({
+      _id: req.body.postId,
+      author: req.auth.user._id,
+      status: "VISIBLE",
+    });
+    if (!post) {
+      const e = new Error("L’annonce est introuvable.");
+      e.statusCode = 404;
+      e.code = "SAFE_PLACE_ANNOUNCEMENT_NOT_FOUND";
+      throw e;
+    }
+    const category = await SafePlaceCategory.findById(post.category);
+    if (!category?.adminOnly) {
+      const e = new Error(
+        "La notification générale doit être liée à une annonce de Mélanie.",
+      );
+      e.statusCode = 409;
+      e.code = "SAFE_PLACE_BROADCAST_REQUIRES_ANNOUNCEMENT";
+      throw e;
+    }
+    const consentRows = await ConsentRecord.aggregate([
+      { $match: { type: "SAFE_PLACE_CHARTER" } },
+      { $sort: { createdAt: -1 } },
+      {
+        $group: {
+          _id: "$user",
+          granted: { $first: "$granted" },
+          version: { $first: "$version" },
+        },
+      },
+      {
+        $match: {
+          granted: true,
+          version: DOCUMENT_VERSIONS.SAFE_PLACE_CHARTER,
+        },
+      },
+    ]);
+    const suspended = await SafePlaceSuspension.distinct("user", {
+      status: "ACTIVE",
+      $or: [{ endsAt: null }, { endsAt: { $gt: new Date() } }],
+    });
+    const allowedIds = consentRows
+      .map((x) => x._id)
+      .filter((id) => !suspended.some((s) => s.equals(id)));
+    const users = await User.find({
+      _id: { $in: allowedIds },
+      role: "MEMBER",
+      accountStatus: "ACTIVE",
+    })
+      .select("_id")
+      .lean();
+    const sent = await notification.broadcastToMembers(users, {
+      ...req.body,
+      adminId: req.auth.user._id,
+    });
+    res.json({ success: true, sent });
+  } catch (e) {
+    next(e);
+  }
+}
+module.exports = { stats, broadcast };

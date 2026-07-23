@@ -1,0 +1,27 @@
+const express = require("express");
+const c = require("../../controllers/communications/preference.controller");
+const validateBody = require("../../middlewares/validate.middleware");
+const validateQuery = require("../../middlewares/validateQuery.middleware");
+const rate = require("../../middlewares/rateLimit.middleware");
+const v = require("../../validations/communication.validation");
+const router = express.Router();
+router.get("/unsubscribe", validateQuery(v.tokenSchema), c.unsubscribeDetails);
+router.post(
+  "/unsubscribe",
+  rate({ max: 30 }),
+  validateBody(v.unsubscribeSchema),
+  c.unsubscribe,
+);
+router.post(
+  "/resubscribe",
+  rate({ max: 10 }),
+  validateBody(v.resubscribeSchema),
+  c.requestResubscribe,
+);
+router.post(
+  "/resubscribe/confirm",
+  rate({ max: 20 }),
+  validateBody(v.tokenSchema),
+  c.confirmResubscribe,
+);
+module.exports = router;

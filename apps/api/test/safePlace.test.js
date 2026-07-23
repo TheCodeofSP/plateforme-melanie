@@ -1,0 +1,116 @@
+const test = require("node:test");
+const assert = require("node:assert/strict");
+const {
+  SAFE_PLACE_INITIAL_CATEGORIES,
+  SAFE_PLACE_REACTIONS,
+} = require("../src/config/safePlace.constants");
+const {
+  postCreateSchema,
+  commentSchema,
+} = require("../src/validations/safePlace.validation");
+const {
+  validateLinks,
+  validateSafePlaceContent,
+  publicAuthor,
+} = require("../src/utils/safePlace.utils");
+const { priority } = require("../src/services/safePlace/report.service");
+
+const categoryId = "64b000000000000000000001";
+test("les huit catégories initiales sont stables", () => {
+  assert.equal(SAFE_PLACE_INITIAL_CATEGORIES.length, 8);
+  assert.equal(
+    SAFE_PLACE_INITIAL_CATEGORIES.filter((item) => item.adminOnly).length,
+    1,
+  );
+  assert.equal(SAFE_PLACE_INITIAL_CATEGORIES.at(-1).slug, "annonces-melanie");
+});
+test("les réactions Safe Place sont limitées aux quatre valeurs validées", () => {
+  assert.deepEqual(SAFE_PLACE_REACTIONS, [
+    "SUPPORT",
+    "THANK_YOU",
+    "ME_TOO",
+    "HELPFUL",
+  ]);
+});
+test("une publication valide accepte trois images au maximum", () => {
+  const images = [1, 2, 3].map((n) => ({
+    media: `64b00000000000000000000${n}`,
+    alt: `Image ${n}`,
+  }));
+  assert.equal(
+    postCreateSchema.safeParse({
+      categoryId,
+      title: "Mon témoignage",
+      content: "Voici mon expérience personnelle.",
+      images,
+    }).success,
+    true,
+  );
+  assert.equal(
+    postCreateSchema.safeParse({
+      categoryId,
+      title: "Mon témoignage",
+      content: "Voici mon expérience personnelle.",
+      images: [...images, images[0]],
+    }).success,
+    false,
+  );
+});
+test("le HTML est refusé dans les publications et commentaires", () => {
+  assert.equal(
+    postCreateSchema.safeParse({
+      categoryId,
+      title: "Mon témoignage",
+      content: "<script>alert(1)</script>",
+    }).success,
+    false,
+  );
+  assert.equal(
+    commentSchema.safeParse({ content: "<strong>Texte</strong>" }).success,
+    false,
+  );
+});
+test("les liens de réservation, paiement et affiliation sont refusés", () => {
+  assert.doesNotThrow(() =>
+    validateLinks([{ label: "Source", url: "https://www.ameli.fr/sante" }]),
+  );
+  assert.throws(
+    () =>
+      validateLinks([
+        { label: "Rendez-vous", url: "https://calendly.com/exemple" },
+      ]),
+    (error) => error.code === "SAFE_PLACE_LINK_FORBIDDEN",
+  );
+  assert.throws(
+    () =>
+      validateLinks([
+        { label: "Source", url: "https://example.com?utm_affiliate=123" },
+      ]),
+    (error) => error.code === "SAFE_PLACE_LINK_FORBIDDEN",
+  );
+});
+test("la prospection est refusée dans le contenu", () => {
+  assert.doesNotThrow(() =>
+    validateSafePlaceContent("Je partage mon expérience."),
+  );
+  assert.throws(
+    () => validateSafePlaceContent("Contactez-moi au 06 12 34 56 78."),
+    (error) => error.code === "PROFESSIONAL_SOLICITATION_FORBIDDEN",
+  );
+});
+test("les priorités de signalement sont ordonnées", () => {
+  assert.equal(priority("DANGER"), "CRITICAL");
+  assert.equal(priority("MEDICAL_MISINFORMATION"), "HIGH");
+  assert.equal(priority("OTHER"), "NORMAL");
+});
+test("l’identité publique n’expose que le pseudonyme ou Mélanie", () => {
+  assert.deepEqual(publicAuthor({ pseudonym: "Lune", role: "MEMBER" }), {
+    name: "Lune",
+    role: "MEMBER",
+  });
+  assert.equal(
+    publicAuthor({ pseudonym: "admin", role: "ADMIN" }).name,
+    "Mélanie",
+  );
+  assert.equal(publicAuthor(null).name, "Ancienne membre");
+});

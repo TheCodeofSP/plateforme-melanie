@@ -1,0 +1,30 @@
+const mongoose = require("mongoose");
+const schema = new mongoose.Schema(
+  {
+    targetType: { type: String, enum: ["POST", "COMMENT"], required: true },
+    targetId: {
+      type: mongoose.Schema.Types.ObjectId,
+      required: true,
+      index: true,
+    },
+    actor: { type: mongoose.Schema.Types.ObjectId, ref: "User", default: null },
+    actorRole: {
+      type: String,
+      enum: ["MEMBER", "ADMIN", "SYSTEM"],
+      required: true,
+    },
+    pseudonymSnapshot: {
+      type: String,
+      trim: true,
+      maxlength: 80,
+      default: null,
+    },
+    action: { type: String, required: true, trim: true, maxlength: 80 },
+    previousVersion: { type: mongoose.Schema.Types.Mixed, default: null },
+    newVersion: { type: mongoose.Schema.Types.Mixed, default: null },
+    reason: { type: String, trim: true, maxlength: 2000, default: null },
+  },
+  { timestamps: true, versionKey: false },
+);
+schema.index({ targetType: 1, targetId: 1, createdAt: -1 });
+module.exports = mongoose.model("SafePlaceContentRevision", schema);

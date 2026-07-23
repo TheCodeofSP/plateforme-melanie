@@ -1,0 +1,13 @@
+const { AsyncLocalStorage } = require("node:async_hooks");
+
+const storage = new AsyncLocalStorage();
+
+function run(context, callback) {
+  return storage.run(context, callback);
+}
+
+function get() {
+  return storage.getStore() || {};
+}
+
+module.exports = { run, get };

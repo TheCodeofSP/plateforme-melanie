@@ -1,0 +1,112 @@
+const SafePlaceSuspension = require("../../models/SafePlaceSuspension");
+const SafePlaceModerationLog = require("../../models/SafePlaceModerationLog");
+const User = require("../../models/User");
+const { createNotification } = require("../notification.service");
+const { safePlaceError } = require("../../utils/safePlace.utils");
+async function suspend(admin, userId, data) {
+  const user = await User.findOne({
+    _id: userId,
+    role: "MEMBER",
+    accountStatus: "ACTIVE",
+  });
+  if (!user)
+    throw safePlaceError(
+      "Seul un compte membre actif peut être suspendu du Safe Place.",
+      "SAFE_PLACE_MEMBER_NOT_FOUND",
+      404,
+    );
+  if (await SafePlaceSuspension.exists({ user: userId, status: "ACTIVE" }))
+    throw safePlaceError(
+      "Cette membre est déjà suspendue.",
+      "SAFE_PLACE_ALREADY_SUSPENDED",
+      409,
+    );
+  const suspension = await SafePlaceSuspension.create({
+    user: userId,
+    suspendedBy: admin._id,
+    reason: data.reason,
+    endsAt: data.endsAt || null,
+  });
+  await SafePlaceModerationLog.create({
+    admin: admin._id,
+    targetType: "SUSPENSION",
+    targetId: suspension._id,
+    action: "USER_SUSPENDED",
+    reason: data.reason,
+    metadata: { userId, endsAt: data.endsAt || null },
+  });
+  await createNotification({
+    recipient: userId,
+    actor: admin._id,
+    type: "SAFE_PLACE_MODERATION",
+    title: "Accès au Safe Place suspendu",
+    message: "Mélanie a suspendu ton accès au Safe Place.",
+    targetType: null,
+  });
+  return suspension;
+}
+async function lift(admin, id, reason) {
+  const suspension = await SafePlaceSuspension.findOne({
+    _id: id,
+    status: "ACTIVE",
+  });
+  if (!suspension)
+    throw safePlaceError(
+      "Cette suspension n’est plus active.",
+      "SAFE_PLACE_SUSPENSION_NOT_ACTIVE",
+      409,
+    );
+  suspension.status = "LIFTED";
+  suspension.liftedAt = new Date();
+  suspension.liftedBy = admin._id;
+  suspension.liftReason = reason;
+  await suspension.save();
+  await SafePlaceModerationLog.create({
+    admin: admin._id,
+    targetType: "SUSPENSION",
+    targetId: id,
+    action: "SUSPENSION_LIFTED",
+    reason,
+  });
+  return suspension;
+}
+async function list(query) {
+  const page = query.page;
+  const limit = query.limit;
+  const filter = query.status ? { status: query.status } : {};
+  const [suspensions, total] = await Promise.all([
+    SafePlaceSuspension.find(filter)
+      .populate("user", "pseudonym email firstName lastName accountStatus")
+      .populate("suspendedBy", "pseudonym")
+      .sort({ createdAt: -1 })
+      .skip((page - 1) * limit)
+      .limit(limit)
+      .lean(),
+    SafePlaceSuspension.countDocuments(filter),
+  ]);
+  return {
+    suspensions,
+    pagination: { page, limit, total, pages: Math.ceil(total / limit) },
+  };
+}
+async function history(userId) {
+  const user = await User.findById(userId)
+    .select("pseudonym email firstName lastName role accountStatus")
+    .lean();
+  if (!user) throw safePlaceError("Compte introuvable.", "USER_NOT_FOUND", 404);
+  const [suspensions, actions] = await Promise.all([
+    SafePlaceSuspension.find({ user: userId }).sort({ createdAt: -1 }).lean(),
+    SafePlaceModerationLog.find({ targetType: "USER", targetId: userId })
+      .sort({ createdAt: -1 })
+      .lean(),
+  ]);
+  return { user, suspensions, actions };
+}
+async function expire(limit = 100) {
+  const result = await SafePlaceSuspension.updateMany(
+    { status: "ACTIVE", endsAt: { $ne: null, $lte: new Date() } },
+    { $set: { status: "EXPIRED" } },
+  );
+  return { processed: Math.min(result.modifiedCount, limit), failed: 0 };
+}
+module.exports = { suspend, lift, list, history, expire };

@@ -1,0 +1,11 @@
+const express = require("express");
+const c = require("../../controllers/safePlace/category.controller");
+const authenticate = require("../../middlewares/authenticate.middleware");
+const access = require("../../middlewares/safePlaceAccess.middleware");
+const validateParams = require("../../middlewares/validateParams.middleware");
+const { categoryIdSchema } = require("../../validations/safePlace.validation");
+const router = express.Router();
+router.use(authenticate, access);
+router.get("/", c.list);
+router.get("/:categoryId", validateParams(categoryIdSchema), c.detail);
+module.exports = router;

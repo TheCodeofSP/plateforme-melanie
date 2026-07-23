@@ -1,0 +1,39 @@
+const express = require("express");
+const c = require("../controllers/cron.controller");
+const auth = require("../middlewares/cronAuthenticate.middleware");
+const router = express.Router();
+router.use(auth);
+router.get("/publish-resources", c.publishResources);
+router.get("/retry-quiz-deliveries", c.retryQuizDeliveries);
+router.get("/cleanup-incomplete-quizzes", c.cleanupIncompleteQuizzes);
+router.get("/cleanup-expired-guest-quizzes", c.cleanupExpiredGuestQuizzes);
+router.get("/cleanup-application-documents", c.cleanupApplicationDocuments);
+router.get("/cleanup-media", c.cleanupMedia);
+router.get("/expire-safe-place-suspensions", c.expireSafePlaceSuspensions);
+router.get(
+  "/cleanup-safe-place-notifications",
+  c.cleanupSafePlaceNotifications,
+);
+router.get(
+  "/cleanup-safe-place-deleted-content",
+  c.cleanupSafePlaceDeletedContent,
+);
+router.get("/cleanup-safe-place-media", c.cleanupSafePlaceMedia);
+router.get("/webinar-reminders-24", c.webinarReminders24);
+router.get("/webinar-reminders-1", c.webinarReminders1);
+router.get("/maintain-webinars", c.maintainWebinars);
+router.get("/send-scheduled-communications", c.sendScheduledCommunications);
+router.get("/process-communication-batches", c.processCommunicationBatches);
+router.get("/retry-communication-deliveries", c.retryCommunicationDeliveries);
+router.get(
+  "/anonymize-old-communication-recipients",
+  c.anonymizeOldCommunicationRecipients,
+);
+router.get("/cleanup-communication-media", c.cleanupCommunicationMedia);
+router.get("/process-notification-deliveries", c.processNotificationDeliveries);
+router.get("/cleanup-notifications", c.cleanupNotifications);
+router.get("/notify-dashboard-tasks", c.notifyDashboardTasks);
+router.get("/expire-dashboard-invitations", c.expireDashboardInvitations);
+router.get("/process-dashboard-exports", c.processDashboardExports);
+router.get("/cleanup-dashboard-exports", c.cleanupDashboardExports);
+module.exports = router;

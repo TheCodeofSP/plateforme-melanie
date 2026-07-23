@@ -1,0 +1,37 @@
+const mongoose = require("mongoose");
+const schema = new mongoose.Schema(
+  {
+    email: {
+      type: String,
+      required: true,
+      lowercase: true,
+      trim: true,
+      unique: true,
+    },
+    user: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      default: null,
+      index: true,
+    },
+    quizParticipant: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "QuizParticipant",
+      default: null,
+      index: true,
+    },
+    editorialNewsletter: { type: Boolean, default: false },
+    resourceAnnouncements: { type: Boolean, default: false },
+    webinarAnnouncements: { type: Boolean, default: false },
+    platformNews: { type: Boolean, default: false },
+    allMarketingUnsubscribedAt: Date,
+    confirmedAt: Date,
+    source: {
+      type: String,
+      enum: ["ACCOUNT", "QUIZ", "UNSUBSCRIBE_PAGE", "ADMIN_MIGRATION"],
+      default: "ACCOUNT",
+    },
+  },
+  { timestamps: true },
+);
+module.exports = mongoose.model("CommunicationPreference", schema);

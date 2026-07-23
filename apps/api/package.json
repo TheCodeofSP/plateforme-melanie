@@ -4,7 +4,27 @@
   "main": "index.js",
   "scripts": {
     "dev": "nodemon src/server.js",
-    "start": "node src/server.js"
+    "start": "node src/server.js",
+    "create:admin": "node src/scripts/createAdmin.js",
+    "migrate:intervenant-role": "node src/scripts/migrateIntervenantRole.js",
+    "import:resources": "node src/scripts/importResources.js",
+    "cleanup:resource-media": "node src/scripts/cleanupResourceMedia.js",
+    "migrate:professional-profiles": "node src/scripts/migrateProfessionalProfiles.js",
+    "seed:safe-place": "node src/scripts/seedSafePlaceCategories.js",
+    "migrate:crm-contacts": "node src/scripts/migrateCrmContacts.js",
+    "migrate:email-provider": "node src/scripts/migrateEmailProvider.js",
+    "migrate:register-history": "node src/scripts/registerMigrationHistory.js",
+    "seed:test": "node src/scripts/manageFixtures.js --target=test",
+    "seed:staging": "node src/scripts/manageFixtures.js --target=staging",
+    "reset:staging": "node src/scripts/manageFixtures.js --target=staging --reset",
+    "audit:data": "node src/scripts/auditData.js",
+    "lint": "eslint src api test",
+    "check:config": "node src/scripts/checkConfiguration.js",
+    "check:contract": "node src/scripts/checkApiContract.js",
+    "quality": "npm run lint && npm test && npm run check:config && npm run check:contract && npm audit --omit=dev",
+    "check": "node src/scripts/checkResources.js",
+    "test": "node --test test/*.test.js",
+    "test:integration": "node --test test/integration/*.test.js"
   },
   "keywords": [],
   "author": "",
@@ -12,15 +32,18 @@
   "description": "",
   "dependencies": {
     "bcrypt": "^6.0.0",
+    "cloudinary": "^2.10.0",
     "cookie-parser": "^1.4.7",
     "cors": "^2.8.6",
     "dotenv": "^17.4.2",
     "express": "^5.2.1",
     "jsonwebtoken": "^9.0.3",
     "mongoose": "^9.7.4",
+    "resend": "^6.18.0",
     "zod": "^4.4.3"
   },
   "devDependencies": {
+    "eslint": "^10.7.0",
     "nodemon": "^3.1.14"
   }
 }

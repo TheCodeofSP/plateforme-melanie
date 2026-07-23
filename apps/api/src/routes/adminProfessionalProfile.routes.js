@@ -1,0 +1,43 @@
+const express = require("express");
+const c = require("../controllers/professionalProfile.controller");
+const authenticate = require("../middlewares/authenticate.middleware");
+const authorizeRoles = require("../middlewares/authorize.middleware");
+const validateBody = require("../middlewares/validate.middleware");
+const validateParams = require("../middlewares/validateParams.middleware");
+const v = require("../validations/professionalProfile.validation");
+const validateQuery = require("../middlewares/validateQuery.middleware");
+const router = express.Router();
+router.use(authenticate, authorizeRoles("ADMIN"));
+router.get("/", validateQuery(v.adminListSchema), c.adminList);
+router.get("/:profileId", validateParams(v.profileIdSchema), c.adminDetail);
+router.post(
+  "/:profileId/approve",
+  validateParams(v.profileIdSchema),
+  validateBody(v.optionalAdminCommentSchema),
+  c.approve,
+);
+router.post(
+  "/:profileId/request-changes",
+  validateParams(v.profileIdSchema),
+  validateBody(v.adminCommentSchema),
+  c.changes,
+);
+router.patch(
+  "/:profileId/editorial-correction",
+  validateParams(v.profileIdSchema),
+  validateBody(v.editorialCorrectionSchema),
+  c.correct,
+);
+router.post(
+  "/:profileId/hide",
+  validateParams(v.profileIdSchema),
+  validateBody(v.adminCommentSchema),
+  c.hide,
+);
+router.post(
+  "/:profileId/restore",
+  validateParams(v.profileIdSchema),
+  validateBody(v.optionalAdminCommentSchema),
+  c.restore,
+);
+module.exports = router;

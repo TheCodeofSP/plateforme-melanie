@@ -1,0 +1,269 @@
+{
+  "info": {
+    "_postman_id": "2f2fd50c-56af-4c38-a642-plateformev1",
+    "name": "Plateforme Mélanie — Recette backend V1",
+    "description": "Collection organisée par parcours. Les suppressions et réinitialisations sont désactivées par défaut.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    { "key": "baseUrl", "value": "http://localhost:5100" },
+    { "key": "adminAccessToken", "value": "" },
+    { "key": "memberAccessToken", "value": "" },
+    { "key": "intervenantAccessToken", "value": "" },
+    { "key": "dangerousBaseUrl", "value": "" },
+    { "key": "resourceId", "value": "" },
+    { "key": "postId", "value": "" },
+    { "key": "webinarId", "value": "" },
+    { "key": "communicationId", "value": "" },
+    { "key": "contactId", "value": "" }
+  ],
+  "item": [
+    {
+      "name": "01 — Inscription et activation membre",
+      "item": [{
+        "name": "Inscrire une membre",
+        "request": {
+          "method": "POST",
+          "header": [{ "key": "Content-Type", "value": "application/json" }],
+          "body": { "mode": "raw", "raw": "{\"email\":\"member.fixture@example.test\",\"firstName\":\"Membre\",\"lastName\":\"Fixture\",\"pseudonym\":\"membre-postman\",\"dateOfBirth\":\"1990-01-01\",\"password\":\"{{fixturePassword}}\",\"termsAccepted\":true,\"privacyAccepted\":true,\"newsletterConsent\":false}" },
+          "url": "{{baseUrl}}/api/auth/register"
+        }
+      }]
+    },
+    {
+      "name": "02 — Connexion et renouvellement de session",
+      "item": [
+        {
+          "name": "Connexion administratrice",
+          "event": [{
+            "listen": "test",
+            "script": { "exec": ["const token = pm.cookies.get('accessToken');", "if (token) pm.collectionVariables.set('adminAccessToken', token);"] }
+          }],
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\"email\":\"admin.fixture@example.test\",\"password\":\"{{fixturePassword}}\",\"rememberMe\":false}" },
+            "url": "{{baseUrl}}/api/auth/login"
+          }
+        },
+        {
+          "name": "Profil courant administratrice",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Cookie", "value": "accessToken={{adminAccessToken}}" }],
+            "url": "{{baseUrl}}/api/auth/me"
+          }
+        },
+        {
+          "name": "Connexion membre",
+          "event": [{
+            "listen": "test",
+            "script": { "exec": ["const token = pm.cookies.get('accessToken');", "if (token) pm.collectionVariables.set('memberAccessToken', token);"] }
+          }],
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\"email\":\"member1.fixture@example.test\",\"password\":\"{{fixturePassword}}\",\"rememberMe\":false}" },
+            "url": "{{baseUrl}}/api/auth/login"
+          }
+        },
+        {
+          "name": "Connexion intervenante",
+          "event": [{
+            "listen": "test",
+            "script": { "exec": ["const token = pm.cookies.get('accessToken');", "if (token) pm.collectionVariables.set('intervenantAccessToken', token);"] }
+          }],
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\"email\":\"intervenant.fixture@example.test\",\"password\":\"{{fixturePassword}}\",\"rememberMe\":false}" },
+            "url": "{{baseUrl}}/api/auth/login"
+          }
+        }
+      ]
+    },
+    {
+      "name": "03 — Mot de passe oublié",
+      "item": [{
+        "name": "Demander une réinitialisation",
+        "request": {
+          "method": "POST",
+          "header": [{ "key": "Content-Type", "value": "application/json" }],
+          "body": { "mode": "raw", "raw": "{\"email\":\"member1.fixture@example.test\"}" },
+          "url": "{{baseUrl}}/api/auth/forgot-password"
+        }
+      }]
+    },
+    {
+      "name": "04 — Quiz public puis création de compte",
+      "item": [{
+        "name": "Charger le questionnaire",
+        "request": { "method": "GET", "url": "{{baseUrl}}/api/quiz" }
+      }]
+    },
+    {
+      "name": "05 — Quiz membre et historique",
+      "item": [{
+        "name": "Historique Quiz",
+        "request": {
+          "method": "GET",
+          "header": [{ "key": "Cookie", "value": "accessToken={{memberAccessToken}}" }],
+          "url": "{{baseUrl}}/api/quiz/me/history"
+        }
+      }]
+    },
+    {
+      "name": "06 — Demande et validation d’une intervenante",
+      "item": [{
+        "name": "Demandes en attente",
+        "request": {
+          "method": "GET",
+          "header": [{ "key": "Cookie", "value": "accessToken={{adminAccessToken}}" }],
+          "url": "{{baseUrl}}/api/admin/intervenant-applications?status=PENDING"
+        }
+      }]
+    },
+    {
+      "name": "07 — Profil professionnel",
+      "item": [{
+        "name": "Consulter le profil professionnel courant",
+        "request": {
+          "method": "GET",
+          "header": [{ "key": "Cookie", "value": "accessToken={{intervenantAccessToken}}" }],
+          "url": "{{baseUrl}}/api/professional-profile/me"
+        }
+      }]
+    },
+    {
+      "name": "08 — Création et publication d’une ressource",
+      "item": [{
+        "name": "Lister les ressources publiques",
+        "request": { "method": "GET", "url": "{{baseUrl}}/api/resources?page=1&limit=20" }
+      }]
+    },
+    {
+      "name": "09 — Commentaires et modération Ressources",
+      "item": [{
+        "name": "Commentaires d’une ressource",
+        "request": { "method": "GET", "url": "{{baseUrl}}/api/resources/{{resourceId}}/comments?page=1&limit=20" }
+      }]
+    },
+    {
+      "name": "10 — Accès et publications Safe Place",
+      "item": [{
+        "name": "Catégories Safe Place",
+        "request": {
+          "method": "GET",
+          "header": [{ "key": "Cookie", "value": "accessToken={{memberAccessToken}}" }],
+          "url": "{{baseUrl}}/api/safe-place/categories"
+        }
+      }]
+    },
+    {
+      "name": "11 — Signalement et modération Safe Place",
+      "item": [{
+        "name": "Signalements ouverts",
+        "request": {
+          "method": "GET",
+          "header": [{ "key": "Cookie", "value": "accessToken={{adminAccessToken}}" }],
+          "url": "{{baseUrl}}/api/admin/safe-place/moderation?status=OPEN"
+        }
+      }]
+    },
+    {
+      "name": "12 — Webinaire, inscription et présence",
+      "item": [{
+        "name": "Lister les webinaires",
+        "request": { "method": "GET", "url": "{{baseUrl}}/api/webinars?page=1&limit=20" }
+      }]
+    },
+    {
+      "name": "13 — Communication et préférences",
+      "item": [{
+        "name": "Préférences de communication",
+        "request": {
+          "method": "GET",
+          "header": [{ "key": "Cookie", "value": "accessToken={{memberAccessToken}}" }],
+          "url": "{{baseUrl}}/api/communication-preferences/me"
+        }
+      }]
+    },
+    {
+      "name": "14 — Notifications membre et administratrice",
+      "item": [{
+        "name": "Notifications personnelles",
+        "request": {
+          "method": "GET",
+          "header": [{ "key": "Cookie", "value": "accessToken={{memberAccessToken}}" }],
+          "url": "{{baseUrl}}/api/notifications?nature=PERSONAL&limit=10"
+        }
+      }]
+    },
+    {
+      "name": "15 — CRM, invitation et suivi",
+      "item": [{
+        "name": "Contacts CRM",
+        "request": {
+          "method": "GET",
+          "header": [{ "key": "Cookie", "value": "accessToken={{adminAccessToken}}" }],
+          "url": "{{baseUrl}}/api/admin/dashboard/contacts?page=1&limit=20"
+        }
+      }]
+    },
+    {
+      "name": "16 — Statistiques Dashboard",
+      "item": [{
+        "name": "Accueil Dashboard",
+        "request": {
+          "method": "GET",
+          "header": [{ "key": "Cookie", "value": "accessToken={{adminAccessToken}}" }],
+          "url": "{{baseUrl}}/api/admin/dashboard/overview"
+        }
+      }]
+    },
+    {
+      "name": "17 — Export Dashboard",
+      "item": [{
+        "name": "Créer un export personnalisé",
+        "request": {
+          "method": "POST",
+          "header": [
+            { "key": "Content-Type", "value": "application/json" },
+            { "key": "Cookie", "value": "accessToken={{adminAccessToken}}" }
+          ],
+          "body": { "mode": "raw", "raw": "{\"population\":\"CONTACTS\",\"columns\":[\"firstName\",\"email\",\"status\"],\"filters\":{},\"includePrivateNotes\":false}" },
+          "url": "{{baseUrl}}/api/admin/dashboard/exports"
+        }
+      }]
+    },
+    {
+      "name": "18 — État du système et audit",
+      "item": [
+        {
+          "name": "État du backend",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Cookie", "value": "accessToken={{adminAccessToken}}" }],
+            "url": "{{baseUrl}}/api/admin/system/status"
+          }
+        },
+        {
+          "name": "Journal des emails capturés",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Cookie", "value": "accessToken={{adminAccessToken}}" }],
+            "url": "{{baseUrl}}/api/admin/system/email-dispatches?page=1&limit=20"
+          }
+        },
+        {
+          "name": "[DÉSACTIVÉ] Réinitialiser staging",
+          "description": "Requête volontairement inutilisable tant que dangerousBaseUrl est vide.",
+          "request": {
+            "method": "POST",
+            "url": "{{dangerousBaseUrl}}/api/internal/staging/reset"
+          }
+        }
+      ]
+    }
+  ]
+}

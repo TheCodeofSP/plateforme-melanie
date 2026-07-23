@@ -1,0 +1,108 @@
+const test = require("node:test");
+const assert = require("node:assert/strict");
+const constants = require("../src/config/webinar.constants");
+const validation = require("../src/validations/webinar.validation");
+const {
+  confirmationDelayMs,
+  registrationOpen,
+  slugify,
+} = require("../src/utils/webinar.utils");
+test("le parcours des webinaires contient les cinq statuts validés", () =>
+  assert.deepEqual(constants.WEBINAR_STATUSES, [
+    "DRAFT",
+    "PUBLISHED",
+    "COMPLETED",
+    "CANCELLED",
+    "ARCHIVED",
+  ]));
+test("les statuts de participation validés sont stables", () =>
+  assert.deepEqual(constants.REGISTRATION_STATUSES, [
+    "REGISTERED",
+    "WAITLISTED",
+    "PRESENT",
+    "ABSENT",
+    "CANCELLED",
+  ]));
+test("un webinaire accepte deux profils SPM au maximum", () => {
+  const base = {
+    title: "Comprendre son cycle",
+    shortDescription: "Une présentation suffisamment complète.",
+    description: "Une description complète du rendez-vous et de son contenu.",
+    recommendedProfiles: constants.SPM_PROFILES.slice(0, 2),
+  };
+  assert.equal(validation.webinarCreateSchema.safeParse(base).success, true);
+  assert.equal(
+    validation.webinarCreateSchema.safeParse({
+      ...base,
+      recommendedProfiles: constants.SPM_PROFILES.slice(0, 3),
+    }).success,
+    false,
+  );
+});
+test("une session impose une capacité, une durée et une date", () => {
+  const result = validation.sessionCreateSchema.safeParse({
+    startsAt: "2027-01-10T18:00:00.000Z",
+    durationMinutes: 60,
+    capacity: 25,
+    timezone: "Europe/Paris",
+    meetUrl: "https://meet.google.com/abc-defg-hij",
+  });
+  assert.equal(result.success, true);
+  assert.equal(
+    validation.sessionCreateSchema.safeParse({
+      startsAt: "2027-01-10",
+      durationMinutes: 5,
+      capacity: 0,
+    }).success,
+    false,
+  );
+});
+test("le délai de confirmation de la liste d’attente est adaptatif", () => {
+  const now = new Date("2027-01-01T10:00:00Z");
+  assert.equal(
+    confirmationDelayMs(new Date("2027-01-03T10:00:00Z"), now),
+    12 * 3600000,
+  );
+  assert.equal(
+    confirmationDelayMs(new Date("2027-01-02T06:00:00Z"), now),
+    4 * 3600000,
+  );
+  assert.equal(
+    confirmationDelayMs(new Date("2027-01-01T16:00:00Z"), now),
+    3600000,
+  );
+  assert.equal(confirmationDelayMs(new Date("2027-01-01T10:30:00Z"), now), 0);
+});
+test("les inscriptions ferment une heure avant", () => {
+  const now = new Date("2027-01-01T10:00:00Z");
+  assert.equal(
+    registrationOpen(
+      {
+        status: "SCHEDULED",
+        startsAt: new Date("2027-01-01T12:00:00Z"),
+        registrationsManuallyClosed: false,
+      },
+      now,
+    ),
+    true,
+  );
+  assert.equal(
+    registrationOpen(
+      {
+        status: "SCHEDULED",
+        startsAt: new Date("2027-01-01T10:30:00Z"),
+        registrationsManuallyClosed: false,
+      },
+      now,
+    ),
+    false,
+  );
+});
+test("les textes HTML sont refusés", () => {
+  const result = validation.questionSchema.safeParse({
+    content: "<script>alert(1)</script>",
+  });
+  assert.equal(result.success, false);
+});
+test("les titres produisent des slugs lisibles", () =>
+  assert.equal(slugify("Comprendre son SPM !"), "comprendre-son-spm"));

@@ -1,0 +1,218 @@
+const crypto = require("crypto");
+const CommunicationPreference = require("../../models/CommunicationPreference");
+const CommunicationResubscribeToken = require("../../models/CommunicationResubscribeToken");
+const ConsentRecord = require("../../models/ConsentRecord");
+const QuizConsentRecord = require("../../models/QuizConsentRecord");
+const QuizParticipant = require("../../models/QuizParticipant");
+const { sendTransactionalEmail } = require("../email.service");
+const { syncNewsletterContact } = require("../marketingContact.service");
+const {
+  signUnsubscribe,
+  verifyUnsubscribe,
+} = require("../../utils/communicationToken.utils");
+const env = require("../../config/env");
+const categoryFields = {
+  EDITORIAL_NEWSLETTER: "editorialNewsletter",
+  RESOURCE_ANNOUNCEMENTS: "resourceAnnouncements",
+  WEBINAR_ANNOUNCEMENTS: "webinarAnnouncements",
+  PLATFORM_NEWS: "platformNews",
+};
+const normalize = (email) => email.trim().toLowerCase();
+async function legacyConsent({ user, quizParticipant }) {
+  if (user) {
+    const record = await ConsentRecord.findOne({
+      user,
+      type: { $in: ["NEWSLETTER", "COMMERCIAL_EMAIL"] },
+    })
+      .sort({ createdAt: -1 })
+      .lean();
+    return Boolean(record?.granted);
+  }
+  if (quizParticipant) {
+    const record = await QuizConsentRecord.findOne({
+      participant: quizParticipant,
+      type: "MARKETING_COMMUNICATIONS",
+    })
+      .sort({ createdAt: -1 })
+      .lean();
+    return Boolean(record?.granted);
+  }
+  return false;
+}
+async function ensure({
+  email,
+  user = null,
+  quizParticipant = null,
+  source = "ACCOUNT",
+}) {
+  const normalized = normalize(email);
+  let preference = await CommunicationPreference.findOne({ email: normalized });
+  if (preference) {
+    let changed = false;
+    if (user && !preference.user) {
+      preference.user = user;
+      changed = true;
+    }
+    if (quizParticipant && !preference.quizParticipant) {
+      preference.quizParticipant = quizParticipant;
+      changed = true;
+    }
+    if (changed) await preference.save();
+    return preference;
+  }
+  const granted = await legacyConsent({ user, quizParticipant });
+  preference = await CommunicationPreference.create({
+    email: normalized,
+    user,
+    quizParticipant,
+    source,
+    editorialNewsletter: granted,
+    resourceAnnouncements: granted,
+    webinarAnnouncements: granted,
+    platformNews: granted,
+    confirmedAt: granted ? new Date() : null,
+  });
+  if (granted)
+    await syncNewsletterContact({ email: normalized, subscribed: true }).catch(
+      () => null,
+    );
+  return preference;
+}
+async function forUser(user) {
+  const quiz = await QuizParticipant.findOne({
+    $or: [{ user: user._id }, { email: user.email }],
+  });
+  return ensure({
+    email: user.email,
+    user: user._id,
+    quizParticipant: quiz?._id || null,
+  });
+}
+async function updateForUser(user, changes) {
+  const preference = await forUser(user);
+  Object.assign(preference, changes);
+  preference.allMarketingUnsubscribedAt = Object.values(categoryFields).every(
+    (field) => !preference[field],
+  )
+    ? new Date()
+    : null;
+  preference.confirmedAt = Object.values(categoryFields).some(
+    (field) => preference[field],
+  )
+    ? new Date()
+    : preference.confirmedAt;
+  await preference.save();
+  await syncNewsletterContact({
+    email: preference.email,
+    attributes: { PRENOM: user.firstName },
+    subscribed: Object.values(categoryFields).some(
+      (field) => preference[field],
+    ),
+  }).catch((e) =>
+    console.error(`Synchronisation du contact email impossible : ${e.message}`),
+  );
+  return preference;
+}
+function publicData(preference) {
+  return {
+    editorialNewsletter: preference.editorialNewsletter,
+    resourceAnnouncements: preference.resourceAnnouncements,
+    webinarAnnouncements: preference.webinarAnnouncements,
+    platformNews: preference.platformNews,
+    allMarketingUnsubscribedAt: preference.allMarketingUnsubscribedAt,
+  };
+}
+async function unsubscribe(data) {
+  const email = verifyUnsubscribe(data.token);
+  const preference = await ensure({ email, source: "UNSUBSCRIBE_PAGE" });
+  const fields = data.all
+    ? Object.values(categoryFields)
+    : (data.categories || []).map((category) => categoryFields[category]);
+  if (!fields.length)
+    throw Object.assign(new Error("Sélectionne au moins une catégorie."), {
+      statusCode: 400,
+      code: "COMMUNICATION_CATEGORY_REQUIRED",
+    });
+  for (const field of fields) preference[field] = false;
+  preference.allMarketingUnsubscribedAt = Object.values(categoryFields).every(
+    (field) => !preference[field],
+  )
+    ? new Date()
+    : null;
+  await preference.save();
+  await syncNewsletterContact({
+    email,
+    subscribed: Object.values(categoryFields).some(
+      (field) => preference[field],
+    ),
+  }).catch(() => null);
+  return publicData(preference);
+}
+async function unsubscribeDetails(token) {
+  const email = verifyUnsubscribe(token);
+  return publicData(await ensure({ email, source: "UNSUBSCRIBE_PAGE" }));
+}
+async function requestResubscribe(email, preferences) {
+  const normalized = normalize(email);
+  const raw = crypto.randomBytes(32).toString("hex");
+  const tokenHash = crypto.createHash("sha256").update(raw).digest("hex");
+  await CommunicationResubscribeToken.create({
+    email: normalized,
+    tokenHash,
+    preferences,
+    expiresAt: new Date(Date.now() + 24 * 3600000),
+  });
+  const url = `${env.CLIENT_URL}/communications/resubscribe?token=${raw}`;
+  await sendTransactionalEmail({
+    emailType: "COMMUNICATION_RESUBSCRIBE",
+    recipientEmail: normalized,
+    recipientName: "",
+    subject: "Confirme ton réabonnement",
+    htmlContent: `<p>Confirme ton réabonnement aux communications de Mélanie.</p><p><a href="${url}">Confirmer mon réabonnement</a></p>`,
+  });
+  return { requested: true };
+}
+async function confirmResubscribe(raw) {
+  const tokenHash = crypto.createHash("sha256").update(raw).digest("hex");
+  const token = await CommunicationResubscribeToken.findOne({
+    tokenHash,
+    usedAt: null,
+    expiresAt: { $gt: new Date() },
+  });
+  if (!token)
+    throw Object.assign(new Error("Lien expiré ou invalide."), {
+      statusCode: 400,
+      code: "COMMUNICATION_RESUBSCRIBE_TOKEN_INVALID",
+    });
+  const preference = await ensure({
+    email: token.email,
+    source: "UNSUBSCRIBE_PAGE",
+  });
+  Object.assign(preference, token.preferences, {
+    confirmedAt: new Date(),
+    allMarketingUnsubscribedAt: null,
+  });
+  token.usedAt = new Date();
+  await Promise.all([preference.save(), token.save()]);
+  await syncNewsletterContact({ email: token.email, subscribed: true }).catch(
+    () => null,
+  );
+  return publicData(preference);
+}
+function accepts(preference, category) {
+  return Boolean(preference?.[categoryFields[category]]);
+}
+module.exports = {
+  categoryFields,
+  normalize,
+  ensure,
+  forUser,
+  updateForUser,
+  publicData,
+  unsubscribe,
+  unsubscribeDetails,
+  requestResubscribe,
+  confirmResubscribe,
+  accepts,
+  signUnsubscribe,
+};

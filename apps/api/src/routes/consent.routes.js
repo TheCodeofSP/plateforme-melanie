@@ -1,0 +1,15 @@
+const express = require("express");
+const c = require("../controllers/consent.controller");
+const authenticate = require("../middlewares/authenticate.middleware");
+const validateBody = require("../middlewares/validate.middleware");
+const { updateConsentSchema } = require("../validations/consent.validation");
+const router = express.Router();
+router.get("/documents/versions", c.versions);
+router.get("/me/consents", authenticate, c.mine);
+router.patch(
+  "/me/consents",
+  authenticate,
+  validateBody(updateConsentSchema),
+  c.update,
+);
+module.exports = router;

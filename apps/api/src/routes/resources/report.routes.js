@@ -1,0 +1,33 @@
+const express = require("express");
+const { z } = require("zod");
+const c = require("../../controllers/resources/resourceInteraction.controller");
+const authenticate = require("../../middlewares/authenticate.middleware");
+const authorizeRoles = require("../../middlewares/authorize.middleware");
+const validateBody = require("../../middlewares/validate.middleware");
+const validateParams = require("../../middlewares/validateParams.middleware");
+const {
+  reportSchema,
+  moderationSchema,
+} = require("../../validations/resourceInteraction.validation");
+const router = express.Router();
+const validateQuery = require("../../middlewares/validateQuery.middleware");
+const {
+  reportListSchema,
+} = require("../../validations/adminResourceList.validation");
+router.post("/", authenticate, validateBody(reportSchema), c.report);
+router.get(
+  "/admin",
+  authenticate,
+  authorizeRoles("ADMIN"),
+  validateQuery(reportListSchema),
+  c.listReports,
+);
+router.post(
+  "/admin/:reportId/resolve",
+  authenticate,
+  authorizeRoles("ADMIN"),
+  validateParams(z.object({ reportId: z.string().regex(/^[a-f\d]{24}$/i) })),
+  validateBody(moderationSchema),
+  c.resolveReport,
+);
+module.exports = router;

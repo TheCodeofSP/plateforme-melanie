@@ -1,0 +1,22 @@
+[
+  {
+    "externalImportKey": "article-exemple-001",
+    "status": "PUBLISHED",
+    "visibility": "PUBLIC",
+    "content": {
+      "title": "Comprendre son cycle",
+      "description": "Une introduction au cycle menstruel.",
+      "format": "ARTICLE",
+      "categories": ["CYCLE_MENSTRUEL"],
+      "recommendedSpmProfiles": [],
+      "keywords": ["cycle", "hormones"],
+      "durationMinutes": 8,
+      "proposedVisibility": "PUBLIC",
+      "sourceMode": "TEXT",
+      "blocks": [
+        { "type": "HEADING", "text": "Les grandes étapes" },
+        { "type": "PARAGRAPH", "text": "Contenu de démonstration." }
+      ]
+    }
+  }
+]

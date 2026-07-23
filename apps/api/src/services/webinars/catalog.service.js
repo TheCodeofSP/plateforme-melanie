@@ -1,0 +1,113 @@
+const Webinar = require("../../models/Webinar");
+const WebinarSession = require("../../models/WebinarSession");
+const WebinarReplayView = require("../../models/WebinarReplayView");
+const { webinarError } = require("../../utils/webinar.utils");
+function publicWebinar(doc) {
+  const webinar = doc.toObject ? doc.toObject() : doc;
+  if (webinar.replay) webinar.replay = { available: webinar.replay.available };
+  return webinar;
+}
+async function list(query, user = null) {
+  const page = query.page || 1,
+    limit = query.limit || 20;
+  const filter = { status: { $in: ["PUBLISHED", "COMPLETED"] } };
+  if (query.profile) filter.recommendedProfiles = query.profile;
+  if (query.q) filter.$text = { $search: query.q };
+  const [items, total] = await Promise.all([
+    Webinar.find(filter)
+      .populate("image", "secureUrl altText")
+      .populate("host", "firstName lastName")
+      .sort({ publishedAt: -1 })
+      .skip((page - 1) * limit)
+      .limit(limit)
+      .lean(),
+    Webinar.countDocuments(filter),
+  ]);
+  const sessions = await WebinarSession.find({
+    webinar: { $in: items.map((x) => x._id) },
+    status: { $in: ["SCHEDULED", "POSTPONED"] },
+  })
+    .sort({ startsAt: 1 })
+    .lean();
+  return {
+    webinars: items.map((item) => ({
+      ...publicWebinar(item),
+      recommended: Boolean(
+        user?.currentSpmProfile &&
+        item.recommendedProfiles.includes(user.currentSpmProfile),
+      ),
+      sessions: sessions
+        .filter((s) => String(s.webinar) === String(item._id))
+        .map((s) => ({
+          ...s,
+          availability:
+            s.counters.registered >= s.capacity
+              ? "COMPLET"
+              : s.capacity - s.counters.registered <= 3
+                ? "PRESQUE_COMPLET"
+                : "DISPONIBLE",
+        })),
+    })),
+    pagination: { page, limit, total, pages: Math.ceil(total / limit) },
+  };
+}
+async function detail(id, user = null) {
+  const webinar = await Webinar.findOne({
+    _id: id,
+    status: { $in: ["PUBLISHED", "COMPLETED"] },
+  })
+    .populate("image", "secureUrl altText")
+    .populate("host", "firstName lastName")
+    .lean();
+  if (!webinar)
+    throw webinarError("Webinaire introuvable.", "WEBINAR_NOT_FOUND", 404);
+  const sessions = await WebinarSession.find({ webinar: id })
+    .sort({ startsAt: 1 })
+    .lean();
+  return {
+    webinar: {
+      ...publicWebinar(webinar),
+      recommended: Boolean(
+        user?.currentSpmProfile &&
+        webinar.recommendedProfiles.includes(user.currentSpmProfile),
+      ),
+    },
+    sessions: sessions.map((s) => ({
+      ...s,
+      availability:
+        s.counters.registered >= s.capacity
+          ? "COMPLET"
+          : s.capacity - s.counters.registered <= 3
+            ? "PRESQUE_COMPLET"
+            : "DISPONIBLE",
+    })),
+  };
+}
+async function replay(user, webinarId) {
+  const webinar = await Webinar.findOne({
+    _id: webinarId,
+    status: { $in: ["COMPLETED", "ARCHIVED", "PUBLISHED"] },
+    "replay.available": true,
+  });
+  if (!webinar?.replay.url)
+    throw webinarError(
+      "Replay indisponible.",
+      "WEBINAR_REPLAY_UNAVAILABLE",
+      404,
+    );
+  return { url: webinar.replay.url };
+}
+async function viewReplay(user, webinarId) {
+  await replay(user, webinarId);
+  const now = new Date();
+  return WebinarReplayView.findOneAndUpdate(
+    { webinar: webinarId, user: user._id },
+    {
+      $inc: { views: 1 },
+      $set: { lastViewedAt: now },
+      $setOnInsert: { firstViewedAt: now },
+    },
+    { upsert: true, new: true },
+  );
+}
+module.exports = { list, detail, replay, viewReplay };

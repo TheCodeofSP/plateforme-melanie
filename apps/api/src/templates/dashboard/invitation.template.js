@@ -1,0 +1,5 @@
+const escapeHtml = require("../auth/escapeHtml");
+module.exports = ({ firstName, url }) => ({
+  subject: "Invitation à rejoindre la plateforme de Mélanie",
+  htmlContent: `<div style="font-family:Arial,sans-serif;max-width:600px;margin:auto;color:#302827"><h1>Bonjour ${escapeHtml(firstName)}</h1><p>Mélanie t’invite à créer ton compte sur sa plateforme.</p><p><a href="${escapeHtml(url)}" style="background:#9f5f5d;color:#fff;padding:12px 18px;border-radius:999px;text-decoration:none">Créer mon compte</a></p><p style="font-size:12px;color:#756967">Ce lien est valable sept jours. Cette invitation ne t’inscrit à aucune communication facultative.</p></div>`,
+});

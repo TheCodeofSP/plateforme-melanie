@@ -1,0 +1,29 @@
+const { z } = require("zod");
+const objectId = z.string().regex(/^[a-f\d]{24}$/i);
+const authorizeSchema = z
+  .object({
+    fileName: z.string().trim().min(1).max(255),
+    mimeType: z.enum(["image/jpeg", "image/png", "image/webp"]),
+    size: z
+      .number()
+      .int()
+      .positive()
+      .max(5 * 1024 ** 2),
+  })
+  .strict();
+const confirmSchema = z
+  .object({
+    mediaId: objectId,
+    publicId: z.string().min(1).max(500),
+    version: z.number().int().positive(),
+    signature: z.string().regex(/^[a-f\d]+$/i),
+    format: z.string().min(1).max(30),
+    resourceType: z.literal("image"),
+    bytes: z
+      .number()
+      .int()
+      .positive()
+      .max(5 * 1024 ** 2),
+  })
+  .strict();
+module.exports = { authorizeSchema, confirmSchema };

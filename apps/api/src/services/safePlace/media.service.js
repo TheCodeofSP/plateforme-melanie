@@ -1,0 +1,185 @@
+const crypto = require("crypto");
+const path = require("path");
+const { v2: cloudinary } = require("cloudinary");
+const env = require("../../config/env");
+const MediaAsset = require("../../models/MediaAsset");
+const SafePlacePost = require("../../models/SafePlacePost");
+const { safePlaceError } = require("../../utils/safePlace.utils");
+function configure() {
+  if (
+    !env.CLOUDINARY_CLOUD_NAME ||
+    !env.CLOUDINARY_API_KEY ||
+    !env.CLOUDINARY_API_SECRET
+  )
+    throw safePlaceError(
+      "Cloudinary n’est pas configuré.",
+      "MEDIA_STORAGE_NOT_CONFIGURED",
+      503,
+    );
+  cloudinary.config({
+    cloud_name: env.CLOUDINARY_CLOUD_NAME,
+    api_key: env.CLOUDINARY_API_KEY,
+    api_secret: env.CLOUDINARY_API_SECRET,
+    secure: true,
+  });
+}
+function safeName(name) {
+  const ext = path.extname(name);
+  return (
+    path
+      .basename(name, ext)
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .replace(/[^a-zA-Z0-9_-]/g, "-")
+      .replace(/-+/g, "-")
+      .slice(0, 60) || "image"
+  );
+}
+async function authorize(user, data) {
+  configure();
+  const publicId = `${env.CLOUDINARY_FOLDER_PREFIX}/safe-place/${user._id}/${safeName(data.fileName)}-${crypto.randomUUID()}`;
+  const timestamp = Math.floor(Date.now() / 1000);
+  const params = { public_id: publicId, timestamp, type: "authenticated" };
+  const signature = cloudinary.utils.api_sign_request(
+    params,
+    env.CLOUDINARY_API_SECRET,
+  );
+  const media = await MediaAsset.create({
+    owner: user._id,
+    purpose: "SAFE_PLACE_IMAGE",
+    storageKey: publicId,
+    originalName: data.fileName,
+    mimeType: data.mimeType,
+    size: data.size,
+    resourceType: "image",
+    deliveryType: "authenticated",
+    visibility: "MEMBERS_ONLY",
+  });
+  return {
+    media,
+    uploadUrl: `https://api.cloudinary.com/v1_1/${env.CLOUDINARY_CLOUD_NAME}/image/upload`,
+    uploadFields: {
+      api_key: env.CLOUDINARY_API_KEY,
+      timestamp,
+      public_id: publicId,
+      type: "authenticated",
+      signature,
+    },
+    expiresIn: 600,
+  };
+}
+function equal(a, b) {
+  const aa = Buffer.from(a);
+  const bb = Buffer.from(b);
+  return aa.length === bb.length && crypto.timingSafeEqual(aa, bb);
+}
+async function confirm(user, data) {
+  configure();
+  const media = await MediaAsset.findOne({
+    _id: data.mediaId,
+    owner: user._id,
+    purpose: "SAFE_PLACE_IMAGE",
+    status: "PENDING",
+  });
+  if (!media)
+    throw safePlaceError(
+      "Cette image ne peut pas être confirmée.",
+      "SAFE_PLACE_MEDIA_NOT_CONFIRMABLE",
+      404,
+    );
+  const expected = cloudinary.utils.api_sign_request(
+    { public_id: data.publicId, version: data.version },
+    env.CLOUDINARY_API_SECRET,
+  );
+  if (
+    !equal(data.signature, expected) ||
+    data.publicId !== media.storageKey ||
+    data.bytes > media.size
+  )
+    throw safePlaceError(
+      "La réponse Cloudinary ne correspond pas à l’image attendue.",
+      "SAFE_PLACE_MEDIA_MISMATCH",
+    );
+  media.providerVersion = data.version;
+  media.providerFormat = data.format;
+  media.size = data.bytes;
+  media.confirmedAt = new Date();
+  await media.save();
+  return media;
+}
+async function access(user, id) {
+  configure();
+  const media = await MediaAsset.findOne({
+    _id: id,
+    purpose: "SAFE_PLACE_IMAGE",
+    status: { $in: ["PENDING", "ACTIVE"] },
+    confirmedAt: { $ne: null },
+  });
+  if (!media)
+    throw safePlaceError(
+      "Image introuvable.",
+      "SAFE_PLACE_MEDIA_NOT_FOUND",
+      404,
+    );
+  if (
+    media.status === "PENDING" &&
+    user.role !== "ADMIN" &&
+    media.owner.toString() !== user._id.toString()
+  )
+    throw safePlaceError("Accès interdit.", "FORBIDDEN", 403);
+  if (
+    media.status === "ACTIVE" &&
+    !(await SafePlacePost.exists({
+      _id: media.safePlacePost,
+      status: { $in: ["VISIBLE", "AUTHOR_DELETED"] },
+    })) &&
+    user.role !== "ADMIN" &&
+    media.owner.toString() !== user._id.toString()
+  )
+    throw safePlaceError(
+      "Image indisponible.",
+      "SAFE_PLACE_MEDIA_NOT_FOUND",
+      404,
+    );
+  const expiresAt = Math.floor(Date.now() / 1000) + 300;
+  return {
+    url: cloudinary.utils.private_download_url(
+      media.storageKey,
+      media.providerFormat,
+      { resource_type: "image", type: "authenticated", expires_at: expiresAt },
+    ),
+    expiresIn: 300,
+  };
+}
+async function remove(user, id) {
+  configure();
+  const media = await MediaAsset.findOne({
+    _id: id,
+    purpose: "SAFE_PLACE_IMAGE",
+  });
+  if (
+    !media ||
+    (user.role !== "ADMIN" && media.owner.toString() !== user._id.toString())
+  )
+    throw safePlaceError(
+      "Image introuvable.",
+      "SAFE_PLACE_MEDIA_NOT_FOUND",
+      404,
+    );
+  if (await SafePlacePost.exists({ "images.media": media._id }))
+    throw safePlaceError(
+      "Cette image est utilisée par une publication.",
+      "MEDIA_IN_USE",
+      409,
+    );
+  await cloudinary.uploader.destroy(media.storageKey, {
+    resource_type: "image",
+    type: "authenticated",
+    invalidate: true,
+  });
+  media.status = "DELETED";
+  media.deletedAt = new Date();
+  await media.save();
+  return media;
+}
+module.exports = { authorize, confirm, access, remove };

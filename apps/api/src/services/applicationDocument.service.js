@@ -1,0 +1,232 @@
+const crypto = require("crypto");
+const path = require("path");
+const { v2: cloudinary } = require("cloudinary");
+const env = require("../config/env");
+const ApplicationDocument = require("../models/ApplicationDocument");
+const IntervenantApplication = require("../models/IntervenantApplication");
+
+function fail(message, code, statusCode = 400) {
+  const error = new Error(message);
+  error.code = code;
+  error.statusCode = statusCode;
+  throw error;
+}
+function configure() {
+  if (
+    !env.CLOUDINARY_CLOUD_NAME ||
+    !env.CLOUDINARY_API_KEY ||
+    !env.CLOUDINARY_API_SECRET
+  )
+    fail(
+      "Cloudinary n’est pas configuré.",
+      "MEDIA_STORAGE_NOT_CONFIGURED",
+      503,
+    );
+  cloudinary.config({
+    cloud_name: env.CLOUDINARY_CLOUD_NAME,
+    api_key: env.CLOUDINARY_API_KEY,
+    api_secret: env.CLOUDINARY_API_SECRET,
+    secure: true,
+  });
+}
+function safeName(name) {
+  const ext = path.extname(name);
+  return (
+    path
+      .basename(name, ext)
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .replace(/[^a-zA-Z0-9_-]/g, "-")
+      .replace(/-+/g, "-")
+      .slice(0, 60) || "justificatif"
+  );
+}
+function owns(application, user) {
+  return (
+    user.role === "ADMIN" || application.user.toString() === user._id.toString()
+  );
+}
+
+async function authorize(user, data) {
+  configure();
+  const application = await IntervenantApplication.findById(data.applicationId);
+  if (
+    !application ||
+    !owns(application, user) ||
+    (user.role !== "ADMIN" && application.status !== "DRAFT")
+  )
+    fail(
+      "Cette demande ne peut pas recevoir de justificatif.",
+      "APPLICATION_DOCUMENT_FORBIDDEN",
+      403,
+    );
+  const resourceType = data.mimeType === "application/pdf" ? "raw" : "image";
+  const publicId = `${env.CLOUDINARY_FOLDER_PREFIX}/applications/${application._id}/${safeName(data.fileName)}-${crypto.randomUUID()}`;
+  const timestamp = Math.floor(Date.now() / 1000);
+  const params = { public_id: publicId, timestamp, type: "authenticated" };
+  const signature = cloudinary.utils.api_sign_request(
+    params,
+    env.CLOUDINARY_API_SECRET,
+  );
+  const document = await ApplicationDocument.create({
+    application: application._id,
+    owner: application.user,
+    storageKey: publicId,
+    originalName: data.fileName,
+    mimeType: data.mimeType,
+    size: data.size,
+    resourceType,
+  });
+  return {
+    document,
+    uploadUrl: `https://api.cloudinary.com/v1_1/${env.CLOUDINARY_CLOUD_NAME}/${resourceType}/upload`,
+    uploadFields: {
+      api_key: env.CLOUDINARY_API_KEY,
+      timestamp,
+      public_id: publicId,
+      type: "authenticated",
+      signature,
+    },
+    expiresIn: 600,
+  };
+}
+
+function equal(a, b) {
+  const aa = Buffer.from(a);
+  const bb = Buffer.from(b);
+  return aa.length === bb.length && crypto.timingSafeEqual(aa, bb);
+}
+async function confirm(user, data) {
+  configure();
+  const document = await ApplicationDocument.findOne({
+    _id: data.documentId,
+    status: "PENDING",
+  });
+  if (
+    !document ||
+    (user.role !== "ADMIN" && document.owner.toString() !== user._id.toString())
+  )
+    fail(
+      "Ce justificatif ne peut pas être confirmé.",
+      "DOCUMENT_NOT_CONFIRMABLE",
+      404,
+    );
+  const expected = cloudinary.utils.api_sign_request(
+    { public_id: data.publicId, version: data.version },
+    env.CLOUDINARY_API_SECRET,
+  );
+  if (
+    !equal(data.signature, expected) ||
+    data.publicId !== document.storageKey ||
+    data.resourceType !== document.resourceType ||
+    data.bytes > document.size
+  )
+    fail(
+      "La réponse Cloudinary ne correspond pas au justificatif attendu.",
+      "DOCUMENT_MISMATCH",
+      400,
+    );
+  await ApplicationDocument.updateMany(
+    { application: document.application, status: "ACTIVE" },
+    { $set: { status: "REPLACED", deleteAfter: new Date() } },
+  );
+  document.status = "ACTIVE";
+  document.providerVersion = data.version;
+  document.providerFormat = data.format;
+  document.size = data.bytes;
+  document.confirmedAt = new Date();
+  await document.save();
+  return document;
+}
+async function access(user, documentId) {
+  configure();
+  const document = await ApplicationDocument.findById(documentId);
+  if (!document || !["PENDING", "ACTIVE"].includes(document.status))
+    fail("Justificatif introuvable.", "DOCUMENT_NOT_FOUND", 404);
+  const application = await IntervenantApplication.findById(
+    document.application,
+  );
+  if (!application || !owns(application, user))
+    fail("Accès interdit.", "FORBIDDEN", 403);
+  if (!document.confirmedAt)
+    fail("Ce justificatif n’est pas confirmé.", "DOCUMENT_NOT_CONFIRMED", 409);
+  const expiresAt = Math.floor(Date.now() / 1000) + 300;
+  return {
+    url: cloudinary.utils.private_download_url(
+      document.storageKey,
+      document.providerFormat,
+      {
+        resource_type: document.resourceType,
+        type: "authenticated",
+        expires_at: expiresAt,
+        attachment: true,
+      },
+    ),
+    expiresIn: 300,
+  };
+}
+async function remove(user, documentId) {
+  configure();
+  const document = await ApplicationDocument.findById(documentId);
+  if (
+    !document ||
+    (user.role !== "ADMIN" && document.owner.toString() !== user._id.toString())
+  )
+    fail("Justificatif introuvable.", "DOCUMENT_NOT_FOUND", 404);
+  const application = await IntervenantApplication.findById(
+    document.application,
+  );
+  if (user.role !== "ADMIN" && application.status !== "DRAFT")
+    fail(
+      "Le justificatif d’une demande soumise ne peut pas être supprimé.",
+      "DOCUMENT_LOCKED",
+      409,
+    );
+  await cloudinary.uploader.destroy(document.storageKey, {
+    resource_type: document.resourceType,
+    type: "authenticated",
+    invalidate: true,
+  });
+  document.status = "DELETED";
+  document.deletedAt = new Date();
+  await document.save();
+  return document;
+}
+async function scheduleDeletion(applicationId, now = new Date()) {
+  const deleteAfter = new Date(now.getTime() + 90 * 24 * 60 * 60 * 1000);
+  return ApplicationDocument.updateMany(
+    { application: applicationId, status: { $ne: "DELETED" } },
+    { $set: { deleteAfter } },
+  );
+}
+async function cleanupDue(limit = 50) {
+  configure();
+  const docs = await ApplicationDocument.find({
+    status: { $in: ["ACTIVE", "REPLACED", "PENDING"] },
+    deleteAfter: { $lte: new Date() },
+  }).limit(limit);
+  let failed = 0;
+  for (const doc of docs) {
+    try {
+      await cloudinary.uploader.destroy(doc.storageKey, {
+        resource_type: doc.resourceType,
+        type: "authenticated",
+        invalidate: true,
+      });
+      doc.status = "DELETED";
+      doc.deletedAt = new Date();
+      await doc.save();
+    } catch {
+      failed += 1;
+    }
+  }
+  return { processed: docs.length, failed };
+}
+module.exports = {
+  authorize,
+  confirm,
+  access,
+  remove,
+  scheduleDeletion,
+  cleanupDue,
+};
