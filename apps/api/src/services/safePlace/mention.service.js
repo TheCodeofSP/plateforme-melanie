@@ -22,12 +22,7 @@ async function notifyNewMentions({
   const added = [...current].filter((pseudonym) => !previous.has(pseudonym));
   if (!added.length) return 0;
   const users = await User.find({
-    pseudonym: {
-      $in: added.map(
-        (value) =>
-          new RegExp(`^${value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}$`, "i"),
-      ),
-    },
+    pseudonym: { $in: added.map((value) => new RegExp(`^${value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}$`, "i")) },
     role: { $in: ["MEMBER", "ADMIN"] },
     accountStatus: "ACTIVE",
   }).select("_id pseudonym");

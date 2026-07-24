@@ -3,15 +3,8 @@ const Session = require("../../models/Session");
 const ParentalAuthorization = require("../../models/ParentalAuthorization");
 const { calculateAge } = require("../../utils/age.utils");
 const { verifyPassword } = require("../password.service");
-const {
-  generateToken,
-  hashToken,
-  generateAccessToken,
-} = require("../token.service");
-const {
-  STANDARD_SESSION_DURATION,
-  REMEMBER_ME_DURATION,
-} = require("../cookie.service");
+const { generateToken, hashToken, generateAccessToken } = require("../token.service");
+const { STANDARD_SESSION_DURATION, REMEMBER_ME_DURATION } = require("../cookie.service");
 const { createAuthenticationError } = require("./authErrors");
 
 async function loginUser({ email, password, rememberMe, userAgent }) {

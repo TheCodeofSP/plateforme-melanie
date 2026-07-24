@@ -10,14 +10,10 @@ async function run() {
   const report = await audit.run();
   const reportDirectory = path.resolve(process.cwd(), ".reports");
   await fs.mkdir(reportDirectory, { recursive: true });
-  const file = path.join(
-    reportDirectory,
-    `data-audit-${new Date().toISOString().replace(/[:.]/g, "-")}.json`,
-  );
+  const file = path.join(reportDirectory, `data-audit-${new Date().toISOString().replace(/[:.]/g, "-")}.json`);
   await fs.writeFile(file, `${JSON.stringify(report, null, 2)}\n`, "utf8");
   for (const check of report.checks) {
-    const icon =
-      check.count === 0 ? "✅" : check.severity === "CRITICAL" ? "❌" : "⚠️";
+    const icon = check.count === 0 ? "✅" : check.severity === "CRITICAL" ? "❌" : "⚠️";
     console.log(`${icon} ${check.key}: ${check.count}`);
   }
   console.log(`Rapport : ${file}`);

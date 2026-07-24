@@ -129,12 +129,7 @@ async function createNotification(input) {
   } = input;
   if (!recipient || (actor && String(recipient) === String(actor))) return null;
   const preferences = await preference(recipient);
-  const platformAllowed = channelAllowed(
-    preferences,
-    category,
-    "PLATFORM",
-    mandatory,
-  );
+  const platformAllowed = channelAllowed(preferences, category, "PLATFORM", mandatory);
   const emailAllowed =
     nature === "PERSONAL" &&
     !emailHandledExternally &&
@@ -178,10 +173,7 @@ async function createNotification(input) {
   }
 
   if (!notification && platformAllowed && deduplicationKey) {
-    const existing = await Notification.findOne({
-      recipient,
-      deduplicationKey,
-    });
+    const existing = await Notification.findOne({ recipient, deduplicationKey });
     if (existing) notification = existing;
   }
 
@@ -231,12 +223,7 @@ async function createManagementNotification({
   ...data
 }) {
   const category = MANAGEMENT_CATEGORY_BY_SCOPE[scope];
-  if (!category)
-    throw error(
-      "Périmètre administratif invalide.",
-      "INVALID_ADMIN_SCOPE",
-      400,
-    );
+  if (!category) throw error("Périmètre administratif invalide.", "INVALID_ADMIN_SCOPE", 400);
   let admins = await User.find({
     role: "ADMIN",
     accountStatus: "ACTIVE",
@@ -334,8 +321,7 @@ async function getDetail(userId, id) {
     recipient: userId,
     deletedAt: null,
   }).lean();
-  if (!notification)
-    throw error("Notification introuvable.", "NOTIFICATION_NOT_FOUND", 404);
+  if (!notification) throw error("Notification introuvable.", "NOTIFICATION_NOT_FOUND", 404);
   const details = await NotificationDetail.find({
     notification: id,
     active: true,
@@ -344,11 +330,7 @@ async function getDetail(userId, id) {
     .select("pseudonymSnapshot reactionType occurredAt")
     .lean();
   await markRead(userId, id);
-  return {
-    ...notification,
-    readAt: notification.readAt || new Date(),
-    details,
-  };
+  return { ...notification, readAt: notification.readAt || new Date(), details };
 }
 
 async function markRead(userId, id) {
@@ -382,14 +364,10 @@ async function readAll(userId, query = {}) {
   })
     .select("communicationRecipient targetId")
     .lean();
-  const result = await Notification.updateMany(filter, {
-    $set: { readAt: now },
-  });
+  const result = await Notification.updateMany(filter, { $set: { readAt: now } });
   if (communications.length) {
     await CommunicationRecipient.updateMany(
-      {
-        _id: { $in: communications.map((item) => item.communicationRecipient) },
-      },
+      { _id: { $in: communications.map((item) => item.communicationRecipient) } },
       { $set: { readAt: now } },
     );
   }
@@ -418,12 +396,7 @@ async function setHandled(user, id, handled) {
     nature: "MANAGEMENT",
     deletedAt: null,
   });
-  if (!notification)
-    throw error(
-      "Notification de gestion introuvable.",
-      "MANAGEMENT_NOTIFICATION_NOT_FOUND",
-      404,
-    );
+  if (!notification) throw error("Notification de gestion introuvable.", "MANAGEMENT_NOTIFICATION_NOT_FOUND", 404);
   notification.handledAt = handled ? new Date() : null;
   notification.handledBy = handled ? user._id : null;
   await notification.save();

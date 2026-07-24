@@ -1,42 +1,31 @@
 const env = require("../../config/env");
+const { emailButton, emailCallout, emailLinkFallback } = require("../shared/emailComponents");
+const createEmailLayout = require("../shared/emailLayout");
 const escapeHtml = require("./escapeHtml");
 
 function createPasswordResetTemplate({ firstName, token }) {
   const safeFirstName = escapeHtml(firstName);
-
-  const resetUrl = `${env.CLIENT_URL}/reset-password?token=${encodeURIComponent(token)}`;
+  const resetUrl = `${env.CLIENT_URL}/reinitialiser-mot-de-passe?token=${encodeURIComponent(token)}`;
 
   return {
-    subject: "Réinitialise ton mot de passe",
-    htmlContent: `
-      <!doctype html>
-      <html lang="fr">
-        <body>
-          <h1>Réinitialisation du mot de passe</h1>
-
-          <p>Bonjour ${safeFirstName},</p>
-
-          <p>
-            Une demande de réinitialisation du mot de passe
-            de ton compte a été effectuée.
-          </p>
-
-          <p>
-            <a href="${resetUrl}">
-              Choisir un nouveau mot de passe
-            </a>
-          </p>
-
-          <p>Ce lien est valable pendant une heure.</p>
-
-          <p>
-            Si tu n’es pas à l’origine de cette demande,
-            tu peux ignorer cet email. Ton mot de passe
-            actuel restera inchangé.
-          </p>
-        </body>
-      </html>
-    `,
+    subject: "Choisis un nouveau mot de passe",
+    htmlContent: createEmailLayout({
+      preheader: "Sécurise ton compte avec un nouveau mot de passe.",
+      eyebrow: "Sécurité du compte",
+      title: "Réinitialise ton mot de passe",
+      content: `
+        <p style="margin: 0 0 16px;">Bonjour ${safeFirstName},</p>
+        <p style="margin: 0 0 16px;">
+          Une demande de réinitialisation a été faite pour ton compte. Tu peux choisir un nouveau mot de passe grâce au bouton ci-dessous.
+        </p>
+        ${emailButton({ href: resetUrl, label: "Choisir un nouveau mot de passe" })}
+        ${emailCallout('<p style="margin: 0;">Ce lien est personnel et reste valable pendant une heure.</p>', "neutral")}
+        ${emailLinkFallback(resetUrl)}
+        <p style="margin: 24px 0 0; color: #786e6f; font-size: 13px;">
+          Si tu n’as pas fait cette demande, ne clique pas sur le lien. Ton mot de passe actuel restera inchangé.
+        </p>
+      `,
+    }),
   };
 }
 

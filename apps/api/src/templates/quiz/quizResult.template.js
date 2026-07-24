@@ -1,29 +1,14 @@
 const profileContents = require("../../data/quizProfileContents");
 
 function escapeHtml(value) {
-  return String(value).replace(
-    /[&<>'"]/g,
-    (character) =>
-      ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", "'": "&#39;", '"': "&quot;" })[
-        character
-      ],
-  );
+  return String(value).replace(/[&<>'"]/g, (character) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", "'": "&#39;", '"': "&quot;" })[character]);
 }
 
 function createQuizResultTemplate({ firstName, profile, isMember, clientUrl }) {
   const content = profileContents[profile];
-  const destination = isMember
-    ? `${clientUrl}/mon-espace/quiz`
-    : `${clientUrl}/inscription`;
-  const button = isMember
-    ? "Découvrir mon parcours personnalisé"
-    : "Créer mon compte et découvrir mon parcours";
-  const paragraphs = content.body
-    .map(
-      (paragraph) =>
-        `<p style="font-size:16px;line-height:1.8;color:#302827">${escapeHtml(paragraph)}</p>`,
-    )
-    .join("");
+  const destination = isMember ? `${clientUrl}/mon-espace/quiz` : `${clientUrl}/inscription`;
+  const button = isMember ? "Découvrir mon parcours personnalisé" : "Créer mon compte et découvrir mon parcours";
+  const paragraphs = content.body.map((paragraph) => `<p style="font-size:16px;line-height:1.8;color:#302827">${escapeHtml(paragraph)}</p>`).join("");
 
   return {
     subject: `Ton profil SPM : ${content.title} 🌸`,

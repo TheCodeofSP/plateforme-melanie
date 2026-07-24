@@ -1,8 +1,7 @@
-const { anonymizeUserAccount } = require("../../services/auth");
 const {
-  setAuthCookies,
-  clearAuthCookies,
-} = require("../../services/cookie.service");
+  anonymizeUserAccount,
+} = require("../../services/auth");
+const { setAuthCookies, clearAuthCookies } = require("../../services/cookie.service");
 
 async function deleteCurrentUserAccount(req, res, next) {
   try {

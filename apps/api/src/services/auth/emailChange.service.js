@@ -6,15 +6,8 @@ const env = require("../../config/env");
 const { verifyPassword } = require("../password.service");
 const { generateToken, hashToken } = require("../token.service");
 const { sendTransactionalEmail } = require("../email.service");
-const {
-  createEmailChangeConfirmationTemplate,
-  createEmailChangeSecurityTemplate,
-} = require("../../templates/auth");
-const {
-  createConflictError,
-  createBadRequestError,
-  createAuthenticationError,
-} = require("./authErrors");
+const { createEmailChangeConfirmationTemplate, createEmailChangeSecurityTemplate } = require("../../templates/auth");
+const { createConflictError, createBadRequestError, createAuthenticationError } = require("./authErrors");
 const { createNotification } = require("../notification.service");
 const RESEND_COOLDOWN = 5 * 60 * 1000;
 const EMAIL_CHANGE_DURATION = 24 * 60 * 60 * 1000;

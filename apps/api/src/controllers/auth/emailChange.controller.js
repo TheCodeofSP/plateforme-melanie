@@ -2,10 +2,7 @@ const {
   requestEmailChange,
   confirmEmailChange,
 } = require("../../services/auth");
-const {
-  setAuthCookies,
-  clearAuthCookies,
-} = require("../../services/cookie.service");
+const { setAuthCookies, clearAuthCookies } = require("../../services/cookie.service");
 
 async function requestCurrentUserEmailChange(req, res, next) {
   try {

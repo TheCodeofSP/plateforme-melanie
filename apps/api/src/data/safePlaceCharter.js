@@ -10,6 +10,5 @@ module.exports = {
     "Ne pas partager les informations personnelles d’une autre personne.",
     "Signaler à Mélanie tout contenu qui met une personne en danger ou enfreint la charte.",
   ],
-  disclaimer:
-    "Le Safe Place ne remplace pas un accompagnement médical, psychologique ou un service d’urgence.",
+  disclaimer: "Le Safe Place ne remplace pas un accompagnement médical, psychologique ou un service d’urgence.",
 };

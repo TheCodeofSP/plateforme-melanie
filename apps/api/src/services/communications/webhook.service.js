@@ -35,12 +35,8 @@ function verify(req) {
 }
 
 async function recordUnsubscribe(email, occurredAt) {
-  const preference = await preferenceService.ensure({
-    email,
-    source: "UNSUBSCRIBE_PAGE",
-  });
-  for (const field of Object.values(preferenceService.categoryFields))
-    preference[field] = false;
+  const preference = await preferenceService.ensure({ email, source: "UNSUBSCRIBE_PAGE" });
+  for (const field of Object.values(preferenceService.categoryFields)) preference[field] = false;
   preference.allMarketingUnsubscribedAt = occurredAt;
   await preference.save();
   await notificationDeliveryService.markGlobalUnsubscribe(email, occurredAt);
@@ -48,40 +44,25 @@ async function recordUnsubscribe(email, occurredAt) {
 
 async function handle(payload) {
   if (payload.type === "contact.updated" && payload.data?.unsubscribed) {
-    const email = String(payload.data.email || "")
-      .trim()
-      .toLowerCase();
+    const email = String(payload.data.email || "").trim().toLowerCase();
     if (email) await recordUnsubscribe(email, new Date(payload.created_at));
-    return {
-      recorded: Boolean(email),
-      matched: Boolean(email),
-      target: "PREFERENCE",
-    };
+    return { recorded: Boolean(email), matched: Boolean(email), target: "PREFERENCE" };
   }
 
   const type = eventTypes[payload.type];
   if (!type) return { ignored: true };
   const messageId = payload.data?.email_id || null;
-  const email = String(payload.data?.to?.[0] || "")
-    .trim()
-    .toLowerCase();
-  const occurredAt = new Date(
-    payload.created_at || payload.data?.created_at || Date.now(),
-  );
+  const email = String(payload.data?.to?.[0] || "").trim().toLowerCase();
+  const occurredAt = new Date(payload.created_at || payload.data?.created_at || Date.now());
   const providerEventId = String(
     payload.id ||
-      crypto
-        .createHash("sha256")
-        .update(
-          JSON.stringify([
-            payload.type,
-            messageId,
-            email,
-            payload.created_at,
-            payload.data?.click?.link,
-          ]),
-        )
-        .digest("hex"),
+    crypto.createHash("sha256").update(JSON.stringify([
+      payload.type,
+      messageId,
+      email,
+      payload.created_at,
+      payload.data?.click?.link,
+    ])).digest("hex"),
   );
 
   let notificationDelivery = messageId
@@ -94,23 +75,10 @@ async function handle(payload) {
     }).sort({ sentAt: -1 });
   }
   if (notificationDelivery) {
-    if (type === "DELIVERED") {
-      notificationDelivery.status = "DELIVERED";
-      notificationDelivery.deliveredAt ||= occurredAt;
-    }
-    if (type === "OPENED") {
-      notificationDelivery.status = "OPENED";
-      notificationDelivery.openedAt ||= occurredAt;
-    }
-    if (type === "CLICKED") {
-      notificationDelivery.status = "CLICKED";
-      notificationDelivery.clickedAt ||= occurredAt;
-    }
-    if (
-      ["TEMPORARY_FAILURE", "PERMANENT_FAILURE", "BLOCKED", "SPAM"].includes(
-        type,
-      )
-    ) {
+    if (type === "DELIVERED") { notificationDelivery.status = "DELIVERED"; notificationDelivery.deliveredAt ||= occurredAt; }
+    if (type === "OPENED") { notificationDelivery.status = "OPENED"; notificationDelivery.openedAt ||= occurredAt; }
+    if (type === "CLICKED") { notificationDelivery.status = "CLICKED"; notificationDelivery.clickedAt ||= occurredAt; }
+    if (["TEMPORARY_FAILURE", "PERMANENT_FAILURE", "BLOCKED", "SPAM"].includes(type)) {
       notificationDelivery.status = type;
       notificationDelivery.failedAt = occurredAt;
     }
@@ -118,15 +86,11 @@ async function handle(payload) {
     return { recorded: true, matched: true, target: "NOTIFICATION" };
   }
 
-  if (await CommunicationEvent.exists({ providerEventId }))
-    return { duplicate: true };
+  if (await CommunicationEvent.exists({ providerEventId })) return { duplicate: true };
   let recipient = messageId
     ? await CommunicationRecipient.findOne({ providerMessageId: messageId })
     : null;
-  if (!recipient && email)
-    recipient = await CommunicationRecipient.findOne({ email }).sort({
-      createdAt: -1,
-    });
+  if (!recipient && email) recipient = await CommunicationRecipient.findOne({ email }).sort({ createdAt: -1 });
   const event = await CommunicationEvent.create({
     communication: recipient?.communication || null,
     recipient: recipient?._id || null,
@@ -144,21 +108,10 @@ async function handle(payload) {
     type,
     _id: { $ne: event._id },
   });
-  if (type === "DELIVERED") {
-    recipient.status = "DELIVERED";
-    recipient.deliveredAt = occurredAt;
-  }
-  if (type === "OPENED") {
-    recipient.status = "OPENED";
-    recipient.openedAt ||= occurredAt;
-  }
-  if (type === "CLICKED") {
-    recipient.status = "CLICKED";
-    recipient.clickedAt ||= occurredAt;
-  }
-  if (
-    ["TEMPORARY_FAILURE", "PERMANENT_FAILURE", "BLOCKED", "SPAM"].includes(type)
-  ) {
+  if (type === "DELIVERED") { recipient.status = "DELIVERED"; recipient.deliveredAt = occurredAt; }
+  if (type === "OPENED") { recipient.status = "OPENED"; recipient.openedAt ||= occurredAt; }
+  if (type === "CLICKED") { recipient.status = "CLICKED"; recipient.clickedAt ||= occurredAt; }
+  if (["TEMPORARY_FAILURE", "PERMANENT_FAILURE", "BLOCKED", "SPAM"].includes(type)) {
     recipient.status = type;
     recipient.failedAt = occurredAt;
   }

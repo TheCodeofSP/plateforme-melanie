@@ -1,57 +1,42 @@
 const env = require("../../config/env");
+const { emailButton, emailCallout } = require("../shared/emailComponents");
+const createEmailLayout = require("../shared/emailLayout");
 const escapeHtml = require("./escapeHtml");
 
 function createParentalAuthorizationTemplate({ minorFirstName, token }) {
   const safeMinorFirstName = escapeHtml(minorFirstName);
-
-  const authorizationUrl = `${env.CLIENT_URL}/parental-authorization?token=${encodeURIComponent(token)}`;
+  const authorizationUrl = `${env.CLIENT_URL}/autorisation-parentale?token=${encodeURIComponent(token)}`;
 
   return {
-    subject: "Autorisation parentale pour la création d’un compte",
-    htmlContent: `
-      <!doctype html>
-      <html lang="fr">
-        <body>
-          <h1>Autorisation parentale</h1>
-
-          <p>Bonjour,</p>
-
-          <p>
-            ${safeMinorFirstName} souhaite créer un compte sur la
-            plateforme de Mélanie.
-          </p>
-
-          <p>
-            Cette plateforme propose des ressources autour du cycle,
-            un quiz informatif et un espace d’échange entre membres.
-          </p>
-
-          <p>
-            Le quiz ne remplace pas un avis médical. Il est conçu
-            pour aider à mieux comprendre son cycle et à avancer
-            à son rythme.
-          </p>
-
-          <p>
-            Consultez les informations présentées sur la page suivante
-            avant de confirmer ou de refuser l’autorisation.
-          </p>
-
-          <p>
-            <a href="${authorizationUrl}">
-              Consulter la demande d’autorisation
-            </a>
-          </p>
-
-          <p>Ce lien est valable pendant 7 jours.</p>
-
-          <p>
-            Si vous ne connaissez pas cette personne ou si vous n’êtes
-            pas son responsable légal, ignorez cet email.
-          </p>
-        </body>
-      </html>
-    `,
+    subject: "Autorisation parentale — création d’un compte",
+    htmlContent: createEmailLayout({
+      preheader: `${safeMinorFirstName} souhaite créer un compte sur la plateforme de Mélanie.`,
+      eyebrow: "Autorisation parentale",
+      title: "Une demande nécessite votre accord",
+      content: `
+        <p style="margin: 0 0 16px;">Bonjour,</p>
+        <p style="margin: 0 0 16px;">
+          ${safeMinorFirstName} souhaite créer un compte sur la plateforme de Mélanie Dizet.
+        </p>
+        <p style="margin: 0 0 16px;">
+          La plateforme propose des ressources autour du cycle menstruel, un quiz informatif et un espace confidentiel d’échange entre membres.
+        </p>
+        ${emailCallout('<p style="margin: 0;">Le quiz et les contenus proposés ne remplacent pas un avis, un diagnostic ou un suivi médical.</p>', "green")}
+        <p style="margin: 0 0 16px;">
+          La page suivante présente les informations utiles avant de confirmer ou de refuser cette demande.
+        </p>
+        ${emailButton({ href: authorizationUrl, label: "Consulter la demande" })}
+        <p style="margin: 24px 0 8px; color: #786e6f; font-size: 13px;">
+          Si le bouton ne fonctionne pas, copiez ce lien dans votre navigateur :
+        </p>
+        <p style="margin: 0; overflow-wrap: anywhere; color: #786e6f; font-size: 12px;">
+          <a href="${authorizationUrl}" style="color: #765354;">${authorizationUrl}</a>
+        </p>
+        <p style="margin: 24px 0 0; color: #786e6f; font-size: 13px;">
+          Le lien reste valable pendant 7 jours. Si vous ne connaissez pas cette personne ou n’êtes pas son responsable légal, ignorez cet email.
+        </p>
+      `,
+    }),
   };
 }
 

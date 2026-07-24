@@ -6,10 +6,5 @@ const { updateConsentSchema } = require("../validations/consent.validation");
 const router = express.Router();
 router.get("/documents/versions", c.versions);
 router.get("/me/consents", authenticate, c.mine);
-router.patch(
-  "/me/consents",
-  authenticate,
-  validateBody(updateConsentSchema),
-  c.update,
-);
+router.patch("/me/consents", authenticate, validateBody(updateConsentSchema), c.update);
 module.exports = router;

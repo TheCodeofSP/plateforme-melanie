@@ -7,26 +7,14 @@ async function optionalAuthenticate(req, res, next) {
     const token = req.cookies.accessToken;
     if (!token) return next();
     let payload;
-    try {
-      payload = verifyAccessToken(token);
-    } catch {
-      return next();
-    }
+    try { payload = verifyAccessToken(token); } catch { return next(); }
     const [session, user] = await Promise.all([
-      Session.findOne({
-        _id: payload.sessionId,
-        user: payload.sub,
-        revokedAt: null,
-        expiresAt: { $gt: new Date() },
-      }),
+      Session.findOne({ _id: payload.sessionId, user: payload.sub, revokedAt: null, expiresAt: { $gt: new Date() } }),
       User.findById(payload.sub),
     ]);
-    if (session && user?.accountStatus === "ACTIVE")
-      req.auth = { user, session };
+    if (session && user?.accountStatus === "ACTIVE") req.auth = { user, session };
     return next();
-  } catch (error) {
-    return next(error);
-  }
+  } catch (error) { return next(error); }
 }
 
 module.exports = optionalAuthenticate;

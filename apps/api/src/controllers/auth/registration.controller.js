@@ -1,8 +1,7 @@
-const { registerUser } = require("../../services/auth");
 const {
-  setAuthCookies,
-  clearAuthCookies,
-} = require("../../services/cookie.service");
+  registerUser,
+} = require("../../services/auth");
+const { setAuthCookies, clearAuthCookies } = require("../../services/cookie.service");
 
 async function register(req, res, next) {
   try {

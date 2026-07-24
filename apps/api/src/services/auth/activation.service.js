@@ -7,10 +7,7 @@ const DOCUMENT_VERSIONS = require("../../config/documentVersions");
 const { calculateAge } = require("../../utils/age.utils");
 const { generateToken, hashToken } = require("../token.service");
 const { sendTransactionalEmail } = require("../email.service");
-const {
-  createEmailVerificationTemplate,
-  createParentalAuthorizationTemplate,
-} = require("../../templates/auth");
+const { createEmailVerificationTemplate, createParentalAuthorizationTemplate } = require("../../templates/auth");
 const { createBadRequestError } = require("./authErrors");
 const { linkQuizHistoryToUser } = require("../quiz/quiz.service");
 const EMAIL_VERIFICATION_DURATION = 24 * 60 * 60 * 1000;
@@ -192,11 +189,7 @@ async function respondToParentalAuthorization(token, decision) {
         authorization.status === "APPROVED" ||
         authorization.status === "DECLINED"
       ) {
-        if (
-          authorization.status === "APPROVED" &&
-          user.accountStatus === "ACTIVE"
-        )
-          activatedUser = user;
+        if (authorization.status === "APPROVED" && user.accountStatus === "ACTIVE") activatedUser = user;
         result = {
           status: authorization.status,
           accountActivated: user.accountStatus === "ACTIVE",

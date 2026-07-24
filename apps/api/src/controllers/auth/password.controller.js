@@ -3,10 +3,7 @@ const {
   resetPassword,
   changeUserPassword,
 } = require("../../services/auth");
-const {
-  setAuthCookies,
-  clearAuthCookies,
-} = require("../../services/cookie.service");
+const { setAuthCookies, clearAuthCookies } = require("../../services/cookie.service");
 
 async function forgotPassword(req, res, next) {
   try {

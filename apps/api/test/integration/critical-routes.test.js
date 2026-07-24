@@ -2,9 +2,7 @@ require("dotenv").config();
 const test = require("node:test");
 const assert = require("node:assert/strict");
 const mongoose = require("mongoose");
-const {
-  assertAutomatedTestDatabase,
-} = require("../../src/utils/databaseSafety");
+const { assertAutomatedTestDatabase } = require("../../src/utils/databaseSafety");
 
 const testUri = process.env.MONGO_TEST_URI;
 assertAutomatedTestDatabase({
@@ -12,8 +10,7 @@ assertAutomatedTestDatabase({
   mainUri: process.env.MONGO_URI,
   allowReset: process.env.ALLOW_TEST_DATABASE_RESET === "true",
 });
-process.env.MONGO_URI =
-  "mongodb://127.0.0.1:27017/not-used-by-integration-tests";
+process.env.MONGO_URI = "mongodb://127.0.0.1:27017/not-used-by-integration-tests";
 process.env.NODE_ENV = "test";
 process.env.APP_ENV = "test";
 process.env.EMAIL_MODE = "capture";
@@ -48,10 +45,7 @@ async function login(base, email) {
     }),
   });
   assert.equal(response.status, 200);
-  return response.headers
-    .getSetCookie()
-    .map((value) => value.split(";")[0])
-    .join("; ");
+  return response.headers.getSetCookie().map((value) => value.split(";")[0]).join("; ");
 }
 
 test("le parcours administratrice ouvre les routes système protégées", async () => {

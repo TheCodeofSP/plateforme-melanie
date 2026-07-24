@@ -32,57 +32,27 @@ function ensureAdminIsNotTarget(adminId, userId) {
   }
 }
 
-function escapeRegex(value) {
-  return value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-}
+function escapeRegex(value) { return value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"); }
 
 async function listAdminUsers(query) {
   const filter = {};
   if (query.role) filter.role = query.role;
   if (query.accountStatus) filter.accountStatus = query.accountStatus;
-  if (query.quizCompleted !== undefined)
-    filter.quizCompleted = query.quizCompleted === "true";
+  if (query.quizCompleted !== undefined) filter.quizCompleted = query.quizCompleted === "true";
   if (query.q) {
     const regex = new RegExp(escapeRegex(query.q), "i");
-    filter.$or = [
-      { firstName: regex },
-      { lastName: regex },
-      { pseudonym: regex },
-      { email: regex },
-    ];
+    filter.$or = [{ firstName: regex }, { lastName: regex }, { pseudonym: regex }, { email: regex }];
   }
   if (query.isMinor !== undefined) {
-    const threshold = new Date();
-    threshold.setFullYear(threshold.getFullYear() - 18);
-    filter.dateOfBirth =
-      query.isMinor === "true" ? { $gt: threshold } : { $lte: threshold };
+    const threshold = new Date(); threshold.setFullYear(threshold.getFullYear() - 18);
+    filter.dateOfBirth = query.isMinor === "true" ? { $gt: threshold } : { $lte: threshold };
   }
-  const sorts = {
-    newest: { createdAt: -1 },
-    oldest: { createdAt: 1 },
-    lastLogin: { lastLoginAt: -1, createdAt: -1 },
-    name: { lastName: 1, firstName: 1 },
-  };
+  const sorts = { newest: { createdAt: -1 }, oldest: { createdAt: 1 }, lastLogin: { lastLoginAt: -1, createdAt: -1 }, name: { lastName: 1, firstName: 1 } };
   const [users, total] = await Promise.all([
-    User.find(filter)
-      .select(
-        "email firstName lastName pseudonym dateOfBirth role accountStatus emailVerifiedAt currentSpmProfile quizCompleted lastLoginAt createdAt updatedAt",
-      )
-      .sort(sorts[query.sort])
-      .skip((query.page - 1) * query.limit)
-      .limit(query.limit)
-      .lean(),
+    User.find(filter).select("email firstName lastName pseudonym dateOfBirth role accountStatus emailVerifiedAt currentSpmProfile quizCompleted lastLoginAt createdAt updatedAt").sort(sorts[query.sort]).skip((query.page - 1) * query.limit).limit(query.limit).lean(),
     User.countDocuments(filter),
   ]);
-  return {
-    users,
-    pagination: {
-      page: query.page,
-      limit: query.limit,
-      total,
-      pages: Math.ceil(total / query.limit),
-    },
-  };
+  return { users, pagination: { page: query.page, limit: query.limit, total, pages: Math.ceil(total / query.limit) } };
 }
 
 async function getAdminUserDetails(userId) {

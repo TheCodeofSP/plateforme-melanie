@@ -1,5 +1,17 @@
 # Changelog
 
+## 1.0.1 — Harmonisation des emails d’authentification
+
+### Expérience frontend
+
+- ajout d’un Design System partagé pour les emails transactionnels ;
+- harmonisation visuelle des cinq emails d’authentification ;
+- signature « Mélanie Dizet — coach et accompagnante — Sur le chemin du
+  bien-être gynécologique » ;
+- liens d’activation et de sécurité alignés avec les URL françaises du front ;
+- conservation de l’échappement des données personnalisées ;
+- tests automatisés du rendu, des liens et de la signature.
+
 ## 1.0.0 — Backend figé pour intégration frontend
 
 ### Stabilisation

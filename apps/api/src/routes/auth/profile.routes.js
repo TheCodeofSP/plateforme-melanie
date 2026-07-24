@@ -6,11 +6,6 @@ const { updateCurrentUser } = require("../../controllers/auth");
 const { updateProfileSchema } = require("../../validations/auth");
 const router = express.Router();
 
-router.patch(
-  "/me",
-  authenticate,
-  validateBody(updateProfileSchema),
-  updateCurrentUser,
-);
+router.patch("/me", authenticate, validateBody(updateProfileSchema), updateCurrentUser);
 
 module.exports = router;

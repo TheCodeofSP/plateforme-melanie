@@ -1,16 +1,11 @@
-const { createNotification } = require("../notification.service");
+const {
+  createNotification,
+} = require("../notification.service");
 const delivery = require("../notificationDelivery.service");
 
 async function notifyOwner(
   resource,
-  {
-    subject,
-    title,
-    message,
-    comment,
-    type = "RESOURCE_APPROVED",
-    mandatory = true,
-  },
+  { subject, title, message, comment, type = "RESOURCE_APPROVED", mandatory = true },
 ) {
   const finalMessage = comment ? `${message} — ${comment}` : message;
   const notification = await createNotification({

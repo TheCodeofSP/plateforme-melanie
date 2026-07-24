@@ -6,10 +6,7 @@ const {
   getUserSessions,
   revokeUserSession,
 } = require("../../services/auth");
-const {
-  setAuthCookies,
-  clearAuthCookies,
-} = require("../../services/cookie.service");
+const { setAuthCookies, clearAuthCookies } = require("../../services/cookie.service");
 
 async function login(req, res, next) {
   try {

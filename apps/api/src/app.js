@@ -58,9 +58,7 @@ app.use(securityHeaders);
 
 const allowedOrigins = new Set([
   env.CLIENT_URL,
-  ...env.ALLOWED_ORIGINS.split(",")
-    .map((value) => value.trim())
-    .filter(Boolean),
+  ...env.ALLOWED_ORIGINS.split(",").map((value) => value.trim()).filter(Boolean),
 ]);
 
 app.use(
@@ -73,8 +71,7 @@ app.use(
           env.APP_ENV !== "production" &&
           env.VERCEL_PREVIEW_HOST_SUFFIX &&
           hostname.endsWith(env.VERCEL_PREVIEW_HOST_SUFFIX)
-        )
-          return callback(null, true);
+        ) return callback(null, true);
       } catch {}
       const error = new Error("Origine non autorisée.");
       error.statusCode = 403;
@@ -87,16 +84,14 @@ app.use(
 
 app.use("/api", createRateLimit({ max: 300 }));
 
-app.use(
-  express.json({
-    limit: "2mb",
-    verify(req, _res, buffer) {
-      if (req.originalUrl?.startsWith("/api/webhooks/resend/")) {
-        req.rawBody = buffer.toString("utf8");
-      }
-    },
-  }),
-);
+app.use(express.json({
+  limit: "2mb",
+  verify(req, _res, buffer) {
+    if (req.originalUrl?.startsWith("/api/webhooks/resend/")) {
+      req.rawBody = buffer.toString("utf8");
+    }
+  },
+}));
 
 app.use(cookieParser());
 
@@ -110,11 +105,7 @@ app.get("/api/health", (req, res) => {
   });
 });
 
-app.use(
-  "/api/auth",
-  createRateLimit({ max: 60, code: "AUTH_RATE_LIMIT_EXCEEDED" }),
-  authRoutes,
-);
+app.use("/api/auth", createRateLimit({ max: 60, code: "AUTH_RATE_LIMIT_EXCEEDED" }), authRoutes);
 app.use("/api/auth", consentRoutes);
 
 app.use("/api/intervenant-applications", intervenantApplicationRoutes);

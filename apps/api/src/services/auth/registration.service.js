@@ -9,10 +9,7 @@ const { calculateAge } = require("../../utils/age.utils");
 const { hashPassword } = require("../password.service");
 const { generateToken, hashToken } = require("../token.service");
 const { sendTransactionalEmail } = require("../email.service");
-const {
-  createEmailVerificationTemplate,
-  createParentalAuthorizationTemplate,
-} = require("../../templates/auth");
+const { createEmailVerificationTemplate, createParentalAuthorizationTemplate } = require("../../templates/auth");
 const { createConflictError } = require("./authErrors");
 const EMAIL_VERIFICATION_DURATION = 24 * 60 * 60 * 1000;
 const PARENTAL_AUTHORIZATION_DURATION = 7 * 24 * 60 * 60 * 1000;

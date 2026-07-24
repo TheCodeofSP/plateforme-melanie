@@ -20,9 +20,7 @@ async function run() {
       { upsert: true },
     );
   }
-  console.log(
-    `✅ ${EXPECTED_MIGRATIONS.length} migration(s) historique(s) enregistrée(s).`,
-  );
+  console.log(`✅ ${EXPECTED_MIGRATIONS.length} migration(s) historique(s) enregistrée(s).`);
   await mongoose.connection.close();
 }
 

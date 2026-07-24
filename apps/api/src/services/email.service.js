@@ -22,21 +22,20 @@ async function sendTransactionalEmail({
   const target = destination(recipientEmail, subject);
   const { data, error: providerError } = await resend.emails.send({
     from: `${env.RESEND_FROM_NAME} <${env.RESEND_FROM_EMAIL}>`,
-    to:
-      recipientName && env.EMAIL_MODE !== "capture"
-        ? `${recipientName} <${target.email}>`
-        : target.email,
+    to: recipientName && env.EMAIL_MODE !== "capture"
+      ? `${recipientName} <${target.email}>`
+      : target.email,
     subject: target.subject,
     html: htmlContent,
-    headers:
-      env.EMAIL_MODE === "capture"
-        ? { "X-Intended-Recipient": recipientEmail }
-        : undefined,
+    headers: env.EMAIL_MODE === "capture"
+      ? { "X-Intended-Recipient": recipientEmail }
+      : undefined,
   });
 
   if (providerError) {
     const error = new Error(
-      providerError.message || "L’envoi de l’email transactionnel a échoué.",
+      providerError.message ||
+        "L’envoi de l’email transactionnel a échoué.",
     );
     error.statusCode = 502;
     await emailDispatchLog.record({

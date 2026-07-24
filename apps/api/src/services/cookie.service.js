@@ -1,18 +1,30 @@
 const env = require("../config/env");
 
 const ACCESS_TOKEN_DURATION = 15 * 60 * 1000;
-const STANDARD_SESSION_DURATION = 7 * 24 * 60 * 60 * 1000;
-const REMEMBER_ME_DURATION = 30 * 24 * 60 * 60 * 1000;
+const STANDARD_SESSION_DURATION =
+  7 * 24 * 60 * 60 * 1000;
+const REMEMBER_ME_DURATION =
+  30 * 24 * 60 * 60 * 1000;
 
 function getBaseCookieOptions() {
   return {
     httpOnly: true,
     secure: env.NODE_ENV === "production",
-    sameSite: env.NODE_ENV === "production" ? "none" : "lax",
+    sameSite:
+      env.NODE_ENV === "production"
+        ? "none"
+        : "lax",
   };
 }
 
-function setAuthCookies(res, { accessToken, refreshToken, rememberMe }) {
+function setAuthCookies(
+  res,
+  {
+    accessToken,
+    refreshToken,
+    rememberMe,
+  },
+) {
   const baseOptions = getBaseCookieOptions();
 
   res.cookie("accessToken", accessToken, {
@@ -24,7 +36,9 @@ function setAuthCookies(res, { accessToken, refreshToken, rememberMe }) {
   res.cookie("refreshToken", refreshToken, {
     ...baseOptions,
     path: "/api/auth",
-    maxAge: rememberMe ? REMEMBER_ME_DURATION : STANDARD_SESSION_DURATION,
+    maxAge: rememberMe
+      ? REMEMBER_ME_DURATION
+      : STANDARD_SESSION_DURATION,
   });
 }
 

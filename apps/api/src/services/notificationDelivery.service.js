@@ -20,20 +20,10 @@ async function queue({
   actionPath = "/",
   idempotencyKey,
 }) {
-  const user = await User.findById(recipient).select(
-    "email firstName accountStatus",
-  );
+  const user = await User.findById(recipient).select("email firstName accountStatus");
   if (!user || user.accountStatus === "ANONYMIZED") return null;
   const preferences = await notificationService.preference(recipient);
-  if (
-    !notificationService.channelAllowed(
-      preferences,
-      category,
-      "EMAIL",
-      mandatory,
-    )
-  )
-    return null;
+  if (!notificationService.channelAllowed(preferences, category, "EMAIL", mandatory)) return null;
   if (preferences.emailGloballyUnsubscribedAt && !mandatory) return null;
   const actionUrl = new URL(actionPath || "/", env.CLIENT_URL).toString();
   const rendered = notificationTemplate({ title, message, actionUrl });
@@ -65,15 +55,7 @@ async function queueRendered({
   const user = await User.findById(recipient).select("email accountStatus");
   if (!user || user.accountStatus === "ANONYMIZED") return null;
   const preferences = await notificationService.preference(recipient);
-  if (
-    !notificationService.channelAllowed(
-      preferences,
-      category,
-      "EMAIL",
-      mandatory,
-    )
-  )
-    return null;
+  if (!notificationService.channelAllowed(preferences, category, "EMAIL", mandatory)) return null;
   if (preferences.emailGloballyUnsubscribedAt && !mandatory) return null;
   return NotificationDelivery.findOneAndUpdate(
     { idempotencyKey },
@@ -102,8 +84,7 @@ async function sendDelivery(delivery) {
     });
     delivery.status = "SENT";
     delivery.sentAt = new Date();
-    delivery.providerMessageId =
-      response?.messageId || response?.["message-id"] || null;
+    delivery.providerMessageId = response?.messageId || response?.["message-id"] || null;
     delivery.nextRetryAt = null;
     delivery.lastError = null;
   } catch (error) {
@@ -123,8 +104,7 @@ async function sendDelivery(delivery) {
         scope: "TECHNICAL",
         type: "ADMIN_TECHNICAL_INCIDENT",
         title: "Échec définitif d’un email",
-        message:
-          "Un email de notification n’a pas pu être envoyé après les tentatives automatiques.",
+        message: "Un email de notification n’a pas pu être envoyé après les tentatives automatiques.",
         targetType: "USER",
         targetId: delivery.recipient,
         groupKey: `notification-email-failure:${delivery.notification || delivery.recipient}`,
@@ -154,10 +134,7 @@ async function sendDelivery(delivery) {
             ...alert,
           });
         } catch (alertError) {
-          console.error(
-            "Alerte email administratrice non envoyée:",
-            alertError.message,
-          );
+          console.error("Alerte email administratrice non envoyée:", alertError.message);
         }
       }
     }

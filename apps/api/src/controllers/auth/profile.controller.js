@@ -1,8 +1,7 @@
-const { updateUserProfile } = require("../../services/auth");
 const {
-  setAuthCookies,
-  clearAuthCookies,
-} = require("../../services/cookie.service");
+  updateUserProfile,
+} = require("../../services/auth");
+const { setAuthCookies, clearAuthCookies } = require("../../services/cookie.service");
 
 async function updateCurrentUser(req, res, next) {
   try {

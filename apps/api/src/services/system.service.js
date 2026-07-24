@@ -16,9 +16,7 @@ async function status() {
       { $sort: { _id: 1 } },
     ]),
   ]);
-  const migrationMap = new Map(
-    migrations.map((item) => [`${item.name}:${item.version}`, item]),
-  );
+  const migrationMap = new Map(migrations.map((item) => [`${item.name}:${item.version}`, item]));
   const migrationStatus = EXPECTED_MIGRATIONS.map((expected) => {
     const record = migrationMap.get(`${expected.name}:${expected.version}`);
     return {
@@ -41,11 +39,7 @@ async function status() {
       webhookConfigured: Boolean(env.RESEND_WEBHOOK_SECRET),
     },
     cloudinary: {
-      configured: Boolean(
-        env.CLOUDINARY_CLOUD_NAME &&
-        env.CLOUDINARY_API_KEY &&
-        env.CLOUDINARY_API_SECRET,
-      ),
+      configured: Boolean(env.CLOUDINARY_CLOUD_NAME && env.CLOUDINARY_API_KEY && env.CLOUDINARY_API_SECRET),
       folderPrefix: env.CLOUDINARY_FOLDER_PREFIX,
     },
     cron: {
@@ -74,16 +68,8 @@ async function externalChecks(services) {
   }
   if (services.includes("CLOUDINARY")) {
     const started = Date.now();
-    if (
-      !env.CLOUDINARY_CLOUD_NAME ||
-      !env.CLOUDINARY_API_KEY ||
-      !env.CLOUDINARY_API_SECRET
-    ) {
-      result.CLOUDINARY = {
-        ok: false,
-        durationMs: 0,
-        error: "Configuration absente.",
-      };
+    if (!env.CLOUDINARY_CLOUD_NAME || !env.CLOUDINARY_API_KEY || !env.CLOUDINARY_API_SECRET) {
+      result.CLOUDINARY = { ok: false, durationMs: 0, error: "Configuration absente." };
     } else {
       cloudinary.config({
         cloud_name: env.CLOUDINARY_CLOUD_NAME,
@@ -93,17 +79,9 @@ async function externalChecks(services) {
       });
       try {
         await cloudinary.api.ping();
-        result.CLOUDINARY = {
-          ok: true,
-          durationMs: Date.now() - started,
-          error: null,
-        };
+        result.CLOUDINARY = { ok: true, durationMs: Date.now() - started, error: null };
       } catch {
-        result.CLOUDINARY = {
-          ok: false,
-          durationMs: Date.now() - started,
-          error: "Service indisponible ou configuration invalide.",
-        };
+        result.CLOUDINARY = { ok: false, durationMs: Date.now() - started, error: "Service indisponible ou configuration invalide." };
       }
     }
   }

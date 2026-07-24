@@ -6,65 +6,22 @@ const authenticate = require("../../middlewares/authenticate.middleware");
 const authorizeRoles = require("../../middlewares/authorize.middleware");
 const validateBody = require("../../middlewares/validate.middleware");
 const validateParams = require("../../middlewares/validateParams.middleware");
-const {
-  reviewDecisionSchema,
-  requestChangesSchema,
-  actionDecisionSchema,
-  visibilitySettingsSchema,
-} = require("../../validations/resource.validation");
+const { reviewDecisionSchema, requestChangesSchema, actionDecisionSchema, visibilitySettingsSchema } = require("../../validations/resource.validation");
 const router = express.Router();
 const validateQuery = require("../../middlewares/validateQuery.middleware");
-const {
-  reviewListSchema,
-  actionListSchema,
-} = require("../../validations/adminResourceList.validation");
+const { reviewListSchema, actionListSchema } = require("../../validations/adminResourceList.validation");
 router.use(authenticate, authorizeRoles("ADMIN"));
 const resourceId = z.object({ resourceId: z.string().regex(/^[a-f\d]{24}$/i) });
 const requestId = z.object({ requestId: z.string().regex(/^[a-f\d]{24}$/i) });
 router.get("/reviews", validateQuery(reviewListSchema), c.pending);
 router.get("/stats", analytics.overview);
 router.get("/action-requests", validateQuery(actionListSchema), c.listActions);
-router.post(
-  "/:resourceId/approve",
-  validateParams(resourceId),
-  validateBody(reviewDecisionSchema),
-  c.approve,
-);
-router.post(
-  "/:resourceId/request-changes",
-  validateParams(resourceId),
-  validateBody(requestChangesSchema),
-  c.changes,
-);
+router.post("/:resourceId/approve", validateParams(resourceId), validateBody(reviewDecisionSchema), c.approve);
+router.post("/:resourceId/request-changes", validateParams(resourceId), validateBody(requestChangesSchema), c.changes);
 router.post("/:resourceId/republish", validateParams(resourceId), c.republish);
-router.post(
-  "/:resourceId/unpublish",
-  validateParams(resourceId),
-  validateBody(actionDecisionSchema),
-  c.unpublish,
-);
-router.post(
-  "/:resourceId/archive",
-  validateParams(resourceId),
-  validateBody(actionDecisionSchema),
-  c.archive,
-);
-router.patch(
-  "/:resourceId/visibility",
-  validateParams(resourceId),
-  validateBody(visibilitySettingsSchema),
-  c.visibility,
-);
-router.post(
-  "/action-requests/:requestId/approve",
-  validateParams(requestId),
-  validateBody(actionDecisionSchema),
-  c.approveAction,
-);
-router.post(
-  "/action-requests/:requestId/reject",
-  validateParams(requestId),
-  validateBody(actionDecisionSchema),
-  c.rejectAction,
-);
+router.post("/:resourceId/unpublish", validateParams(resourceId), validateBody(actionDecisionSchema), c.unpublish);
+router.post("/:resourceId/archive", validateParams(resourceId), validateBody(actionDecisionSchema), c.archive);
+router.patch("/:resourceId/visibility", validateParams(resourceId), validateBody(visibilitySettingsSchema), c.visibility);
+router.post("/action-requests/:requestId/approve", validateParams(requestId), validateBody(actionDecisionSchema), c.approveAction);
+router.post("/action-requests/:requestId/reject", validateParams(requestId), validateBody(actionDecisionSchema), c.rejectAction);
 module.exports = router;

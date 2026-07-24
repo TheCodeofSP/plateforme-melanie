@@ -22,8 +22,4 @@ const resendActivationSchema = z.object({
   email: z.email("L’adresse email est invalide."),
 });
 
-module.exports = {
-  tokenSchema,
-  parentalAuthorizationResponseSchema,
-  resendActivationSchema,
-};
+module.exports = { tokenSchema, parentalAuthorizationResponseSchema, resendActivationSchema };

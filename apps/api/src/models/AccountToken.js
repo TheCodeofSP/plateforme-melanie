@@ -46,6 +46,9 @@ accountTokenSchema.index({
   createdAt: -1,
 });
 
-const AccountToken = mongoose.model("AccountToken", accountTokenSchema);
+const AccountToken = mongoose.model(
+  "AccountToken",
+  accountTokenSchema,
+);
 
 module.exports = AccountToken;

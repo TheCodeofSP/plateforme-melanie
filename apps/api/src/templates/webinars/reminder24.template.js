@@ -1,8 +1,1 @@
-const layout = require("./layout");
-module.exports = ({ title }) => ({
-  subject: `Rappel demain — ${title}`,
-  htmlContent: layout(
-    "Ton webinaire approche",
-    `« ${title} » commence dans environ 24 heures. Le lien Google Meet sera disponible une heure avant.`,
-  ),
-});
+const layout = require("./layout"); module.exports = ({ title }) => ({ subject: `Rappel demain — ${title}`, htmlContent: layout("Ton webinaire approche", `« ${title} » commence dans environ 24 heures. Le lien Google Meet sera disponible une heure avant.`) });

@@ -42,11 +42,11 @@ Le champ `stack` peut apparaître en développement. Il ne doit jamais être aff
 
 ### Rôles
 
-| Valeur        | Signification             |
-| ------------- | ------------------------- |
-| `MEMBER`      | Membre connectée          |
-| `INTERVENANT` | Intervenante              |
-| `ADMIN`       | Mélanie / administratrice |
+| Valeur | Signification |
+| --- | --- |
+| `MEMBER` | Membre connectée |
+| `INTERVENANT` | Intervenante |
+| `ADMIN` | Mélanie / administratrice |
 
 Une membre ne possède aucun droit de création de ressource. Après acceptation
 de sa demande par l’administratrice, son rôle devient `INTERVENANT` et elle peut
@@ -55,12 +55,12 @@ l’administratrice avant leur publication dans le futur module Ressources.
 
 ### Statuts du compte
 
-| Valeur               | Signification                                       |
-| -------------------- | --------------------------------------------------- |
-| `PENDING_ACTIVATION` | Email ou autorisation parentale en attente          |
-| `ACTIVE`             | Compte utilisable                                   |
-| `SUSPENDED`          | Accès bloqué par l’administration                   |
-| `ANONYMIZED`         | Compte supprimé et données personnelles anonymisées |
+| Valeur | Signification |
+| --- | --- |
+| `PENDING_ACTIVATION` | Email ou autorisation parentale en attente |
+| `ACTIVE` | Compte utilisable |
+| `SUSPENDED` | Accès bloqué par l’administration |
+| `ANONYMIZED` | Compte supprimé et données personnelles anonymisées |
 
 ## 2. Santé de l’API
 
@@ -475,7 +475,6 @@ Anonymise les données personnelles. L’administration ne peut pas s’anonymis
 - dashboards membre, intervenante et administratrice ;
 - export CSV du Quiz, réservé au futur dashboard ;
 - textes juridiques définitifs, actuellement versionnés `draft-1`.
-
 ## 12. Bloc Quiz SPM
 
 La documentation complète des routes, payloads, égalités, consentements et valeurs de contraception se trouve dans `docs/QUIZ_BACKEND.md`.
@@ -504,11 +503,11 @@ Les autres routes administratives des comptes décrites en section 9 restent inc
 
 ## 14. Consolidation — Consentements
 
-| Méthode | Route                          | Accès  | Fonction                                       |
-| ------- | ------------------------------ | ------ | ---------------------------------------------- |
-| `GET`   | `/api/auth/documents/versions` | Public | Versions juridiques actives                    |
-| `GET`   | `/api/auth/me/consents`        | Membre | Consentements actuels et historique disponible |
-| `PATCH` | `/api/auth/me/consents`        | Membre | Modifier Newsletter et email commercial        |
+| Méthode | Route | Accès | Fonction |
+| --- | --- | --- | --- |
+| `GET` | `/api/auth/documents/versions` | Public | Versions juridiques actives |
+| `GET` | `/api/auth/me/consents` | Membre | Consentements actuels et historique disponible |
+| `PATCH` | `/api/auth/me/consents` | Membre | Modifier Newsletter et email commercial |
 
 Exemple de modification :
 
@@ -525,12 +524,12 @@ Les consentements obligatoires ne sont pas modifiables par cette route.
 
 ### Routes intervenante
 
-| Méthode | Route                                   | Fonction                                             |
-| ------- | --------------------------------------- | ---------------------------------------------------- |
-| `GET`   | `/api/professional-profile/me`          | Profil, brouillon et version publiée                 |
-| `PATCH` | `/api/professional-profile/me/draft`    | Modifier le brouillon                                |
-| `POST`  | `/api/professional-profile/me/submit`   | Soumettre à Mélanie                                  |
-| `POST`  | `/api/professional-profile/me/revision` | Copier la version publique dans un nouveau brouillon |
+| Méthode | Route | Fonction |
+| --- | --- | --- |
+| `GET` | `/api/professional-profile/me` | Profil, brouillon et version publiée |
+| `PATCH` | `/api/professional-profile/me/draft` | Modifier le brouillon |
+| `POST` | `/api/professional-profile/me/submit` | Soumettre à Mélanie |
+| `POST` | `/api/professional-profile/me/revision` | Copier la version publique dans un nouveau brouillon |
 
 Champs du brouillon :
 
@@ -552,31 +551,31 @@ Les champs peuvent être envoyés partiellement avec `PATCH`. Une soumission exi
 
 ### Routes publiques
 
-| Méthode | Route                           | Fonction                                                             |
-| ------- | ------------------------------- | -------------------------------------------------------------------- |
-| `GET`   | `/api/professionals`            | Profils publiés avec `q`, `profession`, `specialty`, `page`, `limit` |
-| `GET`   | `/api/professionals/:profileId` | Fiche publiée                                                        |
+| Méthode | Route | Fonction |
+| --- | --- | --- |
+| `GET` | `/api/professionals` | Profils publiés avec `q`, `profession`, `specialty`, `page`, `limit` |
+| `GET` | `/api/professionals/:profileId` | Fiche publiée |
 
 ### Routes Mélanie
 
-| Méthode | Route                                                              | Fonction                         |
-| ------- | ------------------------------------------------------------------ | -------------------------------- |
-| `GET`   | `/api/admin/professional-profiles`                                 | Liste avec statuts et pagination |
-| `GET`   | `/api/admin/professional-profiles/:profileId`                      | Profil, compte et historique     |
-| `POST`  | `/api/admin/professional-profiles/:profileId/approve`              | Approuver et publier             |
-| `POST`  | `/api/admin/professional-profiles/:profileId/request-changes`      | Demander une correction          |
-| `PATCH` | `/api/admin/professional-profiles/:profileId/editorial-correction` | Correction éditoriale motivée    |
-| `POST`  | `/api/admin/professional-profiles/:profileId/hide`                 | Masquer immédiatement            |
-| `POST`  | `/api/admin/professional-profiles/:profileId/restore`              | Restaurer la version approuvée   |
+| Méthode | Route | Fonction |
+| --- | --- | --- |
+| `GET` | `/api/admin/professional-profiles` | Liste avec statuts et pagination |
+| `GET` | `/api/admin/professional-profiles/:profileId` | Profil, compte et historique |
+| `POST` | `/api/admin/professional-profiles/:profileId/approve` | Approuver et publier |
+| `POST` | `/api/admin/professional-profiles/:profileId/request-changes` | Demander une correction |
+| `PATCH` | `/api/admin/professional-profiles/:profileId/editorial-correction` | Correction éditoriale motivée |
+| `POST` | `/api/admin/professional-profiles/:profileId/hide` | Masquer immédiatement |
+| `POST` | `/api/admin/professional-profiles/:profileId/restore` | Restaurer la version approuvée |
 
 ## 16. Consolidation — Justificatifs privés
 
-| Méthode  | Route                                                      | Fonction                                |
-| -------- | ---------------------------------------------------------- | --------------------------------------- |
-| `POST`   | `/api/intervenant-applications/media/upload-authorization` | Obtenir les champs Cloudinary signés    |
-| `POST`   | `/api/intervenant-applications/media/confirm`              | Confirmer la réponse Cloudinary         |
-| `GET`    | `/api/intervenant-applications/media/:documentId/access`   | URL privée valable 5 minutes            |
-| `DELETE` | `/api/intervenant-applications/media/:documentId`          | Supprimer un document encore modifiable |
+| Méthode | Route | Fonction |
+| --- | --- | --- |
+| `POST` | `/api/intervenant-applications/media/upload-authorization` | Obtenir les champs Cloudinary signés |
+| `POST` | `/api/intervenant-applications/media/confirm` | Confirmer la réponse Cloudinary |
+| `GET` | `/api/intervenant-applications/media/:documentId/access` | URL privée valable 5 minutes |
+| `DELETE` | `/api/intervenant-applications/media/:documentId` | Supprimer un document encore modifiable |
 
 Formats : PDF, JPEG, PNG. Taille maximale : 10 Mo. Le front envoie le fichier directement vers l’URL Cloudinary reçue.
 
@@ -584,14 +583,14 @@ Pour une photo professionnelle, utiliser les routes `/api/media` existantes avec
 
 ## 17. Consolidation — Administration du Quiz
 
-| Méthode | Route                                                              | Fonction                                |
-| ------- | ------------------------------------------------------------------ | --------------------------------------- |
-| `GET`   | `/api/admin/quiz/participants`                                     | Liste, recherche, filtres et pagination |
-| `GET`   | `/api/admin/quiz/participants/:participantId`                      | Identité, tentatives et consentements   |
-| `GET`   | `/api/admin/quiz/attempts/:attemptId`                              | Réponses et scores détaillés            |
-| `GET`   | `/api/admin/quiz/stats`                                            | Statistiques générales                  |
-| `POST`  | `/api/admin/quiz/attempts/:attemptId/retry-email`                  | Relancer un email en échec              |
-| `POST`  | `/api/admin/quiz/participants/:participantId/retry-marketing-sync` | Relancer une synchronisation en échec   |
+| Méthode | Route | Fonction |
+| --- | --- | --- |
+| `GET` | `/api/admin/quiz/participants` | Liste, recherche, filtres et pagination |
+| `GET` | `/api/admin/quiz/participants/:participantId` | Identité, tentatives et consentements |
+| `GET` | `/api/admin/quiz/attempts/:attemptId` | Réponses et scores détaillés |
+| `GET` | `/api/admin/quiz/stats` | Statistiques générales |
+| `POST` | `/api/admin/quiz/attempts/:attemptId/retry-email` | Relancer un email en échec |
+| `POST` | `/api/admin/quiz/participants/:participantId/retry-marketing-sync` | Relancer une synchronisation en échec |
 
 Filtres de liste : `q`, `profile`, `accountType`, `status`, `marketingConsent`, `emailStatus`, `marketingSyncStatus`, `dateFrom`, `dateTo`, `sort`, `page`, `limit`.
 
@@ -620,52 +619,51 @@ Le front doit utiliser `page` et `limit` plutôt que supposer que toutes les lig
 
 ## 19. Codes d’erreur ajoutés
 
-| Code                                  | Signification                                    |
-| ------------------------------------- | ------------------------------------------------ |
-| `PROFESSIONAL_PROFILE_NOT_FOUND`      | Aucun profil associé ou visible                  |
-| `PROFESSIONAL_PROFILE_INCOMPLETE`     | Soumission incomplète                            |
-| `PROFESSIONAL_PROFILE_PENDING_REVIEW` | Version verrouillée pendant la validation        |
-| `PROFESSIONAL_SOLICITATION_FORBIDDEN` | Coordonnée ou prospection détectée               |
-| `INVALID_PROFILE_PHOTO`               | Photo absente, non confirmée ou non propriétaire |
-| `APPLICATION_DOCUMENT_FORBIDDEN`      | Justificatif inaccessible ou demande verrouillée |
-| `DOCUMENT_MISMATCH`                   | Confirmation Cloudinary invalide                 |
-| `QUIZ_PARTICIPANT_NOT_FOUND`          | Participante inexistante                         |
-| `QUIZ_ATTEMPT_NOT_FOUND`              | Participation inexistante                        |
-| `QUIZ_EMAIL_NOT_RETRYABLE`            | Email non éligible à une relance                 |
-| `QUIZ_MARKETING_SYNC_NOT_RETRYABLE`   | Synchronisation non éligible                     |
-| `RATE_LIMIT_EXCEEDED`                 | Limite générale atteinte                         |
-| `AUTH_RATE_LIMIT_EXCEEDED`            | Limite des routes d’authentification atteinte    |
-
+| Code | Signification |
+| --- | --- |
+| `PROFESSIONAL_PROFILE_NOT_FOUND` | Aucun profil associé ou visible |
+| `PROFESSIONAL_PROFILE_INCOMPLETE` | Soumission incomplète |
+| `PROFESSIONAL_PROFILE_PENDING_REVIEW` | Version verrouillée pendant la validation |
+| `PROFESSIONAL_SOLICITATION_FORBIDDEN` | Coordonnée ou prospection détectée |
+| `INVALID_PROFILE_PHOTO` | Photo absente, non confirmée ou non propriétaire |
+| `APPLICATION_DOCUMENT_FORBIDDEN` | Justificatif inaccessible ou demande verrouillée |
+| `DOCUMENT_MISMATCH` | Confirmation Cloudinary invalide |
+| `QUIZ_PARTICIPANT_NOT_FOUND` | Participante inexistante |
+| `QUIZ_ATTEMPT_NOT_FOUND` | Participation inexistante |
+| `QUIZ_EMAIL_NOT_RETRYABLE` | Email non éligible à une relance |
+| `QUIZ_MARKETING_SYNC_NOT_RETRYABLE` | Synchronisation non éligible |
+| `RATE_LIMIT_EXCEEDED` | Limite générale atteinte |
+| `AUTH_RATE_LIMIT_EXCEEDED` | Limite des routes d’authentification atteinte |
 # Annexe — Routes Safe Place
 
 Toutes les routes protégées utilisent les cookies d’authentification (`credentials: "include"`). Les routes membre exigent le rôle `MEMBER`, une charte courante acceptée et aucune suspension Safe Place. L’administratrice dispose du même accès fonctionnel ; les intervenantes sont exclues.
 
 ## Accès et catégories
 
-| Méthode | Route                                    | Accès      | Usage                            |
-| ------- | ---------------------------------------- | ---------- | -------------------------------- |
-| GET     | `/api/safe-place/charter`                | Public     | Version et texte de la charte    |
-| GET     | `/api/safe-place/access`                 | Connecté   | État d’accès et motif de blocage |
-| POST    | `/api/safe-place/charter/accept`         | Membre     | Accepter la version courante     |
-| POST    | `/api/safe-place/charter/withdraw`       | Membre     | Retirer son consentement         |
-| GET     | `/api/safe-place/categories`             | Safe Place | Catégories visibles              |
-| GET     | `/api/safe-place/categories/:categoryId` | Safe Place | Catégorie et compteurs           |
+| Méthode | Route | Accès | Usage |
+| --- | --- | --- | --- |
+| GET | `/api/safe-place/charter` | Public | Version et texte de la charte |
+| GET | `/api/safe-place/access` | Connecté | État d’accès et motif de blocage |
+| POST | `/api/safe-place/charter/accept` | Membre | Accepter la version courante |
+| POST | `/api/safe-place/charter/withdraw` | Membre | Retirer son consentement |
+| GET | `/api/safe-place/categories` | Safe Place | Catégories visibles |
+| GET | `/api/safe-place/categories/:categoryId` | Safe Place | Catégorie et compteurs |
 
 Administration des catégories : `GET/POST /api/admin/safe-place/categories`, `PATCH /:categoryId`, puis `POST /:categoryId/hide`, `/restore`, `/archive`, ou `DELETE /:categoryId`.
 
 ## Discussions, commentaires et médias
 
-| Méthode              | Route                                            | Corps principal                                                |
-| -------------------- | ------------------------------------------------ | -------------------------------------------------------------- |
-| GET / POST           | `/api/safe-place/posts`                          | création : `title`, `content`, `categoryId`, `images`, `links` |
-| GET / PATCH / DELETE | `/api/safe-place/posts/:postId`                  | modification avec les mêmes champs                             |
-| POST                 | `/api/safe-place/posts/:postId/correction`       | proposition après demande de correction                        |
-| GET / POST           | `/api/safe-place/posts/:postId/comments`         | création : `{ "content": "..." }`                              |
-| POST                 | `/api/safe-place/comments/:commentId/replies`    | `{ "content": "..." }`                                         |
-| PATCH / DELETE       | `/api/safe-place/comments/:commentId`            | modifier ou supprimer son commentaire                          |
-| POST                 | `/api/safe-place/comments/:commentId/correction` | correction demandée                                            |
-| PUT / DELETE         | `/api/safe-place/posts/:postId/reaction`         | `{ "type": "SUPPORT" }` ou retrait                             |
-| PUT / DELETE         | `/api/safe-place/comments/:commentId/reaction`   | même fonctionnement                                            |
+| Méthode | Route | Corps principal |
+| --- | --- | --- |
+| GET / POST | `/api/safe-place/posts` | création : `title`, `content`, `categoryId`, `images`, `links` |
+| GET / PATCH / DELETE | `/api/safe-place/posts/:postId` | modification avec les mêmes champs |
+| POST | `/api/safe-place/posts/:postId/correction` | proposition après demande de correction |
+| GET / POST | `/api/safe-place/posts/:postId/comments` | création : `{ "content": "..." }` |
+| POST | `/api/safe-place/comments/:commentId/replies` | `{ "content": "..." }` |
+| PATCH / DELETE | `/api/safe-place/comments/:commentId` | modifier ou supprimer son commentaire |
+| POST | `/api/safe-place/comments/:commentId/correction` | correction demandée |
+| PUT / DELETE | `/api/safe-place/posts/:postId/reaction` | `{ "type": "SUPPORT" }` ou retrait |
+| PUT / DELETE | `/api/safe-place/comments/:commentId/reaction` | même fonctionnement |
 
 L’upload privé suit quatre routes : `POST /api/safe-place/media/upload-authorization`, `POST /confirm`, `GET /:mediaId/access` et `DELETE /:mediaId`. Une discussion accepte trois médias confirmés maximum.
 
@@ -694,18 +692,18 @@ Le préfixe est `/api/admin/safe-place` :
 
 Toutes les routes sont authentifiées.
 
-| Méthode | Route                                          | Fonction                                       |
-| ------- | ---------------------------------------------- | ---------------------------------------------- |
-| GET     | `/api/notifications`                           | Charge 10 notifications et retourne un curseur |
-| GET     | `/api/notifications/unread-count`              | Compteurs total, personnel et gestion          |
-| GET     | `/api/notifications/:notificationId`           | Détail et passage automatique en lu            |
-| POST    | `/api/notifications/:notificationId/read`      | Marquer comme lue                              |
-| POST    | `/api/notifications/:notificationId/unread`    | Remettre en non-lu                             |
-| POST    | `/api/notifications/read-all`                  | Marquer une sélection comme lue                |
-| DELETE  | `/api/notifications/:notificationId`           | Masquage personnel                             |
-| DELETE  | `/api/notifications`                           | Masquage global filtré                         |
-| POST    | `/api/notifications/:notificationId/handled`   | Marquer une alerte de gestion traitée          |
-| POST    | `/api/notifications/:notificationId/unhandled` | Remettre une alerte à traiter                  |
+| Méthode | Route | Fonction |
+| --- | --- | --- |
+| GET | `/api/notifications` | Charge 10 notifications et retourne un curseur |
+| GET | `/api/notifications/unread-count` | Compteurs total, personnel et gestion |
+| GET | `/api/notifications/:notificationId` | Détail et passage automatique en lu |
+| POST | `/api/notifications/:notificationId/read` | Marquer comme lue |
+| POST | `/api/notifications/:notificationId/unread` | Remettre en non-lu |
+| POST | `/api/notifications/read-all` | Marquer une sélection comme lue |
+| DELETE | `/api/notifications/:notificationId` | Masquage personnel |
+| DELETE | `/api/notifications` | Masquage global filtré |
+| POST | `/api/notifications/:notificationId/handled` | Marquer une alerte de gestion traitée |
+| POST | `/api/notifications/:notificationId/unhandled` | Remettre une alerte à traiter |
 
 Paramètres de `GET /api/notifications` :
 
@@ -725,10 +723,10 @@ et environ toutes les 60 secondes. Il affiche le nombre exact jusqu'à 99, puis
 
 ### Préférences
 
-| Méthode | Route                            | Fonction               |
-| ------- | -------------------------------- | ---------------------- |
-| GET     | `/api/notifications/preferences` | Préférences actuelles  |
-| PATCH   | `/api/notifications/preferences` | Modification partielle |
+| Méthode | Route | Fonction |
+| --- | --- | --- |
+| GET | `/api/notifications/preferences` | Préférences actuelles |
+| PATCH | `/api/notifications/preferences` | Modification partielle |
 
 Exemple :
 
@@ -752,10 +750,10 @@ avertissement que le front doit présenter avant ou après confirmation.
 
 ### Tests administratifs
 
-| Méthode | Route                                    | Fonction                         |
-| ------- | ---------------------------------------- | -------------------------------- |
-| POST    | `/api/admin/notifications/test`          | Envoi d'un test à Mélanie        |
-| POST    | `/api/admin/notifications/email-preview` | Prévisualisation HTML sans envoi |
+| Méthode | Route | Fonction |
+| --- | --- | --- |
+| POST | `/api/admin/notifications/test` | Envoi d'un test à Mélanie |
+| POST | `/api/admin/notifications/email-preview` | Prévisualisation HTML sans envoi |
 
 Exemple de test :
 
@@ -783,20 +781,20 @@ Exemple de test :
 
 ## Consultation et participation
 
-| Méthode        | Route                                                        | Accès        | Fonction                                                    |
-| -------------- | ------------------------------------------------------------ | ------------ | ----------------------------------------------------------- |
-| GET            | `/api/webinars`                                              | Public       | Liste publiée et sessions disponibles                       |
-| GET            | `/api/webinars/:webinarId`                                   | Public       | Présentation et dates, sans lien Meet                       |
-| GET            | `/api/webinars/me`                                           | Connecté     | Inscriptions, statuts, attente et lien Meet lorsqu’autorisé |
-| POST           | `/api/webinars/sessions/:sessionId/register`                 | Connecté     | Inscription ou liste d’attente                              |
-| POST           | `/api/webinars/registrations/:registrationId/confirm`        | Connecté     | Confirmation d’une place proposée                           |
-| POST           | `/api/webinars/registrations/:registrationId/cancel`         | Connecté     | Annulation jusqu’à une heure avant                          |
-| POST           | `/api/webinars/registrations/:registrationId/change-session` | Connecté     | Choix d’une autre session                                   |
-| POST           | `/api/webinars/sessions/:sessionId/questions`                | Participante | Question privée                                             |
-| PATCH / DELETE | `/api/webinars/questions/:questionId`                        | Autrice      | Modification ou suppression                                 |
-| PUT            | `/api/webinars/sessions/:sessionId/evaluation`               | Participante | Création ou modification de l’évaluation                    |
-| GET            | `/api/webinars/:webinarId/replay`                            | Connecté     | Accès au lien du replay actif                               |
-| POST           | `/api/webinars/:webinarId/replay/view`                       | Connecté     | Enregistrement d’une consultation                           |
+| Méthode | Route | Accès | Fonction |
+| --- | --- | --- | --- |
+| GET | `/api/webinars` | Public | Liste publiée et sessions disponibles |
+| GET | `/api/webinars/:webinarId` | Public | Présentation et dates, sans lien Meet |
+| GET | `/api/webinars/me` | Connecté | Inscriptions, statuts, attente et lien Meet lorsqu’autorisé |
+| POST | `/api/webinars/sessions/:sessionId/register` | Connecté | Inscription ou liste d’attente |
+| POST | `/api/webinars/registrations/:registrationId/confirm` | Connecté | Confirmation d’une place proposée |
+| POST | `/api/webinars/registrations/:registrationId/cancel` | Connecté | Annulation jusqu’à une heure avant |
+| POST | `/api/webinars/registrations/:registrationId/change-session` | Connecté | Choix d’une autre session |
+| POST | `/api/webinars/sessions/:sessionId/questions` | Participante | Question privée |
+| PATCH / DELETE | `/api/webinars/questions/:questionId` | Autrice | Modification ou suppression |
+| PUT | `/api/webinars/sessions/:sessionId/evaluation` | Participante | Création ou modification de l’évaluation |
+| GET | `/api/webinars/:webinarId/replay` | Connecté | Accès au lien du replay actif |
+| POST | `/api/webinars/:webinarId/replay/view` | Connecté | Enregistrement d’une consultation |
 
 `change-session` reçoit `{ "sessionId": "..." }`. Le lien Meet n’apparaît dans `/me` que pour une inscription confirmée et pendant la dernière heure.
 
@@ -822,14 +820,14 @@ L’upload de l’image passe par `POST /api/media/upload-authorization` avec `p
 
 ## Préférences
 
-| Méthode | Route                                       | Accès    | Fonction                            |
-| ------- | ------------------------------------------- | -------- | ----------------------------------- |
-| GET     | `/api/communication-preferences/me`         | Connecté | Préférences actuelles               |
-| PATCH   | `/api/communication-preferences/me`         | Connecté | Modification par catégorie          |
-| GET     | `/api/communications/unsubscribe?token=...` | Public   | Contenu de la page de désabonnement |
-| POST    | `/api/communications/unsubscribe`           | Public   | Désabonnement ciblé ou complet      |
-| POST    | `/api/communications/resubscribe`           | Public   | Envoi du lien de confirmation       |
-| POST    | `/api/communications/resubscribe/confirm`   | Public   | Confirmation du réabonnement        |
+| Méthode | Route | Accès | Fonction |
+| --- | --- | --- | --- |
+| GET | `/api/communication-preferences/me` | Connecté | Préférences actuelles |
+| PATCH | `/api/communication-preferences/me` | Connecté | Modification par catégorie |
+| GET | `/api/communications/unsubscribe?token=...` | Public | Contenu de la page de désabonnement |
+| POST | `/api/communications/unsubscribe` | Public | Désabonnement ciblé ou complet |
+| POST | `/api/communications/resubscribe` | Public | Envoi du lien de confirmation |
+| POST | `/api/communications/resubscribe/confirm` | Public | Confirmation du réabonnement |
 
 Préférences disponibles : `editorialNewsletter`, `resourceAnnouncements`, `webinarAnnouncements`, `platformNews`.
 
@@ -896,11 +894,11 @@ Une liste vide retourne un tableau vide et une pagination dont `total` et
 
 Toutes ces routes exigent le rôle `ADMIN`.
 
-| Méthode | Route                                | Fonction                                                 |
-| ------- | ------------------------------------ | -------------------------------------------------------- |
-| `GET`   | `/api/admin/system/status`           | Version, MongoDB, email, Cloudinary, crons et migrations |
-| `POST`  | `/api/admin/system/checks`           | Vérifier explicitement Resend ou Cloudinary              |
-| `GET`   | `/api/admin/system/email-dispatches` | Lister les métadonnées des emails capturés               |
+| Méthode | Route | Fonction |
+| --- | --- | --- |
+| `GET` | `/api/admin/system/status` | Version, MongoDB, email, Cloudinary, crons et migrations |
+| `POST` | `/api/admin/system/checks` | Vérifier explicitement Resend ou Cloudinary |
+| `GET` | `/api/admin/system/email-dispatches` | Lister les métadonnées des emails capturés |
 
 Exemple de contrôle externe :
 
@@ -916,28 +914,28 @@ jointes ne sont jamais exposés.
 
 ## Accueil
 
-| Méthode | Route       | Fonction                                 |
-| ------- | ----------- | ---------------------------------------- |
-| GET     | `/overview` | Indicateurs et profils SPM               |
-| GET     | `/tasks`    | Relances et actions des différents blocs |
-| GET     | `/activity` | Activité CRM récente                     |
+| Méthode | Route | Fonction |
+| --- | --- | --- |
+| GET | `/overview` | Indicateurs et profils SPM |
+| GET | `/tasks` | Relances et actions des différents blocs |
+| GET | `/activity` | Activité CRM récente |
 
 `overview` et `activity` acceptent `dateFrom` et `dateTo` au format ISO.
 
 ## Contacts
 
-| Méthode | Route                            | Fonction                                   |
-| ------- | -------------------------------- | ------------------------------------------ |
-| GET     | `/contacts`                      | Liste unifiée et pression de communication |
-| GET     | `/members`                       | Membres uniquement                         |
-| GET     | `/prospects`                     | Prospects Quiz uniquement                  |
-| POST    | `/contacts`                      | Contact manuel                             |
-| GET     | `/contacts/:contactId`           | Fiche, notes, relances et historique       |
-| PATCH   | `/contacts/:contactId`           | Données CRM uniquement                     |
-| DELETE  | `/contacts/:contactId`           | Suppression d'une fiche sans historique    |
-| POST    | `/contacts/:contactId/anonymize` | Anonymisation                              |
-| POST    | `/contacts/merge`                | Fusion de deux fiches                      |
-| POST    | `/contact-merges/:id/restore`    | Restauration d'une fusion                  |
+| Méthode | Route | Fonction |
+| --- | --- | --- |
+| GET | `/contacts` | Liste unifiée et pression de communication |
+| GET | `/members` | Membres uniquement |
+| GET | `/prospects` | Prospects Quiz uniquement |
+| POST | `/contacts` | Contact manuel |
+| GET | `/contacts/:contactId` | Fiche, notes, relances et historique |
+| PATCH | `/contacts/:contactId` | Données CRM uniquement |
+| DELETE | `/contacts/:contactId` | Suppression d'une fiche sans historique |
+| POST | `/contacts/:contactId/anonymize` | Anonymisation |
+| POST | `/contacts/merge` | Fusion de deux fiches |
+| POST | `/contact-merges/:id/restore` | Restauration d'une fusion |
 
 Filtres principaux : `q`, `kind`, `status`, `spmProfile`, `contraception`,
 `priority`, `tag`, `inactiveDays`, `dateFrom`, `dateTo` et `sort`.

@@ -5,10 +5,7 @@ const {
   resendEmailVerification,
   resendParentalAuthorization,
 } = require("../../services/auth");
-const {
-  setAuthCookies,
-  clearAuthCookies,
-} = require("../../services/cookie.service");
+const { setAuthCookies, clearAuthCookies } = require("../../services/cookie.service");
 
 async function verifyEmailAddress(req, res, next) {
   try {

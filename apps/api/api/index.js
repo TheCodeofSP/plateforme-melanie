@@ -11,10 +11,7 @@ module.exports = async function handler(req, res) {
     return app(req, res);
   } catch (error) {
     const requestId = req.headers["x-request-id"] || crypto.randomUUID();
-    console.error(
-      `[${requestId}] Connexion MongoDB impossible:`,
-      error.message,
-    );
+    console.error(`[${requestId}] Connexion MongoDB impossible:`, error.message);
     res.setHeader("X-Request-ID", requestId);
     res.setHeader("X-API-Version", API_VERSION);
     return res.status(503).json({

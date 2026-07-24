@@ -54,6 +54,9 @@ consentRecordSchema.index({
   createdAt: -1,
 });
 
-const ConsentRecord = mongoose.model("ConsentRecord", consentRecordSchema);
+const ConsentRecord = mongoose.model(
+  "ConsentRecord",
+  consentRecordSchema,
+);
 
 module.exports = ConsentRecord;
