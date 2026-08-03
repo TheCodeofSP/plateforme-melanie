@@ -1,16 +1,41 @@
-# React + Vite
+# Plateforme Mélanie — Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Application React/Vite de la plateforme de Mélanie Dizet.
 
-Currently, two official plugins are available:
+## Installation
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+```bash
+npm install
+cp .env.example .env
+npm run dev
+```
 
-## React Compiler
+L’API locale doit être disponible sur l’adresse déclarée dans
+`VITE_API_URL`. La valeur par défaut est `http://localhost:5100`.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Commandes
 
-## Expanding the ESLint configuration
+```bash
+npm run dev
+npm run lint
+npm test
+npm run test:watch
+npm run build
+npm run preview
+```
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## Fondations du bloc 1
+
+- client Axios avec cookies `httpOnly` gérés par l’API ;
+- renouvellement mutualisé des sessions expirées ;
+- contexte d’authentification ;
+- protections par connexion et par rôle ;
+- layouts public, authentification, membre, intervenante et administration ;
+- routes françaises et redirections des anciennes URL ;
+- états de chargement, d’erreur et d’accès ;
+- tests Vitest, Testing Library et MSW ;
+- développement Sass mobile first.
+
+Le nom affiché de l’espace communautaire est centralisé dans
+`src/content/platform.content.js`. Sa route durable est
+`/espace-communaute`.

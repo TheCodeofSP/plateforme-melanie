@@ -28,7 +28,7 @@ export const quizContent = {
     items: [
       {
         title: "Identifier ton profil",
-        text: "Découvre le ou les profils de SPM qui semblent le plus correspondre à tes symptômes.",
+        text: "Découvre le profil de SPM qui semble le plus correspondre à ce que tu vis aujourd’hui.",
       },
       {
         title: "Comprendre tes signaux",

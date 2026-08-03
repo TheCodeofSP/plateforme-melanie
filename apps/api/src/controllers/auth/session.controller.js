@@ -69,9 +69,16 @@ async function logout(req, res, next) {
 }
 
 async function getCurrentUser(req, res) {
-  const user = req.auth.user;
+  const user = req.auth?.user;
 
-  res.status(200).json({
+  if (!user) {
+    return res.status(200).json({
+      success: true,
+      user: null,
+    });
+  }
+
+  return res.status(200).json({
     success: true,
     user: {
       id: user._id,

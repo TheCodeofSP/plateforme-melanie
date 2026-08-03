@@ -1,0 +1,109 @@
+.resource-editor form {
+  display: grid;
+  gap: var(--space-lg);
+  padding: var(--space-md);
+  background: var(--color-white);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-soft);
+}
+
+.resource-editor fieldset,
+.editor-field {
+  display: grid;
+  gap: var(--space-sm);
+}
+
+.resource-editor fieldset {
+  padding: var(--space-md);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+}
+
+.resource-editor legend,
+.editor-field > span {
+  font-weight: 750;
+}
+
+.resource-editor input,
+.resource-editor textarea,
+.resource-editor select {
+  width: 100%;
+  min-height: 46px;
+  padding: 10px 12px;
+  background: var(--color-white);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  font: inherit;
+}
+
+.resource-editor textarea {
+  min-height: 120px;
+}
+
+.editor-options {
+  display: grid;
+  gap: var(--space-xs);
+}
+
+.editor-options label {
+  display: grid;
+  grid-template-columns: 20px 1fr;
+  align-items: start;
+  gap: var(--space-xs);
+}
+
+.editor-options input {
+  min-height: auto;
+}
+
+.editor-blocks {
+  display: grid;
+  gap: var(--space-sm);
+}
+
+.editor-blocks > div {
+  display: grid;
+  gap: var(--space-xs);
+  padding: var(--space-sm);
+  background: var(--color-cream);
+  border-radius: var(--radius-sm);
+}
+
+.editor-blocks button {
+  justify-self: start;
+  background: transparent;
+  border: 0;
+  color: var(--color-error);
+  font-weight: 700;
+}
+
+.resource-editor__actions {
+  display: flex;
+  flex-direction: column-reverse;
+  gap: var(--space-sm);
+}
+
+.resource-editor__preview {
+  display: grid;
+  gap: var(--space-sm);
+  padding: var(--space-lg);
+  background: var(--gradient-section-primary);
+  border: 1px dashed var(--color-primary);
+  border-radius: var(--radius-md);
+}
+
+@media (min-width: 720px) {
+  .resource-editor form {
+    padding: var(--space-xl);
+  }
+
+  .editor-options {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .resource-editor__actions {
+    flex-direction: row;
+    justify-content: flex-end;
+  }
+}

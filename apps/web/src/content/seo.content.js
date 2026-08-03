@@ -1,19 +1,18 @@
 export const seoContent = {
   site: {
-    name: "Mélanie Dizet",
-    title: "Mélanie Dizet — Bien-être gynécologique",
+    name: "La Clairière par Mélanie Dizet",
+    title: "La Clairière — Sur le chemin du bien-être gynécologique",
     description:
-      "Plateforme d’accompagnement autour du bien-être gynécologique, du cycle menstruel, des émotions, des ressources et du futur forum GYNECE.",
-    url: "https://melaniedizet.com",
-    image: "/og-image.png",
+      "Une pause pour mieux comprendre son vécu gynécologique, trouver des ressources personnalisées et avancer à son rythme avec Mélanie Dizet.",
+    image: "/favicon.png",
     robots: "index, follow",
   },
 
   pages: {
     home: {
-      title: "Accueil — Mélanie Dizet",
+      title: "La Clairière — Tu n’as pas à tout comprendre seule",
       description:
-        "Découvrir l’univers de Mélanie Dizet, ses accompagnements, ses ressources gratuites et la future plateforme GYNECE.",
+        "Fais une pause, trouve des repères personnalisés et poursuis ton chemin du bien-être gynécologique avec les ressources et accompagnements de Mélanie Dizet.",
       url: "/",
     },
 
@@ -27,7 +26,7 @@ export const seoContent = {
       title: "Ressources pédagogiques — Mélanie Dizet",
       description:
         "Explore les ressources pédagogiques de Mélanie Dizet : articles, vidéos, podcasts et supports pour mieux comprendre ton corps, ton cycle et ton équilibre gynécologique.",
-      url: "/resources",
+      url: "/ressources",
     },
     accompaniments: {
       title: "Accompagnements | Mélanie Dizet",

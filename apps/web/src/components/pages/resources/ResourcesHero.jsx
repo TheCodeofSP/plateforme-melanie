@@ -3,8 +3,7 @@ import { resourcesContent } from "../../../content/resources.content.js";
 import "../../../styles/components/pages/resources/resources-hero.scss";
 
 export default function ResourcesHero() {
-  const { hero, resources } = resourcesContent;
-  const resourceCount = resources.length;
+  const { hero } = resourcesContent;
 
   return (
     <header className="page-hero">
@@ -18,10 +17,6 @@ export default function ResourcesHero() {
             {paragraph}
           </p>
         ))}
-
-        <p className="resources-hero__count">
-          {resourceCount} ressources disponibles
-        </p>
       </div>
     </header>
   );

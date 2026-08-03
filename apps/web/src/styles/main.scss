@@ -12,3 +12,17 @@
 @use "./layouts/footer.scss";
 
 @use "./pages/home.scss";
+@use "./pages/home-premium.scss";
+@use "./pages/editorial-premium.scss";
+@use "./pages/legal-premium.scss";
+@use "./pages/webinars/webinars.scss";
+@use "./pages/webinars/webinar-admin.scss";
+@use "./pages/notifications/notifications.scss";
+@use "./pages/intervenants/become-intervenant.scss";
+@use "./pages/intervenants/intervenant-application.scss";
+@use "./pages/intervenants/professional-directory.scss";
+@use "./pages/intervenants/intervenant-admin.scss";
+@use "./components/feedback/feedback-state.scss";
+@use "./components/feedback/form-error-summary.scss";
+@use "./components/feedback/confirm-dialog.scss";
+@use "./components/privacy/cookie-consent.scss";

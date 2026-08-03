@@ -1,0 +1,131 @@
+.notifications-page {
+  min-height: 70vh;
+  padding: 3rem 0 5rem;
+  background: linear-gradient(180deg, #fbf4ef, #fffdfb 20rem);
+
+  header {
+    max-width: 48rem;
+    margin-bottom: 2rem;
+  }
+}
+
+.notification-tabs,
+.notification-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  align-items: flex-end;
+  justify-content: space-between;
+}
+
+.notification-tabs {
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid #eadbd6;
+
+  button {
+    padding: 0.7rem 1rem;
+    border: 0;
+    border-radius: 999px;
+    background: transparent;
+    cursor: pointer;
+
+    &.is-active {
+      background: #dfe9e3;
+      color: #2f4a3a;
+      font-weight: 700;
+    }
+  }
+}
+
+.notification-toolbar {
+  margin: 1.5rem 0;
+}
+
+.notification-list {
+  display: grid;
+  gap: 0.75rem;
+
+  article {
+    display: grid;
+    gap: 1rem;
+    padding: 1.25rem;
+    border: 1px solid #eadbd6;
+    border-radius: 1rem;
+    background: #fffdfb;
+
+    &.is-unread {
+      border-left: 0.35rem solid #a6787a;
+      background: #fae8e6;
+    }
+
+    h2 {
+      margin: 0.35rem 0;
+      font-size: 1.2rem;
+    }
+
+    > div:last-child {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+    }
+  }
+}
+
+.notification-preferences {
+  form {
+    display: grid;
+    gap: 0.75rem;
+  }
+
+  fieldset,
+  &__head {
+    display: grid;
+    grid-template-columns: minmax(10rem, 1fr) repeat(2, 5rem);
+    align-items: center;
+    gap: 0.75rem;
+    padding: 1rem;
+    border: 1px solid #eadbd6;
+    border-radius: 1rem;
+  }
+
+  fieldset legend {
+    float: left;
+    width: auto;
+    padding: 0;
+    font-weight: 700;
+  }
+
+  label span {
+    position: absolute;
+    overflow: hidden;
+    width: 1px;
+    height: 1px;
+  }
+}
+
+.navigation__notification {
+  position: relative;
+
+  > span {
+    position: absolute;
+    top: -0.45rem;
+    right: -0.6rem;
+    display: grid;
+    min-width: 1.2rem;
+    min-height: 1.2rem;
+    place-items: center;
+    padding: 0.1rem;
+    border-radius: 999px;
+    background: #9f5f5d;
+    color: white;
+    font-size: 0.65rem;
+    font-weight: 800;
+  }
+}
+
+@media (min-width: 48rem) {
+  .notification-list article {
+    grid-template-columns: 1fr auto;
+    align-items: center;
+  }
+}

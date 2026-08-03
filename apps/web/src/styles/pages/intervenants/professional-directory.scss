@@ -1,0 +1,122 @@
+.professional-filters {
+  display: grid;
+  gap: 1rem;
+  padding: 1.25rem;
+  border: 1px solid #eadbd6;
+  border-radius: 1.25rem;
+  background: #fffdfb;
+}
+
+.professional-grid {
+  display: grid;
+  gap: 1.25rem;
+  margin-top: 2rem;
+}
+
+.professional-card {
+  display: grid;
+  overflow: hidden;
+  border: 1px solid #eadbd6;
+  border-radius: 1.5rem;
+  background: #fffdfb;
+  box-shadow: 0 1rem 3rem rgb(48 40 39 / 7%);
+
+  > img,
+  &__portrait {
+    width: 100%;
+    min-height: 15rem;
+    object-fit: cover;
+  }
+
+  &__portrait {
+    display: grid;
+    place-items: center;
+    background: linear-gradient(145deg, #dfe9e3, #f6d8d6);
+    color: #496b5a;
+    font-family: "Cormorant Garamond", serif;
+    font-size: 5rem;
+  }
+
+  > div:last-child {
+    padding: 1.4rem;
+  }
+
+  ul,
+  .professional-specialties {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    padding: 0;
+    list-style: none;
+  }
+
+  li {
+    padding: 0.3rem 0.65rem;
+    border-radius: 999px;
+    background: #dfe9e3;
+    font-size: 0.78rem;
+  }
+}
+
+.professional-detail {
+  padding-top: 3rem;
+
+  header {
+    display: grid;
+    gap: 1.5rem;
+    margin: 3rem 0;
+  }
+
+  header img,
+  header .professional-card__portrait {
+    width: min(100%, 20rem);
+    min-height: 20rem;
+    border-radius: 45% 45% 1.5rem 1.5rem;
+    object-fit: cover;
+  }
+
+  section {
+    max-width: 48rem;
+    margin: 2rem 0;
+    line-height: 1.8;
+  }
+}
+
+.professional-lead {
+  font-size: 1.2rem;
+}
+
+.professional-specialties {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  padding: 0;
+  list-style: none;
+
+  li {
+    padding: 0.35rem 0.7rem;
+    border-radius: 999px;
+    background: #dfe9e3;
+  }
+}
+
+@media (min-width: 48rem) {
+  .professional-filters {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .professional-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .professional-detail header {
+    grid-template-columns: 20rem 1fr;
+    align-items: center;
+  }
+}
+
+@media (min-width: 72rem) {
+  .professional-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}

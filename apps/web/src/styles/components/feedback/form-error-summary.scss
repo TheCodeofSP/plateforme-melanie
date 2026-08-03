@@ -1,0 +1,15 @@
+.form-error-summary {
+  display: grid;
+  gap: var(--space-xs);
+  margin: var(--space-md) 0;
+  padding: var(--space-md);
+  color: var(--color-error);
+  background: #fff5f5;
+  border: 1px solid #e4bcbc;
+  border-radius: var(--radius-sm);
+}
+
+.form-error-summary ul {
+  margin: 0;
+  padding-left: var(--space-md);
+}

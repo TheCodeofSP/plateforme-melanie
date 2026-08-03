@@ -31,7 +31,7 @@ export const visionContent = {
     paragraphs: [
       "Mon diagnostic d'endométriose a profondément transformé ma manière de regarder mon corps.",
       "Au fil de mes recherches, de mes formations et de mon expérience personnelle, j'ai découvert qu'il existait d'autres façons d'écouter les symptômes et d'accompagner les femmes.",
-      "Cette expérience est devenue le point de départ de GYNECE : une approche qui relie les connaissances, le vécu, les émotions et le respect du rythme de chacune.",
+      "Cette expérience est devenue le point de départ d’une approche qui relie les connaissances, le vécu, les émotions et le respect du rythme de chacune.",
     ],
   },
 

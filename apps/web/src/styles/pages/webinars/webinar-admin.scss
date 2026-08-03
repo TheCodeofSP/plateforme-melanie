@@ -1,0 +1,44 @@
+.webinar-admin {
+  display: grid;
+  gap: 2rem;
+  padding: 2rem clamp(1rem, 4vw, 4rem) 5rem;
+
+  > header {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+
+  > section,
+  .webinar-admin-list article {
+    padding: 1.4rem;
+    border: 1px solid #eadbd6;
+    border-radius: 1.25rem;
+    background: #fffdfb;
+  }
+
+  .webinar-admin-list {
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 18rem), 1fr));
+  }
+}
+
+.webinar-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(9rem, 1fr));
+  gap: 1rem;
+
+  article {
+    display: grid;
+    gap: 0.4rem;
+    padding: 1.25rem;
+    border-radius: 1rem;
+    background: #dfe9e3;
+
+    strong {
+      font-family: "Cormorant Garamond", serif;
+      font-size: 2.5rem;
+    }
+  }
+}

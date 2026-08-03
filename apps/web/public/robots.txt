@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+Disallow: /mon-espace
+Disallow: /espace-intervenante
+Disallow: /administration
+Disallow: /notifications
+
+Sitemap: https://melaniedizet.com/sitemap.xml

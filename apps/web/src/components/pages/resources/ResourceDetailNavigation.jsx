@@ -9,7 +9,7 @@ export default function ResourceDetailNavigation() {
       aria-label="Navigation de la ressource"
     >
       <div className="page-container resource-detail-navigation__container">
-        <Link to="/resources" className="btn btn-secondary">
+        <Link to="/ressources" className="btn btn-secondary">
           ← Retour aux ressources
         </Link>
       </div>

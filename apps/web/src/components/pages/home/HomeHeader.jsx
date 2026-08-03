@@ -2,8 +2,8 @@ import { Link } from "react-router-dom";
 
 import { homeContent } from "../../../content/home.content.js";
 
-import logoMelanieMobile from "../../../assets/images/logo_melanie_mobile.png";
-import logoMelanieDesktop from "../../../assets/images/logo_melanie_desktop.png";
+import logoMelanieMobile from "../../../assets/images/quiz.png";
+import logoMelanieDesktop from "../../../assets/images/quiz.png";
 
 export default function HomeHeader() {
   const { hero } = homeContent;

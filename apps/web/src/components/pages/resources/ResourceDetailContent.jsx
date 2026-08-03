@@ -1,6 +1,7 @@
 import { useLocation } from "react-router-dom";
 
 import ShareButton from "../../ui/ShareButton.jsx";
+import ExternalMediaConsent from "../../privacy/ExternalMediaConsent.jsx";
 import ResourceArticlePagination from "./ResourceArticlePagination.jsx";
 import ResourceEbookCard from "./ResourceEbookCard.jsx";
 
@@ -56,14 +57,10 @@ export default function ResourceDetailContent({
           })}
           {resource.embed && (
             <div className="resource-detail-content__embed">
-              <iframe
+              <ExternalMediaConsent
                 title={resource.embed.title}
                 src={resource.embed.src}
-                width="100%"
                 height={resource.embed.type === "spotify" ? "352" : "360"}
-                allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-                allowFullScreen
-                loading="lazy"
               />
             </div>
           )}

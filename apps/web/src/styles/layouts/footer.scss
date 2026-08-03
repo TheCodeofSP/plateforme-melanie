@@ -1,7 +1,7 @@
 @use "../abstracts/mixins.scss" as *;
 
 .footer {
-  background: var(--color-secondary);
+  background: var(--color-primary);
   color: var(--color-white);
 }
 
@@ -22,15 +22,9 @@
   height: 72px;
 
   object-fit: contain;
-
-  border-radius: var(--radius-md);
-
-  background: var(--color-white);
 }
 
 .footer__mission {
-  max-width: 760px;
-
   color: var(--color-white);
 
   font-family: var(--font-title);
@@ -102,6 +96,18 @@
 
 .footer__legal a {
   transition: color var(--transition-base);
+}
+
+.footer__legal button {
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--color-white);
+  cursor: pointer;
+
+  &:hover {
+    color: var(--color-primary-soft);
+  }
 }
 
 .footer__legal a:hover {

@@ -2,8 +2,6 @@ import { Link } from "react-router-dom";
 
 import { homeContent } from "../../../content/home.content.js";
 
-import quizIllustration from "../../../assets/images/quiz.png";
-
 export default function HomeQuiz() {
   const { quiz } = homeContent;
 
@@ -49,12 +47,29 @@ export default function HomeQuiz() {
           </div>
         </div>
 
-        <div className="home-quiz__image">
-          <img
-            src={quizIllustration}
-            alt="Illustration du quiz SPM"
-            loading="lazy"
-          />
+        <div className="home-quiz__preview" aria-label="Aperçu du Quiz SPM">
+          <div className="home-quiz__preview-paper">
+            <div className="home-quiz__preview-topline">
+              <span>{quiz.editorialLabel}</span>
+              <strong>{quiz.duration}</strong>
+            </div>
+            <span className="home-quiz__preview-number" aria-hidden="true">
+              01
+            </span>
+            <p className="home-quiz__preview-kicker">Ton cycle</p>
+            <h3>{quiz.preview.question}</h3>
+            <ul>
+              {quiz.preview.answers.map((answer, index) => (
+                <li key={answer}>
+                  <span aria-hidden="true">
+                    {String.fromCharCode(65 + index)}
+                  </span>
+                  {answer}
+                </li>
+              ))}
+            </ul>
+            <small>{quiz.preview.note}</small>
+          </div>
         </div>
       </div>
     </section>

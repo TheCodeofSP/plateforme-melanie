@@ -1,6 +1,6 @@
 import toast from "react-hot-toast";
 
-export default function ShareButton({ title, text, url, className = "" }) {
+export default function ShareButton({ title, text, url = window.location.href, className = "" }) {
   async function handleShare() {
     try {
       if (navigator.share) {

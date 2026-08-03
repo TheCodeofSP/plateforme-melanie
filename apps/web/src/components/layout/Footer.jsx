@@ -1,17 +1,19 @@
 import { Link } from "react-router-dom";
 
 import { footerContent } from "../../content/footer.content.js";
+import useCookieConsent from "../../hooks/useCookieConsent.js";
 
-import logoMelanie from "../../assets/images/logo_melanie.png";
+import logoMelanie from "../../assets/images/logo-clairiere.png";
 
 import "../../styles/layouts/footer.scss";
 
 export default function Footer() {
+  const { openPanel } = useCookieConsent();
   return (
     <footer className="footer">
       <div className="page-container footer__container">
         <div className="footer__brand">
-          <img src={logoMelanie} alt="Logo de Mélanie Dizet" />
+          <img src={logoMelanie} alt="Logo officiel de La Clairière" />
 
           <div>
             <p className="footer__mission">{footerContent.mission}</p>
@@ -60,6 +62,7 @@ export default function Footer() {
                 {link.label}
               </Link>
             ))}
+            <button type="button" onClick={openPanel}>Gérer mes cookies</button>
           </div>
         </div>
       </div>

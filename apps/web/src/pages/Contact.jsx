@@ -11,13 +11,13 @@ export default function Contact() {
   return (
     <>
       <SEO {...seoContent.pages.contact} />
-      <section className="page-content contact-page">
+      <main id="main-content" className="page-content contact-page">
         <div className="page-container">
           <ContactHeader />
 
           <ContactForm />
         </div>
-      </section>
+      </main>
     </>
   );
 }

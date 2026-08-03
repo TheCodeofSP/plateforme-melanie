@@ -1,0 +1,3 @@
+export const crmStatuses = { NOUVEAU: "Nouveau", A_CONTACTER: "À contacter", CONTACTE: "Contacté", A_RELANCER: "À relancer", INTERESSE: "Intéressé", NON_INTERESSE: "Non intéressé", ACCOMPAGNE_CLIENT: "Accompagné ou client", NE_PAS_CONTACTER: "Ne pas contacter" };
+export const crmPriorities = { LOW: "Faible", NORMAL: "Normale", HIGH: "Haute", URGENT: "Urgente" };
+export const taskResults = { NO_RESPONSE: "Aucune réponse", EXCHANGE_COMPLETED: "Échange réalisé", INTERESTED: "Personne intéressée", APPOINTMENT_SCHEDULED: "Rendez-vous planifié", DO_NOT_CONTACT: "Ne pas contacter", FREE_NOTE: "Note libre" };

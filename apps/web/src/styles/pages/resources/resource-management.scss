@@ -1,0 +1,115 @@
+.resource-management,
+.resource-editor {
+  width: min(100% - (2 * var(--container-padding)), 1100px);
+  min-height: calc(100vh - 80px);
+  margin-inline: auto;
+  padding-block: var(--space-xl);
+}
+
+.resource-management > header,
+.resource-editor > header {
+  display: grid;
+  gap: var(--space-sm);
+  margin-bottom: var(--space-xl);
+}
+
+.resource-management > header h1,
+.resource-editor > header h1 {
+  margin: 0;
+  font-size: clamp(2.8rem, 10vw, 5rem);
+}
+
+.resource-management > header div,
+.management-list article > div {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-sm);
+}
+
+.management-list {
+  display: grid;
+  gap: var(--space-md);
+}
+
+.management-list article {
+  display: grid;
+  gap: var(--space-sm);
+  padding: var(--space-md);
+  background: var(--color-white);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-card);
+}
+
+.management-list h2,
+.management-list p {
+  margin: 0;
+}
+
+.management-list article button:not(.btn),
+.management-list article a:not(.btn) {
+  padding: 0;
+  background: transparent;
+  border: 0;
+  color: var(--color-primary-active);
+  font-weight: 700;
+  text-decoration: underline;
+}
+
+.status-pill {
+  width: fit-content;
+  padding: 5px 10px;
+  background: var(--color-primary-extra-soft);
+  border-radius: var(--radius-pill);
+  color: var(--color-primary-active);
+  font-weight: 750;
+}
+
+.management-note {
+  padding: var(--space-sm);
+  background: var(--color-cream);
+  border-left: 3px solid var(--color-primary);
+}
+
+.management-filters {
+  display: grid;
+  gap: var(--space-sm);
+  margin-bottom: var(--space-lg);
+}
+
+.management-filters select {
+  min-height: 46px;
+  padding: var(--space-xs);
+  background: var(--color-white);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+}
+
+.resource-history ol {
+  display: grid;
+  gap: var(--space-sm);
+  padding-left: var(--space-lg);
+}
+
+.resource-history li {
+  padding: var(--space-md);
+  background: var(--color-white);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+}
+
+.resource-history li strong,
+.resource-history li time,
+.resource-history li small {
+  display: block;
+}
+
+@media (min-width: 720px) {
+  .management-list {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .management-filters {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}

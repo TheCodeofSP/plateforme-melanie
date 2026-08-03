@@ -1,22 +1,32 @@
+import { routes } from "../config/routes.config.js";
+import { platformContent } from "./platform.content.js";
+
 export const navigationContent = {
-  brand: "Mélanie Dizet",
-  slogan: "Bien-être gynécologique & accompagnement du féminin",
-
-  links: [
-    { label: "Accueil", to: "/" },
-    { label: "Vison", to: "/vision" },
-    { label: "Ressources", to: "/resources" },
-    { label: "Accompagnements", to: "/accompagnements" },
+  brand: platformContent.brand.name,
+  slogan: platformContent.brand.slogan,
+  primaryLinks: [
+    { label: "La Clairière", to: routes.platform },
+    { label: "Ressources", to: routes.resources },
+    { label: "Accompagnements", to: routes.accompaniments },
+    { label: "Le Cercle", to: routes.community },
   ],
-
+  discoveryLinks: [
+    { label: "Quiz SPM", to: routes.quiz },
+    { label: "Webinaires", to: routes.webinars },
+    { label: "Mélanie", to: routes.vision },
+  ],
   actions: {
-    forum: {
-      label: "Forum GYNECE",
-      to: "/gynece",
+    community: {
+      label: "Créer mon espace",
+      to: routes.registration,
     },
     contact: {
-      label: "Prendre contact",
-      to: "/contact",
+      label: "Se connecter",
+      to: routes.login,
+    },
+    login: {
+      label: "Créer mon espace",
+      to: routes.registration,
     },
   },
 };

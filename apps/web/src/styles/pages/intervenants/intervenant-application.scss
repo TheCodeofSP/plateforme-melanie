@@ -1,0 +1,165 @@
+.intervenant-application,
+.intervenant-account {
+  min-height: 70vh;
+  padding: 2rem 0 5rem;
+  background: linear-gradient(145deg, #fbf4ef, #fffdfb);
+}
+
+.application-layout {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.application-progress {
+  padding: 1.25rem;
+  border-radius: 1.25rem;
+  background: #dfe9e3;
+
+  ol {
+    display: grid;
+    gap: 0.5rem;
+    padding-left: 1.2rem;
+  }
+
+  li {
+    color: #756967;
+
+    &.is-current {
+      color: #2f4a3a;
+      font-weight: 800;
+    }
+
+    &.is-complete {
+      color: #496b5a;
+    }
+  }
+}
+
+.application-panel,
+.application-status-page,
+.intervenant-account {
+  label,
+  fieldset {
+    display: grid;
+    gap: 0.5rem;
+    margin: 1rem 0;
+  }
+}
+
+.application-panel {
+  padding: 1.5rem;
+  border: 1px solid #eadbd6;
+  border-radius: 1.5rem;
+  background: #fffdfb;
+
+  textarea {
+    min-height: 10rem;
+  }
+
+  dl > div {
+    padding: 0.8rem 0;
+    border-bottom: 1px solid #eadbd6;
+  }
+
+  dt {
+    font-weight: 800;
+  }
+}
+
+.application-specialty,
+.application-actions,
+.admin-decision,
+.profile-state {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  align-items: center;
+}
+
+.application-actions {
+  justify-content: space-between;
+  margin-top: 2rem;
+}
+
+.application-saved {
+  padding: 0.75rem 1rem;
+  border-left: 3px solid #496b5a;
+  background: #dfe9e3;
+}
+
+.application-document,
+.application-history article,
+.profile-comment,
+.profile-published {
+  padding: 1.25rem;
+  border: 1px solid #eadbd6;
+  border-radius: 1rem;
+  background: #fffdfb;
+}
+
+.application-document {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  div {
+    display: grid;
+  }
+}
+
+.application-history {
+  display: grid;
+  gap: 1rem;
+  margin-top: 2rem;
+
+  article > div {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-top: 1rem;
+  }
+}
+
+.intervenant-status {
+  display: inline-flex;
+  padding: 0.35rem 0.7rem;
+  border-radius: 999px;
+  background: #dfe9e3;
+  color: #2f4a3a;
+  font-size: 0.8rem;
+  font-weight: 800;
+}
+
+.intervenant-account {
+  padding-right: clamp(1rem, 5vw, 5rem);
+  padding-left: clamp(1rem, 5vw, 5rem);
+
+  > header,
+  > form,
+  > section,
+  > aside {
+    max-width: 52rem;
+  }
+}
+
+.professional-form {
+  display: grid;
+  gap: 0.75rem;
+  margin-top: 2rem;
+
+  textarea {
+    min-height: 9rem;
+  }
+}
+
+@media (min-width: 64rem) {
+  .application-layout {
+    grid-template-columns: 18rem minmax(0, 1fr);
+    align-items: start;
+  }
+
+  .application-progress {
+    position: sticky;
+    top: 7rem;
+  }
+}

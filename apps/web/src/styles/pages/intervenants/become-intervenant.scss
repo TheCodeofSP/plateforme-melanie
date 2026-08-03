@@ -1,0 +1,44 @@
+.intervenant-public {
+  min-height: 70vh;
+  padding-bottom: 5rem;
+  background:
+    radial-gradient(circle at 85% 8%, rgb(223 233 227 / 75%), transparent 26rem),
+    linear-gradient(180deg, #fbf4ef, #fffdfb 38rem);
+}
+
+.intervenant-hero {
+  padding: 5rem 0 3rem;
+
+  h1 {
+    max-width: 12ch;
+    font-size: clamp(3rem, 12vw, 6rem);
+  }
+
+  p:last-of-type {
+    max-width: 44rem;
+    font-size: 1.1rem;
+    line-height: 1.8;
+  }
+}
+
+.intervenant-editorial {
+  display: grid;
+  gap: 1.25rem;
+
+  section {
+    padding: 1.5rem;
+    border: 1px solid #eadbd6;
+    border-radius: 1.5rem;
+    background: rgb(255 253 251 / 88%);
+  }
+
+  li {
+    margin-bottom: 0.65rem;
+  }
+}
+
+@media (min-width: 64rem) {
+  .intervenant-editorial {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}

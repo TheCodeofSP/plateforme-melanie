@@ -1,0 +1,80 @@
+.workspace-layout--admin {
+  --workspace-accent: var(--color-secondary);
+}
+
+.admin-shell {
+  min-height: calc(100vh - 5rem);
+}
+
+.admin-shell__content {
+  min-width: 0;
+}
+
+.admin-sidebar {
+  position: relative;
+  z-index: 5;
+  padding: 0.8rem 1rem;
+  background: #2f4a3a;
+  color: #fffdfb;
+
+  &__toggle {
+    width: 100%;
+    padding: 0.8rem 1rem;
+    border: 1px solid rgb(255 255 255 / 25%);
+    border-radius: 0.8rem;
+    background: transparent;
+    color: inherit;
+    font-weight: 800;
+  }
+
+  nav {
+    display: none;
+    gap: 0.25rem;
+    margin-top: 0.75rem;
+  }
+
+  &.is-open nav {
+    display: grid;
+  }
+
+  a {
+    padding: 0.72rem 0.9rem;
+    border-radius: 0.7rem;
+    color: rgb(255 253 251 / 78%);
+    text-decoration: none;
+
+    &:hover,
+    &:focus-visible,
+    &.is-active {
+      background: rgb(255 255 255 / 12%);
+      color: #fffdfb;
+    }
+
+    &.is-active {
+      font-weight: 800;
+    }
+  }
+}
+
+@media (min-width: 72rem) {
+  .admin-shell {
+    display: grid;
+    grid-template-columns: 15rem minmax(0, 1fr);
+  }
+
+  .admin-sidebar {
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    padding: 2rem 1rem;
+
+    &__toggle {
+      display: none;
+    }
+
+    nav {
+      display: grid;
+      margin-top: 0;
+    }
+  }
+}

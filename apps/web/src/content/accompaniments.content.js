@@ -1,191 +1,58 @@
+import { routes } from "../config/routes.config.js";
+
+export const accompanimentOffers = {
+  coaching: {
+    slug: "seance-ponctuelle",
+    eyebrow: "Faire le point",
+    title: "Une séance pour retrouver de la clarté.",
+    summary: "Un espace souple, sans engagement long, pour déposer une situation précise et regarder ce qui compte aujourd’hui.",
+    duration: "1 h 15",
+    price: "70 €",
+    forWho: ["Tu traverses une situation confuse ou chargée.", "Tu souhaites prendre du recul avant une décision.", "Tu as besoin d’un temps d’écoute dédié."],
+    exploration: ["Ton vécu et ce qui demande à être entendu.", "Les liens possibles entre ton contexte, ton cycle et ton ressenti.", "Une piste concrète pour poursuivre ton chemin."],
+    process: ["Un temps pour atterrir et préciser ton besoin.", "Une exploration co-construite avec Mélanie.", "Une synthèse et des repères à emporter."],
+  },
+  aine: {
+    slug: "aine",
+    eyebrow: "Áine · Parcours en huit séances",
+    title: "Avancer en profondeur, sans brusquer ton rythme.",
+    summary: "Un parcours d’environ quatre mois pour explorer les liens entre ton vécu, tes émotions, ton cycle et ce que ton corps exprime.",
+    duration: "1 bilan de 2 h · 7 suivis de 90 min",
+    price: "830 € · paiement en 2 ou 3 fois",
+    forWho: ["Tu souhaites consacrer du temps à un vécu gynécologique qui prend de la place.", "Tu recherches un cadre suivi et personnalisé.", "Tu es prêt·e à observer ce qui évolue entre les séances."],
+    exploration: ["Une séance bilan pour poser les premières bases.", "Des pratiques choisies selon ton histoire et ton besoin.", "Des comptes-rendus pour garder une trace du chemin parcouru."],
+    process: ["Huit séances espacées de deux à trois semaines.", "Un parcours d’environ quatre mois.", "Des échanges possibles entre les séances selon le cadre défini avec Mélanie."],
+  },
+  symptothermy: {
+    slug: "symptothermie",
+    eyebrow: "Comprendre ma fertilité",
+    title: "Apprendre à observer son cycle avec méthode.",
+    summary: "Un apprentissage progressif de la symptothermie pour la contraception, l’observation ou un projet de conception.",
+    duration: "Durée adaptée à l’objectif",
+    price: "À partir de 80 €",
+    forWho: ["Tu souhaites mieux connaître ton cycle.", "Tu recherches une méthode d’observation rigoureuse.", "Tu veux être guidé·e selon un objectif de contraception, d’observation ou de conception."],
+    exploration: ["Les signes observables du cycle.", "L’utilisation progressive de la méthode.", "L’interprétation accompagnée de tes observations."],
+    process: ["Un rendez-vous de lancement.", "Des suivis répartis sur plusieurs cycles.", "Une validation adaptée au parcours choisi."],
+    pricing: [
+      { name: "Contraception", detail: "3 cycles d’observation, 12 cycles d’initiation puis validation", price: "450 €" },
+      { name: "Observation", detail: "Lancement et 6 suivis", price: "160 €" },
+      { name: "Conception · sécurité", detail: "Lancement, 3 suivis puis confirmation", price: "170 €" },
+      { name: "Conception · soutien", detail: "Lancement et 1 suivi, puis parcours défini ensemble", price: "À partir de 80 €" },
+    ],
+    note: "Suivi ponctuel supplémentaire : 40 €. Séance de confirmation seule : 50 €.",
+  },
+};
+
 export const accompanimentsContent = {
   hero: {
-    badge: "Accompagnements",
-
-    title: "Un accompagnement adapté à ton histoire, ton rythme et tes besoins",
-
-    subtitle:
-      "Chaque femme vit son cycle différemment. Ensemble, nous choisissons l'accompagnement le plus juste pour t'aider à retrouver davantage de sérénité et de compréhension de ton corps.",
-
-    primaryCta: {
-      label: "Prendre rendez-vous",
-      href: "/contact",
-    },
+    eyebrow: "Les accompagnements",
+    title: "Poursuivre le chemin avec Mélanie.",
+    text: "Tu peux venir avec une question précise, un besoin d’exploration plus profond ou l’envie de mieux comprendre ta fertilité.",
   },
-
-  introduction: {
-    title: "Il n'existe pas une seule façon d'être accompagnée.",
-
-    paragraphs: [
-      "Certaines femmes ressentent simplement le besoin d'y voir plus clair. D'autres souhaitent comprendre leurs symptômes, retrouver un équilibre hormonal ou apprendre à observer leur cycle.",
-      "Quel que soit ton point de départ, chaque accompagnement est pensé pour respecter ton histoire, ton rythme et tes besoins.",
-    ],
-  },
-
-  services: [
-    {
-      id: "coaching",
-
-      icon: "✦",
-      accent: "clarity",
-
-      title: "Coaching bien-être",
-
-      subtitle: "Un espace pour gagner en clarté intérieure.",
-
-      description:
-        "Un accompagnement souple, à la séance, pour déposer ce que tu traverses, prendre du recul et avancer avec davantage de confiance.",
-
-      forWho: [
-        "Tu traverses une période de questionnement.",
-        "Tu ressens le besoin d'être écoutée.",
-        "Tu souhaites retrouver de la clarté avant de prendre une décision.",
-      ],
-
-      benefits: [
-        "Un espace d'écoute bienveillant.",
-        "Une séance adaptée à ton besoin du moment.",
-        "Des pistes concrètes pour avancer.",
-      ],
-
-      cta: {
-        label: "En savoir plus",
-        href: "/contact",
-      },
-    },
-
-    {
-      id: "gyneco-emotionnelle",
-
-      icon: "◐",
-      accent: "emotional",
-
-      title: "Gyn'écologie émotionnelle",
-
-      subtitle: "Comprendre ce que ton corps cherche à exprimer.",
-
-      description:
-        "Un accompagnement individuel pour explorer le lien entre les émotions, le cycle menstruel et les maux gynécologiques grâce à différents outils corporels et émotionnels.",
-
-      forWho: [
-        "Tu souffres d'endométriose, de SOPK ou d'autres troubles gynécologiques.",
-        "Tu souhaites comprendre les messages de ton corps.",
-        "Tu recherches une approche globale, reliant corps et émotions.",
-      ],
-
-      benefits: [
-        "Une approche personnalisée.",
-        "Des outils de visualisation, méditation et voyage émotionnel.",
-        "Une meilleure compréhension de ton fonctionnement.",
-      ],
-
-      cta: {
-        label: "En savoir plus",
-        href: "/contact",
-      },
-    },
-
-    {
-      id: "symptothermie",
-
-      icon: "☾",
-      accent: "cycle",
-
-      title: "Symptothermie",
-
-      subtitle: "Apprendre à observer naturellement ton cycle.",
-
-      description:
-        "Un accompagnement pour découvrir la méthode symptothermique et mieux comprendre ta fertilité, que ce soit dans un objectif de contraception naturelle ou de projet bébé.",
-
-      forWho: [
-        "Tu souhaites une contraception naturelle.",
-        "Tu prépares un projet de grossesse.",
-        "Tu veux apprendre à mieux connaître ton cycle.",
-      ],
-
-      benefits: [
-        "Une méthode respectueuse de ton corps.",
-        "Un accompagnement progressif.",
-        "Une meilleure autonomie dans l'observation de ton cycle.",
-      ],
-
-      cta: {
-        label: "En savoir plus",
-        href: "/contact",
-      },
-    },
+  choices: [
+    { id: "coaching", title: "Faire le point", need: "J’ai besoin d’y voir plus clair sur une situation.", meta: "1 h 15 · 70 €", to: routes.accompanimentCoaching },
+    { id: "aine", title: "Áine", need: "Je souhaite être accompagné·e dans la durée.", meta: "8 séances · 830 €", to: routes.accompanimentAine },
+    { id: "symptothermy", title: "Comprendre ma fertilité", need: "Je veux apprendre à observer mon cycle.", meta: "Plusieurs parcours", to: routes.accompanimentSymptothermy },
   ],
-
-  comparison: {
-    title: "Quel accompagnement choisir ?",
-
-    cards: [
-      {
-        icon: "✦",
-        accent: "clarity",
-
-        title: "Tu as besoin d’y voir plus clair",
-        text: "Tu veux déposer ce que tu vis, prendre du recul et repartir avec une direction plus nette.",
-        recommendationLabel: "Accompagnement conseillé",
-        recommendation: "Coaching bien-être",
-      },
-
-      {
-        icon: "◐",
-        accent: "emotional",
-        title: "Tes symptômes prennent beaucoup de place",
-        text: "Tu sens que ton corps exprime quelque chose et tu veux explorer le lien entre ton vécu, tes émotions et ton cycle.",
-        recommendationLabel: "Accompagnement conseillé",
-        recommendation: "Gyn’écologie émotionnelle",
-      },
-
-      {
-        icon: "☾",
-        accent: "cycle",
-        title: "Tu souhaites comprendre ta fertilité",
-        text: "Tu veux apprendre à observer ton cycle pour une contraception naturelle, un projet bébé ou une meilleure connaissance de toi.",
-        recommendationLabel: "Accompagnement conseillé",
-        recommendation: "Symptothermie",
-      },
-    ],
-  },
-
-  process: {
-    title: "Comment se déroule un accompagnement ?",
-
-    steps: [
-      {
-        title: "1. Premier échange",
-        text: "Nous faisons le point sur ton histoire, tes attentes et tes besoins.",
-      },
-
-      {
-        title: "2. Un accompagnement personnalisé",
-        text: "Chaque séance s'adapte à ton évolution et à ce qui est important pour toi.",
-      },
-
-      {
-        title: "3. Tu avances à ton rythme",
-        text: "L'objectif est de te rendre progressivement autonome dans la compréhension de ton fonctionnement.",
-      },
-    ],
-  },
-
-  note: {
-    title: "À garder en tête",
-
-    text: "Les accompagnements proposés ne remplacent pas un suivi médical. Ils viennent en complément pour t'aider à mieux comprendre ton corps, ton cycle et ton vécu émotionnel.",
-  },
-
-  cta: {
-    title: "Prête à faire le premier pas ?",
-
-    text: "Si tu hésites entre plusieurs accompagnements, nous pourrons en discuter ensemble afin de choisir celui qui correspond le mieux à ta situation.",
-
-    primary: {
-      label: "Prendre rendez-vous",
-      href: "/contact",
-    },
-  },
+  note: "Les accompagnements proposés par Mélanie ne remplacent pas un suivi médical. Ils offrent un espace complémentaire d’écoute, d’exploration et de transmission.",
 };

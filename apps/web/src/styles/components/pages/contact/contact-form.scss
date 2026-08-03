@@ -28,3 +28,22 @@
 .contact-form button {
   width: 100%;
 }
+
+.contact-form__privacy,
+.contact-form__fallback {
+  font-size: 0.9rem;
+}
+
+.contact-form__fallback a {
+  color: var(--color-green-deep);
+  font-weight: 700;
+  text-decoration: underline;
+}
+
+.contact-form__status {
+  padding: 0.9rem;
+  border-radius: var(--radius-md);
+  background: var(--color-green-light);
+  color: var(--color-green-deep) !important;
+  font-weight: 700;
+}

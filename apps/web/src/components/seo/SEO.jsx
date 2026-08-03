@@ -1,6 +1,7 @@
 import { Helmet } from "react-helmet-async";
 
 import { seoContent } from "../../content/seo.content.js";
+import { appConfig } from "../../config/app.config.js";
 
 export default function SEO({
   title,
@@ -8,23 +9,23 @@ export default function SEO({
   image,
   url,
   robots,
+  noIndex = false,
+  structuredData,
 }) {
   const site = seoContent.site;
 
   const pageTitle = title || site.title;
   const pageDescription = description || site.description;
 
-  const pageUrl = url
-    ? `${site.url}${url}`
-    : site.url;
+  const pageUrl = url ? `${appConfig.siteUrl}${url}` : appConfig.siteUrl;
 
   const pageImage = image
     ? image.startsWith("http")
       ? image
-      : `${site.url}${image}`
-    : `${site.url}${site.image}`;
+      : `${appConfig.siteUrl}${image}`
+    : `${appConfig.siteUrl}${site.image}`;
 
-  const pageRobots = robots || site.robots;
+  const pageRobots = noIndex ? "noindex, nofollow" : robots || site.robots;
 
   return (
     <Helmet>
@@ -46,6 +47,11 @@ export default function SEO({
       <meta name="twitter:title" content={pageTitle} />
       <meta name="twitter:description" content={pageDescription} />
       <meta name="twitter:image" content={pageImage} />
+      {structuredData && (
+        <script type="application/ld+json">
+          {JSON.stringify(structuredData)}
+        </script>
+      )}
     </Helmet>
   );
 }

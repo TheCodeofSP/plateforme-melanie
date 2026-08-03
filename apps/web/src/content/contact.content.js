@@ -2,19 +2,19 @@ export const contactContent = {
   hero: {
     eyebrow: "Premier contact",
 
-    title: "Et si nous échangions ?",
+    title: "Commence par nous dire ce dont tu as besoin.",
 
     introduction: [
-      "Tu n'as pas besoin d'avoir toutes les réponses avant de me contacter.",
-      "Que tu aies une question, une hésitation ou simplement l'envie d'en savoir plus, je serai ravie d'échanger avec toi.",
+      "Tu n’as pas besoin de savoir quel accompagnement choisir avant d’écrire.",
+      "Une question, une hésitation ou quelques mots sur ce que tu traverses suffisent pour commencer.",
     ],
   },
 
   form: {
-    title: "Envoyer un message",
+    title: "Échanger avec Mélanie",
 
     description:
-      "Je te répondrai dès que possible.",
+      "Le formulaire prépare un email dans ton application habituelle. Tu pourras le vérifier avant de l’envoyer.",
 
     fields: {
       firstName: {

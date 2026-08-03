@@ -1,0 +1,322 @@
+.registration-page {
+  min-height: calc(100vh - 84px);
+  padding: var(--space-md) var(--container-padding) var(--space-xl);
+  background: var(--gradient-hero);
+}
+
+.registration-card {
+  width: min(100%, 720px);
+  margin-inline: auto;
+  padding: var(--space-lg) var(--space-md);
+  background: rgba(255, 255, 255, 0.96);
+  border: 1px solid var(--color-border-primary);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-soft);
+}
+
+.registration-card__header {
+  text-align: center;
+
+  h1 {
+    margin: var(--space-xs) 0 var(--space-sm);
+    font-size: clamp(2.3rem, 11vw, 4rem);
+  }
+
+  > p:last-child {
+    max-width: 580px;
+    margin-inline: auto;
+    color: var(--color-text-muted);
+  }
+}
+
+.registration-progress {
+  margin: var(--space-lg) 0;
+
+  ol {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    padding: 0;
+    margin: 0;
+    list-style: none;
+  }
+
+  li {
+    position: relative;
+    display: grid;
+    justify-items: center;
+    gap: 6px;
+    color: var(--color-text-muted);
+
+    &:not(:last-child)::after {
+      content: "";
+      position: absolute;
+      z-index: 0;
+      top: 17px;
+      left: calc(50% + 20px);
+      width: calc(100% - 40px);
+      height: 1px;
+      background: var(--color-border);
+    }
+
+    span {
+      z-index: 1;
+      display: grid;
+      place-items: center;
+      width: 34px;
+      height: 34px;
+      background: var(--color-white);
+      border: 1px solid var(--color-border);
+      border-radius: 50%;
+      font-weight: 800;
+    }
+
+    &.is-current,
+    &.is-done {
+      color: var(--color-primary-active);
+
+      span {
+        background: var(--color-primary);
+        border-color: var(--color-primary);
+        color: var(--color-white);
+      }
+    }
+  }
+}
+
+.registration-form,
+.registration-step {
+  display: grid;
+  gap: var(--space-md);
+}
+
+.registration-step {
+  min-width: 0;
+  padding: 0;
+  border: 0;
+
+  legend {
+    width: 100%;
+    margin-bottom: var(--space-xs);
+    color: var(--color-secondary);
+    font-family: var(--font-title);
+    font-size: clamp(1.9rem, 8vw, 2.7rem);
+    font-weight: 700;
+    line-height: 1;
+    text-align: center;
+  }
+}
+
+.registration-step__intro {
+  margin: 0 0 var(--space-xs);
+  color: var(--color-text-muted);
+  text-align: center;
+}
+
+.registration-form__grid {
+  display: grid;
+  gap: var(--space-md);
+}
+
+.registration-form .form-field {
+  display: grid;
+  gap: var(--space-xs);
+
+  > span {
+    font-weight: 700;
+  }
+
+  input[aria-invalid="true"] {
+    border-color: var(--color-error);
+  }
+}
+
+.registration-step__guardian {
+  padding: var(--space-md);
+  background: var(--color-accent-extra-soft);
+  border: 1px solid var(--color-border-accent);
+  border-radius: var(--radius-md);
+}
+
+.registration-check {
+  display: grid;
+  grid-template-columns: 22px 1fr;
+  align-items: start;
+  gap: var(--space-sm);
+  padding: var(--space-sm);
+  background: var(--color-surface-neutral);
+  border: 1px solid var(--color-border-soft);
+  border-radius: var(--radius-sm);
+
+  input {
+    width: 20px;
+    height: 20px;
+    margin-top: 2px;
+    accent-color: var(--color-primary);
+  }
+
+  a {
+    color: var(--color-primary-active);
+    font-weight: 700;
+    text-decoration: underline;
+  }
+}
+
+.registration-check--compact {
+  justify-self: start;
+  padding: 0;
+  background: transparent;
+  border: 0;
+}
+
+.registration-consents {
+  display: grid;
+  gap: var(--space-sm);
+
+  .form-error {
+    display: block;
+    margin: 6px var(--space-sm) 0;
+  }
+}
+
+.password-requirements {
+  padding: var(--space-sm) var(--space-md);
+  background: var(--color-secondary-extra-soft);
+  border-radius: var(--radius-sm);
+  font-size: 0.9rem;
+
+  p {
+    margin: 0 0 var(--space-xs);
+    font-weight: 700;
+  }
+
+  ul {
+    display: grid;
+    gap: 4px;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+  }
+
+  li {
+    display: flex;
+    gap: var(--space-xs);
+    color: var(--color-text-muted);
+  }
+
+  .is-valid {
+    color: var(--color-success);
+  }
+}
+
+.registration-form__actions {
+  display: flex;
+  flex-direction: column-reverse;
+  gap: var(--space-sm);
+  margin-top: var(--space-sm);
+
+  .btn {
+    width: 100%;
+  }
+}
+
+.registration-card__login {
+  margin: var(--space-lg) 0 0;
+  text-align: center;
+
+  a {
+    color: var(--color-primary-active);
+    font-weight: 800;
+    text-decoration: underline;
+  }
+}
+
+.registration-result {
+  display: grid;
+  justify-items: center;
+  gap: var(--space-md);
+  text-align: center;
+
+  h1,
+  h2,
+  p {
+    margin: 0;
+  }
+}
+
+.registration-result__icon {
+  display: grid;
+  place-items: center;
+  width: 64px;
+  height: 64px;
+  background: var(--color-accent-extra-soft);
+  border: 1px solid var(--color-border-accent);
+  border-radius: 50%;
+  color: var(--color-success);
+  font-size: 1.8rem;
+  font-weight: 800;
+}
+
+.registration-result__email,
+.registration-notice,
+.parental-summary {
+  width: 100%;
+  padding: var(--space-md);
+  background: var(--color-surface-neutral);
+  border: 1px solid var(--color-border-soft);
+  border-radius: var(--radius-md);
+}
+
+.registration-notice--success {
+  background: var(--color-accent-extra-soft);
+  color: var(--color-success);
+}
+
+.registration-notice--quiz {
+  margin-bottom: var(--space-md);
+  background: var(--color-primary-extra-soft);
+  border-color: var(--color-border-primary);
+  text-align: center;
+}
+
+.resend-form {
+  display: grid;
+  gap: var(--space-sm);
+  width: 100%;
+  margin-top: var(--space-sm);
+  text-align: left;
+}
+
+.registration-result__links {
+  display: grid;
+  gap: var(--space-md);
+  justify-items: center;
+}
+
+.parental-summary {
+  display: grid;
+  gap: 4px;
+}
+
+@media (min-width: 640px) {
+  .registration-page {
+    padding-top: var(--space-xl);
+  }
+
+  .registration-card {
+    padding: var(--space-xl);
+  }
+
+  .registration-form__grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .registration-form__actions {
+    flex-direction: row;
+    justify-content: flex-end;
+
+    .btn {
+      width: auto;
+      min-width: 150px;
+    }
+  }
+}

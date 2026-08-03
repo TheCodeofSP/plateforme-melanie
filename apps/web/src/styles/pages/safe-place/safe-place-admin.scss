@@ -1,0 +1,104 @@
+.clearing-admin {
+  width: min(100% - (2 * var(--container-padding)), 1120px);
+  min-height: calc(100vh - 80px);
+  margin-inline: auto;
+  padding-block: var(--space-xl);
+}
+
+.clearing-admin > header {
+  display: grid;
+  gap: var(--space-sm);
+  margin-bottom: var(--space-xl);
+}
+
+.clearing-admin h1 {
+  margin: 0;
+  color: var(--color-green-deep);
+  font-size: clamp(3rem, 10vw, 5.5rem);
+}
+
+.clearing-admin header > div,
+.clearing-admin-actions,
+.clearing-admin-list article > div {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-sm);
+}
+
+.clearing-admin__stats,
+.clearing-admin-list {
+  display: grid;
+  gap: var(--space-md);
+}
+
+.clearing-admin__stats article,
+.clearing-admin-list article,
+.clearing-admin-report section {
+  display: grid;
+  gap: var(--space-sm);
+  padding: var(--space-md);
+  background: var(--color-white);
+  border: 1px solid var(--color-border-accent);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-card);
+}
+
+.clearing-admin__stats strong {
+  color: var(--color-green-deep);
+  font-family: var(--font-title);
+  font-size: 3rem;
+}
+
+.clearing-admin-form,
+.clearing-admin-filters {
+  display: grid;
+  gap: var(--space-sm);
+  margin-bottom: var(--space-xl);
+  padding: var(--space-md);
+  background: var(--color-green-light);
+  border-radius: var(--radius-md);
+}
+
+.clearing-admin-form label {
+  display: grid;
+  gap: var(--space-xs);
+}
+
+.clearing-admin-form input,
+.clearing-admin-form textarea,
+.clearing-admin-filters select,
+.clearing-admin > label select {
+  width: 100%;
+  min-height: 46px;
+  padding: 10px;
+  background: var(--color-white);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  font: inherit;
+}
+
+.clearing-admin-form .clearing-check {
+  grid-template-columns: 20px 1fr;
+}
+
+.priority--critical {
+  background: #f6dddd;
+  color: var(--color-error);
+}
+
+.priority--high {
+  background: #f8eadb;
+  color: #8b5a2b;
+}
+
+@media (min-width: 720px) {
+  .clearing-admin__stats {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+  .clearing-admin-list {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .clearing-admin-filters {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}

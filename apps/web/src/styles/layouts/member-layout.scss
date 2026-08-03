@@ -1,0 +1,8 @@
+.workspace-layout {
+  min-height: 100vh;
+  background: var(--color-surface-neutral);
+}
+
+.workspace-layout--member {
+  --workspace-accent: var(--color-primary);
+}

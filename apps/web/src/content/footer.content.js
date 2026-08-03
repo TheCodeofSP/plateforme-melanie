@@ -1,38 +1,51 @@
+import { routes } from "../config/routes.config.js";
+
 export const footerContent = {
   mission:
-    "Chaque parcours est unique. Le tien mérite d'être écouté avec bienveillance.",
+    "Une pause pour mieux comprendre. Des repères pour continuer.",
 
   description:
-    "Un espace pensé pour mieux comprendre ton corps, ton cycle et avancer à ton rythme.",
+    "La Clairière t’accueille là où tu en es, sur le chemin du bien-être gynécologique.",
 
   navigation: {
     title: "Explorer",
     links: [
-      { label: "Accueil", to: "/" },
-      { label: "À propos", to: "/about" },
-      { label: "Ressources", to: "/resources" },
-      { label: "Accompagnements", to: "/accompagnements" },
-      { label: "Contact", to: "/contact" },
+      { label: "Accueil", to: routes.home },
+      { label: "La Clairière", to: routes.platform },
+      { label: "Mélanie", to: routes.vision },
+      { label: "Ressources", to: routes.resources },
+      { label: "Accompagnements", to: routes.accompaniments },
+      { label: "Contact", to: routes.contact },
     ],
   },
 
   platform: {
     title: "Plateforme",
     links: [
-      { label: "Forum GYNECE", to: "/gynece" },
-      { label: "Quiz SPM", to: "/quiz" },
+      {
+        label: "Le Cercle",
+        to: routes.community,
+      },
+      { label: "Quiz SPM", to: routes.quiz },
+      { label: "Webinaires", to: routes.webinars },
+      { label: "Intervenantes", to: routes.professionals },
     ],
   },
 
   contact: {
     title: "Contact",
     email: "contact@melaniedizet.com",
-    location: "Centre Périsanté de Nivelles",
+    location: "Informations professionnelles à compléter avant mise en ligne",
   },
 
   legal: [
-    { label: "Mentions légales", to: "/mentions-legales" },
-    { label: "Politique de confidentialité", to: "/confidentialite" },
+    { label: "Mentions légales", to: routes.legalNotice },
+    {
+      label: "Politique de confidentialité",
+      to: routes.privacyPolicy,
+    },
+    { label: "Cookies", to: routes.cookiesPolicy },
+    { label: "Accessibilité", to: routes.accessibility },
   ],
 
   copyright: "© 2026 Mélanie Dizet. Tous droits réservés.",
