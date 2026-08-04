@@ -1,6 +1,6 @@
 export const platformContent = {
   brand: {
-    name: "La Clairière",
+    name: "Mélanie DIZET",
     slogan: "Sur le chemin du bien-être gynécologique",
     provisional: true,
   },
