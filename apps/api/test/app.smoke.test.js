@@ -19,6 +19,37 @@ Object.assign(process.env, {
 });
 
 const app = require("../src/app");
+const {
+  REMEMBER_ME_DURATION,
+  STANDARD_SESSION_DURATION,
+  setAuthCookies,
+} = require("../src/services/cookie.service");
+
+test("les cookies restent disponibles pendant toute la session", () => {
+  for (const [rememberMe, expectedDuration] of [
+    [false, STANDARD_SESSION_DURATION],
+    [true, REMEMBER_ME_DURATION],
+  ]) {
+    const cookies = [];
+    const res = {
+      cookie(name, value, options) {
+        cookies.push({ name, value, options });
+      },
+    };
+
+    setAuthCookies(res, {
+      accessToken: "access-token",
+      refreshToken: "refresh-token",
+      rememberMe,
+    });
+
+    assert.equal(cookies.length, 2);
+    assert.equal(cookies[0].name, "accessToken");
+    assert.equal(cookies[0].options.maxAge, expectedDuration);
+    assert.equal(cookies[1].name, "refreshToken");
+    assert.equal(cookies[1].options.maxAge, expectedDuration);
+  }
+});
 
 test("l’API répond et protège les tâches Vercel", async () => {
   const server = app.listen(0);
