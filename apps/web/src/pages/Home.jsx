@@ -11,59 +11,187 @@ import "../styles/pages/home-premium.scss";
 export default function Home() {
   return (
     <main id="main-content" className="home-story">
-      <SEO {...seoContent.pages.home} structuredData={{ "@context": "https://schema.org", "@type": "WebSite", name: "La Clairière", description: seoContent.pages.home.description }} />
+      <SEO
+        {...seoContent.pages.home}
+        structuredData={{
+          "@context": "https://schema.org",
+          "@type": "WebSite",
+          name: "La Clairière",
+          description: seoContent.pages.home.description,
+        }}
+      />
 
       <section className="home-story__hero">
         <div className="page-container home-story__hero-grid">
           <div className="home-story__copy">
             <p className="eyebrow">{homeContent.hero.eyebrow}</p>
             <h1>{homeContent.hero.title}</h1>
-            <p>{homeContent.hero.introduction}</p>
-            <div className="home-story__actions"><Link className="btn btn-primary" to={homeContent.hero.primary.to}>{homeContent.hero.primary.label}</Link><Link className="btn btn-secondary" to={homeContent.hero.secondary.to}>{homeContent.hero.secondary.label}</Link></div>
+            {homeContent.hero.introduction.map((paragraph) => (
+              <p key={paragraph}>{paragraph}</p>
+            ))}
+            <strong className="home-story__hero-highlight">
+              {homeContent.hero.highlight}
+            </strong>
+            <p>{homeContent.hero.conclusion}</p>
           </div>
-          <div className="home-story__logo"><span aria-hidden="true">Une lumière apparaît sur le chemin</span><img src={logo} alt="Logo officiel de La Clairière : une personne s’élève entre un nuage, une étoile et une lune" fetchPriority="high" /></div>
+
+          <div className="home-story__logo">
+            <span aria-hidden="true">Une lumière apparaît sur le chemin</span>
+            <img
+              src={logo}
+              alt="Logo officiel de La Clairière"
+              fetchPriority="high"
+            />
+          </div>
         </div>
       </section>
 
-      <section className="home-story__recognition">
-        <div className="page-container home-story__narrow">
-          <p className="eyebrow">{homeContent.recognition.eyebrow}</p>
-          <h2>{homeContent.recognition.title}</h2>
-          {homeContent.recognition.paragraphs.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
-          <strong>{homeContent.recognition.reassurance}</strong>
-        </div>
-      </section>
-
-      <section className="home-story__pause">
-        <div className="page-container home-story__pause-card">
-          <div className="home-story__path" aria-hidden="true"><i /><i /><i /></div>
-          <div><p className="eyebrow">{homeContent.pause.eyebrow}</p><h2>{homeContent.pause.title}</h2><p>{homeContent.pause.text}</p></div>
-        </div>
-      </section>
-
-      <section className="home-story__experiences">
+      <section className="home-story__paths">
         <div className="page-container">
-          <header className="section-header"><p className="eyebrow">{homeContent.experiences.eyebrow}</p><h2>{homeContent.experiences.title}</h2></header>
-          <div className="home-story__experience-grid">{homeContent.experiences.items.map((item) => <article key={item.title}><span>{item.symbol}</span><h3>{item.title}</h3><p>{item.text}</p><Link to={item.to}>{item.label}<span aria-hidden="true"> →</span></Link></article>)}</div>
+          <header className="section-header">
+            <p className="eyebrow">{homeContent.paths.eyebrow}</p>
+            <h2>{homeContent.paths.title}</h2>
+          </header>
+
+          <div className="home-story__path-grid">
+            {homeContent.paths.items.map((item) => (
+              <article className="home-story__path-card" key={item.title}>
+                <span className="home-story__path-number">{item.number}</span>
+                <h3>{item.title}</h3>
+                <p>{item.text}</p>
+                <strong>{item.details}</strong>
+                <a className="btn btn-secondary" href={item.action.to}>
+                  {item.action.label}
+                </a>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="home-story__first-steps" id="premiers-pas">
+        <div className="page-container">
+          <header className="home-story__section-intro">
+            <p className="eyebrow">{homeContent.firstSteps.eyebrow}</p>
+            <h2>{homeContent.firstSteps.title}</h2>
+            <p>{homeContent.firstSteps.introduction}</p>
+            <p>{homeContent.firstSteps.invitation}</p>
+            <p>{homeContent.firstSteps.description}</p>
+          </header>
+
+          <div
+            className="home-story__resource-slider"
+            aria-label="Ressources pour faire ses premiers pas"
+          >
+            {homeContent.firstSteps.items.map((item) => (
+              <Link
+                className={`home-story__resource-card home-story__resource-card--${item.tone}`}
+                to={item.to}
+                key={item.title}
+              >
+                <span>{item.label}</span>
+                <h3>{item.title}</h3>
+                <p>{item.text}</p>
+                <strong>Découvrir →</strong>
+              </Link>
+            ))}
+          </div>
+
+          <div className="home-story__first-steps-footer">
+            <strong>{homeContent.firstSteps.conclusion}</strong>
+            <Link
+              className="btn btn-primary"
+              to={homeContent.firstSteps.action.to}
+            >
+              {homeContent.firstSteps.action.label}
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      <section className="home-story__forum" id="forum">
+        <div className="page-container home-story__forum-card">
+          <div>
+            <p className="eyebrow">{homeContent.forum.eyebrow}</p>
+            <h2>{homeContent.forum.title}</h2>
+            <span className="home-story__status">
+              {homeContent.forum.status}
+            </span>
+            <p>{homeContent.forum.text}</p>
+          </div>
+          <Link className="btn btn-primary" to={homeContent.forum.action.to}>
+            {homeContent.forum.action.label}
+          </Link>
         </div>
       </section>
 
       <section className="home-story__melanie">
         <div className="page-container home-story__melanie-grid">
-          <figure><img src={melaniePortrait} alt="Portrait de Mélanie Dizet" loading="lazy" /><figcaption>Mélanie Dizet · coach et accompagnante</figcaption></figure>
-          <div><p className="eyebrow">{homeContent.melanie.eyebrow}</p><h2>{homeContent.melanie.title}</h2><p>{homeContent.melanie.text}</p><p>{homeContent.melanie.details}</p><Link className="btn btn-secondary" to={homeContent.melanie.to}>{homeContent.melanie.label}</Link></div>
+          <figure>
+            <img
+              src={melaniePortrait}
+              alt="Portrait de Mélanie Dizet"
+              loading="lazy"
+            />
+            <figcaption>Mélanie Dizet · coach et accompagnante</figcaption>
+          </figure>
+
+          <div>
+            <p className="eyebrow">{homeContent.melanie.eyebrow}</p>
+            <h2>{homeContent.melanie.title}</h2>
+            {homeContent.melanie.paragraphs.map((paragraph) => (
+              <p key={paragraph}>{paragraph}</p>
+            ))}
+            <strong className="home-story__melanie-highlight">
+              {homeContent.melanie.highlight}
+            </strong>
+            <Link
+              className="btn btn-secondary"
+              to={homeContent.melanie.action.to}
+            >
+              {homeContent.melanie.action.label}
+            </Link>
+          </div>
         </div>
       </section>
 
-      <section className="home-story__accompaniments">
+      <section className="home-story__accompaniments" id="accompagnements">
         <div className="page-container">
-          <header className="section-header"><p className="eyebrow">{homeContent.accompaniments.eyebrow}</p><h2>{homeContent.accompaniments.title}</h2><p>{homeContent.accompaniments.text}</p></header>
-          <div className="home-story__offer-grid">{homeContent.accompaniments.items.map((item) => <Link to={item.to} key={item.title}><span>{item.meta}</span><h3>{item.title}</h3><p>{item.text}</p><strong>Découvrir cet accompagnement →</strong></Link>)}</div>
-        </div>
-      </section>
+          <header className="home-story__section-intro">
+            <p className="eyebrow">{homeContent.accompaniments.eyebrow}</p>
+            <h2>{homeContent.accompaniments.title}</h2>
+            {homeContent.accompaniments.paragraphs.map((paragraph) => (
+              <p key={paragraph}>{paragraph}</p>
+            ))}
+          </header>
 
-      <section className="home-story__final">
-        <div className="page-container"><p className="eyebrow">{homeContent.final.eyebrow}</p><h2>{homeContent.final.title}</h2><p>{homeContent.final.text}</p><div className="home-story__actions"><Link className="btn btn-primary" to={homeContent.final.primary.to}>{homeContent.final.primary.label}</Link><Link className="btn btn-secondary" to={homeContent.final.secondary.to}>{homeContent.final.secondary.label}</Link></div></div>
+          <div className="home-story__offer-grid">
+            {homeContent.accompaniments.items.map((item) => (
+              <Link to={item.to} key={item.title}>
+                <div className="home-story__offer-labels">
+                  {item.labels.map((label) => (
+                    <span key={label}>{label}</span>
+                  ))}
+                </div>
+                <h3>{item.title}</h3>
+                <p>{item.text}</p>
+                <strong className="home-story__offer-ideal">
+                  {item.ideal}
+                </strong>
+                <span className="home-story__offer-link">Découvrir →</span>
+              </Link>
+            ))}
+          </div>
+
+          <div className="home-story__accompaniments-action">
+            <Link
+              className="btn btn-primary"
+              to={homeContent.accompaniments.action.to}
+            >
+              {homeContent.accompaniments.action.label}
+            </Link>
+          </div>
+        </div>
       </section>
     </main>
   );
