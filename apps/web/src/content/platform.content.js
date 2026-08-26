@@ -11,8 +11,8 @@ export const platformContent = {
     path: "/la-clairiere",
   },
   communitySpace: {
-    name: "Le Cercle",
-    shortName: "Le Cercle",
+    name: "Le forum de La Clairière",
+    shortName: "Le forum",
     description:
       "Un espace confidentiel pour déposer ce que tu vis, échanger et avancer à ton rythme.",
     path: "/le-cercle",

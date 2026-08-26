@@ -9,7 +9,7 @@ const sections = [
   { label: "Comptes", to: routes.adminAccounts },
   { label: "Quiz SPM", to: routes.adminQuiz },
   { label: "Ressources", to: routes.adminResources },
-  { label: "Le Cercle", to: routes.adminCommunity },
+  { label: "Le forum", to: routes.adminCommunity },
   { label: "Webinaires", to: routes.adminWebinars },
   { label: "Intervenantes", to: routes.adminIntervenants },
   { label: "Communications", to: routes.adminCommunications },
@@ -19,5 +19,29 @@ const sections = [
 
 export default function AdminSidebar() {
   const [open, setOpen] = useState(false);
-  return <aside className={`admin-sidebar ${open ? "is-open" : ""}`}><button className="admin-sidebar__toggle" type="button" onClick={() => setOpen((value) => !value)} aria-expanded={open}>Menu d’administration</button><nav aria-label="Administration">{sections.map((item) => <NavLink key={item.to} end={item.to === routes.adminHome} to={item.to} onClick={() => setOpen(false)} className={({ isActive }) => isActive ? "is-active" : ""}>{item.label}</NavLink>)}</nav></aside>;
+  return (
+    <aside className={`admin-sidebar ${open ? "is-open" : ""}`}>
+      <button
+        className="admin-sidebar__toggle"
+        type="button"
+        onClick={() => setOpen((value) => !value)}
+        aria-expanded={open}
+      >
+        Menu d’administration
+      </button>
+      <nav aria-label="Administration">
+        {sections.map((item) => (
+          <NavLink
+            key={item.to}
+            end={item.to === routes.adminHome}
+            to={item.to}
+            onClick={() => setOpen(false)}
+            className={({ isActive }) => (isActive ? "is-active" : "")}
+          >
+            {item.label}
+          </NavLink>
+        ))}
+      </nav>
+    </aside>
+  );
 }

@@ -8,7 +8,7 @@ const DOCUMENT_VERSIONS = {
   QUIZ_RESULT_EMAIL: "draft-1",
   MARKETING_COMMUNICATIONS: "draft-1",
   PERSONAL_CONTACT: "draft-1",
-  SAFE_PLACE_CHARTER: "draft-1",
+  SAFE_PLACE_CHARTER: "draft-2",
 };
 
 module.exports = DOCUMENT_VERSIONS;

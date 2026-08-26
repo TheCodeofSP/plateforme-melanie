@@ -1,8 +1,7 @@
 import { routes } from "../config/routes.config.js";
 
 export const footerContent = {
-  mission:
-    "Une pause pour mieux comprendre. Des repères pour continuer.",
+  mission: "Une pause pour mieux comprendre. Des repères pour continuer.",
 
   description:
     "La Clairière t’accueille là où tu en es, sur le chemin du bien-être gynécologique.",
@@ -23,7 +22,7 @@ export const footerContent = {
     title: "Plateforme",
     links: [
       {
-        label: "Le Cercle",
+        label: "Le forum",
         to: routes.community,
       },
       { label: "Quiz SPM", to: routes.quiz },

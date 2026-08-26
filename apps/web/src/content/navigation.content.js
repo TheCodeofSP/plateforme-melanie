@@ -8,7 +8,7 @@ export const navigationContent = {
     { label: "La Clairière", to: routes.platform },
     { label: "Ressources", to: routes.resources },
     { label: "Accompagnements", to: routes.accompaniments },
-    { label: "Le Cercle", to: routes.community },
+    { label: "Le forum", to: routes.community },
   ],
   discoveryLinks: [
     { label: "Quiz SPM", to: routes.quiz },
