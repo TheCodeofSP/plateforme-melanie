@@ -26,9 +26,11 @@ export default function Home() {
           <div className="home-story__copy">
             <p className="eyebrow">{homeContent.hero.eyebrow}</p>
             <h1>{homeContent.hero.title}</h1>
-            {homeContent.hero.introduction.map((paragraph) => (
-              <p key={paragraph}>{paragraph}</p>
-            ))}
+            <div className="home-story__paragraphs">
+              {homeContent.hero.introduction.map((paragraph) => (
+                <p key={paragraph}>{paragraph}</p>
+              ))}
+            </div>
             <strong className="home-story__hero-highlight">
               {homeContent.hero.highlight}
             </strong>
@@ -55,7 +57,13 @@ export default function Home() {
 
           <div className="home-story__path-grid">
             {homeContent.paths.items.map((item) => (
-              <article className="home-story__path-card" key={item.title}>
+              <article
+                className={`home-story__path-card${item.featured ? " home-story__path-card--featured" : ""}`}
+                key={item.title}
+              >
+                {item.featured && (
+                  <span className="home-story__path-featured">Le cœur de La Clairière</span>
+                )}
                 <span className="home-story__path-number">{item.number}</span>
                 <h3>{item.title}</h3>
                 <p>{item.text}</p>
@@ -74,9 +82,14 @@ export default function Home() {
           <header className="home-story__section-intro">
             <p className="eyebrow">{homeContent.firstSteps.eyebrow}</p>
             <h2>{homeContent.firstSteps.title}</h2>
-            <p>{homeContent.firstSteps.introduction}</p>
-            <p>{homeContent.firstSteps.invitation}</p>
-            <p>{homeContent.firstSteps.description}</p>
+            <div className="home-story__paragraphs">
+              <p>{homeContent.firstSteps.introduction}</p>
+              <p>{homeContent.firstSteps.invitation}</p>
+              <p>{homeContent.firstSteps.description}</p>
+            </div>
+            <p className="home-story__access-information">
+              {homeContent.firstSteps.accessInformation}
+            </p>
           </header>
 
           <div
@@ -89,7 +102,10 @@ export default function Home() {
                 to={item.to}
                 key={item.title}
               >
-                <span>{item.label}</span>
+                <div className="home-story__resource-meta">
+                  <span>{item.label}</span>
+                  <small>{item.access}</small>
+                </div>
                 <h3>{item.title}</h3>
                 <p>{item.text}</p>
                 <strong>Découvrir →</strong>
@@ -99,10 +115,7 @@ export default function Home() {
 
           <div className="home-story__first-steps-footer">
             <strong>{homeContent.firstSteps.conclusion}</strong>
-            <Link
-              className="btn btn-primary"
-              to={homeContent.firstSteps.action.to}
-            >
+            <Link className="btn btn-primary" to={homeContent.firstSteps.action.to}>
               {homeContent.firstSteps.action.label}
             </Link>
           </div>
@@ -114,9 +127,7 @@ export default function Home() {
           <div>
             <p className="eyebrow">{homeContent.forum.eyebrow}</p>
             <h2>{homeContent.forum.title}</h2>
-            <span className="home-story__status">
-              {homeContent.forum.status}
-            </span>
+            <span className="home-story__status">{homeContent.forum.status}</span>
             <p>{homeContent.forum.text}</p>
           </div>
           <Link className="btn btn-primary" to={homeContent.forum.action.to}>
@@ -139,16 +150,15 @@ export default function Home() {
           <div>
             <p className="eyebrow">{homeContent.melanie.eyebrow}</p>
             <h2>{homeContent.melanie.title}</h2>
-            {homeContent.melanie.paragraphs.map((paragraph) => (
-              <p key={paragraph}>{paragraph}</p>
-            ))}
+            <div className="home-story__paragraphs">
+              {homeContent.melanie.paragraphs.map((paragraph) => (
+                <p key={paragraph}>{paragraph}</p>
+              ))}
+            </div>
             <strong className="home-story__melanie-highlight">
               {homeContent.melanie.highlight}
             </strong>
-            <Link
-              className="btn btn-secondary"
-              to={homeContent.melanie.action.to}
-            >
+            <Link className="btn btn-secondary" to={homeContent.melanie.action.to}>
               {homeContent.melanie.action.label}
             </Link>
           </div>
@@ -160,34 +170,29 @@ export default function Home() {
           <header className="home-story__section-intro">
             <p className="eyebrow">{homeContent.accompaniments.eyebrow}</p>
             <h2>{homeContent.accompaniments.title}</h2>
-            {homeContent.accompaniments.paragraphs.map((paragraph) => (
-              <p key={paragraph}>{paragraph}</p>
-            ))}
+            <div className="home-story__paragraphs">
+              {homeContent.accompaniments.paragraphs.map((paragraph) => (
+                <p key={paragraph}>{paragraph}</p>
+              ))}
+            </div>
           </header>
 
           <div className="home-story__offer-grid">
             {homeContent.accompaniments.items.map((item) => (
               <Link to={item.to} key={item.title}>
                 <div className="home-story__offer-labels">
-                  {item.labels.map((label) => (
-                    <span key={label}>{label}</span>
-                  ))}
+                  {item.labels.map((label) => <span key={label}>{label}</span>)}
                 </div>
                 <h3>{item.title}</h3>
                 <p>{item.text}</p>
-                <strong className="home-story__offer-ideal">
-                  {item.ideal}
-                </strong>
+                <strong className="home-story__offer-ideal">{item.ideal}</strong>
                 <span className="home-story__offer-link">Découvrir →</span>
               </Link>
             ))}
           </div>
 
           <div className="home-story__accompaniments-action">
-            <Link
-              className="btn btn-primary"
-              to={homeContent.accompaniments.action.to}
-            >
+            <Link className="btn btn-primary" to={homeContent.accompaniments.action.to}>
               {homeContent.accompaniments.action.label}
             </Link>
           </div>

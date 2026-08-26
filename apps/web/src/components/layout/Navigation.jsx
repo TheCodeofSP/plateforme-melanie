@@ -66,11 +66,11 @@ export default function Navigation() {
         <div className="navigation__mobile-actions">
           {!isAuthenticated && (
             <Link
-              to={navigationContent.actions.login.to}
+              to={navigationContent.actions.resources.to}
               className="navigation__quick-action"
               onClick={closeMenu}
             >
-              Créer mon espace
+              {navigationContent.actions.resources.label}
             </Link>
           )}
 
@@ -179,18 +179,18 @@ export default function Navigation() {
             ) : (
               <>
                 <Link
-                  to={navigationContent.actions.contact.to}
+                  to={navigationContent.actions.login.to}
                   className="navigation__login"
                   onClick={closeMenu}
                 >
-                  {navigationContent.actions.contact.label}
+                  {navigationContent.actions.login.label}
                 </Link>
                 <Link
-                  to={navigationContent.actions.login.to}
+                  to={navigationContent.actions.resources.to}
                   className="btn btn-primary"
                   onClick={closeMenu}
                 >
-                  {navigationContent.actions.login.label}
+                  {navigationContent.actions.resources.label}
                 </Link>
               </>
             )}
