@@ -30,6 +30,7 @@ export const homeContent = {
         text: "Un espace privé pour ne plus rester seule avec tes questionnements, échanger avec d’autres femmes et approfondir tes connaissances dans un cadre sécurisant.",
         details: "Forum · Ateliers · Ressources inédites",
         action: { label: "Découvrir le forum", to: "#forum" },
+        featured: true,
       },
       {
         number: "03",
@@ -50,6 +51,8 @@ export const homeContent = {
       "Avant de vouloir changer ton cycle, apprends d’abord à le regarder autrement.",
     description:
       "Je mets régulièrement, et gratuitement, à ta disposition plusieurs ressources pour t’aider à développer ce nouveau regard.",
+    accessInformation:
+      "Tu peux découvrir librement les premières ressources. D’autres contenus viendront compléter ton chemin dans ton espace personnel.",
     conclusion: "Parce que comprendre précède toujours le changement.",
     items: [
       {
@@ -58,6 +61,7 @@ export const homeContent = {
         text: "Un quiz ludique, inspiré des magazines des années 2000, pour poser de premiers mots sur ton vécu.",
         to: routes.quiz,
         tone: "quiz",
+        access: "Accès libre",
       },
       {
         label: "Outil d’observation",
@@ -65,6 +69,7 @@ export const homeContent = {
         text: "Un support concret pour observer ton cycle et repérer ce qui évolue au fil des jours.",
         to: routes.resources,
         tone: "cycle",
+        access: "Accès libre",
       },
       {
         label: "Comprendre à son rythme",
@@ -72,6 +77,7 @@ export const homeContent = {
         text: "Des contenus accessibles pour approfondir un sujet et développer un nouveau regard sur ton corps.",
         to: routes.resources,
         tone: "resources",
+        access: "Contenus publics et privés",
       },
       {
         label: "La lettre de Mélanie",
@@ -79,6 +85,7 @@ export const homeContent = {
         text: "Des mots, des repères et de nouvelles ressources directement dans ta boîte mail.",
         to: routes.resources,
         tone: "newsletter",
+        access: "Accès libre",
       },
     ],
     action: { label: "Découvrir les ressources", to: routes.resources },
@@ -116,10 +123,10 @@ export const homeContent = {
   },
 
   forum: {
-    eyebrow: "Un espace pour ne plus rester seule",
+    eyebrow: "Le cœur communautaire de La Clairière",
     title: "Le forum de La Clairière",
     status: "En cours",
-    text: "Un espace privé et sécurisant pour échanger, poser tes questions et avancer à ton rythme avec d’autres femmes.",
+    text: "Pensé comme le cœur communautaire de La Clairière, le forum sera un espace privé et sécurisant pour échanger, poser tes questions et avancer à ton rythme avec d’autres femmes.",
     action: { label: "Découvrir le forum", to: routes.community },
   },
 

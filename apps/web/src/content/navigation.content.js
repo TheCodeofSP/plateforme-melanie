@@ -16,15 +16,15 @@ export const navigationContent = {
     { label: "Mélanie", to: routes.vision },
   ],
   actions: {
-    community: {
-      label: "Créer mon espace",
-      to: routes.registration,
+    resources: {
+      label: "Explorer les ressources",
+      to: routes.resources,
     },
-    contact: {
+    login: {
       label: "Se connecter",
       to: routes.login,
     },
-    login: {
+    registration: {
       label: "Créer mon espace",
       to: routes.registration,
     },
