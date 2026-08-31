@@ -62,7 +62,9 @@ export default function Home() {
                 key={item.title}
               >
                 {item.featured && (
-                  <span className="home-story__path-featured">Le cœur de La Clairière</span>
+                  <span className="home-story__path-featured">
+                    Le cœur de La Clairière
+                  </span>
                 )}
                 <span className="home-story__path-number">{item.number}</span>
                 <h3>{item.title}</h3>
@@ -114,8 +116,14 @@ export default function Home() {
           </div>
 
           <div className="home-story__first-steps-footer">
-            <strong>{homeContent.firstSteps.conclusion}</strong>
-            <Link className="btn btn-primary" to={homeContent.firstSteps.action.to}>
+            <p className="home-story__citation">
+              <q>{homeContent.firstSteps.conclusion}</q>
+            </p>
+
+            <Link
+              className="btn btn-primary"
+              to={homeContent.firstSteps.action.to}
+            >
               {homeContent.firstSteps.action.label}
             </Link>
           </div>
@@ -127,7 +135,9 @@ export default function Home() {
           <div>
             <p className="eyebrow">{homeContent.forum.eyebrow}</p>
             <h2>{homeContent.forum.title}</h2>
-            <span className="home-story__status">{homeContent.forum.status}</span>
+            <span className="home-story__status">
+              {homeContent.forum.status}
+            </span>
             <p>{homeContent.forum.text}</p>
           </div>
           <Link className="btn btn-primary" to={homeContent.forum.action.to}>
@@ -158,7 +168,10 @@ export default function Home() {
             <strong className="home-story__melanie-highlight">
               {homeContent.melanie.highlight}
             </strong>
-            <Link className="btn btn-secondary" to={homeContent.melanie.action.to}>
+            <Link
+              className="btn btn-secondary"
+              to={homeContent.melanie.action.to}
+            >
               {homeContent.melanie.action.label}
             </Link>
           </div>
@@ -181,18 +194,25 @@ export default function Home() {
             {homeContent.accompaniments.items.map((item) => (
               <Link to={item.to} key={item.title}>
                 <div className="home-story__offer-labels">
-                  {item.labels.map((label) => <span key={label}>{label}</span>)}
+                  {item.labels.map((label) => (
+                    <span key={label}>{label}</span>
+                  ))}
                 </div>
                 <h3>{item.title}</h3>
                 <p>{item.text}</p>
-                <strong className="home-story__offer-ideal">{item.ideal}</strong>
+                <strong className="home-story__offer-ideal">
+                  {item.ideal}
+                </strong>
                 <span className="home-story__offer-link">Découvrir →</span>
               </Link>
             ))}
           </div>
 
           <div className="home-story__accompaniments-action">
-            <Link className="btn btn-primary" to={homeContent.accompaniments.action.to}>
+            <Link
+              className="btn btn-primary"
+              to={homeContent.accompaniments.action.to}
+            >
               {homeContent.accompaniments.action.label}
             </Link>
           </div>
