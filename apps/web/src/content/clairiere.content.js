@@ -3,36 +3,30 @@ import { routes } from "../config/routes.config.js";
 export const clairiereContent = {
   hero: {
     eyebrow: "Bienvenue dans La Clairière",
-    title: "Une pause sur ton chemin.",
-    text: "Un espace ouvert et lumineux où tu peux ralentir, déposer ce que tu traverses et retrouver des repères avant de poursuivre à ton rythme.",
+    title: "Un espace privé pour ne plus avancer seule.",
+    text: "Approfondis ta connaissance de ton cycle et de ton bien-être gynécologique, pose tes questions, partage ton expérience et avance entourée de femmes qui vivent leurs propres questionnements.",
   },
   meaning: {
-    title: "Pourquoi une clairière ?",
+    title: "C’est de ce besoin qu’est née La Clairière.",
     paragraphs: [
-      "Au cours d’une randonnée, la clairière n’est ni le départ ni l’arrivée. C’est un endroit que l’on découvre en avançant : on s’y arrête, on reprend son souffle et l’on regarde le chemin parcouru.",
-      "Mélanie a imaginé cette plateforme pour offrir cette même respiration aux personnes qui vivent des questionnements gynécologiques, menstruels ou liés à leur fertilité.",
+      "Vivre avec des douleurs ou des symptômes gynécologiques peut nous faire sentir profondément seule, parce qu’on n’est pas toujours écoutée, ni par les professionnels de santé, ni par son entourage.",
+      "On aimerait comprendre ce qui nous arrive, poser des questions et explorer d’autres pistes, sans toujours savoir où trouver un espace pour le faire.",
     ],
   },
   reasons: {
     title:
       "Un espace né d’un besoin simple : ne plus devoir avancer sans repères.",
     items: [
-      "Commencer sans avoir toutes les réponses.",
-      "Trouver des explications accessibles et prudentes.",
-      "Conserver des ressources adaptées à son vécu.",
-      "Échanger sous pseudonyme dans un cadre bienveillant.",
-      "Rencontrer Mélanie lorsque l’on souhaite aller plus loin.",
+      "Un espace safe pour parler librement et partager son vécu sans jugement.",
+      "Des contenus privés pour approfondir la compréhension du cycle et du bien-être gynécologique.",
+      "Des espaces de discussion pour réfléchir, échanger et apprendre les unes des autres.",
+      "Une communauté, parce que savoir que l’on n’est pas seule change déjà beaucoup de choses.",
     ],
   },
   spaces: [
     {
-      title: "Le Quiz SPM",
-      text: "Un premier miroir pour mieux comprendre les jours qui précèdent les règles.",
-      to: routes.quiz,
-    },
-    {
-      title: "Les ressources",
-      text: "Des repères éditoriaux proposés selon ton profil et tes besoins.",
+      title: "Les contenus exclusifs",
+      text: "Des ressources privées pour approfondir un thème selon tes besoins.",
       to: routes.resources,
     },
     {
@@ -41,8 +35,8 @@ export const clairiereContent = {
       to: routes.community,
     },
     {
-      title: "Les webinaires",
-      text: "Des temps collectifs pour approfondir un sujet et poser ses questions.",
+      title: "Les rendez-vous en direct",
+      text: "Des temps collectifs pour approfondir un sujet, apprendre et poser ses questions.",
       to: routes.webinars,
     },
   ],

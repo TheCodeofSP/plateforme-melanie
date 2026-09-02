@@ -16,6 +16,7 @@ export default function Navigation() {
   const [isDiscoveryOpen, setIsDiscoveryOpen] = useState(false);
   const [isAccountOpen, setIsAccountOpen] = useState(false);
   const discoveryRef = useRef(null);
+  const navigationRef = useRef(null);
   const { pathname } = useLocation();
   const { isAuthenticated, logout, user } = useAuth();
 
@@ -38,6 +39,24 @@ export default function Navigation() {
     return () => window.removeEventListener("keydown", handleEscape);
   }, []);
 
+  useEffect(() => {
+    function handleOutsideClick(event) {
+      if (
+        isMenuOpen &&
+        navigationRef.current &&
+        !navigationRef.current.contains(event.target)
+      ) {
+        setIsMenuOpen(false);
+        setIsDiscoveryOpen(false);
+        setIsAccountOpen(false);
+      }
+    }
+
+    document.addEventListener("pointerdown", handleOutsideClick);
+    return () =>
+      document.removeEventListener("pointerdown", handleOutsideClick);
+  }, [isMenuOpen]);
+
   const isDiscoveryActive = navigationContent.discoveryLinks.some(
     ({ to }) => pathname === to || pathname.startsWith(`${to}/`),
   );
@@ -55,7 +74,7 @@ export default function Navigation() {
   }
 
   return (
-    <header className="navigation">
+    <header className="navigation" ref={navigationRef}>
       <div className="page-container navigation__container">
         <Link to="/" className="navigation__brand" onClick={closeMenu}>
           <img src={logoMelanie} alt="" />
@@ -64,16 +83,6 @@ export default function Navigation() {
         </Link>
 
         <div className="navigation__mobile-actions">
-          {!isAuthenticated && (
-            <Link
-              to={navigationContent.actions.resources.to}
-              className="navigation__quick-action"
-              onClick={closeMenu}
-            >
-              {navigationContent.actions.resources.label}
-            </Link>
-          )}
-
           <button
             type="button"
             className={`navigation__toggle ${isMenuOpen ? "navigation__toggle--open" : ""}`}

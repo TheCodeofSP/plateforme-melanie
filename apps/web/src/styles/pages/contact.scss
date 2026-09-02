@@ -1,0 +1,49 @@
+.contact-page {
+  background:
+    radial-gradient(circle at 10% 12%, rgb(255 220 82 / 16%), transparent 25%),
+    linear-gradient(180deg, var(--color-rose-extra-light), var(--color-white) 34%);
+}
+
+.contact-methods {
+  margin-block: clamp(2.5rem, 7vw, 5rem);
+
+  > h2 {
+    margin-bottom: 1.75rem;
+    font-family: var(--font-title);
+    font-size: clamp(2rem, 6vw, 3.2rem);
+  }
+}
+
+.contact-methods__grid {
+  display: grid;
+  gap: 1rem;
+
+  > a,
+  > article {
+    display: flex;
+    flex-direction: column;
+    min-height: 15rem;
+    padding: 1.5rem;
+    border: 0;
+    border-radius: var(--radius-lg);
+    background: var(--color-white);
+    box-shadow: var(--shadow-card);
+    color: inherit;
+    transition: transform var(--transition-base), box-shadow var(--transition-base);
+  }
+
+  > a:hover,
+  > a:focus-visible {
+    box-shadow: var(--shadow-card-hover);
+    transform: translateY(-0.3rem);
+  }
+
+  svg { width: 2rem; height: 2rem; color: var(--color-primary); }
+  h3 { margin-block: 1rem 0.65rem; font-family: var(--font-title); font-size: 1.7rem; }
+  strong,
+  small { margin-top: auto; padding-top: 1rem; color: var(--color-primary-active); }
+}
+
+@media (min-width: 48rem) {
+  .contact-methods__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}

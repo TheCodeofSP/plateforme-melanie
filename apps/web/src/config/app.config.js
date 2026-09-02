@@ -11,5 +11,8 @@ export const appConfig = {
   analyticsId: import.meta.env.VITE_GA_MEASUREMENT_ID || "",
   platformName: "La Clairière",
   communityName: "Le forum de La Clairière",
-  contactEmail: "thecodeofsp@gmail.com",
+  contactEmail: "contact@melaniedizet.com",
+  instagramUrl: import.meta.env.VITE_INSTAGRAM_URL || "",
+  bookingUrl: import.meta.env.VITE_BOOKING_URL || "",
+  contactLocation: import.meta.env.VITE_CONTACT_LOCATION || "",
 };
