@@ -61,6 +61,7 @@ export const homeContent = {
         text: "Un quiz ludique, inspiré des magazines des années 2000, pour poser de premiers mots sur ton vécu.",
         to: routes.quiz,
         tone: "quiz",
+        preview: "quiz",
         access: "Accès libre",
       },
       {
@@ -69,14 +70,34 @@ export const homeContent = {
         text: "Un support concret pour observer ton cycle et repérer ce qui évolue au fil des jours.",
         to: routes.resources,
         tone: "cycle",
+        preview: "cycle",
         access: "Accès libre",
       },
       {
-        label: "Comprendre à son rythme",
-        title: "Articles, vidéos et podcasts",
-        text: "Des contenus accessibles pour approfondir un sujet et développer un nouveau regard sur ton corps.",
+        label: "À lire",
+        title: "Les articles",
+        text: "Des repères accessibles pour approfondir un sujet et développer un nouveau regard sur ton corps.",
         to: routes.resources,
-        tone: "resources",
+        tone: "editorial",
+        preview: "article",
+        access: "Contenus publics et privés",
+      },
+      {
+        label: "À regarder",
+        title: "Les vidéos",
+        text: "Des explications visuelles pour comprendre à ton rythme et revenir sur les notions essentielles.",
+        to: routes.resources,
+        tone: "editorial",
+        preview: "video",
+        access: "Contenus publics et privés",
+      },
+      {
+        label: "À écouter",
+        title: "Les podcasts",
+        text: "Des échanges et des pistes de réflexion à écouter lorsque tu en as besoin.",
+        to: routes.resources,
+        tone: "editorial",
+        preview: "podcast",
         access: "Contenus publics et privés",
       },
       {
@@ -85,10 +106,10 @@ export const homeContent = {
         text: "Des mots, des repères et de nouvelles ressources directement dans ta boîte mail.",
         to: routes.resources,
         tone: "newsletter",
+        preview: "newsletter",
         access: "Accès libre",
       },
     ],
-    action: { label: "Découvrir les ressources", to: routes.resources },
   },
 
   // Conservé pour le composant éditorial HomeQuiz et ses tests.
@@ -123,11 +144,34 @@ export const homeContent = {
   },
 
   forum: {
-    eyebrow: "Le cœur communautaire de La Clairière",
-    title: "Le forum de La Clairière",
-    status: "En cours",
-    text: "Pensé comme le cœur communautaire de La Clairière, le forum sera un espace privé et sécurisant pour échanger, poser tes questions et avancer à ton rythme avec d’autres femmes.",
-    action: { label: "Découvrir le forum", to: routes.community },
+    eyebrow: "Un espace privé et sécurisant",
+    title: "La Clairière",
+    introduction: [
+      "Vivre avec des douleurs ou des symptômes gynécologiques peut nous faire sentir profondément seule.",
+      "Parce qu’on n’est pas toujours écoutée, ni par les professionnels de santé, ni par son entourage.",
+      "Parce qu’on aimerait comprendre ce qui nous arrive, poser des questions, explorer d’autres pistes… mais qu’on ne sait pas toujours où trouver un espace pour le faire.",
+    ],
+    highlight: "C’est de ce besoin qu’est née La Clairière.",
+    text: "Un espace privé et sécurisant pour approfondir ta connaissance de ton cycle et de ton bien-être gynécologique, poser tes questions, partager ton expérience et avancer entourée de femmes qui vivent, elles aussi, leurs propres questionnements.",
+    benefits: [
+      {
+        title: "Un espace safe",
+        text: "Pour parler librement, poser tes questions et partager ton vécu sans jugement.",
+      },
+      {
+        title: "Des contenus privés",
+        text: "Pour approfondir la compréhension du cycle et de ton bien-être gynécologique.",
+      },
+      {
+        title: "Des espaces de discussion",
+        text: "Pour réfléchir, échanger et apprendre les unes des autres.",
+      },
+      {
+        title: "Une communauté",
+        text: "Parce que parfois, savoir que l’on n’est pas seule change déjà beaucoup de choses.",
+      },
+    ],
+    action: { label: "Découvrir La Clairière", to: routes.platform },
   },
 
   melanie: {
@@ -152,21 +196,26 @@ export const homeContent = {
     ],
     items: [
       {
+        number: "01",
         labels: ["1 séance", "En visio ou présentiel"],
         title: "Séance individuelle",
-        text: "Un espace ponctuel pour déposer ce que tu vis, clarifier ta situation et repartir avec des pistes concrètes.",
-        ideal: "Idéal pour faire le point sur une problématique précise.",
+        text: "Une séance unique, pour déposer ce que tu vis, clarifier ta situation et repartir avec des pistes concrètes.",
+        ideal:
+          "Idéal pour faire le point sur une problématique précise ou avant/après un accompagnement.",
         to: routes.accompanimentCoaching,
       },
       {
-        labels: ["Forfait 8 séances", "Suivi personnalisé"],
-        title: "Accompagnement sur plusieurs séances",
-        text: "Un accompagnement progressif pour explorer plus profondément les liens entre ton corps, ton cycle, tes émotions et ton histoire.",
-        ideal: "Idéal pour avancer dans la durée et créer un réel changement.",
+        number: "02",
+        labels: ["6 mois", "En visio", "Suivi personnalisé"],
+        title: "Chemin de traverse",
+        text: "Un accompagnement pour explorer plus profondément les liens entre ton corps, ton cycle, tes émotions et ton histoire.",
+        ideal:
+          "Un parcours précieux pour une transformation profonde et durable : je te guide jusqu’à trouver paix et sérénité.",
         to: routes.accompanimentAine,
       },
       {
-        labels: ["Selon ton besoin", "Apprentissage guidé"],
+        number: "03",
+        labels: ["Visio ou présentiel", "Gestion de ta fertilité"],
         title: "Gestion naturelle de la fertilité",
         text: "Un accompagnement pour apprendre à observer ton cycle grâce à la méthode symptothermique.",
         ideal:

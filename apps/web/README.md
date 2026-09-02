@@ -13,6 +13,14 @@ npm run dev
 L’API locale doit être disponible sur l’adresse déclarée dans
 `VITE_API_URL`. La valeur par défaut est `http://localhost:5100`.
 
+La page Contact accepte aussi les variables facultatives suivantes :
+
+- `VITE_INSTAGRAM_URL` : URL complète du profil Instagram de Mélanie ;
+- `VITE_BOOKING_URL` : URL complète de l’agenda de réservation ;
+- `VITE_CONTACT_LOCATION` : lieu affiché pour les rendez-vous en présentiel.
+
+Si elles ne sont pas renseignées, la page affiche « Information à compléter » et ne crée aucun faux lien.
+
 ## Commandes
 
 ```bash

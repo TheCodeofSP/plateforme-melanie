@@ -1,14 +1,68 @@
+import { useCallback, useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
+import {
+  FiBookOpen,
+  FiChevronLeft,
+  FiChevronRight,
+  FiMessageCircle,
+  FiShield,
+  FiUsers,
+} from "react-icons/fi";
 
 import SEO from "../components/seo/SEO.jsx";
 import { homeContent } from "../content/home.content.js";
 import { seoContent } from "../content/seo.content.js";
 import logo from "../assets/images/logo-clairiere.png";
 import melaniePortrait from "../assets/images/melanie-portrait-optimized.jpg";
+import quizPreview from "../assets/images/quiz.png";
+import cyclePreview from "../assets/images/resource-cycle.jpg";
+import articlePreview from "../assets/images/ressources/gynecologie-emotionnelle.png";
+import videoPreview from "../assets/images/resource-video.jpg";
+import podcastPreview from "../assets/images/resource-podcast.png";
+import newsletterPreview from "../assets/images/ressources/ebook.png";
 
 import "../styles/pages/home-premium.scss";
 
+const resourcePreviews = {
+  quiz: quizPreview,
+  cycle: cyclePreview,
+  article: articlePreview,
+  video: videoPreview,
+  podcast: podcastPreview,
+  newsletter: newsletterPreview,
+};
+
+const clairiereIcons = [FiShield, FiBookOpen, FiMessageCircle, FiUsers];
+
 export default function Home() {
+  const resourceSliderRef = useRef(null);
+  const [sliderPosition, setSliderPosition] = useState({
+    left: false,
+    right: true,
+  });
+
+  const updateSliderPosition = useCallback(() => {
+    const slider = resourceSliderRef.current;
+    if (!slider) return;
+    setSliderPosition({
+      left: slider.scrollLeft > 4,
+      right: slider.scrollLeft + slider.clientWidth < slider.scrollWidth - 4,
+    });
+  }, []);
+
+  function scrollResources(direction) {
+    resourceSliderRef.current?.scrollBy({
+      left: direction * resourceSliderRef.current.clientWidth * 0.8,
+      behavior: "smooth",
+    });
+  }
+
+  useEffect(() => {
+    updateSliderPosition();
+    window.addEventListener("resize", updateSliderPosition);
+    return () => window.removeEventListener("resize", updateSliderPosition);
+  }, [updateSliderPosition]);
+
   return (
     <main id="main-content" className="home-story">
       <SEO
@@ -27,8 +81,13 @@ export default function Home() {
             <p className="eyebrow">{homeContent.hero.eyebrow}</p>
             <h1>{homeContent.hero.title}</h1>
             <div className="home-story__paragraphs">
-              {homeContent.hero.introduction.map((paragraph) => (
-                <p key={paragraph}>{paragraph}</p>
+              {homeContent.hero.introduction.map((paragraph, index) => (
+                <p
+                  className={index === 0 ? "home-story__conditions" : undefined}
+                  key={paragraph}
+                >
+                  {index === 0 ? <strong>{paragraph}</strong> : paragraph}
+                </p>
               ))}
             </div>
             <strong className="home-story__hero-highlight">
@@ -56,24 +115,49 @@ export default function Home() {
           </header>
 
           <div className="home-story__path-grid">
+            <svg
+              className="home-story__cloud-path home-story__cloud-path--desktop"
+              viewBox="0 0 1200 430"
+              preserveAspectRatio="none"
+              aria-hidden="true"
+            >
+              <path
+                className="home-story__cloud-trail"
+                d="M20 345 C170 410 280 400 385 330 S610 300 700 365 S960 415 1180 325"
+              />
+              <path
+                className="home-story__cloud-route"
+                d="M20 345 C170 410 280 400 385 330 S610 300 700 365 S960 415 1180 325"
+              />
+            </svg>
+            <svg
+              className="home-story__cloud-path home-story__cloud-path--mobile"
+              viewBox="0 0 360 1160"
+              preserveAspectRatio="none"
+              aria-hidden="true"
+            >
+              <path
+                className="home-story__cloud-trail"
+                d="M180 15 C70 130 285 225 178 350 C75 470 285 575 180 700 C75 825 280 930 175 1145"
+              />
+              <path
+                className="home-story__cloud-route"
+                d="M180 15 C70 130 285 225 178 350 C75 470 285 575 180 700 C75 825 280 930 175 1145"
+              />
+            </svg>
             {homeContent.paths.items.map((item) => (
-              <article
-                className={`home-story__path-card${item.featured ? " home-story__path-card--featured" : ""}`}
-                key={item.title}
-              >
-                {item.featured && (
-                  <span className="home-story__path-featured">
-                    Le cœur de La Clairière
-                  </span>
-                )}
-                <span className="home-story__path-number">{item.number}</span>
-                <h3>{item.title}</h3>
-                <p>{item.text}</p>
-                <strong>{item.details}</strong>
-                <a className="btn btn-secondary" href={item.action.to}>
-                  {item.action.label}
+              <div className="home-story__path-stop" key={item.title}>
+                <a
+                  className={`home-story__path-card${item.featured ? " home-story__path-card--featured" : ""}`}
+                  href={item.action.to}
+                  aria-label={`${item.title} — ${item.action.label}`}
+                >
+                  <h3>{item.title}</h3>
+                  <p>{item.text}</p>
+                  <strong>{item.details}</strong>
                 </a>
-              </article>
+                <span className="home-story__card-cloud" aria-hidden="true" />
+              </div>
             ))}
           </div>
         </div>
@@ -94,38 +178,71 @@ export default function Home() {
             </p>
           </header>
 
-          <div
-            className="home-story__resource-slider"
-            aria-label="Ressources pour faire ses premiers pas"
-          >
-            {homeContent.firstSteps.items.map((item) => (
-              <Link
-                className={`home-story__resource-card home-story__resource-card--${item.tone}`}
-                to={item.to}
-                key={item.title}
-              >
-                <div className="home-story__resource-meta">
-                  <span>{item.label}</span>
-                  <small>{item.access}</small>
-                </div>
-                <h3>{item.title}</h3>
-                <p>{item.text}</p>
-                <strong>Découvrir →</strong>
-              </Link>
-            ))}
+          <div className="home-story__resource-slider-shell">
+            <button
+              className="home-story__slider-arrow home-story__slider-arrow--left"
+              type="button"
+              aria-label="Voir les ressources précédentes"
+              disabled={!sliderPosition.left}
+              onClick={() => scrollResources(-1)}
+            >
+              <FiChevronLeft aria-hidden="true" />
+            </button>
+            <div
+              ref={resourceSliderRef}
+              className="home-story__resource-slider"
+              aria-label="Ressources pour faire ses premiers pas"
+              onScroll={updateSliderPosition}
+            >
+              {homeContent.firstSteps.items.map((item) => (
+                <Link
+                  className={`home-story__resource-card home-story__resource-card--${item.tone}`}
+                  to={item.to}
+                  key={item.title}
+                >
+                  <span className="home-story__resource-card-inner">
+                    <span className="home-story__resource-face home-story__resource-face--front">
+                      <span className="home-story__resource-meta">
+                        <span>{item.label}</span>
+                        <small>{item.access}</small>
+                      </span>
+                      <h3>{item.title}</h3>
+                      <p>{item.text}</p>
+                      <img
+                        className="home-story__resource-mobile-preview"
+                        src={resourcePreviews[item.preview]}
+                        alt=""
+                        loading="lazy"
+                      />
+                    </span>
+                    <span className="home-story__resource-face home-story__resource-face--back">
+                      <img
+                        src={resourcePreviews[item.preview]}
+                        alt={`Aperçu : ${item.title}`}
+                        loading="lazy"
+                      />
+                      <span aria-hidden="true">Voir le contenu</span>
+                    </span>
+                  </span>
+                </Link>
+              ))}
+            </div>
+            <button
+              className="home-story__slider-arrow home-story__slider-arrow--right"
+              type="button"
+              aria-label="Voir les ressources suivantes"
+              disabled={!sliderPosition.right}
+              onClick={() => scrollResources(1)}
+            >
+              <FiChevronRight aria-hidden="true" />
+            </button>
           </div>
 
           <div className="home-story__first-steps-footer">
-            <p className="home-story__citation">
-              <q>{homeContent.firstSteps.conclusion}</q>
-            </p>
-
-            <Link
-              className="btn btn-primary"
-              to={homeContent.firstSteps.action.to}
-            >
-              {homeContent.firstSteps.action.label}
-            </Link>
+            <blockquote className="home-story__citation">
+              <img src={logo} alt="" aria-hidden="true" />
+              <p>« {homeContent.firstSteps.conclusion} »</p>
+            </blockquote>
           </div>
         </div>
       </section>
@@ -135,14 +252,34 @@ export default function Home() {
           <div>
             <p className="eyebrow">{homeContent.forum.eyebrow}</p>
             <h2>{homeContent.forum.title}</h2>
-            <span className="home-story__status">
-              {homeContent.forum.status}
-            </span>
+            <div className="home-story__paragraphs">
+              {homeContent.forum.introduction.map((paragraph) => (
+                <p key={paragraph}>{paragraph}</p>
+              ))}
+            </div>
+            <strong className="home-story__forum-highlight">
+              {homeContent.forum.highlight}
+            </strong>
             <p>{homeContent.forum.text}</p>
+            <div className="home-story__forum-benefits">
+              {homeContent.forum.benefits.map((benefit, index) => {
+                const Icon = clairiereIcons[index];
+                return (
+                  <div key={benefit.title}>
+                    <Icon aria-hidden="true" />
+                    <p>
+                      <strong>{benefit.title}</strong> — {benefit.text}
+                    </p>
+                  </div>
+                );
+              })}
+            </div>
           </div>
-          <Link className="btn btn-primary" to={homeContent.forum.action.to}>
-            {homeContent.forum.action.label}
-          </Link>
+          <div className="home-story__forum-action">
+            <Link className="btn btn-primary" to={homeContent.forum.action.to}>
+              {homeContent.forum.action.label}
+            </Link>
+          </div>
         </div>
       </section>
 
@@ -165,11 +302,11 @@ export default function Home() {
                 <p key={paragraph}>{paragraph}</p>
               ))}
             </div>
-            <strong className="home-story__melanie-highlight">
-              {homeContent.melanie.highlight}
-            </strong>
+            <blockquote className="home-story__melanie-highlight">
+              <p>« {homeContent.melanie.highlight} »</p>
+            </blockquote>
             <Link
-              className="btn btn-secondary"
+              className="btn btn-primary"
               to={homeContent.melanie.action.to}
             >
               {homeContent.melanie.action.label}
@@ -193,6 +330,7 @@ export default function Home() {
           <div className="home-story__offer-grid">
             {homeContent.accompaniments.items.map((item) => (
               <Link to={item.to} key={item.title}>
+                <span className="home-story__offer-number">{item.number}</span>
                 <div className="home-story__offer-labels">
                   {item.labels.map((label) => (
                     <span key={label}>{label}</span>
@@ -203,7 +341,6 @@ export default function Home() {
                 <strong className="home-story__offer-ideal">
                   {item.ideal}
                 </strong>
-                <span className="home-story__offer-link">Découvrir →</span>
               </Link>
             ))}
           </div>

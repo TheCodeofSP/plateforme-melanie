@@ -1,5 +1,13 @@
 import { Link } from "react-router-dom";
+import {
+  FiCalendar,
+  FiInstagram,
+  FiMail,
+  FiMessageCircle,
+} from "react-icons/fi";
 
+import { appConfig } from "../../config/app.config.js";
+import { routes } from "../../config/routes.config.js";
 import { footerContent } from "../../content/footer.content.js";
 import useCookieConsent from "../../hooks/useCookieConsent.js";
 
@@ -17,40 +25,46 @@ export default function Footer() {
 
           <div>
             <p className="footer__mission">{footerContent.mission}</p>
-            <p className="footer__description">{footerContent.description}</p>
           </div>
         </div>
 
-        <div className="footer__columns">
-          <nav className="footer__column" aria-label="Navigation footer">
-            <h2>{footerContent.navigation.title}</h2>
-
-            {footerContent.navigation.links.map((link) => (
-              <Link key={link.to} to={link.to}>
-                {link.label}
-              </Link>
-            ))}
-          </nav>
-
-          <nav className="footer__column" aria-label="Liens plateforme">
-            <h2>{footerContent.platform.title}</h2>
-
-            {footerContent.platform.links.map((link) => (
-              <Link key={link.to} to={link.to}>
-                {link.label}
-              </Link>
-            ))}
-          </nav>
-
-          <div className="footer__column">
-            <h2>{footerContent.contact.title}</h2>
-
-            <a href={`mailto:${footerContent.contact.email}`}>
-              {footerContent.contact.email}
+        <div className="footer__contacts" aria-label="Contacter Mélanie">
+          <a
+            href={`mailto:${appConfig.contactEmail}`}
+            aria-label="Envoyer un e-mail à Mélanie"
+            title="E-mail"
+          >
+            <FiMail aria-hidden="true" />
+          </a>
+          {appConfig.instagramUrl && (
+            <a
+              href={appConfig.instagramUrl}
+              target="_blank"
+              rel="noreferrer"
+              aria-label="Voir le profil Instagram de Mélanie"
+              title="Instagram"
+            >
+              <FiInstagram aria-hidden="true" />
             </a>
-
-            <p>{footerContent.contact.location}</p>
-          </div>
+          )}
+          {appConfig.bookingUrl && (
+            <a
+              href={appConfig.bookingUrl}
+              target="_blank"
+              rel="noreferrer"
+              aria-label="Prendre rendez-vous avec Mélanie"
+              title="Prendre rendez-vous"
+            >
+              <FiCalendar aria-hidden="true" />
+            </a>
+          )}
+          <Link
+            to={routes.contact}
+            aria-label="Ouvrir la page Contact"
+            title="Contact"
+          >
+            <FiMessageCircle aria-hidden="true" />
+          </Link>
         </div>
 
         <div className="footer__bottom">
@@ -62,7 +76,9 @@ export default function Footer() {
                 {link.label}
               </Link>
             ))}
-            <button type="button" onClick={openPanel}>Gérer mes cookies</button>
+            <button type="button" onClick={openPanel}>
+              Gérer mes cookies
+            </button>
           </div>
         </div>
       </div>

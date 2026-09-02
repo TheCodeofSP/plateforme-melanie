@@ -1,5 +1,6 @@
 import ContactHeader from "../components/pages/contact/ContactHeader.jsx";
 import ContactForm from "../components/pages/contact/ContactForm.jsx";
+import ContactInfos from "../components/pages/contact/ContactInfos.jsx";
 
 import SEO from "../components/seo/SEO.jsx";
 
@@ -14,7 +15,7 @@ export default function Contact() {
       <main id="main-content" className="page-content contact-page">
         <div className="page-container">
           <ContactHeader />
-
+          <ContactInfos />
           <ContactForm />
         </div>
       </main>

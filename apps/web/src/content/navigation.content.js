@@ -6,9 +6,9 @@ export const navigationContent = {
   slogan: platformContent.brand.slogan,
   primaryLinks: [
     { label: "La Clairière", to: routes.platform },
-    { label: "Ressources", to: routes.resources },
     { label: "Accompagnements", to: routes.accompaniments },
     { label: "Le forum", to: routes.community },
+    { label: "Contact", to: routes.contact },
   ],
   discoveryLinks: [
     { label: "Quiz SPM", to: routes.quiz },
