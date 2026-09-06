@@ -10,10 +10,12 @@ describe("ResourceBlocks", () => {
       { type: "PARAGRAPH", text: "Un contenu accessible." },
       { type: "BULLET_LIST", items: ["Premier point"] },
       { type: "QUOTE", text: "Prendre son temps." },
+      { type: "IMAGE", src: "/images/articles/illustration.jpg", alt: "Une illustration" },
     ]} />);
     expect(screen.getByRole("heading", { name: "Comprendre" })).toBeInTheDocument();
     expect(screen.getByText("Premier point")).toBeInTheDocument();
     expect(screen.getByText("Prendre son temps.")).toBeInTheDocument();
+    expect(screen.getByRole("img", { name: "Une illustration" })).toHaveAttribute("src", "/images/articles/illustration.jpg");
   });
 
   it("ignore un bloc inconnu sans faire planter la page", () => {

@@ -6,6 +6,7 @@ export default function ResourceBlocks({ blocks = [] }) {
     if (block.type === "BULLET_LIST") return <ul key={key}>{block.items?.map((item) => <li key={item}>{item}</li>)}</ul>;
     if (block.type === "NUMBERED_LIST") return <ol key={key}>{block.items?.map((item) => <li key={item}>{item}</li>)}</ol>;
     if (block.type === "PARAGRAPH") return <p key={key}>{block.text}{block.links?.map((link) => <a key={link.url} href={link.url} target="_blank" rel="noreferrer"> {link.label}</a>)}</p>;
+    if (block.type === "IMAGE") return <figure className="resource-blocks__image" key={key}><img src={block.src} alt={block.alt} loading="lazy" />{block.caption && <figcaption>{block.caption}</figcaption>}</figure>;
     return null;
   })}</div>;
 }

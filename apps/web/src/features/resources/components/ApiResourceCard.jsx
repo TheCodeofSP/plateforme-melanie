@@ -7,7 +7,7 @@ export default function ApiResourceCard({ resource }) {
   const item = formatResource(resource);
   return (
     <article className="api-resource-card">
-      <ResourceCover media={item.content.coverMedia} alt={item.content.coverAlt || ""} format={item.format} />
+      <ResourceCover media={item.content.coverMedia} url={item.content.coverUrl} alt={item.content.coverAlt || ""} format={item.format} />
       <div className="api-resource-card__body">
         <div className="api-resource-card__meta">
           <span>{item.format.icon} {item.format.label}</span>

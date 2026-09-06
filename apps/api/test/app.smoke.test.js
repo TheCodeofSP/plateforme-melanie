@@ -72,7 +72,10 @@ test("l’API répond et protège les tâches Vercel", async () => {
       `http://127.0.0.1:${port}/api/safe-place/charter`,
     );
     assert.equal(charter.status, 200);
-    assert.equal((await charter.json()).charter.title, "Charte du Safe Place");
+    assert.equal(
+      (await charter.json()).charter.title,
+      "La charte du forum de La Clairière",
+    );
     const safePlace = await fetch(
       `http://127.0.0.1:${port}/api/safe-place/categories`,
     );
