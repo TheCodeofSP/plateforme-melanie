@@ -20,8 +20,8 @@ export const homeContent = {
       {
         number: "01",
         title: "Explorer en autonomie",
-        text: "Des outils pour commencer à observer ton cycle, comprendre tes symptômes et mieux connaître ton fonctionnement.",
-        details: "Roue du Cycle · Profil de SPM · Livret d’auto-observation",
+        text: "Des outils pour commencer à observer ton cycle menstruel, comprendre tes symptômes, et mieux connaître ton fonctionnement.",
+        details: "Roue du Cycle · Profil de SPM · E-books",
         action: { label: "Explorer les ressources", to: "#premiers-pas" },
       },
       {
@@ -58,7 +58,7 @@ export const homeContent = {
       {
         label: "Le test éditorial",
         title: "Ton profil de Syndrome Prémenstruel",
-        text: "Un quiz ludique, inspiré des magazines des années 2000, pour poser de premiers mots sur ton vécu.",
+        text: "Un test ludique et rapide pour découvrir la tendance de ton cycle, et obtenir des premières pistes pour aller mieux.",
         to: routes.quiz,
         tone: "quiz",
         preview: "quiz",
@@ -67,7 +67,7 @@ export const homeContent = {
       {
         label: "Outil d’observation",
         title: "La Roue du Cycle Menstruel",
-        text: "Un support concret pour observer ton cycle et repérer ce qui évolue au fil des jours.",
+        text: "Un support concret pour te situer dans les 4 phases de ton cycle, et mieux te comprendre au quotidien.",
         to: routes.resources,
         tone: "cycle",
         preview: "cycle",
@@ -216,7 +216,7 @@ export const homeContent = {
       {
         number: "03",
         labels: ["Visio ou présentiel", "Gestion de ta fertilité"],
-        title: "Gestion naturelle de la fertilité",
+        title: "Gestion de la fertilité",
         text: "Un accompagnement pour apprendre à observer ton cycle grâce à la méthode symptothermique.",
         ideal:
           "Idéal pour une contraception naturelle ou un projet bébé plus conscient.",

@@ -1,10 +1,5 @@
 import { Link } from "react-router-dom";
-import {
-  FiCalendar,
-  FiInstagram,
-  FiMail,
-  FiMessageCircle,
-} from "react-icons/fi";
+import { FiInstagram, FiMail, FiMessageCircle } from "react-icons/fi";
 
 import { appConfig } from "../../config/app.config.js";
 import { routes } from "../../config/routes.config.js";
@@ -45,17 +40,6 @@ export default function Footer() {
               title="Instagram"
             >
               <FiInstagram aria-hidden="true" />
-            </a>
-          )}
-          {appConfig.bookingUrl && (
-            <a
-              href={appConfig.bookingUrl}
-              target="_blank"
-              rel="noreferrer"
-              aria-label="Prendre rendez-vous avec Mélanie"
-              title="Prendre rendez-vous"
-            >
-              <FiCalendar aria-hidden="true" />
             </a>
           )}
           <Link

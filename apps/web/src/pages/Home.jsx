@@ -14,25 +14,106 @@ import { homeContent } from "../content/home.content.js";
 import { seoContent } from "../content/seo.content.js";
 import logo from "../assets/images/logo-clairiere.png";
 import melaniePortrait from "../assets/images/melanie-portrait-optimized.jpg";
-import quizPreview from "../assets/images/quiz.png";
-import cyclePreview from "../assets/images/resource-cycle.jpg";
-import articlePreview from "../assets/images/ressources/gynecologie-emotionnelle.png";
-import videoPreview from "../assets/images/resource-video.jpg";
-import podcastPreview from "../assets/images/resource-podcast.png";
 import newsletterPreview from "../assets/images/ressources/ebook.png";
+import cyclePreview from "../assets/images/ressources/roue-du-cycle.png";
+import podcastPreview from "../assets/images/ressources/podcast-melanie.png";
+import quizPreview from "../assets/images/ressources/quiz-spm.png";
+import videoPreview from "../assets/images/ressources/video-youtube-melanie.png";
 
 import "../styles/pages/home-premium.scss";
 
 const resourcePreviews = {
   quiz: quizPreview,
   cycle: cyclePreview,
-  article: articlePreview,
   video: videoPreview,
   podcast: podcastPreview,
   newsletter: newsletterPreview,
 };
 
+const articlePreviews = [
+  "/images/articles/fatigue-chronique-pourquoi-dormir-8-heures-ne-suffit-pas-toujours-fatigue-chronique.png",
+  "/images/articles/la-gyn-ecologie-emotionnelle-la-gyn-ecologie-emotionelle1.png",
+  "/images/articles/musique-et-emotions-musique-et-emotions.png",
+];
+
 const clairiereIcons = [FiShield, FiBookOpen, FiMessageCircle, FiUsers];
+
+function ResourcePreview({ item, mobile = false }) {
+  if (item.preview === "article") {
+    return (
+      <span
+        className={`home-story__article-preview${mobile ? " home-story__article-preview--mobile" : ""}`}
+        aria-hidden="true"
+      >
+        {articlePreviews.map((src) => (
+          <img src={src} alt="" loading="lazy" key={src} />
+        ))}
+      </span>
+    );
+  }
+  return (
+    <img
+      className={mobile ? "home-story__resource-mobile-preview" : undefined}
+      src={resourcePreviews[item.preview]}
+      alt={mobile ? "" : `Aperçu : ${item.title}`}
+      loading="lazy"
+    />
+  );
+}
+
+function ResourceStoryCard({ item }) {
+  const [flipped, setFlipped] = useState(false);
+
+  function handleClick(event) {
+    if (
+      window.matchMedia("(hover: none), (pointer: coarse)").matches &&
+      !flipped
+    ) {
+      event.preventDefault();
+      setFlipped(true);
+    }
+  }
+
+  return (
+    <Link
+      className={`home-story__resource-card home-story__resource-card--${item.tone}${flipped ? " is-flipped" : ""}`}
+      to={item.to}
+      onClick={handleClick}
+    >
+      <span className="home-story__resource-card-inner">
+        <span className="home-story__resource-face home-story__resource-face--front">
+          <span className="home-story__resource-meta">
+            <span>{item.label}</span>
+            <small>{item.access}</small>
+          </span>
+          <h3>{item.title}</h3>
+          <p>{item.text}</p>
+          <ResourcePreview item={item} mobile />
+        </span>
+        <span className="home-story__resource-face home-story__resource-face--back">
+          <ResourcePreview item={item} />
+          <span aria-hidden="true">Voir le contenu</span>
+        </span>
+      </span>
+    </Link>
+  );
+}
+
+function EmphasizedText({ text, phrases }) {
+  const pattern = new RegExp(
+    `(${phrases.map((phrase) => phrase.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")).join("|")})`,
+    "gi",
+  );
+  return text
+    .split(pattern)
+    .map((part, index) =>
+      phrases.some((phrase) => phrase.toLowerCase() === part.toLowerCase()) ? (
+        <strong key={`${part}-${index}`}>{part}</strong>
+      ) : (
+        part
+      ),
+    );
+}
 
 export default function Home() {
   const resourceSliderRef = useRef(null);
@@ -195,36 +276,7 @@ export default function Home() {
               onScroll={updateSliderPosition}
             >
               {homeContent.firstSteps.items.map((item) => (
-                <Link
-                  className={`home-story__resource-card home-story__resource-card--${item.tone}`}
-                  to={item.to}
-                  key={item.title}
-                >
-                  <span className="home-story__resource-card-inner">
-                    <span className="home-story__resource-face home-story__resource-face--front">
-                      <span className="home-story__resource-meta">
-                        <span>{item.label}</span>
-                        <small>{item.access}</small>
-                      </span>
-                      <h3>{item.title}</h3>
-                      <p>{item.text}</p>
-                      <img
-                        className="home-story__resource-mobile-preview"
-                        src={resourcePreviews[item.preview]}
-                        alt=""
-                        loading="lazy"
-                      />
-                    </span>
-                    <span className="home-story__resource-face home-story__resource-face--back">
-                      <img
-                        src={resourcePreviews[item.preview]}
-                        alt={`Aperçu : ${item.title}`}
-                        loading="lazy"
-                      />
-                      <span aria-hidden="true">Voir le contenu</span>
-                    </span>
-                  </span>
-                </Link>
+                <ResourceStoryCard item={item} key={item.title} />
               ))}
             </div>
             <button
@@ -253,8 +305,15 @@ export default function Home() {
             <p className="eyebrow">{homeContent.forum.eyebrow}</p>
             <h2>{homeContent.forum.title}</h2>
             <div className="home-story__paragraphs">
-              {homeContent.forum.introduction.map((paragraph) => (
-                <p key={paragraph}>{paragraph}</p>
+              {homeContent.forum.introduction.map((paragraph, index) => (
+                <p
+                  className={
+                    index === 0 ? "home-story__forum-trigger" : undefined
+                  }
+                  key={paragraph}
+                >
+                  {paragraph}
+                </p>
               ))}
             </div>
             <strong className="home-story__forum-highlight">
@@ -321,8 +380,27 @@ export default function Home() {
             <p className="eyebrow">{homeContent.accompaniments.eyebrow}</p>
             <h2>{homeContent.accompaniments.title}</h2>
             <div className="home-story__paragraphs">
-              {homeContent.accompaniments.paragraphs.map((paragraph) => (
-                <p key={paragraph}>{paragraph}</p>
+              {homeContent.accompaniments.paragraphs.map((paragraph, index) => (
+                <p key={paragraph}>
+                  <EmphasizedText
+                    text={paragraph}
+                    phrases={
+                      index === 0
+                        ? [
+                            "prendre du recul seule",
+                            "faire des liens",
+                            "apaiser ta douleur",
+                            "problème gynécologique",
+                          ]
+                        : [
+                            "ensemble",
+                            "leviers de transformation",
+                            "mieux comprendre ton fonctionnement",
+                            "ton propre chemin",
+                          ]
+                    }
+                  />
+                </p>
               ))}
             </div>
           </header>
