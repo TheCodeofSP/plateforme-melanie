@@ -226,13 +226,23 @@ export default function Home() {
                 d="M180 15 C70 130 285 225 178 350 C75 470 285 575 180 700 C75 825 280 930 175 1145"
               />
             </svg>
-            {homeContent.paths.items.map((item) => (
+            {homeContent.paths.items.map((item, index) => (
               <div className="home-story__path-stop" key={item.title}>
                 <a
                   className={`home-story__path-card${item.featured ? " home-story__path-card--featured" : ""}`}
                   href={item.action.to}
                   aria-label={`${item.title} — ${item.action.label}`}
                 >
+                  {index === 2 && (
+                    <span
+                      className="home-story__star-field home-story__star-field--path"
+                      aria-hidden="true"
+                    >
+                      <span />
+                      <span />
+                      <span />
+                    </span>
+                  )}
                   <h3>{item.title}</h3>
                   <p>{item.text}</p>
                   <strong>{item.details}</strong>
@@ -353,7 +363,16 @@ export default function Home() {
             <figcaption>Mélanie Dizet · coach et accompagnante</figcaption>
           </figure>
 
-          <div>
+          <div className="home-story__melanie-content">
+            <span
+              className="home-story__star-field home-story__star-field--melanie"
+              aria-hidden="true"
+            >
+              <span />
+              <span />
+              <span />
+              <span />
+            </span>
             <p className="eyebrow">{homeContent.melanie.eyebrow}</p>
             <h2>{homeContent.melanie.title}</h2>
             <div className="home-story__paragraphs">
@@ -408,6 +427,14 @@ export default function Home() {
           <div className="home-story__offer-grid">
             {homeContent.accompaniments.items.map((item) => (
               <Link to={item.to} key={item.title}>
+                <span
+                  className="home-story__star-field home-story__star-field--offer"
+                  aria-hidden="true"
+                >
+                  <span />
+                  <span />
+                  <span />
+                </span>
                 <span className="home-story__offer-number">{item.number}</span>
                 <div className="home-story__offer-labels">
                   {item.labels.map((label) => (

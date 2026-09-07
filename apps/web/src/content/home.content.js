@@ -20,7 +20,7 @@ export const homeContent = {
       {
         number: "01",
         title: "Explorer en autonomie",
-        text: "Des outils pour commencer à observer ton cycle menstruel, comprendre tes symptômes, et mieux connaître ton fonctionnement.",
+        text: "Des outils pour commencer à observer ton cycle menstruel, comprendre tes symptômes émotionnels et physiques, et mieux connaître ton fonctionnement.",
         details: "Roue du Cycle · Profil de SPM · E-books",
         action: { label: "Explorer les ressources", to: "#premiers-pas" },
       },
