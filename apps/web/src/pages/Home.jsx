@@ -14,8 +14,9 @@ import { homeContent } from "../content/home.content.js";
 import { seoContent } from "../content/seo.content.js";
 import logo from "../assets/images/logo-clairiere.png";
 import melaniePortrait from "../assets/images/melanie-portrait-optimized.jpg";
-import newsletterPreview from "../assets/images/ressources/ebook.png";
+import articlePreview from "../assets/images/ressources/article-gynecologie-emotionnelle.png";
 import cyclePreview from "../assets/images/ressources/roue-du-cycle.png";
+import newsletterPreview from "../assets/images/ressources/newsletter-gyn-et-mots.png";
 import podcastPreview from "../assets/images/ressources/podcast-melanie.png";
 import quizPreview from "../assets/images/ressources/quiz-spm.png";
 import videoPreview from "../assets/images/ressources/video-youtube-melanie.png";
@@ -25,32 +26,15 @@ import "../styles/pages/home-premium.scss";
 const resourcePreviews = {
   quiz: quizPreview,
   cycle: cyclePreview,
+  article: articlePreview,
   video: videoPreview,
   podcast: podcastPreview,
   newsletter: newsletterPreview,
 };
 
-const articlePreviews = [
-  "/images/articles/fatigue-chronique-pourquoi-dormir-8-heures-ne-suffit-pas-toujours-fatigue-chronique.png",
-  "/images/articles/la-gyn-ecologie-emotionnelle-la-gyn-ecologie-emotionelle1.png",
-  "/images/articles/musique-et-emotions-musique-et-emotions.png",
-];
-
 const clairiereIcons = [FiShield, FiBookOpen, FiMessageCircle, FiUsers];
 
 function ResourcePreview({ item, mobile = false }) {
-  if (item.preview === "article") {
-    return (
-      <span
-        className={`home-story__article-preview${mobile ? " home-story__article-preview--mobile" : ""}`}
-        aria-hidden="true"
-      >
-        {articlePreviews.map((src) => (
-          <img src={src} alt="" loading="lazy" key={src} />
-        ))}
-      </span>
-    );
-  }
   return (
     <img
       className={mobile ? "home-story__resource-mobile-preview" : undefined}
@@ -226,23 +210,13 @@ export default function Home() {
                 d="M180 15 C70 130 285 225 178 350 C75 470 285 575 180 700 C75 825 280 930 175 1145"
               />
             </svg>
-            {homeContent.paths.items.map((item, index) => (
+            {homeContent.paths.items.map((item) => (
               <div className="home-story__path-stop" key={item.title}>
                 <a
                   className={`home-story__path-card${item.featured ? " home-story__path-card--featured" : ""}`}
                   href={item.action.to}
                   aria-label={`${item.title} — ${item.action.label}`}
                 >
-                  {index === 2 && (
-                    <span
-                      className="home-story__star-field home-story__star-field--path"
-                      aria-hidden="true"
-                    >
-                      <span />
-                      <span />
-                      <span />
-                    </span>
-                  )}
                   <h3>{item.title}</h3>
                   <p>{item.text}</p>
                   <strong>{item.details}</strong>
@@ -363,16 +337,7 @@ export default function Home() {
             <figcaption>Mélanie Dizet · coach et accompagnante</figcaption>
           </figure>
 
-          <div className="home-story__melanie-content">
-            <span
-              className="home-story__star-field home-story__star-field--melanie"
-              aria-hidden="true"
-            >
-              <span />
-              <span />
-              <span />
-              <span />
-            </span>
+          <div>
             <p className="eyebrow">{homeContent.melanie.eyebrow}</p>
             <h2>{homeContent.melanie.title}</h2>
             <div className="home-story__paragraphs">
@@ -427,14 +392,6 @@ export default function Home() {
           <div className="home-story__offer-grid">
             {homeContent.accompaniments.items.map((item) => (
               <Link to={item.to} key={item.title}>
-                <span
-                  className="home-story__star-field home-story__star-field--offer"
-                  aria-hidden="true"
-                >
-                  <span />
-                  <span />
-                  <span />
-                </span>
                 <span className="home-story__offer-number">{item.number}</span>
                 <div className="home-story__offer-labels">
                   {item.labels.map((label) => (
