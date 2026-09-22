@@ -39,7 +39,6 @@ export default function RegistrationPage() {
         state: {
           email: form.values.email,
           emailsAccepted: result.emailsAccepted,
-          requiresParentalAuthorization: result.requiresParentalAuthorization,
         },
       });
     }
@@ -47,35 +46,93 @@ export default function RegistrationPage() {
 
   return (
     <>
-      <SEO title="Créer mon compte" description="Crée ton espace personnel sur la plateforme de Mélanie Dizet." noIndex />
+      <SEO
+        title="Créer mon compte"
+        description="Crée ton espace personnel sur la plateforme de Mélanie Dizet."
+        noIndex
+      />
       <main className="registration-page">
-        <section className="registration-card" aria-labelledby="registration-title">
+        <section
+          className="registration-card"
+          aria-labelledby="registration-title"
+        >
           <header className="registration-card__header">
             <p className="section-eyebrow">{registrationContent.eyebrow}</p>
             <h1 id="registration-title">{registrationContent.title}</h1>
             <p>{registrationContent.description}</p>
           </header>
-          <RegistrationProgress currentStep={form.step} steps={registrationContent.steps} />
+          <RegistrationProgress
+            currentStep={form.step}
+            steps={registrationContent.steps}
+          />
           {comesFromQuiz && (
             <p className="registration-notice registration-notice--quiz">
-              Utilise la même adresse email que pour le Quiz SPM afin de rattacher
-              ton résultat à ton espace.
+              Utilise la même adresse email que pour le Quiz SPM afin de
+              rattacher ton résultat à ton espace.
             </p>
           )}
-          <h2 className="sr-only" ref={headingRef} tabIndex="-1">{currentContent.title}</h2>
+          <h2 className="sr-only" ref={headingRef} tabIndex="-1">
+            {currentContent.title}
+          </h2>
           {form.apiError && <FormErrorSummary error={form.apiError} />}
-          <form className="registration-form" onSubmit={handleSubmit} noValidate>
-            {form.step === 0 && <RegistrationIdentityStep content={{ ...currentContent, ...registrationContent.identity }} {...form} onChange={form.updateField} />}
-            {form.step === 1 && <RegistrationSecurityStep content={{ ...currentContent, ...registrationContent.security }} {...form} onChange={form.updateField} />}
-            {form.step === 2 && <RegistrationConsentsStep content={{ ...currentContent, ...registrationContent.consents }} {...form} onChange={form.updateField} />}
+          {form.validationMessage && (
+            <FormErrorSummary error={{ message: form.validationMessage }} />
+          )}
+          <form
+            className="registration-form"
+            onSubmit={handleSubmit}
+            noValidate
+          >
+            {form.step === 0 && (
+              <RegistrationIdentityStep
+                content={{ ...currentContent, ...registrationContent.identity }}
+                {...form}
+                onChange={form.updateField}
+              />
+            )}
+            {form.step === 1 && (
+              <RegistrationSecurityStep
+                content={{ ...currentContent, ...registrationContent.security }}
+                {...form}
+                onChange={form.updateField}
+              />
+            )}
+            {form.step === 2 && (
+              <RegistrationConsentsStep
+                content={{ ...currentContent, ...registrationContent.consents }}
+                {...form}
+                onChange={form.updateField}
+              />
+            )}
+            <p className="registration-required-note">
+              <span aria-hidden="true">*</span> Champs obligatoires
+            </p>
             <div className="registration-form__actions">
-              {form.step > 0 && <button className="btn btn-secondary" type="button" onClick={form.goPrevious}>Retour</button>}
-              <button className="btn btn-primary" type="submit" disabled={form.isSubmitting}>
-                {form.isSubmitting ? "Création…" : form.step === 2 ? "Créer mon compte" : "Continuer"}
+              {form.step > 0 && (
+                <button
+                  className="btn btn-secondary"
+                  type="button"
+                  onClick={form.goPrevious}
+                >
+                  Retour
+                </button>
+              )}
+              <button
+                className="btn btn-primary"
+                type="submit"
+                disabled={form.isSubmitting}
+              >
+                {form.isSubmitting
+                  ? "Création…"
+                  : form.step === 2
+                    ? "Créer mon compte"
+                    : "Continuer"}
               </button>
             </div>
           </form>
-          <p className="registration-card__login">Tu as déjà un compte ? <Link to={routes.login}>Te connecter</Link></p>
+          <p className="registration-card__login">
+            Tu as déjà un compte ? <Link to={routes.login}>Te connecter</Link>
+          </p>
         </section>
       </main>
     </>

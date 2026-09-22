@@ -96,7 +96,10 @@ module.exports = {
     }),
   ),
   updatePreferences: wrap(async (req, res) => {
-    const preferences = await service.updatePreference(req.auth.user._id, req.body);
+    const preferences = await service.updatePreference(
+      req.auth.user._id,
+      req.body,
+    );
     const platformDisabled = Object.entries(req.body.categories).some(
       ([, channels]) => channels.platform === false && channels.email === true,
     );

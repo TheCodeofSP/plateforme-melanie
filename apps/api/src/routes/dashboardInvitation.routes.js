@@ -5,5 +5,10 @@ const validateParams = require("../middlewares/validateParams.middleware");
 const v = require("../validations/dashboard.validation");
 const router = express.Router();
 router.get("/:token", validateParams(v.tokenSchema), c.invitationInspect);
-router.post("/:token/accept", authenticate, validateParams(v.tokenSchema), c.invitationAccept);
+router.post(
+  "/:token/accept",
+  authenticate,
+  validateParams(v.tokenSchema),
+  c.invitationAccept,
+);
 module.exports = router;

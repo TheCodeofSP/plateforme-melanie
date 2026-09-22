@@ -2,14 +2,13 @@ const {
   requestEmailChange,
   confirmEmailChange,
 } = require("../../services/auth");
-const { setAuthCookies, clearAuthCookies } = require("../../services/cookie.service");
+const { clearAuthCookies } = require("../../services/cookie.service");
 
 async function requestCurrentUserEmailChange(req, res, next) {
   try {
     const result = await requestEmailChange({
       userId: req.auth.user._id,
       newEmail: req.body.newEmail,
-      currentPassword: req.body.currentPassword,
     });
 
     res.status(200).json({
@@ -36,7 +35,6 @@ async function confirmCurrentUserEmailChange(req, res, next) {
         "Adresse email modifiée. Reconnecte-toi avec ta nouvelle adresse.",
     });
   } catch (error) {
-    clearAuthCookies(res);
     next(error);
   }
 }

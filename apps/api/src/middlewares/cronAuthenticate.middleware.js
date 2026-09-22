@@ -1,2 +1,25 @@
-const crypto = require("crypto"); const env = require("../config/env");
-module.exports = function cronAuthenticate(req, res, next) { const expected = env.CRON_SECRET; const received = req.headers.authorization?.replace(/^Bearer\s+/i, ""); if (!expected || !received) return res.status(401).json({ success: false, code: "INVALID_CRON_SECRET", message: "Accès interdit." }); const a = Buffer.from(received); const b = Buffer.from(expected); if (a.length !== b.length || !crypto.timingSafeEqual(a, b)) return res.status(401).json({ success: false, code: "INVALID_CRON_SECRET", message: "Accès interdit." }); return next(); };
+const crypto = require("crypto");
+const env = require("../config/env");
+module.exports = function cronAuthenticate(req, res, next) {
+  const expected = env.CRON_SECRET;
+  const received = req.headers.authorization?.replace(/^Bearer\s+/i, "");
+  if (!expected || !received)
+    return res
+      .status(401)
+      .json({
+        success: false,
+        code: "INVALID_CRON_SECRET",
+        message: "Accès interdit.",
+      });
+  const a = Buffer.from(received);
+  const b = Buffer.from(expected);
+  if (a.length !== b.length || !crypto.timingSafeEqual(a, b))
+    return res
+      .status(401)
+      .json({
+        success: false,
+        code: "INVALID_CRON_SECRET",
+        message: "Accès interdit.",
+      });
+  return next();
+};

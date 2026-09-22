@@ -6,7 +6,10 @@ const RETENTION_MS = 30 * 24 * 60 * 60 * 1000;
 function cleanError(error) {
   if (!error) return null;
   return String(error.message || error)
-    .replace(/(token|secret|password|cookie|authorization)=?[^,\s]*/gi, "$1=[REDACTED]")
+    .replace(
+      /(token|secret|password|cookie|authorization)=?[^,\s]*/gi,
+      "$1=[REDACTED]",
+    )
     .slice(0, 500);
 }
 

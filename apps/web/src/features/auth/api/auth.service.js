@@ -1,6 +1,17 @@
 import { apiClient } from "../../../api/apiClient.js";
 
 let initialUserPromise = null;
+const inFlightTokenRequests = new Map();
+
+function runTokenRequestOnce(key, request) {
+  if (!inFlightTokenRequests.has(key)) {
+    const promise = request().finally(() => {
+      window.setTimeout(() => inFlightTokenRequests.delete(key), 0);
+    });
+    inFlightTokenRequests.set(key, promise);
+  }
+  return inFlightTokenRequests.get(key);
+}
 
 export async function getCurrentUser() {
   const { data } = await apiClient.get("/auth/me");
@@ -24,7 +35,14 @@ export function resetInitialCurrentUserForTests() {
 
 export async function login(credentials) {
   const { data } = await apiClient.post("/auth/login", credentials);
-  return data.user;
+  return data;
+}
+
+export async function loginWithLink(token) {
+  return runTokenRequestOnce(`login:${token}`, async () => {
+    const { data } = await apiClient.post("/auth/login-link", { token });
+    return data.user;
+  });
 }
 
 export async function logout() {
@@ -37,8 +55,10 @@ export async function register(payload) {
 }
 
 export async function verifyEmail(token) {
-  const { data } = await apiClient.post("/auth/verify-email", { token });
-  return data;
+  return runTokenRequestOnce(`verify:${token}`, async () => {
+    const { data } = await apiClient.post("/auth/verify-email", { token });
+    return data;
+  });
 }
 
 export async function resendEmailVerification(email) {
@@ -48,18 +68,41 @@ export async function resendEmailVerification(email) {
   return data;
 }
 
-export async function getParentalAuthorization(token) {
-  const { data } = await apiClient.post(
-    "/auth/parental-authorization/details",
-    { token },
-  );
-  return data.authorization;
+export async function updateProfile(payload) {
+  const { data } = await apiClient.patch("/auth/me", payload);
+  return data;
 }
 
-export async function respondToParentalAuthorization(token, decision) {
-  const { data } = await apiClient.post(
-    "/auth/parental-authorization/respond",
-    { token, decision },
-  );
+export async function requestEmailChange(payload) {
+  const { data } = await apiClient.post("/auth/me/email-change", payload);
+  return data;
+}
+
+export async function confirmEmailChange(token) {
+  return runTokenRequestOnce(`email-change:${token}`, async () => {
+    const { data } = await apiClient.post("/auth/confirm-email-change", {
+      token,
+    });
+    return data;
+  });
+}
+
+export async function getSessions() {
+  const { data } = await apiClient.get("/auth/sessions");
+  return data.sessions;
+}
+
+export async function revokeSession(sessionId) {
+  const { data } = await apiClient.delete(`/auth/sessions/${sessionId}`);
+  return data;
+}
+
+export async function logoutAllSessions() {
+  const { data } = await apiClient.post("/auth/logout-all");
+  return data;
+}
+
+export async function deleteAccount(payload) {
+  const { data } = await apiClient.delete("/auth/me", { data: payload });
   return data;
 }

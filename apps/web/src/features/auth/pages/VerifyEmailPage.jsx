@@ -15,7 +15,9 @@ export default function VerifyEmailPage() {
   const token = searchParams.get("token");
   const [status, setStatus] = useState(token ? "loading" : "error");
   const [result, setResult] = useState(null);
-  const [error, setError] = useState(token ? null : { message: "Ce lien de validation est incomplet." });
+  const [error, setError] = useState(
+    token ? null : { message: "Ce lien de validation est incomplet." },
+  );
 
   useEffect(() => {
     if (!token) return;
@@ -33,22 +35,52 @@ export default function VerifyEmailPage() {
           setStatus("error");
         }
       });
-    return () => { active = false; };
+    return () => {
+      active = false;
+    };
   }, [token]);
 
   return (
     <>
-      <SEO title="Validation de l’adresse email" description="Validation de ton compte." noIndex />
+      <SEO
+        title="Validation de l’adresse email"
+        description="Validation de ton compte."
+        noIndex
+      />
       <main className="registration-page">
-        <section className="registration-card registration-result" aria-live="polite">
-          {status === "loading" && <PageLoader label="Validation de ton adresse email…" />}
+        <section
+          className="registration-card registration-result"
+          aria-live="polite"
+        >
+          {status === "loading" && (
+            <PageLoader label="Validation de ton adresse email…" />
+          )}
           {status === "success" && (
             <>
-              <span className="registration-result__icon" aria-hidden="true">✓</span>
+              <span className="registration-result__icon" aria-hidden="true">
+                ✓
+              </span>
               <p className="section-eyebrow">Adresse confirmée</p>
-              <h1>{result.accountActivated ? "Ton espace est prêt" : "Autorisation encore attendue"}</h1>
+              <h1>
+                {result.accountActivated
+                  ? "Ton espace est prêt"
+                  : "Autorisation encore attendue"}
+              </h1>
               <p>{result.message}</p>
-              {result.accountActivated ? <Link className="btn btn-primary" to={routes.login}>Me connecter</Link> : <Link to={routes.home}>Revenir à l’accueil</Link>}
+              {result.accountActivated && (
+                <p>
+                  Bienvenue dans La Clairière. Tu peux maintenant demander ton
+                  lien personnel de connexion, puis retrouver le forum, tes
+                  ressources et ton parcours depuis ton espace membre.
+                </p>
+              )}
+              {result.accountActivated ? (
+                <Link className="btn btn-primary" to={routes.login}>
+                  Me connecter
+                </Link>
+              ) : (
+                <Link to={routes.home}>Revenir à l’accueil</Link>
+              )}
             </>
           )}
           {status === "error" && (
@@ -56,7 +88,14 @@ export default function VerifyEmailPage() {
               <p className="section-eyebrow">Lien non valide</p>
               <h1>Nous ne pouvons pas confirmer cette adresse</h1>
               <FormErrorSummary error={error} />
-              <p>Le lien est peut-être expiré ou a déjà été utilisé. Tu peux demander un nouveau message.</p>
+              <p>
+                Si tu as déjà utilisé ce lien, ton adresse est confirmée : tu
+                peux simplement te connecter. Sinon, demande un nouveau message
+                de validation.
+              </p>
+              <Link className="btn btn-primary" to={routes.login}>
+                Me connecter
+              </Link>
               <ResendVerificationEmail />
             </>
           )}

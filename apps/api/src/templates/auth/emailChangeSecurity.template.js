@@ -22,7 +22,7 @@ function createEmailChangeSecurityTemplate({ firstName, newEmail }) {
           Ton adresse actuelle reste inchangée tant que la nouvelle adresse n’a pas été confirmée.
         </p>
         <p style="margin: 24px 0 0; color: #765354; font-weight: 700;">
-          Si tu n’es pas à l’origine de cette demande, modifie ton mot de passe dès que possible.
+          Si tu n’es pas à l’origine de cette demande, ne valide aucun message reçu à la nouvelle adresse et contacte Mélanie depuis la page Contact afin de sécuriser ton compte.
         </p>
       `,
     }),

@@ -1,7 +1,4 @@
-const {
-  registerUser,
-} = require("../../services/auth");
-const { setAuthCookies, clearAuthCookies } = require("../../services/cookie.service");
+const { registerUser } = require("../../services/auth");
 
 async function register(req, res, next) {
   try {
@@ -13,7 +10,6 @@ async function register(req, res, next) {
     res.status(201).json({
       success: true,
       message,
-      requiresParentalAuthorization: result.requiresParentalAuthorization,
       emailsAccepted: result.emailsAccepted,
     });
   } catch (error) {

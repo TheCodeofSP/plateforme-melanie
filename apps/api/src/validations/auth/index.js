@@ -1,8 +1,15 @@
-module.exports = { ...module.exports, ...require("./shared.validation") };
-module.exports = { ...module.exports, ...require("./registration.validation") };
-module.exports = { ...module.exports, ...require("./activation.validation") };
-module.exports = { ...module.exports, ...require("./session.validation") };
-module.exports = { ...module.exports, ...require("./password.validation") };
-module.exports = { ...module.exports, ...require("./profile.validation") };
-module.exports = { ...module.exports, ...require("./emailChange.validation") };
-module.exports = { ...module.exports, ...require("./accountDeletion.validation") };
+const registration = require("./registration.validation");
+const activation = require("./activation.validation");
+const session = require("./session.validation");
+const profile = require("./profile.validation");
+const emailChange = require("./emailChange.validation");
+const accountDeletion = require("./accountDeletion.validation");
+
+module.exports = {
+  ...registration,
+  ...activation,
+  ...session,
+  ...profile,
+  ...emailChange,
+  ...accountDeletion,
+};

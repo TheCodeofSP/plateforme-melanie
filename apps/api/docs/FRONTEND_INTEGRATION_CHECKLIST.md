@@ -11,20 +11,20 @@
 
 ## Permissions
 
-| Domaine | Visiteuse | Membre | Intervenante | Administratrice |
-| --- | --- | --- | --- | --- |
-| Quiz public | Oui | Oui | Oui si connectée | Oui |
-| Ressources publiques | Oui | Oui | Oui | Oui |
-| Ressources membres | Non | Oui | Oui | Oui |
-| Création Ressource | Non | Non | Ses ressources | Toutes |
-| Safe Place | Non | Oui | Non | Oui |
-| Webinaires visibles | Oui | Oui | Oui | Oui |
-| Participation Webinaire | Non | Oui | Oui | Oui |
-| Profil professionnel | Lecture publique | Lecture | Gestion du sien | Validation |
-| Notifications personnelles | Non | Oui | Oui | Oui |
-| Communications administratives | Non | Non | Non | Oui |
-| Dashboard et CRM | Non | Non | Non | Oui |
-| État du système | Non | Non | Non | Oui |
+| Domaine                        | Visiteuse        | Membre  | Intervenante     | Administratrice |
+| ------------------------------ | ---------------- | ------- | ---------------- | --------------- |
+| Quiz public                    | Oui              | Oui     | Oui si connectée | Oui             |
+| Ressources publiques           | Oui              | Oui     | Oui              | Oui             |
+| Ressources membres             | Non              | Oui     | Oui              | Oui             |
+| Création Ressource             | Non              | Non     | Ses ressources   | Toutes          |
+| Safe Place                     | Non              | Oui     | Non              | Oui             |
+| Webinaires visibles            | Oui              | Oui     | Oui              | Oui             |
+| Participation Webinaire        | Non              | Oui     | Oui              | Oui             |
+| Profil professionnel           | Lecture publique | Lecture | Gestion du sien  | Validation      |
+| Notifications personnelles     | Non              | Oui     | Oui              | Oui             |
+| Communications administratives | Non              | Non     | Non              | Oui             |
+| Dashboard et CRM               | Non              | Non     | Non              | Oui             |
+| État du système                | Non              | Non     | Non              | Oui             |
 
 Une intervenante souhaitant utiliser le Safe Place doit employer un compte
 personnel distinct.

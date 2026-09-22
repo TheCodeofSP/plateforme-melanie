@@ -1,1 +1,10 @@
-const express = require("express"); const handler = require("../../controllers/communications/webhook.controller"); const rate = require("../../middlewares/rateLimit.middleware"); const router = express.Router(); router.post("/resend/communications", rate({ max: 300, code: "WEBHOOK_RATE_LIMIT" }), handler); module.exports = router;
+const express = require("express");
+const handler = require("../../controllers/communications/webhook.controller");
+const rate = require("../../middlewares/rateLimit.middleware");
+const router = express.Router();
+router.post(
+  "/resend/communications",
+  rate({ max: 300, code: "WEBHOOK_RATE_LIMIT" }),
+  handler,
+);
+module.exports = router;

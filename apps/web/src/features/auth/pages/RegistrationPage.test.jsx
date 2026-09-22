@@ -9,8 +9,7 @@ import RegistrationPage from "./RegistrationPage.jsx";
 afterEach(cleanup);
 
 describe("RegistrationPage", () => {
-  it("présente le parcours mobile-first et affiche le responsable légal pour une mineure", async () => {
-    const user = userEvent.setup();
+  it("présente le parcours majeur sans date de naissance ni mot de passe", () => {
     render(
       <HelmetProvider>
         <MemoryRouter>
@@ -19,11 +18,19 @@ describe("RegistrationPage", () => {
       </HelmetProvider>,
     );
 
-    expect(screen.getByRole("heading", { name: "Un espace pour avancer à ton rythme" })).toBeInTheDocument();
+    expect(
+      screen.getByRole("heading", {
+        name: "Un espace pour avancer à ton rythme",
+      }),
+    ).toBeInTheDocument();
     expect(screen.getByText("Profil")).toBeInTheDocument();
 
-    await user.type(screen.getByLabelText(/Date de naissance/), "2010-01-01");
-    expect(screen.getByLabelText(/Email du responsable légal/)).toBeInTheDocument();
+    expect(
+      screen.getByLabelText(/Je confirme avoir 18 ans/),
+    ).toBeInTheDocument();
+    expect(
+      screen.queryByLabelText(/Date de naissance/),
+    ).not.toBeInTheDocument();
   });
 
   it("affiche les erreurs avant de changer d’étape", async () => {
@@ -36,7 +43,30 @@ describe("RegistrationPage", () => {
       </HelmetProvider>,
     );
     await user.click(screen.getByRole("button", { name: "Continuer" }));
-    expect(screen.getByText("Indique ta date de naissance.")).toBeInTheDocument();
+    expect(
+      screen.getByText(
+        "Merci de remplir tous les champs obligatoires pour continuer l’inscription.",
+      ),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByText(/réservée aux personnes majeures/),
+    ).toBeInTheDocument();
     expect(screen.getByText("Profil")).toBeInTheDocument();
+  });
+
+  it("propose le prénom ou le pseudonyme comme identité publique", () => {
+    render(
+      <HelmetProvider>
+        <MemoryRouter>
+          <RegistrationPage />
+        </MemoryRouter>
+      </HelmetProvider>,
+    );
+
+    expect(screen.getByLabelText("Mon pseudonyme")).toBeInTheDocument();
+    expect(screen.getByLabelText("Mon prénom")).toBeInTheDocument();
+    expect(
+      screen.queryByText("Uniquement mon pseudonyme"),
+    ).not.toBeInTheDocument();
   });
 });

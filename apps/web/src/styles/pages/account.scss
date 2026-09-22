@@ -1,0 +1,114 @@
+@use "../abstracts/variables" as *;
+
+.account-page {
+  width: min(1180px, calc(100% - 2rem));
+  margin: 0 auto;
+  padding: clamp(3rem, 7vw, 6rem) 0;
+
+  &--auth {
+    display: grid;
+    min-height: 70vh;
+    place-items: center;
+  }
+
+  &__header {
+    max-width: 760px;
+    margin-bottom: 2.5rem;
+  }
+}
+
+.account-grid {
+  display: grid;
+  gap: 1.25rem;
+}
+
+.account-card {
+  padding: clamp(1.5rem, 4vw, 2.5rem);
+  border: 1px solid rgba(169, 116, 116, 0.22);
+  border-radius: 1.75rem;
+  background: rgba(255, 255, 255, 0.9);
+  box-shadow: 0 20px 55px rgba(94, 72, 72, 0.08);
+
+  h1,
+  h2 { margin-bottom: 0.8rem; }
+
+  > p { margin-bottom: 1.25rem; }
+
+  &--danger { border-color: rgba(151, 53, 53, 0.35); }
+
+  &__heading {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+}
+
+.account-form {
+  display: grid;
+  gap: 1rem;
+
+  .btn { justify-self: start; }
+}
+
+.account-feedback {
+  margin-top: 1rem;
+  padding: 1rem 1.2rem;
+  border-radius: 1rem;
+  background: rgba(219, 235, 214, 0.72);
+  color: #385342;
+}
+
+.account-identity {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.75rem;
+  margin: 0 0 1.25rem;
+
+  div {
+    padding: 0.9rem 1rem;
+    border: 1px solid var(--color-border-soft);
+    border-radius: var(--radius-sm);
+    background: var(--color-surface-neutral);
+  }
+
+  dt {
+    color: var(--color-text-muted);
+    font-size: 0.82rem;
+    font-weight: 700;
+  }
+
+  dd {
+    margin: 0.25rem 0 0;
+    font-weight: 750;
+  }
+}
+
+.session-list {
+  display: grid;
+  gap: 0.75rem;
+  margin-top: 1.5rem;
+  padding: 0;
+  list-style: none;
+
+  li {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 1rem;
+    border-radius: 1rem;
+    background: rgba(249, 244, 242, 0.86);
+  }
+
+  div { display: grid; gap: 0.2rem; }
+  span, small { overflow-wrap: anywhere; }
+  button { border: 0; background: transparent; color: #7d5151; text-decoration: underline; cursor: pointer; }
+}
+
+@media (min-width: 850px) {
+  .account-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .account-card--wide { grid-column: 1 / -1; }
+  .account-form--inline { grid-template-columns: 1fr 1fr auto; align-items: end; }
+}

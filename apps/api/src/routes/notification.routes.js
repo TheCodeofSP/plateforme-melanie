@@ -23,11 +23,7 @@ router.post(
   validateBody(validation.bulkSchema),
   controller.readAll,
 );
-router.delete(
-  "/",
-  validateBody(validation.bulkSchema),
-  controller.removeAll,
-);
+router.delete("/", validateBody(validation.bulkSchema), controller.removeAll);
 router.get(
   "/:notificationId",
   validateParams(validation.notificationIdSchema),

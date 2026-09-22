@@ -5,13 +5,21 @@ const connectDB = require("../config/db");
 const Resource = require("../models/Resource");
 const User = require("../models/User");
 const rows = require("../data/editorialResources.seed");
-const { completeResourceVersionSchema } = require("../validations/resource.validation");
+const {
+  completeResourceVersionSchema,
+} = require("../validations/resource.validation");
 const { uniqueSlug } = require("../services/resources/resource.service");
 
 async function run() {
   await connectDB();
-  const admin = await User.findOne({ role: "ADMIN", accountStatus: "ACTIVE" }).sort({ createdAt: 1 });
-  if (!admin) throw new Error("Aucune administratrice active. Crée ou active le compte de Mélanie avant ce peuplement.");
+  const admin = await User.findOne({
+    role: "ADMIN",
+    accountStatus: "ACTIVE",
+  }).sort({ createdAt: 1 });
+  if (!admin)
+    throw new Error(
+      "Aucune administratrice active. Crée ou active le compte de Mélanie avant ce peuplement.",
+    );
   let created = 0;
   let skipped = 0;
   for (const row of rows) {
@@ -36,7 +44,9 @@ async function run() {
     });
     created += 1;
   }
-  console.log(`✅ Ressources éditoriales : ${created} créée(s), ${skipped} déjà présente(s).`);
+  console.log(
+    `✅ Ressources éditoriales : ${created} créée(s), ${skipped} déjà présente(s).`,
+  );
   await mongoose.disconnect();
 }
 

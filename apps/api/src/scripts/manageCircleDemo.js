@@ -10,7 +10,9 @@ const rows = require("../data/circleDemo.seed");
 const prefix = "circle-demo-2026:";
 
 async function cleanup() {
-  const result = await SafePlacePost.deleteMany({ fixtureKey: { $regex: `^${prefix}` } });
+  const result = await SafePlacePost.deleteMany({
+    fixtureKey: { $regex: `^${prefix}` },
+  });
   console.log(`🧹 Discussions de recette supprimées : ${result.deletedCount}.`);
 }
 
@@ -25,10 +27,19 @@ async function seed() {
     }
     const [category, author] = await Promise.all([
       SafePlaceCategory.findOne({ slug: row.categorySlug, status: "ACTIVE" }),
-      User.findOne({ fixtureKey: row.fixtureUser, accountStatus: "ACTIVE" }).select("+fixtureKey"),
+      User.findOne({
+        fixtureKey: row.fixtureUser,
+        accountStatus: "ACTIVE",
+      }).select("+fixtureKey"),
     ]);
-    if (!category) throw new Error(`Catégorie absente : ${row.categorySlug}. Lance d’abord npm run seed:safe-place.`);
-    if (!author) throw new Error(`Compte de recette absent : ${row.fixtureUser}. Lance d’abord npm run seed:staging.`);
+    if (!category)
+      throw new Error(
+        `Catégorie absente : ${row.categorySlug}. Lance d’abord npm run seed:safe-place.`,
+      );
+    if (!author)
+      throw new Error(
+        `Compte de recette absent : ${row.fixtureUser}. Lance d’abord npm run seed:staging.`,
+      );
     await SafePlacePost.create({
       fixtureKey,
       author: author._id,
@@ -40,10 +51,15 @@ async function seed() {
       pinnedBy: row.pinned ? author._id : null,
       lastActivityAt: new Date(),
     });
-    await SafePlaceCategory.updateOne({ _id: category._id }, { $inc: { "counters.posts": 1 } });
+    await SafePlaceCategory.updateOne(
+      { _id: category._id },
+      { $inc: { "counters.posts": 1 } },
+    );
     created += 1;
   }
-  console.log(`✅ Discussions de recette : ${created} créée(s), ${skipped} déjà présente(s).`);
+  console.log(
+    `✅ Discussions de recette : ${created} créée(s), ${skipped} déjà présente(s).`,
+  );
 }
 
 async function run() {

@@ -7,9 +7,7 @@
       "title": "« Endo Warrior » et « Endo Girl » : Vivre avec l’endométriose s’en s’y enfermer",
       "description": "Recevoir un diagnostic d’endométriose est souvent une étape cruciale pour les personnes concernées. Après des années de douleurs inexpliquées et d’errance médicale, le terme « Endo Warrior » ou « Endo Girl » devient un symbole puissant, représentant non seulement la lutte contre la maladie, mais aussi la victoire sur l’invisibilité. Ces termes sont essentiels, car ils offrent une reconnaissance et un sentiment d’appartenance. Cependant, il est crucial de comprendre que cette nouvelle identité, bien que réconfortante au départ, peut devenir un piège si elle finit par engloutir tout le reste de la vie. Cet article explore à la fois les avantages et les risques de s’identifier à travers ces termes, et propose des pistes pour équilibrer cette identité avec la préservation de soi.",
       "format": "ARTICLE",
-      "categories": [
-        "ENDOMETRIOSE_PATHOLOGIES_GYNECOLOGIQUES"
-      ],
+      "categories": ["ENDOMETRIOSE_PATHOLOGIES_GYNECOLOGIQUES"],
       "recommendedSpmProfiles": [],
       "keywords": [
         "endo",
@@ -89,14 +87,9 @@
       "title": "Contraception masculine",
       "description": "La contraception a longtemps été considérée comme une responsabilité féminine. Pourtant, la fertilité n’est pas uniquement du ressort des personnes menstruées, et les hommes ont tout autant de responsabilités dans la gestion de leur fertilité. Il est temps de briser les tabous et d’adopter une répartition équitable de cette charge ! Aujourd’hui, diverses méthodes de contraception masculine existent, bien que leur accès et leur popularité restent encore limités. Dans cet article, nous explorons les solutions disponibles, leurs efficacités et les entreprises françaises qui innovent dans ce domaine.",
       "format": "ARTICLE",
-      "categories": [
-        "FERTILITE_CONTRACEPTION"
-      ],
+      "categories": ["FERTILITE_CONTRACEPTION"],
       "recommendedSpmProfiles": [],
-      "keywords": [
-        "contraception",
-        "masculine"
-      ],
+      "keywords": ["contraception", "masculine"],
       "durationMinutes": 5,
       "proposedVisibility": "PUBLIC",
       "sourceMode": "TEXT",
@@ -259,14 +252,7 @@
         "BIEN_ETRE_EMOTIONNEL_SANTE_MENTALE"
       ],
       "recommendedSpmProfiles": [],
-      "keywords": [
-        "douleurs",
-        "seins",
-        "tout",
-        "quil",
-        "faut",
-        "savoir"
-      ],
+      "keywords": ["douleurs", "seins", "tout", "quil", "faut", "savoir"],
       "durationMinutes": 5,
       "proposedVisibility": "PUBLIC",
       "sourceMode": "TEXT",
@@ -420,16 +406,9 @@
       "title": "Emotions et changement de la couleur des règles",
       "description": "Vous aviez habituellement des règles de couleur rouge vif et voilà qu’elles sont devenues plus foncées, tirant sur le noir… Qu’est-ce que cela signifie ? La couleur des menstrues constitue une indication précieuse sur notre état de santé, et un changement brusque peut révéler une infection, un certain affaiblissement de l’organisme, mais également un état de stress relativement important ou encore une difficulté à rester alignée avec nos propres valeurs. La signification des couleurs des règles, associée à la gyn’écologie émotionnelle, nous aide à comprendre l’impact des émotions sur notre système, et donne des pistes pour améliorer les choses si nécessaire.",
       "format": "ARTICLE",
-      "categories": [
-        "CYCLE_MENSTRUEL"
-      ],
+      "categories": ["CYCLE_MENSTRUEL"],
       "recommendedSpmProfiles": [],
-      "keywords": [
-        "emotions",
-        "changement",
-        "couleur",
-        "regles"
-      ],
+      "keywords": ["emotions", "changement", "couleur", "regles"],
       "durationMinutes": 5,
       "proposedVisibility": "PUBLIC",
       "sourceMode": "TEXT",
@@ -559,9 +538,7 @@
       "title": "Fatigue chronique : pourquoi dormir 8 heures ne suffit pas toujours",
       "description": "Dormir huit heures par nuit est généralement considéré comme une base de récupération suffisante. Et pourtant, dans la réalité, une autre observation revient régulièrement : certaines personnes, malgré un sommeil jugé correct, décrivent une fatigue persistante, parfois même installée depuis des mois ou des années. Comme si dormir davantage ne suffisait pas à retrouver de l’énergie. Ce décalage interroge.",
       "format": "ARTICLE",
-      "categories": [
-        "STRESS_SOMMEIL"
-      ],
+      "categories": ["STRESS_SOMMEIL"],
       "recommendedSpmProfiles": [],
       "keywords": [
         "fatigue",
@@ -835,16 +812,9 @@
       "title": "Glande pinéale et équilibre hormonal",
       "description": "L’activation de la glande pinéale est cruciale pour bénéficier d’un sommeil réparateur et d’un meilleur équilibre hormonal. Egalement appelée « troisième œil », elle produit de la mélatonine et joue un rôle essentiel dans la régulation des hormones sexuelles. Découvrez les techniques et habitudes à adopter pour révéler l’énorme potentiel de cette petite glande.",
       "format": "ARTICLE",
-      "categories": [
-        "SANTE_HORMONALE"
-      ],
+      "categories": ["SANTE_HORMONALE"],
       "recommendedSpmProfiles": [],
-      "keywords": [
-        "glande",
-        "pineale",
-        "equilibre",
-        "hormonal"
-      ],
+      "keywords": ["glande", "pineale", "equilibre", "hormonal"],
       "durationMinutes": 4,
       "proposedVisibility": "PUBLIC",
       "sourceMode": "TEXT",
@@ -974,15 +944,9 @@
       "title": "Gérer sa fertilité en autonomie",
       "description": "Gérer sa fertilité, c’est reprendre le pouvoir sur son corps. C’est la possibilité de décider de procréer ou pas, au moment voulu. Pas de grossesse non désirée, ni de difficulté à concevoir un enfant. Il s’agit donc d’une capacité à agir dans les deux sens, ainsi que le pouvoir de prendre soin de sa santé afin de retrouver l’équilibre et vivre en harmonie avec son corps",
       "format": "ARTICLE",
-      "categories": [
-        "FERTILITE_CONTRACEPTION"
-      ],
+      "categories": ["FERTILITE_CONTRACEPTION"],
       "recommendedSpmProfiles": [],
-      "keywords": [
-        "gerer",
-        "fertilite",
-        "autonomie"
-      ],
+      "keywords": ["gerer", "fertilite", "autonomie"],
       "durationMinutes": 6,
       "proposedVisibility": "PUBLIC",
       "sourceMode": "TEXT",
@@ -1160,14 +1124,9 @@
       "title": "La gyn’écologie émotionnelle",
       "description": "La gyn’écologie émotionnelle est une discipline qui explore le lien profond entre nos émotions et notre bien-être gynécologique. Fondée sur les principes de Maud Renard, cette approche alternative met en lumière l’impact des émotions sur notre bien-être physique et offre des outils précieux pour comprendre et apaiser nos maux.",
       "format": "ARTICLE",
-      "categories": [
-        "BIEN_ETRE_EMOTIONNEL_SANTE_MENTALE"
-      ],
+      "categories": ["BIEN_ETRE_EMOTIONNEL_SANTE_MENTALE"],
       "recommendedSpmProfiles": [],
-      "keywords": [
-        "gynecologie",
-        "emotionnelle"
-      ],
+      "keywords": ["gynecologie", "emotionnelle"],
       "durationMinutes": 2,
       "proposedVisibility": "PUBLIC",
       "sourceMode": "TEXT",
@@ -1469,14 +1428,9 @@
       "title": "La médecine holistique",
       "description": "Des pratiques complémentaires pour t’aider sur ton chemin vers le bien-être global.",
       "format": "ARTICLE",
-      "categories": [
-        "APPROCHES_NATURELLES_HOLISTIQUES"
-      ],
+      "categories": ["APPROCHES_NATURELLES_HOLISTIQUES"],
       "recommendedSpmProfiles": [],
-      "keywords": [
-        "medecine",
-        "holistique"
-      ],
+      "keywords": ["medecine", "holistique"],
       "durationMinutes": 5,
       "proposedVisibility": "PUBLIC",
       "sourceMode": "TEXT",
@@ -1632,16 +1586,9 @@
       "title": "La place du cœur dans l’exercice de la visualisation",
       "description": "Dans mes séances de visualisation, le cœur joue un rôle central. Ce choix s’appuie sur les recherches du HeartMath Institute, qui montrent que le cœur agit comme un puissant émetteur et récepteur d’informations, influençant nos émotions, notre esprit et notre corps. En l’intégrant à des exercices d’imaginaire créateur, on amplifie les capacités du subconscient, favorisant ainsi un mieux-être global.",
       "format": "ARTICLE",
-      "categories": [
-        "APPROCHES_NATURELLES_HOLISTIQUES"
-      ],
+      "categories": ["APPROCHES_NATURELLES_HOLISTIQUES"],
       "recommendedSpmProfiles": [],
-      "keywords": [
-        "place",
-        "dans",
-        "lexercice",
-        "visualisation"
-      ],
+      "keywords": ["place", "dans", "lexercice", "visualisation"],
       "durationMinutes": 3,
       "proposedVisibility": "PUBLIC",
       "sourceMode": "TEXT",
@@ -1773,17 +1720,9 @@
       "title": "Le stress et ses impacts sur le cycle menstruel",
       "description": "Le stress semble être une notion banalisée aujourd’hui, mais son effet prolongé sur le corps, et en particulier la sphère gynécologique, à des conséquences à connaitre.",
       "format": "ARTICLE",
-      "categories": [
-        "CYCLE_MENSTRUEL",
-        "STRESS_SOMMEIL"
-      ],
+      "categories": ["CYCLE_MENSTRUEL", "STRESS_SOMMEIL"],
       "recommendedSpmProfiles": [],
-      "keywords": [
-        "stress",
-        "impacts",
-        "cycle",
-        "menstruel"
-      ],
+      "keywords": ["stress", "impacts", "cycle", "menstruel"],
       "durationMinutes": 5,
       "proposedVisibility": "PUBLIC",
       "sourceMode": "TEXT",
@@ -1979,14 +1918,9 @@
       "title": "Les contraceptions naturelles",
       "description": "Découvre les différentes méthodes d’observation du cycle, pour une gestion autonome de ta fertilité !",
       "format": "ARTICLE",
-      "categories": [
-        "FERTILITE_CONTRACEPTION"
-      ],
+      "categories": ["FERTILITE_CONTRACEPTION"],
       "recommendedSpmProfiles": [],
-      "keywords": [
-        "contraceptions",
-        "naturelles"
-      ],
+      "keywords": ["contraceptions", "naturelles"],
       "durationMinutes": 6,
       "proposedVisibility": "PUBLIC",
       "sourceMode": "TEXT",
@@ -2176,14 +2110,9 @@
       "title": "L’autonomie de la fertilité",
       "description": "Découvre une méthode naturelle pour suivre ta fertilité, que ce soit en contraception, conception ou simplement pour mieux te connaitre.",
       "format": "ARTICLE",
-      "categories": [
-        "FERTILITE_CONTRACEPTION"
-      ],
+      "categories": ["FERTILITE_CONTRACEPTION"],
       "recommendedSpmProfiles": [],
-      "keywords": [
-        "lautonomie",
-        "fertilite"
-      ],
+      "keywords": ["lautonomie", "fertilite"],
       "durationMinutes": 3,
       "proposedVisibility": "PUBLIC",
       "sourceMode": "TEXT",
@@ -2406,16 +2335,9 @@
       "title": "L’eau, les émotions et la gyn’écologie émotionnelle",
       "description": "Découvre un lien étonnant entre l’eau, les émotions et la gyn’écologie émotionnelle !",
       "format": "ARTICLE",
-      "categories": [
-        "BIEN_ETRE_EMOTIONNEL_SANTE_MENTALE"
-      ],
+      "categories": ["BIEN_ETRE_EMOTIONNEL_SANTE_MENTALE"],
       "recommendedSpmProfiles": [],
-      "keywords": [
-        "leau",
-        "emotions",
-        "gynecologie",
-        "emotionnelle"
-      ],
+      "keywords": ["leau", "emotions", "gynecologie", "emotionnelle"],
       "durationMinutes": 3,
       "proposedVisibility": "PUBLIC",
       "sourceMode": "TEXT",
@@ -2523,14 +2445,9 @@
       "title": "Musique et émotions",
       "description": "La musique fait partie intégrante de nos vies. Présente dans toutes les cultures, elle accompagne nos joies, nos peines et nos transitions. Mais au-delà du simple plaisir auditif, elle a un impact profond sur notre corps et notre bien-être émotionnel. Son influence sur le système nerveux, la gestion du stress et l’expression des émotions en fait un outil puissant dans l’accompagnement en gynécologie émotionnelle. Voyons comment la musique peut soutenir notre équilibre gynécologique et comment l’intégrer dans notre quotidien.",
       "format": "ARTICLE",
-      "categories": [
-        "BIEN_ETRE_EMOTIONNEL_SANTE_MENTALE"
-      ],
+      "categories": ["BIEN_ETRE_EMOTIONNEL_SANTE_MENTALE"],
       "recommendedSpmProfiles": [],
-      "keywords": [
-        "musique",
-        "emotions"
-      ],
+      "keywords": ["musique", "emotions"],
       "durationMinutes": 4,
       "proposedVisibility": "PUBLIC",
       "sourceMode": "TEXT",
@@ -2682,16 +2599,9 @@
       "title": "Médecine symbolique et Gynécologie Emotionnelle",
       "description": "Je me souviens d’une période où j’ai enchaîné les mycoses pendant quatre mois. Un enfer. Cela faisait pourtant des années que je n’en avais plus eu depuis l’arrêt de la pilule, qui était justement la cause de mes mycoses chroniques. Là, j’étais perdue. Je n’avais pas repris de contraception hormonale, ni pris de médicament. Et comme par le passé, aucun traitement antifongique ne faisait effet. C’est le jour où j’ai commencé à regarder la mycose autrement — symboliquement — que tout a changé. J’ai compris que mon corps essayait de me dire quelque chose, et cette écoute a été une clé vers la libération.",
       "format": "ARTICLE",
-      "categories": [
-        "APPROCHES_NATURELLES_HOLISTIQUES"
-      ],
+      "categories": ["APPROCHES_NATURELLES_HOLISTIQUES"],
       "recommendedSpmProfiles": [],
-      "keywords": [
-        "medecine",
-        "symbolique",
-        "gynecologie",
-        "emotionnelle"
-      ],
+      "keywords": ["medecine", "symbolique", "gynecologie", "emotionnelle"],
       "durationMinutes": 5,
       "proposedVisibility": "PUBLIC",
       "sourceMode": "TEXT",
@@ -2851,9 +2761,7 @@
       "title": "Pourquoi ne pas être entendue par des professionnels, aggrave la douleur ?",
       "description": "Cet article est en cours de préparation.",
       "format": "ARTICLE",
-      "categories": [
-        "BIEN_ETRE_EMOTIONNEL_SANTE_MENTALE"
-      ],
+      "categories": ["BIEN_ETRE_EMOTIONNEL_SANTE_MENTALE"],
       "recommendedSpmProfiles": [],
       "keywords": [
         "pourquoi",
@@ -2883,17 +2791,9 @@
       "title": "Quand la douleur devient une zone de confort",
       "description": "En 2019, j’ai été soulagée d’apprendre que j’avais de l’endométriose. Ce diagnostic mettait enfin des mots sur des années de douleurs, et il m’a permis de me sentir moins seule. J’ai trouvé des communautés de femmes avec qui partager mon vécu, être écoutée, comprise, entourée.",
       "format": "ARTICLE",
-      "categories": [
-        "BIEN_ETRE_EMOTIONNEL_SANTE_MENTALE"
-      ],
+      "categories": ["BIEN_ETRE_EMOTIONNEL_SANTE_MENTALE"],
       "recommendedSpmProfiles": [],
-      "keywords": [
-        "quand",
-        "douleur",
-        "devient",
-        "zone",
-        "confort"
-      ],
+      "keywords": ["quand", "douleur", "devient", "zone", "confort"],
       "durationMinutes": 4,
       "proposedVisibility": "MEMBERS_ONLY",
       "sourceMode": "TEXT",
@@ -3102,10 +3002,7 @@
         "CYCLE_MENSTRUEL"
       ],
       "recommendedSpmProfiles": [],
-      "keywords": [
-        "regles",
-        "abondantes"
-      ],
+      "keywords": ["regles", "abondantes"],
       "durationMinutes": 5,
       "proposedVisibility": "MEMBERS_ONLY",
       "sourceMode": "TEXT",
@@ -3297,17 +3194,9 @@
       "title": "SPM(Syndrome prémenstruel): causes et solutions",
       "description": "La colère facile, envie de rien, douleurs aux seins, fringale sucrée … Le SPM ou syndrome prémenstruel se présente sous forme de multiples symptômes. Qui disparaissent ensuite pour laisser place à des règles parfois douloureuses. Pourquoi a-t-on ce syndrome ? Comment savoir si c’est le SPM ? Et surtout, comment y remédier ?",
       "format": "ARTICLE",
-      "categories": [
-        "SPM",
-        "CYCLE_MENSTRUEL"
-      ],
+      "categories": ["SPM", "CYCLE_MENSTRUEL"],
       "recommendedSpmProfiles": [],
-      "keywords": [
-        "syndrome",
-        "premenstruel",
-        "causes",
-        "solutions"
-      ],
+      "keywords": ["syndrome", "premenstruel", "causes", "solutions"],
       "durationMinutes": 4,
       "proposedVisibility": "PUBLIC",
       "sourceMode": "TEXT",
@@ -3574,16 +3463,9 @@
       "title": "Tout savoir sur les déséquilibres hormonaux",
       "description": "Quel est le point commun entre une perte de cheveux, une fatigue inhabituelle et un retard des règles ? Ils peuvent être causés par un problème d’hormones. Les déséquilibres hormonaux peuvent affecter l’ensemble de notre organisme, et se manifestent par des symptômes très variés. Heureusement, il est possible d’y remédier grâce à une approche holistique, en intégrant un mode de vie plus sain et des soins adaptés. Et pour les déséquilibres avec des manifestations gynécologiques, il est important de tenir compte de la dimension émotionnelle pour mieux les comprendre et les soulager.",
       "format": "ARTICLE",
-      "categories": [
-        "SANTE_HORMONALE"
-      ],
+      "categories": ["SANTE_HORMONALE"],
       "recommendedSpmProfiles": [],
-      "keywords": [
-        "tout",
-        "savoir",
-        "desequilibres",
-        "hormonaux"
-      ],
+      "keywords": ["tout", "savoir", "desequilibres", "hormonaux"],
       "durationMinutes": 7,
       "proposedVisibility": "PUBLIC",
       "sourceMode": "TEXT",

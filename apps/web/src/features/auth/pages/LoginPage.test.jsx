@@ -28,9 +28,9 @@ describe("LoginPage", () => {
       screen.getByRole("heading", { name: "Heureuse de te retrouver" }),
     ).toBeInTheDocument();
     expect(screen.getByLabelText("Adresse email")).toBeInTheDocument();
-    expect(screen.getByLabelText("Mot de passe")).toBeInTheDocument();
+    expect(screen.queryByLabelText("Mot de passe")).not.toBeInTheDocument();
     expect(
-      screen.getByRole("button", { name: "Se connecter" }),
+      screen.getByRole("button", { name: "Recevoir mon lien de connexion" }),
     ).toBeInTheDocument();
     expect(
       screen.getByRole("link", { name: "Créer mon compte" }),

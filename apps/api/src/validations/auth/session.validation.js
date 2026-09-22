@@ -2,10 +2,10 @@ const { z } = require("zod");
 
 const loginSchema = z.object({
   email: z.email("L’adresse email est invalide."),
+});
 
-  password: z.string().min(1, "Le mot de passe est obligatoire."),
-
-  rememberMe: z.boolean().default(false),
+const loginLinkSchema = z.object({
+  token: z.string().min(32, "Le lien de connexion est incomplet."),
 });
 
 const sessionIdSchema = z.object({
@@ -14,4 +14,4 @@ const sessionIdSchema = z.object({
     .regex(/^[a-f0-9]{24}$/i, "L’identifiant de session est invalide."),
 });
 
-module.exports = { loginSchema, sessionIdSchema };
+module.exports = { loginSchema, loginLinkSchema, sessionIdSchema };

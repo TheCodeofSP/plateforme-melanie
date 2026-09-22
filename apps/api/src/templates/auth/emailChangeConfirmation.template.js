@@ -1,5 +1,9 @@
 const env = require("../../config/env");
-const { emailButton, emailCallout, emailLinkFallback } = require("../shared/emailComponents");
+const {
+  emailButton,
+  emailCallout,
+  emailLinkFallback,
+} = require("../shared/emailComponents");
 const createEmailLayout = require("../shared/emailLayout");
 const escapeHtml = require("./escapeHtml");
 

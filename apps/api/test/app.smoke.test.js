@@ -19,17 +19,10 @@ Object.assign(process.env, {
 });
 
 const app = require("../src/app");
-const {
-  REMEMBER_ME_DURATION,
-  STANDARD_SESSION_DURATION,
-  setAuthCookies,
-} = require("../src/services/cookie.service");
+const { setAuthCookies } = require("../src/services/cookie.service");
 
-test("les cookies restent disponibles pendant toute la session", () => {
-  for (const [rememberMe, expectedDuration] of [
-    [false, STANDARD_SESSION_DURATION],
-    [true, REMEMBER_ME_DURATION],
-  ]) {
+test("les cookies expirent à la fermeture du navigateur", () => {
+  for (const rememberMe of [false, true]) {
     const cookies = [];
     const res = {
       cookie(name, value, options) {
@@ -45,9 +38,9 @@ test("les cookies restent disponibles pendant toute la session", () => {
 
     assert.equal(cookies.length, 2);
     assert.equal(cookies[0].name, "accessToken");
-    assert.equal(cookies[0].options.maxAge, expectedDuration);
+    assert.equal(cookies[0].options.maxAge, undefined);
     assert.equal(cookies[1].name, "refreshToken");
-    assert.equal(cookies[1].options.maxAge, expectedDuration);
+    assert.equal(cookies[1].options.maxAge, undefined);
   }
 });
 

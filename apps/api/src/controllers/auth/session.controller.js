@@ -1,17 +1,35 @@
 const {
-  loginUser,
+  requestLoginLink,
+  consumeLoginLink,
   refreshUserSession,
   logoutUser,
   logoutAllUserSessions,
   getUserSessions,
   revokeUserSession,
 } = require("../../services/auth");
-const { setAuthCookies, clearAuthCookies } = require("../../services/cookie.service");
+const {
+  setAuthCookies,
+  clearAuthCookies,
+} = require("../../services/cookie.service");
 
 async function login(req, res, next) {
   try {
-    const result = await loginUser({
-      ...req.body,
+    await requestLoginLink(req.body.email);
+
+    res.status(200).json({
+      success: true,
+      message:
+        "Si un compte actif correspond à cette adresse, un lien de connexion vient d’être envoyé.",
+    });
+  } catch (error) {
+    next(error);
+  }
+}
+
+async function loginWithLink(req, res, next) {
+  try {
+    const result = await consumeLoginLink({
+      token: req.body.token,
       userAgent: req.get("user-agent"),
     });
 
@@ -155,6 +173,7 @@ async function revokeCurrentUserSession(req, res, next) {
 
 module.exports = {
   login,
+  loginWithLink,
   refreshSession,
   logout,
   getCurrentUser,

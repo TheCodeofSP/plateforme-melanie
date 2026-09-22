@@ -1,13 +1,10 @@
-const {
-  anonymizeUserAccount,
-} = require("../../services/auth");
-const { setAuthCookies, clearAuthCookies } = require("../../services/cookie.service");
+const { anonymizeUserAccount } = require("../../services/auth");
+const { clearAuthCookies } = require("../../services/cookie.service");
 
 async function deleteCurrentUserAccount(req, res, next) {
   try {
     await anonymizeUserAccount({
       userId: req.auth.user._id,
-      currentPassword: req.body.currentPassword,
     });
 
     clearAuthCookies(res);

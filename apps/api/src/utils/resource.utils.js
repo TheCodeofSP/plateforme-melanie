@@ -7,8 +7,13 @@ function createResourceError(message, code, statusCode = 400, details) {
 }
 
 function slugify(value) {
-  return value.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase()
-    .replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "").slice(0, 100);
+  return value
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-|-$/g, "")
+    .slice(0, 100);
 }
 
 function escapeRegex(value) {

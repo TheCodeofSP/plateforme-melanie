@@ -28,16 +28,20 @@ const adminAnonymizeAccountSchema = z.object({
     .transform((value) => value || null),
 });
 
-const adminUserListSchema = z.object({
-  q: z.string().trim().max(120).optional(),
-  role: z.enum(["MEMBER", "INTERVENANT", "ADMIN"]).optional(),
-  accountStatus: z.enum(["PENDING_ACTIVATION", "ACTIVE", "SUSPENDED", "ANONYMIZED"]).optional(),
-  quizCompleted: z.enum(["true", "false"]).optional(),
-  isMinor: z.enum(["true", "false"]).optional(),
-  sort: z.enum(["newest", "oldest", "lastLogin", "name"]).default("newest"),
-  page: z.coerce.number().int().positive().default(1),
-  limit: z.coerce.number().int().min(1).max(100).default(20),
-}).strict();
+const adminUserListSchema = z
+  .object({
+    q: z.string().trim().max(120).optional(),
+    role: z.enum(["MEMBER", "INTERVENANT", "ADMIN"]).optional(),
+    accountStatus: z
+      .enum(["PENDING_ACTIVATION", "ACTIVE", "SUSPENDED", "ANONYMIZED"])
+      .optional(),
+    quizCompleted: z.enum(["true", "false"]).optional(),
+    isMinor: z.enum(["true", "false"]).optional(),
+    sort: z.enum(["newest", "oldest", "lastLogin", "name"]).default("newest"),
+    page: z.coerce.number().int().positive().default(1),
+    limit: z.coerce.number().int().min(1).max(100).default(20),
+  })
+  .strict();
 
 module.exports = {
   adminUserIdSchema,

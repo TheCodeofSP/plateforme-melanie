@@ -1,3 +1,22 @@
-const mongoose = require("mongoose"); const { SAFE_PLACE_REACTIONS } = require("../config/safePlace.constants");
-const schema = new mongoose.Schema({ user: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true, index: true }, targetType: { type: String, enum: ["POST", "COMMENT"], required: true }, targetId: { type: mongoose.Schema.Types.ObjectId, required: true, index: true }, type: { type: String, enum: SAFE_PLACE_REACTIONS, required: true } }, { timestamps: true });
-schema.index({ user: 1, targetType: 1, targetId: 1 }, { unique: true }); module.exports = mongoose.model("SafePlaceReaction", schema);
+const mongoose = require("mongoose");
+const { SAFE_PLACE_REACTIONS } = require("../config/safePlace.constants");
+const schema = new mongoose.Schema(
+  {
+    user: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
+      index: true,
+    },
+    targetType: { type: String, enum: ["POST", "COMMENT"], required: true },
+    targetId: {
+      type: mongoose.Schema.Types.ObjectId,
+      required: true,
+      index: true,
+    },
+    type: { type: String, enum: SAFE_PLACE_REACTIONS, required: true },
+  },
+  { timestamps: true },
+);
+schema.index({ user: 1, targetType: 1, targetId: 1 }, { unique: true });
+module.exports = mongoose.model("SafePlaceReaction", schema);

@@ -10,9 +10,34 @@ const router = express.Router();
 router.use(authenticate, authorizeRoles("ADMIN"));
 router.get("/", validateQuery(v.adminListSchema), c.adminList);
 router.get("/:profileId", validateParams(v.profileIdSchema), c.adminDetail);
-router.post("/:profileId/approve", validateParams(v.profileIdSchema), validateBody(v.optionalAdminCommentSchema), c.approve);
-router.post("/:profileId/request-changes", validateParams(v.profileIdSchema), validateBody(v.adminCommentSchema), c.changes);
-router.patch("/:profileId/editorial-correction", validateParams(v.profileIdSchema), validateBody(v.editorialCorrectionSchema), c.correct);
-router.post("/:profileId/hide", validateParams(v.profileIdSchema), validateBody(v.adminCommentSchema), c.hide);
-router.post("/:profileId/restore", validateParams(v.profileIdSchema), validateBody(v.optionalAdminCommentSchema), c.restore);
+router.post(
+  "/:profileId/approve",
+  validateParams(v.profileIdSchema),
+  validateBody(v.optionalAdminCommentSchema),
+  c.approve,
+);
+router.post(
+  "/:profileId/request-changes",
+  validateParams(v.profileIdSchema),
+  validateBody(v.adminCommentSchema),
+  c.changes,
+);
+router.patch(
+  "/:profileId/editorial-correction",
+  validateParams(v.profileIdSchema),
+  validateBody(v.editorialCorrectionSchema),
+  c.correct,
+);
+router.post(
+  "/:profileId/hide",
+  validateParams(v.profileIdSchema),
+  validateBody(v.adminCommentSchema),
+  c.hide,
+);
+router.post(
+  "/:profileId/restore",
+  validateParams(v.profileIdSchema),
+  validateBody(v.optionalAdminCommentSchema),
+  c.restore,
+);
 module.exports = router;

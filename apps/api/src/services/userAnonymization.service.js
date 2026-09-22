@@ -41,28 +41,23 @@ const CrmContact = require("../models/CrmContact");
 const CrmNote = require("../models/CrmNote");
 const CrmTask = require("../models/CrmTask");
 
-const { generateToken } = require("./token.service");
-
-const { hashPassword } = require("./password.service");
 const { syncQuizMarketingContact } = require("./marketingContact.service");
 
 async function anonymizeUserById(userId) {
-  const anonymousPasswordHash = await hashPassword(generateToken());
-
   const session = await mongoose.startSession();
 
   let anonymizedUser;
   let quizContactToRemove = null;
-  const userNotificationIds = await Notification.find({ recipient: userId }).distinct("_id");
+  const userNotificationIds = await Notification.find({
+    recipient: userId,
+  }).distinct("_id");
   const crmContact = await CrmContact.findOne({ user: userId }).select("_id");
   let webinarSessionsToPromote = [];
   let communicationEmailToRemove = null;
 
   try {
     await session.withTransaction(async () => {
-      const user = await User.findById(userId)
-        .select("+passwordHash")
-        .session(session);
+      const user = await User.findById(userId).session(session);
 
       if (!user) {
         const error = new Error("Ce compte n’existe pas.");
@@ -85,20 +80,73 @@ async function anonymizeUserById(userId) {
       const userIdString = user._id.toString();
       const originalEmail = user.email;
       communicationEmailToRemove = originalEmail;
-      const hasAuthoredResources = await Resource.exists({ owner: user._id }).session(session);
-      const quizParticipant = await QuizParticipant.findOne({ user: user._id }).session(session);
-      const professionalProfile = await ProfessionalProfile.findOne({ user: user._id }).session(session);
-      const safePlacePosts = await SafePlacePost.find({ author: user._id }).session(session);
-      const isolatedSafePlacePostIds = safePlacePosts.filter((post) => post.counters.comments === 0).map((post) => post._id);
-      const preservedSafePlacePosts = safePlacePosts.filter((post) => post.counters.comments > 0);
-      const safePlaceImageIds = safePlacePosts.flatMap((post) => post.images.map((image) => image.media));
-      const safePlaceReactions = await SafePlaceReaction.find({ user: user._id }).session(session).lean();
-      const webinarRegistrations = await WebinarRegistration.find({ user: user._id, status: { $in: ["REGISTERED", "WAITLISTED"] } }).session(session).lean();
-      const webinarCounterOps = webinarRegistrations.map((registration) => ({ updateOne: { filter: { _id: registration.session }, update: { $inc: { [`counters.${registration.status === "REGISTERED" ? "registered" : "waitlisted"}`]: -1 } } } }));
-      webinarSessionsToPromote = webinarRegistrations.filter((registration) => registration.status === "REGISTERED").map((registration) => registration.session);
-      const postReactionOps = safePlaceReactions.filter((reaction) => reaction.targetType === "POST").map((reaction) => ({ updateOne: { filter: { _id: reaction.targetId }, update: { $inc: { [`counters.reactions.${reaction.type}`]: -1 } } } }));
-      const commentReactionOps = safePlaceReactions.filter((reaction) => reaction.targetType === "COMMENT").map((reaction) => ({ updateOne: { filter: { _id: reaction.targetId }, update: { $inc: { [`counters.reactions.${reaction.type}`]: -1 } } } }));
-      if (quizParticipant) quizContactToRemove = { email: quizParticipant.email, firstName: quizParticipant.firstName };
+      const hasAuthoredResources = await Resource.exists({
+        owner: user._id,
+      }).session(session);
+      const quizParticipant = await QuizParticipant.findOne({
+        user: user._id,
+      }).session(session);
+      const professionalProfile = await ProfessionalProfile.findOne({
+        user: user._id,
+      }).session(session);
+      const safePlacePosts = await SafePlacePost.find({
+        author: user._id,
+      }).session(session);
+      const isolatedSafePlacePostIds = safePlacePosts
+        .filter((post) => post.counters.comments === 0)
+        .map((post) => post._id);
+      const preservedSafePlacePosts = safePlacePosts.filter(
+        (post) => post.counters.comments > 0,
+      );
+      const safePlaceImageIds = safePlacePosts.flatMap((post) =>
+        post.images.map((image) => image.media),
+      );
+      const safePlaceReactions = await SafePlaceReaction.find({
+        user: user._id,
+      })
+        .session(session)
+        .lean();
+      const webinarRegistrations = await WebinarRegistration.find({
+        user: user._id,
+        status: { $in: ["REGISTERED", "WAITLISTED"] },
+      })
+        .session(session)
+        .lean();
+      const webinarCounterOps = webinarRegistrations.map((registration) => ({
+        updateOne: {
+          filter: { _id: registration.session },
+          update: {
+            $inc: {
+              [`counters.${registration.status === "REGISTERED" ? "registered" : "waitlisted"}`]:
+                -1,
+            },
+          },
+        },
+      }));
+      webinarSessionsToPromote = webinarRegistrations
+        .filter((registration) => registration.status === "REGISTERED")
+        .map((registration) => registration.session);
+      const postReactionOps = safePlaceReactions
+        .filter((reaction) => reaction.targetType === "POST")
+        .map((reaction) => ({
+          updateOne: {
+            filter: { _id: reaction.targetId },
+            update: { $inc: { [`counters.reactions.${reaction.type}`]: -1 } },
+          },
+        }));
+      const commentReactionOps = safePlaceReactions
+        .filter((reaction) => reaction.targetType === "COMMENT")
+        .map((reaction) => ({
+          updateOne: {
+            filter: { _id: reaction.targetId },
+            update: { $inc: { [`counters.reactions.${reaction.type}`]: -1 } },
+          },
+        }));
+      if (quizParticipant)
+        quizContactToRemove = {
+          email: quizParticipant.email,
+          firstName: quizParticipant.firstName,
+        };
 
       user.email = `anonymized-${userIdString}@deleted.invalid`;
 
@@ -108,8 +156,6 @@ async function anonymizeUserById(userId) {
       user.pseudonym = `membre-supprimee-${userIdString.slice(-8)}`;
 
       user.dateOfBirth = new Date("1970-01-01T00:00:00.000Z");
-
-      user.passwordHash = anonymousPasswordHash;
 
       user.role = "MEMBER";
       user.accountStatus = "ANONYMIZED";
@@ -187,40 +233,106 @@ async function anonymizeUserById(userId) {
         hasAuthoredResources
           ? ProfessionalProfile.updateOne(
               { user: user._id },
-              { $set: {
-                draftVersion: { professionalName: "Ancienne intervenante", displayedFirstName: "", displayedLastName: "", profession: professionalProfile?.publishedVersion?.profession || "Professionnelle", specialties: [], shortPresentation: "", biography: "", photo: null, website: null },
-                publishedVersion: { professionalName: "Ancienne intervenante", displayedFirstName: "", displayedLastName: "", profession: professionalProfile?.publishedVersion?.profession || "Professionnelle", specialties: [], shortPresentation: "", biography: "", photo: null, website: null },
-                publicationStatus: "HIDDEN", reviewStatus: "APPROVED", isActive: false, deactivatedAt: new Date(), hiddenAt: new Date(), lastAdminComment: null,
-              } },
+              {
+                $set: {
+                  draftVersion: {
+                    professionalName: "Ancienne intervenante",
+                    displayedFirstName: "",
+                    displayedLastName: "",
+                    profession:
+                      professionalProfile?.publishedVersion?.profession ||
+                      "Professionnelle",
+                    specialties: [],
+                    shortPresentation: "",
+                    biography: "",
+                    photo: null,
+                    website: null,
+                  },
+                  publishedVersion: {
+                    professionalName: "Ancienne intervenante",
+                    displayedFirstName: "",
+                    displayedLastName: "",
+                    profession:
+                      professionalProfile?.publishedVersion?.profession ||
+                      "Professionnelle",
+                    specialties: [],
+                    shortPresentation: "",
+                    biography: "",
+                    photo: null,
+                    website: null,
+                  },
+                  publicationStatus: "HIDDEN",
+                  reviewStatus: "APPROVED",
+                  isActive: false,
+                  deactivatedAt: new Date(),
+                  hiddenAt: new Date(),
+                  lastAdminComment: null,
+                },
+              },
               { session },
             )
           : ProfessionalProfile.deleteMany({ user: user._id }, { session }),
 
         ResourceAnalyticsEvent.updateMany(
           { user: user._id },
-          { $set: { user: null, spmProfile: "NON_DEFINI" }, $unset: { dedupeKey: "" } },
+          {
+            $set: { user: null, spmProfile: "NON_DEFINI" },
+            $unset: { dedupeKey: "" },
+          },
           { session },
         ),
 
         quizParticipant
-          ? QuizAttempt.deleteMany({ participant: quizParticipant._id }, { session })
+          ? QuizAttempt.updateMany(
+              { participant: quizParticipant._id },
+              { $set: { userSnapshot: null } },
+              { session },
+            )
           : Promise.resolve(),
 
         quizParticipant
-          ? QuizConsentRecord.deleteMany({ participant: quizParticipant._id }, { session })
+          ? QuizConsentRecord.deleteMany(
+              { participant: quizParticipant._id },
+              { session },
+            )
           : Promise.resolve(),
 
         quizParticipant
-          ? QuizParticipant.deleteOne({ _id: quizParticipant._id }, { session })
+          ? QuizParticipant.updateOne(
+              { _id: quizParticipant._id },
+              {
+                $set: {
+                  email: `anonymized-quiz-${quizParticipant._id}@deleted.invalid`,
+                  firstName: "Participante",
+                  user: null,
+                  linkedAt: null,
+                  "marketingSync.status": "NOT_REQUESTED",
+                  "marketingSync.syncedAt": null,
+                  "marketingSync.lastError": null,
+                },
+              },
+              { session },
+            )
           : Promise.resolve(),
 
         quizParticipant
-          ? QuizAdminAccessLog.deleteMany({ participant: quizParticipant._id }, { session })
+          ? QuizAdminAccessLog.deleteMany(
+              { participant: quizParticipant._id },
+              { session },
+            )
           : Promise.resolve(),
 
-        professionalProfile?.draftVersion?.photo || professionalProfile?.publishedVersion?.photo
+        professionalProfile?.draftVersion?.photo ||
+        professionalProfile?.publishedVersion?.photo
           ? MediaAsset.updateMany(
-              { _id: { $in: [professionalProfile?.draftVersion?.photo, professionalProfile?.publishedVersion?.photo].filter(Boolean) } },
+              {
+                _id: {
+                  $in: [
+                    professionalProfile?.draftVersion?.photo,
+                    professionalProfile?.publishedVersion?.photo,
+                  ].filter(Boolean),
+                },
+              },
               { $set: { status: "REPLACED" } },
               { session },
             )
@@ -243,13 +355,14 @@ async function anonymizeUserById(userId) {
           { session },
         ),
 
-        SafePlaceReaction.deleteMany(
-          { user: user._id },
-          { session },
-        ),
+        SafePlaceReaction.deleteMany({ user: user._id }, { session }),
 
-        postReactionOps.length ? SafePlacePost.bulkWrite(postReactionOps, { session }) : Promise.resolve(),
-        commentReactionOps.length ? SafePlaceComment.bulkWrite(commentReactionOps, { session }) : Promise.resolve(),
+        postReactionOps.length
+          ? SafePlacePost.bulkWrite(postReactionOps, { session })
+          : Promise.resolve(),
+        commentReactionOps.length
+          ? SafePlaceComment.bulkWrite(commentReactionOps, { session })
+          : Promise.resolve(),
 
         SafePlaceReaction.deleteMany(
           { targetType: "POST", targetId: { $in: isolatedSafePlacePostIds } },
@@ -269,13 +382,22 @@ async function anonymizeUserById(userId) {
 
         SafePlaceReport.updateMany(
           { reporter: user._id },
-          { $set: { reporter: null, details: null }, $unset: { openDedupeKey: "" } },
+          {
+            $set: { reporter: null, details: null },
+            $unset: { openDedupeKey: "" },
+          },
           { session },
         ),
 
         SafePlaceSuspension.updateMany(
           { user: user._id, status: "ACTIVE" },
-          { $set: { status: "LIFTED", liftedAt: new Date(), liftReason: "Compte supprimé" } },
+          {
+            $set: {
+              status: "LIFTED",
+              liftedAt: new Date(),
+              liftReason: "Compte supprimé",
+            },
+          },
           { session },
         ),
 
@@ -285,19 +407,18 @@ async function anonymizeUserById(userId) {
         ),
 
         NotificationDetail.deleteMany(
-          { $or: [{ notification: { $in: userNotificationIds } }, { actor: user._id }] },
+          {
+            $or: [
+              { notification: { $in: userNotificationIds } },
+              { actor: user._id },
+            ],
+          },
           { session },
         ),
 
-        NotificationDelivery.deleteMany(
-          { recipient: user._id },
-          { session },
-        ),
+        NotificationDelivery.deleteMany({ recipient: user._id }, { session }),
 
-        NotificationPreference.deleteMany(
-          { user: user._id },
-          { session },
-        ),
+        NotificationPreference.deleteMany({ user: user._id }, { session }),
 
         crmContact
           ? CrmContact.updateOne(
@@ -329,17 +450,30 @@ async function anonymizeUserById(userId) {
 
         WebinarRegistration.updateMany(
           { user: user._id, status: { $in: ["REGISTERED", "WAITLISTED"] } },
-          { $set: { user: null, status: "CANCELLED", cancelledAt: new Date(), confirmationExpiresAt: null }, $unset: { activeKey: "" } },
+          {
+            $set: {
+              user: null,
+              status: "CANCELLED",
+              cancelledAt: new Date(),
+              confirmationExpiresAt: null,
+            },
+            $unset: { activeKey: "" },
+          },
           { session },
         ),
 
         WebinarRegistration.updateMany(
-          { user: user._id, status: { $in: ["PRESENT", "ABSENT", "CANCELLED"] } },
+          {
+            user: user._id,
+            status: { $in: ["PRESENT", "ABSENT", "CANCELLED"] },
+          },
           { $set: { user: null }, $unset: { activeKey: "" } },
           { session },
         ),
 
-        webinarCounterOps.length ? WebinarSession.bulkWrite(webinarCounterOps, { session }) : Promise.resolve(),
+        webinarCounterOps.length
+          ? WebinarSession.bulkWrite(webinarCounterOps, { session })
+          : Promise.resolve(),
 
         WebinarQuestion.updateMany(
           { author: user._id },
@@ -361,13 +495,37 @@ async function anonymizeUserById(userId) {
 
         CommunicationRecipient.updateMany(
           { user: user._id },
-          [{ $set: { email: { $concat: ["anonymized-", { $toString: "$_id" }, "@deleted.invalid"] }, user: null, firstNameSnapshot: null, anonymizedAt: new Date() } }],
+          [
+            {
+              $set: {
+                email: {
+                  $concat: [
+                    "anonymized-",
+                    { $toString: "$_id" },
+                    "@deleted.invalid",
+                  ],
+                },
+                user: null,
+                firstNameSnapshot: null,
+                anonymizedAt: new Date(),
+              },
+            },
+          ],
           { session },
         ),
 
         CommunicationPreference.updateMany(
           { $or: [{ user: user._id }, { email: originalEmail }] },
-          { $set: { user: null, editorialNewsletter: false, resourceAnnouncements: false, webinarAnnouncements: false, platformNews: false, allMarketingUnsubscribedAt: new Date() } },
+          {
+            $set: {
+              user: null,
+              editorialNewsletter: false,
+              resourceAnnouncements: false,
+              webinarAnnouncements: false,
+              platformNews: false,
+              allMarketingUnsubscribedAt: new Date(),
+            },
+          },
           { session },
         ),
 
@@ -383,7 +541,13 @@ async function anonymizeUserById(userId) {
         ),
 
         MediaAsset.updateMany(
-          { $or: [{ _id: { $in: safePlaceImageIds } }, { owner: user._id, purpose: "SAFE_PLACE_IMAGE" }], status: { $ne: "DELETED" } },
+          {
+            $or: [
+              { _id: { $in: safePlaceImageIds } },
+              { owner: user._id, purpose: "SAFE_PLACE_IMAGE" },
+            ],
+            status: { $ne: "DELETED" },
+          },
           { $set: { status: "REPLACED" } },
           { session },
         ),
@@ -419,19 +583,34 @@ async function anonymizeUserById(userId) {
   }
 
   if (quizContactToRemove) {
-    await syncQuizMarketingContact({ ...quizContactToRemove, granted: false }).catch((error) => {
-      console.error(`Contact Quiz non désynchronisé du fournisseur email : ${error.message}`);
+    await syncQuizMarketingContact({
+      ...quizContactToRemove,
+      granted: false,
+    }).catch((error) => {
+      console.error(
+        `Contact Quiz non désynchronisé du fournisseur email : ${error.message}`,
+      );
     });
   }
 
   if (webinarSessionsToPromote.length) {
     const { promote } = require("./webinars/registration.service");
-    for (const sessionId of webinarSessionsToPromote) await promote(sessionId).catch((error) => console.error(`Liste d’attente non relancée : ${error.message}`));
+    for (const sessionId of webinarSessionsToPromote)
+      await promote(sessionId).catch((error) =>
+        console.error(`Liste d’attente non relancée : ${error.message}`),
+      );
   }
 
   if (communicationEmailToRemove) {
     const { syncNewsletterContact } = require("./marketingContact.service");
-    await syncNewsletterContact({ email: communicationEmailToRemove, subscribed: false }).catch((error) => console.error(`Contact Newsletter non désynchronisé du fournisseur email : ${error.message}`));
+    await syncNewsletterContact({
+      email: communicationEmailToRemove,
+      subscribed: false,
+    }).catch((error) =>
+      console.error(
+        `Contact Newsletter non désynchronisé du fournisseur email : ${error.message}`,
+      ),
+    );
   }
 
   return anonymizedUser;

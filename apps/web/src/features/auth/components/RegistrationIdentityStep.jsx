@@ -9,7 +9,6 @@ function FieldError({ id, message }) {
 export default function RegistrationIdentityStep({
   content,
   errors,
-  isMinor,
   onChange,
   values,
 }) {
@@ -20,7 +19,9 @@ export default function RegistrationIdentityStep({
 
       <div className="registration-form__grid">
         <label className="form-field">
-          <span>Prénom</span>
+          <span>
+            Prénom <span aria-hidden="true">*</span>
+          </span>
           <input
             className="form-input"
             name="firstName"
@@ -33,7 +34,9 @@ export default function RegistrationIdentityStep({
           <FieldError id="firstName-error" message={errors.firstName} />
         </label>
         <label className="form-field">
-          <span>Nom</span>
+          <span>
+            Nom <span aria-hidden="true">*</span>
+          </span>
           <input
             className="form-input"
             name="lastName"
@@ -48,7 +51,9 @@ export default function RegistrationIdentityStep({
       </div>
 
       <label className="form-field">
-        <span>Pseudonyme</span>
+        <span>
+          Pseudonyme <span aria-hidden="true">*</span>
+        </span>
         <input
           className="form-input"
           name="pseudonym"
@@ -66,49 +71,52 @@ export default function RegistrationIdentityStep({
         <FieldError id="pseudonym-error" message={errors.pseudonym} />
       </label>
 
-      <label className="form-field">
-        <span>Date de naissance</span>
-        <input
-          className="form-input"
-          type="date"
-          name="dateOfBirth"
-          value={values.dateOfBirth}
-          onChange={onChange}
-          autoComplete="bday"
-          aria-invalid={Boolean(errors.dateOfBirth)}
-          aria-describedby={
-            errors.dateOfBirth ? "dateOfBirth-error" : "dateOfBirth-help"
-          }
-        />
-        <small className="form-help" id="dateOfBirth-help">
-          L’inscription est accessible à partir de 15 ans.
-        </small>
-        <FieldError id="dateOfBirth-error" message={errors.dateOfBirth} />
-      </label>
-
-      {isMinor && (
-        <label className="form-field registration-step__guardian">
-          <span>Email du responsable légal</span>
+      <fieldset className="registration-choice">
+        <legend>Nom visible dans le forum</legend>
+        <p className="form-help">
+          Ton nom reste privé. Tu choisis si ton prénom accompagne ton
+          pseudonyme.
+        </p>
+        <label className="registration-check">
           <input
-            className="form-input"
-            type="email"
-            name="guardianEmail"
-            value={values.guardianEmail}
+            type="radio"
+            name="profileVisibility"
+            value="PSEUDONYM_ONLY"
+            checked={values.profileVisibility === "PSEUDONYM_ONLY"}
             onChange={onChange}
-            autoComplete="email"
-            aria-invalid={Boolean(errors.guardianEmail)}
-            aria-describedby={
-              errors.guardianEmail
-                ? "guardianEmail-error"
-                : "guardianEmail-help"
-            }
           />
-          <small className="form-help" id="guardianEmail-help">
-            Une demande d’autorisation lui sera envoyée.
-          </small>
-          <FieldError id="guardianEmail-error" message={errors.guardianEmail} />
+          <span>Mon pseudonyme</span>
         </label>
-      )}
+        <label className="registration-check">
+          <input
+            type="radio"
+            name="profileVisibility"
+            value="FIRST_NAME"
+            checked={values.profileVisibility === "FIRST_NAME"}
+            onChange={onChange}
+          />
+          <span>Mon prénom</span>
+        </label>
+      </fieldset>
+
+      <div>
+        <label className="registration-check">
+          <input
+            type="checkbox"
+            name="isAdultConfirmed"
+            checked={values.isAdultConfirmed}
+            onChange={onChange}
+          />
+          <span>
+            Je confirme avoir 18 ans ou plus.{" "}
+            <strong aria-hidden="true">*</strong>
+          </span>
+        </label>
+        <FieldError
+          id="isAdultConfirmed-error"
+          message={errors.isAdultConfirmed}
+        />
+      </div>
     </fieldset>
   );
 }

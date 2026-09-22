@@ -30,23 +30,16 @@ test("les liens d’authentification utilisent les URL françaises", () => {
     firstName: "Léa",
     token: "token-test",
   });
-  const reset = templates.createPasswordResetTemplate({
-    firstName: "Léa",
-    token: "token-test",
-  });
   const confirmation = templates.createEmailChangeConfirmationTemplate({
     firstName: "Léa",
     token: "token-test",
   });
-  const parental = templates.createParentalAuthorizationTemplate({
-    minorFirstName: "Léa",
-    token: "token-test",
-  });
 
   assert.match(verification.htmlContent, /\/verifier-email\?token=/);
-  assert.match(reset.htmlContent, /\/reinitialiser-mot-de-passe\?token=/);
-  assert.match(confirmation.htmlContent, /\/confirmer-changement-email\?token=/);
-  assert.match(parental.htmlContent, /\/autorisation-parentale\?token=/);
+  assert.match(
+    confirmation.htmlContent,
+    /\/confirmer-changement-email\?token=/,
+  );
 });
 
 test("les valeurs personnalisées sont échappées", () => {

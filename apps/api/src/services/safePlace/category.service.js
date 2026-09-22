@@ -1,11 +1,114 @@
-const SafePlaceCategory = require("../../models/SafePlaceCategory"); const SafePlacePost = require("../../models/SafePlacePost"); const SafePlaceModerationLog = require("../../models/SafePlaceModerationLog"); const { slugify } = require("../../utils/resource.utils");
-function fail(message, code, statusCode = 400) { const e = new Error(message); e.code = code; e.statusCode = statusCode; throw e; }
-async function uniqueSlug(name, excluded) { const base = slugify(name) || "categorie"; let slug = base; for (let n = 2; await SafePlaceCategory.exists({ slug, ...(excluded && { _id: { $ne: excluded } }) }); n += 1) slug = `${base}-${n}`; return slug; }
-async function publicList() { return SafePlaceCategory.find({ status: "ACTIVE" }).sort({ displayOrder: 1, name: 1 }).lean(); }
-async function publicDetail(id) { const category = await SafePlaceCategory.findOne({ _id: id, status: "ACTIVE" }).lean(); if (!category) fail("Catégorie introuvable.", "SAFE_PLACE_CATEGORY_NOT_FOUND", 404); return category; }
-async function adminList() { return SafePlaceCategory.find().sort({ displayOrder: 1, name: 1 }).lean(); }
-async function create(admin, data) { const category = await SafePlaceCategory.create({ ...data, slug: await uniqueSlug(data.name) }); await SafePlaceModerationLog.create({ admin: admin._id, targetType: "CATEGORY", targetId: category._id, action: "CATEGORY_CREATED" }); return category; }
-async function update(id, admin, changes) { const category = await SafePlaceCategory.findById(id); if (!category) fail("Catégorie introuvable.", "SAFE_PLACE_CATEGORY_NOT_FOUND", 404); if (changes.name && changes.name !== category.name) category.slug = await uniqueSlug(changes.name, category._id); Object.assign(category, changes); await category.save(); await SafePlaceModerationLog.create({ admin: admin._id, targetType: "CATEGORY", targetId: category._id, action: "CATEGORY_UPDATED", metadata: { fields: Object.keys(changes) } }); return category; }
-async function setStatus(id, admin, status, reason) { const category = await SafePlaceCategory.findById(id); if (!category) fail("Catégorie introuvable.", "SAFE_PLACE_CATEGORY_NOT_FOUND", 404); category.status = status; if (status !== "ACTIVE") category.allowNewPosts = false; await category.save(); await SafePlaceModerationLog.create({ admin: admin._id, targetType: "CATEGORY", targetId: id, action: `CATEGORY_${status}`, reason }); return category; }
-async function remove(id, admin) { const category = await SafePlaceCategory.findById(id); if (!category) fail("Catégorie introuvable.", "SAFE_PLACE_CATEGORY_NOT_FOUND", 404); if (await SafePlacePost.exists({ category: id })) fail("Déplace les publications avant de supprimer cette catégorie.", "SAFE_PLACE_CATEGORY_NOT_EMPTY", 409); await category.deleteOne(); await SafePlaceModerationLog.create({ admin: admin._id, targetType: "CATEGORY", targetId: id, action: "CATEGORY_DELETED" }); }
-module.exports = { publicList, publicDetail, adminList, create, update, setStatus, remove };
+const SafePlaceCategory = require("../../models/SafePlaceCategory");
+const SafePlacePost = require("../../models/SafePlacePost");
+const SafePlaceModerationLog = require("../../models/SafePlaceModerationLog");
+const { slugify } = require("../../utils/resource.utils");
+function fail(message, code, statusCode = 400) {
+  const e = new Error(message);
+  e.code = code;
+  e.statusCode = statusCode;
+  throw e;
+}
+async function uniqueSlug(name, excluded) {
+  const base = slugify(name) || "categorie";
+  let slug = base;
+  for (
+    let n = 2;
+    await SafePlaceCategory.exists({
+      slug,
+      ...(excluded && { _id: { $ne: excluded } }),
+    });
+    n += 1
+  )
+    slug = `${base}-${n}`;
+  return slug;
+}
+async function publicList() {
+  return SafePlaceCategory.find({ status: "ACTIVE" })
+    .sort({ displayOrder: 1, name: 1 })
+    .lean();
+}
+async function publicDetail(id) {
+  const category = await SafePlaceCategory.findOne({
+    _id: id,
+    status: "ACTIVE",
+  }).lean();
+  if (!category)
+    fail("Catégorie introuvable.", "SAFE_PLACE_CATEGORY_NOT_FOUND", 404);
+  return category;
+}
+async function adminList() {
+  return SafePlaceCategory.find().sort({ displayOrder: 1, name: 1 }).lean();
+}
+async function create(admin, data) {
+  const category = await SafePlaceCategory.create({
+    ...data,
+    slug: await uniqueSlug(data.name),
+  });
+  await SafePlaceModerationLog.create({
+    admin: admin._id,
+    targetType: "CATEGORY",
+    targetId: category._id,
+    action: "CATEGORY_CREATED",
+  });
+  return category;
+}
+async function update(id, admin, changes) {
+  const category = await SafePlaceCategory.findById(id);
+  if (!category)
+    fail("Catégorie introuvable.", "SAFE_PLACE_CATEGORY_NOT_FOUND", 404);
+  if (changes.name && changes.name !== category.name)
+    category.slug = await uniqueSlug(changes.name, category._id);
+  Object.assign(category, changes);
+  await category.save();
+  await SafePlaceModerationLog.create({
+    admin: admin._id,
+    targetType: "CATEGORY",
+    targetId: category._id,
+    action: "CATEGORY_UPDATED",
+    metadata: { fields: Object.keys(changes) },
+  });
+  return category;
+}
+async function setStatus(id, admin, status, reason) {
+  const category = await SafePlaceCategory.findById(id);
+  if (!category)
+    fail("Catégorie introuvable.", "SAFE_PLACE_CATEGORY_NOT_FOUND", 404);
+  category.status = status;
+  if (status !== "ACTIVE") category.allowNewPosts = false;
+  await category.save();
+  await SafePlaceModerationLog.create({
+    admin: admin._id,
+    targetType: "CATEGORY",
+    targetId: id,
+    action: `CATEGORY_${status}`,
+    reason,
+  });
+  return category;
+}
+async function remove(id, admin) {
+  const category = await SafePlaceCategory.findById(id);
+  if (!category)
+    fail("Catégorie introuvable.", "SAFE_PLACE_CATEGORY_NOT_FOUND", 404);
+  if (await SafePlacePost.exists({ category: id }))
+    fail(
+      "Déplace les publications avant de supprimer cette catégorie.",
+      "SAFE_PLACE_CATEGORY_NOT_EMPTY",
+      409,
+    );
+  await category.deleteOne();
+  await SafePlaceModerationLog.create({
+    admin: admin._id,
+    targetType: "CATEGORY",
+    targetId: id,
+    action: "CATEGORY_DELETED",
+  });
+}
+module.exports = {
+  publicList,
+  publicDetail,
+  adminList,
+  create,
+  update,
+  setStatus,
+  remove,
+};

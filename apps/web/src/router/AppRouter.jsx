@@ -1,11 +1,19 @@
-import { BrowserRouter, Navigate, Route, Routes, useParams } from "react-router-dom";
+import {
+  BrowserRouter,
+  Navigate,
+  Route,
+  Routes,
+  useParams,
+} from "react-router-dom";
 
 import { roles } from "../config/roles.config.js";
 import { routes } from "../config/routes.config.js";
 import RequireAuth from "../features/auth/components/RequireAuth.jsx";
 import RequireRole from "../features/auth/components/RequireRole.jsx";
 import LoginPage from "../features/auth/pages/LoginPage.jsx";
-import ParentalAuthorizationPage from "../features/auth/pages/ParentalAuthorizationPage.jsx";
+import MagicLoginPage from "../features/auth/pages/MagicLoginPage.jsx";
+import ConfirmEmailChangePage from "../features/auth/pages/ConfirmEmailChangePage.jsx";
+import AccountSettingsPage from "../features/auth/pages/AccountSettingsPage.jsx";
 import RegistrationConfirmationPage from "../features/auth/pages/RegistrationConfirmationPage.jsx";
 import RegistrationPage from "../features/auth/pages/RegistrationPage.jsx";
 import VerifyEmailPage from "../features/auth/pages/VerifyEmailPage.jsx";
@@ -113,174 +121,443 @@ export default function AppRouter() {
       <QuizProvider>
         <ScrollToTop />
         <Routes>
-        <Route element={<PublicLayout />}>
-          <Route path={routes.home} element={<Home />} />
-          <Route path={routes.platform} element={<ClairierePage />} />
-          <Route path={routes.contact} element={<Contact />} />
-          <Route path={routes.resources} element={<Resources />} />
-          <Route path={routes.resourceDetail} element={<ResourceDetail />} />
-          <Route path={routes.quiz} element={<Quiz />} />
-          <Route path={routes.webinars} element={<WebinarCataloguePage />} />
-          <Route path={routes.webinarDetail} element={<WebinarDetailPage />} />
-          <Route path={routes.accompaniments} element={<Accompaniments />} />
-          <Route path={routes.accompanimentCoaching} element={<AccompanimentDetailPage offerId="coaching" />} />
-          <Route path={routes.accompanimentAine} element={<AccompanimentDetailPage offerId="aine" />} />
-          <Route path={routes.accompanimentSymptothermy} element={<AccompanimentDetailPage offerId="symptothermy" />} />
-          <Route path={routes.vision} element={<Vision />} />
-          <Route path={routes.becomeIntervenant} element={<BecomeIntervenantPage />} />
-          <Route path={routes.professionals} element={<ProfessionalsPage />} />
-          <Route path={routes.professionalDetail} element={<ProfessionalDetailPage />} />
-          <Route path={routes.community} element={<SafePlaceLandingPage />} />
-          <Route path={routes.communityCharter} element={<SafePlaceCharterPage />} />
+          <Route element={<PublicLayout />}>
+            <Route path={routes.home} element={<Home />} />
+            <Route path={routes.platform} element={<ClairierePage />} />
+            <Route path={routes.contact} element={<Contact />} />
+            <Route path={routes.resources} element={<Resources />} />
+            <Route path={routes.resourceDetail} element={<ResourceDetail />} />
+            <Route path={routes.quiz} element={<Quiz />} />
+            <Route path={routes.webinars} element={<WebinarCataloguePage />} />
+            <Route
+              path={routes.webinarDetail}
+              element={<WebinarDetailPage />}
+            />
+            <Route path={routes.accompaniments} element={<Accompaniments />} />
+            <Route
+              path={routes.accompanimentCoaching}
+              element={<AccompanimentDetailPage offerId="coaching" />}
+            />
+            <Route
+              path={routes.accompanimentAine}
+              element={<AccompanimentDetailPage offerId="aine" />}
+            />
+            <Route
+              path={routes.accompanimentSymptothermy}
+              element={<AccompanimentDetailPage offerId="symptothermy" />}
+            />
+            <Route path={routes.vision} element={<Vision />} />
+            <Route
+              path={routes.becomeIntervenant}
+              element={<BecomeIntervenantPage />}
+            />
+            <Route
+              path={routes.professionals}
+              element={<ProfessionalsPage />}
+            />
+            <Route
+              path={routes.professionalDetail}
+              element={<ProfessionalDetailPage />}
+            />
+            <Route path={routes.community} element={<SafePlaceLandingPage />} />
+            <Route
+              path={routes.communityCharter}
+              element={<SafePlaceCharterPage />}
+            />
+            <Route element={<RequireAuth />}>
+              <Route path={routes.myWebinars} element={<MyWebinarsPage />} />
+              <Route
+                path={routes.webinarConfirmation}
+                element={<WebinarConfirmationPage />}
+              />
+              <Route
+                path={routes.webinarReplay}
+                element={<WebinarReplayPage />}
+              />
+              <Route
+                path={routes.webinarEvaluation}
+                element={<WebinarEvaluationPage />}
+              />
+              <Route
+                path={routes.notifications}
+                element={<NotificationsPage />}
+              />
+              <Route
+                path={routes.notificationPreferences}
+                element={<NotificationPreferencesPage />}
+              />
+              <Route
+                element={
+                  <RequireRole allowedRoles={[roles.member, roles.admin]} />
+                }
+              >
+                <Route
+                  path={routes.communityCategory}
+                  element={<SafePlaceCategoryPage />}
+                />
+                <Route
+                  path={routes.communityDiscussion}
+                  element={<SafePlaceDiscussionPage />}
+                />
+                <Route
+                  path={routes.communityNewDiscussion}
+                  element={<SafePlaceComposerPage />}
+                />
+                <Route
+                  path={routes.communityEditDiscussion}
+                  element={<SafePlaceComposerPage />}
+                />
+                <Route
+                  path={routes.communityMyContent}
+                  element={<SafePlaceMyContentPage />}
+                />
+                <Route
+                  path={routes.communityMyReports}
+                  element={<SafePlaceMyReportsPage />}
+                />
+                <Route
+                  path={routes.communityPreferences}
+                  element={<SafePlacePreferencesPage />}
+                />
+              </Route>
+            </Route>
+            <Route path={routes.accessDenied} element={<AccessDenied />} />
+            <Route
+              path={routes.accountSuspended}
+              element={<AccountSuspended />}
+            />
+            <Route path={routes.terms} element={<TermsPage />} />
+            <Route
+              path={routes.privacyPolicy}
+              element={<PrivacyPolicyPage />}
+            />
+            <Route
+              path={routes.legalNotice}
+              element={<LegalEditorialPage page="notice" />}
+            />
+            <Route
+              path={routes.cookiesPolicy}
+              element={<LegalEditorialPage page="cookies" />}
+            />
+            <Route
+              path={routes.accessibility}
+              element={<LegalEditorialPage page="accessibility" />}
+            />
+          </Route>
+
+          <Route element={<AuthLayout />}>
+            <Route path={routes.login} element={<LoginPage />} />
+            <Route path={routes.loginLink} element={<MagicLoginPage />} />
+            <Route path={routes.registration} element={<RegistrationPage />} />
+            <Route
+              path={routes.registrationConfirmation}
+              element={<RegistrationConfirmationPage />}
+            />
+            <Route path={routes.verifyEmail} element={<VerifyEmailPage />} />
+            <Route
+              path={routes.confirmEmailChange}
+              element={<ConfirmEmailChangePage />}
+            />
+            <Route
+              path={routes.quizQuestions}
+              element={<QuizQuestionsPage />}
+            />
+            <Route
+              path={routes.quizProfileSelection}
+              element={<QuizProfileSelectionPage />}
+            />
+            <Route
+              path={routes.quizResultSent}
+              element={<QuizResultSentPage />}
+            />
+          </Route>
+
           <Route element={<RequireAuth />}>
-            <Route path={routes.myWebinars} element={<MyWebinarsPage />} />
-            <Route path={routes.webinarConfirmation} element={<WebinarConfirmationPage />} />
-            <Route path={routes.webinarReplay} element={<WebinarReplayPage />} />
-            <Route path={routes.webinarEvaluation} element={<WebinarEvaluationPage />} />
-            <Route path={routes.notifications} element={<NotificationsPage />} />
-            <Route path={routes.notificationPreferences} element={<NotificationPreferencesPage />} />
-            <Route element={<RequireRole allowedRoles={[roles.member, roles.admin]} />}>
-              <Route path={routes.communityCategory} element={<SafePlaceCategoryPage />} />
-              <Route path={routes.communityDiscussion} element={<SafePlaceDiscussionPage />} />
-              <Route path={routes.communityNewDiscussion} element={<SafePlaceComposerPage />} />
-              <Route path={routes.communityEditDiscussion} element={<SafePlaceComposerPage />} />
-              <Route path={routes.communityMyContent} element={<SafePlaceMyContentPage />} />
-              <Route path={routes.communityMyReports} element={<SafePlaceMyReportsPage />} />
-              <Route path={routes.communityPreferences} element={<SafePlacePreferencesPage />} />
+            <Route element={<PublicLayout />}>
+              <Route
+                path={routes.accountSettings}
+                element={<AccountSettingsPage />}
+              />
+            </Route>
+            <Route element={<RequireRole allowedRoles={[roles.member]} />}>
+              <Route element={<MemberLayout />}>
+                <Route path={routes.memberHome} element={<MemberHome />} />
+                <Route
+                  path={routes.memberIntervenantApplication}
+                  element={<IntervenantApplicationPage />}
+                />
+                <Route
+                  path={routes.memberIntervenantApplicationStatus}
+                  element={<IntervenantApplicationStatusPage />}
+                />
+                <Route
+                  path={routes.memberQuizResult}
+                  element={<MemberQuizResultPage />}
+                />
+                <Route
+                  path={routes.memberQuizHistory}
+                  element={<MemberQuizHistoryPage />}
+                />
+              </Route>
+            </Route>
+
+            <Route element={<RequireRole allowedRoles={[roles.intervenant]} />}>
+              <Route element={<IntervenantLayout />}>
+                <Route
+                  path={routes.intervenantHome}
+                  element={<IntervenantHome />}
+                />
+                <Route
+                  path={routes.intervenantProfile}
+                  element={<ProfessionalProfilePage />}
+                />
+                <Route
+                  path={routes.intervenantExit}
+                  element={<LeaveIntervenantRolePage />}
+                />
+                <Route
+                  path={routes.intervenantResources}
+                  element={<ResourceManagementPage />}
+                />
+                <Route
+                  path={routes.intervenantResourceNew}
+                  element={<ResourceEditorPage />}
+                />
+                <Route
+                  path={routes.intervenantResourceDetail}
+                  element={<ResourceEditorPage />}
+                />
+                <Route
+                  path={routes.intervenantResourceEdit}
+                  element={<ResourceEditorPage />}
+                />
+                <Route
+                  path={routes.intervenantResourceHistory}
+                  element={<ResourceHistoryPage />}
+                />
+              </Route>
+            </Route>
+
+            <Route element={<RequireRole allowedRoles={[roles.admin]} />}>
+              <Route element={<AdminLayout />}>
+                <Route path={routes.adminHome} element={<AdminHome />} />
+                <Route
+                  path={routes.adminActivity}
+                  element={<AdminActivityPage />}
+                />
+                <Route path={routes.adminTasks} element={<AdminTasksPage />} />
+                <Route
+                  path={routes.adminAnalyses}
+                  element={<AdminAnalysesPage />}
+                />
+                <Route path={routes.adminCrm} element={<AdminCrmPage />} />
+                <Route
+                  path={routes.adminCrmContacts}
+                  element={<AdminContactsPage />}
+                />
+                <Route
+                  path={routes.adminCrmContactNew}
+                  element={<AdminContactEditorPage />}
+                />
+                <Route
+                  path={routes.adminCrmContact}
+                  element={<AdminContactDetailPage />}
+                />
+                <Route
+                  path={routes.adminCrmTasks}
+                  element={<AdminTasksPage />}
+                />
+                <Route
+                  path={routes.adminCrmTags}
+                  element={<AdminCrmTagsPage />}
+                />
+                <Route
+                  path={routes.adminCrmSegments}
+                  element={<AdminCrmSegmentsPage />}
+                />
+                <Route
+                  path={routes.adminAccounts}
+                  element={<AdminAccountsPage />}
+                />
+                <Route
+                  path={routes.adminAccount}
+                  element={<AdminAccountDetailPage />}
+                />
+                <Route
+                  path={routes.adminCommunications}
+                  element={<AdminCommunicationsPage />}
+                />
+                <Route
+                  path={routes.adminCommunicationNew}
+                  element={<AdminCommunicationEditorPage />}
+                />
+                <Route
+                  path={routes.adminCommunication}
+                  element={<AdminCommunicationDetailPage />}
+                />
+                <Route
+                  path={routes.adminCommunicationEdit}
+                  element={<AdminCommunicationEditorPage />}
+                />
+                <Route
+                  path={routes.adminExports}
+                  element={<AdminExportsPage />}
+                />
+                <Route
+                  path={routes.adminExportNew}
+                  element={<AdminExportEditorPage />}
+                />
+                <Route
+                  path={routes.adminExport}
+                  element={<AdminExportDetailPage />}
+                />
+                <Route
+                  path={routes.adminSystem}
+                  element={<AdminSystemPage />}
+                />
+                <Route path={routes.adminQuiz} element={<AdminQuizPage />} />
+                <Route
+                  path={routes.adminQuizParticipant}
+                  element={<AdminQuizParticipantPage />}
+                />
+                <Route
+                  path={routes.adminQuizAttempt}
+                  element={<AdminQuizAttemptPage />}
+                />
+                <Route
+                  path={routes.adminResources}
+                  element={<ResourceManagementPage />}
+                />
+                <Route
+                  path={routes.adminResourceNew}
+                  element={<ResourceEditorPage />}
+                />
+                <Route
+                  path={routes.adminResourceReviews}
+                  element={<AdminResourceReviewsPage />}
+                />
+                <Route
+                  path={routes.adminResourceRequests}
+                  element={<AdminResourceRequestsPage />}
+                />
+                <Route
+                  path={routes.adminResourceModeration}
+                  element={<ResourceModerationPage />}
+                />
+                <Route
+                  path={routes.adminResourceDetail}
+                  element={<ResourceEditorPage />}
+                />
+                <Route
+                  path={routes.adminResourceEdit}
+                  element={<ResourceEditorPage />}
+                />
+                <Route
+                  path={routes.adminResourceHistory}
+                  element={<ResourceHistoryPage />}
+                />
+                <Route
+                  path={routes.adminCommunity}
+                  element={<AdminSafePlacePage />}
+                />
+                <Route
+                  path={routes.adminCommunityCategories}
+                  element={<AdminSafePlaceCategoriesPage />}
+                />
+                <Route
+                  path={routes.adminCommunityModeration}
+                  element={<AdminSafePlaceModerationPage />}
+                />
+                <Route
+                  path={routes.adminCommunityReport}
+                  element={<AdminSafePlaceReportPage />}
+                />
+                <Route
+                  path={routes.adminCommunitySuspensions}
+                  element={<AdminSafePlaceSuspensionsPage />}
+                />
+                <Route
+                  path={routes.adminWebinars}
+                  element={<AdminWebinarsPage />}
+                />
+                <Route
+                  path={routes.adminWebinarNew}
+                  element={<AdminWebinarEditorPage />}
+                />
+                <Route
+                  path={routes.adminWebinarDetail}
+                  element={<AdminWebinarDetailPage />}
+                />
+                <Route
+                  path={routes.adminWebinarEdit}
+                  element={<AdminWebinarEditorPage />}
+                />
+                <Route
+                  path={routes.adminWebinarParticipants}
+                  element={<AdminWebinarParticipantsPage />}
+                />
+                <Route
+                  path={routes.adminWebinarQuestions}
+                  element={<AdminWebinarQuestionsPage />}
+                />
+                <Route
+                  path={routes.adminWebinarStats}
+                  element={<AdminWebinarStatsPage />}
+                />
+                <Route
+                  path={routes.adminIntervenants}
+                  element={<AdminIntervenantsPage />}
+                />
+                <Route
+                  path={routes.adminIntervenantApplications}
+                  element={<AdminApplicationsPage />}
+                />
+                <Route
+                  path={routes.adminIntervenantApplication}
+                  element={<AdminApplicationDetailPage />}
+                />
+                <Route
+                  path={routes.adminProfessionalProfiles}
+                  element={<AdminProfessionalProfilesPage />}
+                />
+                <Route
+                  path={routes.adminProfessionalProfile}
+                  element={<AdminProfessionalProfileDetailPage />}
+                />
+                <Route
+                  path={routes.adminIntervenantExits}
+                  element={<AdminIntervenantExitPage />}
+                />
+              </Route>
             </Route>
           </Route>
-          <Route path={routes.accessDenied} element={<AccessDenied />} />
-          <Route path={routes.accountSuspended} element={<AccountSuspended />} />
-          <Route path={routes.terms} element={<TermsPage />} />
-          <Route path={routes.privacyPolicy} element={<PrivacyPolicyPage />} />
-          <Route path={routes.legalNotice} element={<LegalEditorialPage page="notice" />} />
-          <Route path={routes.cookiesPolicy} element={<LegalEditorialPage page="cookies" />} />
-          <Route path={routes.accessibility} element={<LegalEditorialPage page="accessibility" />} />
-        </Route>
 
-        <Route element={<AuthLayout />}>
-          <Route path={routes.login} element={<LoginPage />} />
-          <Route path={routes.registration} element={<RegistrationPage />} />
           <Route
-            path={routes.registrationConfirmation}
-            element={<RegistrationConfirmationPage />}
+            path="/resources"
+            element={<Navigate to={routes.resources} replace />}
           />
-          <Route path={routes.verifyEmail} element={<VerifyEmailPage />} />
+          <Route path="/resources/:slug" element={<LegacyResourceRedirect />} />
           <Route
-            path={routes.parentalAuthorization}
-            element={<ParentalAuthorizationPage />}
+            path="/gynece"
+            element={<Navigate to={routes.community} replace />}
           />
-          <Route path={routes.quizQuestions} element={<QuizQuestionsPage />} />
           <Route
-            path={routes.quizProfileSelection}
-            element={<QuizProfileSelectionPage />}
+            path="/vision"
+            element={<Navigate to={routes.vision} replace />}
           />
-          <Route path={routes.quizResultSent} element={<QuizResultSentPage />} />
-        </Route>
-
-        <Route element={<RequireAuth />}>
-          <Route element={<RequireRole allowedRoles={[roles.member]} />}>
-            <Route element={<MemberLayout />}>
-              <Route path={routes.memberHome} element={<MemberHome />} />
-              <Route path={routes.memberIntervenantApplication} element={<IntervenantApplicationPage />} />
-              <Route path={routes.memberIntervenantApplicationStatus} element={<IntervenantApplicationStatusPage />} />
-              <Route
-                path={routes.memberQuizResult}
-                element={<MemberQuizResultPage />}
-              />
-              <Route
-                path={routes.memberQuizHistory}
-                element={<MemberQuizHistoryPage />}
-              />
-            </Route>
-          </Route>
-
-          <Route element={<RequireRole allowedRoles={[roles.intervenant]} />}>
-            <Route element={<IntervenantLayout />}>
-              <Route
-                path={routes.intervenantHome}
-                element={<IntervenantHome />}
-              />
-              <Route path={routes.intervenantProfile} element={<ProfessionalProfilePage />} />
-              <Route path={routes.intervenantExit} element={<LeaveIntervenantRolePage />} />
-              <Route path={routes.intervenantResources} element={<ResourceManagementPage />} />
-              <Route path={routes.intervenantResourceNew} element={<ResourceEditorPage />} />
-              <Route path={routes.intervenantResourceDetail} element={<ResourceEditorPage />} />
-              <Route path={routes.intervenantResourceEdit} element={<ResourceEditorPage />} />
-              <Route path={routes.intervenantResourceHistory} element={<ResourceHistoryPage />} />
-            </Route>
-          </Route>
-
-          <Route element={<RequireRole allowedRoles={[roles.admin]} />}>
-            <Route element={<AdminLayout />}>
-              <Route path={routes.adminHome} element={<AdminHome />} />
-              <Route path={routes.adminActivity} element={<AdminActivityPage />} />
-              <Route path={routes.adminTasks} element={<AdminTasksPage />} />
-              <Route path={routes.adminAnalyses} element={<AdminAnalysesPage />} />
-              <Route path={routes.adminCrm} element={<AdminCrmPage />} />
-              <Route path={routes.adminCrmContacts} element={<AdminContactsPage />} />
-              <Route path={routes.adminCrmContactNew} element={<AdminContactEditorPage />} />
-              <Route path={routes.adminCrmContact} element={<AdminContactDetailPage />} />
-              <Route path={routes.adminCrmTasks} element={<AdminTasksPage />} />
-              <Route path={routes.adminCrmTags} element={<AdminCrmTagsPage />} />
-              <Route path={routes.adminCrmSegments} element={<AdminCrmSegmentsPage />} />
-              <Route path={routes.adminAccounts} element={<AdminAccountsPage />} />
-              <Route path={routes.adminAccount} element={<AdminAccountDetailPage />} />
-              <Route path={routes.adminCommunications} element={<AdminCommunicationsPage />} />
-              <Route path={routes.adminCommunicationNew} element={<AdminCommunicationEditorPage />} />
-              <Route path={routes.adminCommunication} element={<AdminCommunicationDetailPage />} />
-              <Route path={routes.adminCommunicationEdit} element={<AdminCommunicationEditorPage />} />
-              <Route path={routes.adminExports} element={<AdminExportsPage />} />
-              <Route path={routes.adminExportNew} element={<AdminExportEditorPage />} />
-              <Route path={routes.adminExport} element={<AdminExportDetailPage />} />
-              <Route path={routes.adminSystem} element={<AdminSystemPage />} />
-              <Route path={routes.adminQuiz} element={<AdminQuizPage />} />
-              <Route
-                path={routes.adminQuizParticipant}
-                element={<AdminQuizParticipantPage />}
-              />
-              <Route
-                path={routes.adminQuizAttempt}
-                element={<AdminQuizAttemptPage />}
-              />
-              <Route path={routes.adminResources} element={<ResourceManagementPage />} />
-              <Route path={routes.adminResourceNew} element={<ResourceEditorPage />} />
-              <Route path={routes.adminResourceReviews} element={<AdminResourceReviewsPage />} />
-              <Route path={routes.adminResourceRequests} element={<AdminResourceRequestsPage />} />
-              <Route path={routes.adminResourceModeration} element={<ResourceModerationPage />} />
-              <Route path={routes.adminResourceDetail} element={<ResourceEditorPage />} />
-              <Route path={routes.adminResourceEdit} element={<ResourceEditorPage />} />
-              <Route path={routes.adminResourceHistory} element={<ResourceHistoryPage />} />
-              <Route path={routes.adminCommunity} element={<AdminSafePlacePage />} />
-              <Route path={routes.adminCommunityCategories} element={<AdminSafePlaceCategoriesPage />} />
-              <Route path={routes.adminCommunityModeration} element={<AdminSafePlaceModerationPage />} />
-              <Route path={routes.adminCommunityReport} element={<AdminSafePlaceReportPage />} />
-              <Route path={routes.adminCommunitySuspensions} element={<AdminSafePlaceSuspensionsPage />} />
-              <Route path={routes.adminWebinars} element={<AdminWebinarsPage />} />
-              <Route path={routes.adminWebinarNew} element={<AdminWebinarEditorPage />} />
-              <Route path={routes.adminWebinarDetail} element={<AdminWebinarDetailPage />} />
-              <Route path={routes.adminWebinarEdit} element={<AdminWebinarEditorPage />} />
-              <Route path={routes.adminWebinarParticipants} element={<AdminWebinarParticipantsPage />} />
-              <Route path={routes.adminWebinarQuestions} element={<AdminWebinarQuestionsPage />} />
-              <Route path={routes.adminWebinarStats} element={<AdminWebinarStatsPage />} />
-              <Route path={routes.adminIntervenants} element={<AdminIntervenantsPage />} />
-              <Route path={routes.adminIntervenantApplications} element={<AdminApplicationsPage />} />
-              <Route path={routes.adminIntervenantApplication} element={<AdminApplicationDetailPage />} />
-              <Route path={routes.adminProfessionalProfiles} element={<AdminProfessionalProfilesPage />} />
-              <Route path={routes.adminProfessionalProfile} element={<AdminProfessionalProfileDetailPage />} />
-              <Route path={routes.adminIntervenantExits} element={<AdminIntervenantExitPage />} />
-            </Route>
-          </Route>
-        </Route>
-
-        <Route path="/resources" element={<Navigate to={routes.resources} replace />} />
-        <Route path="/resources/:slug" element={<LegacyResourceRedirect />} />
-        <Route path="/gynece" element={<Navigate to={routes.community} replace />} />
-        <Route path="/vision" element={<Navigate to={routes.vision} replace />} />
-        <Route path="/espace-communaute/*" element={<LegacyCommunityRedirect />} />
-        <Route path="/webinars/:webinarId" element={<LegacyWebinarRedirect />} />
-        <Route path="/webinars/registrations/:registrationId/confirm" element={<LegacyWebinarConfirmationRedirect />} />
-        <Route path="*" element={<NotFound />} />
+          <Route
+            path="/espace-communaute/*"
+            element={<LegacyCommunityRedirect />}
+          />
+          <Route
+            path="/webinars/:webinarId"
+            element={<LegacyWebinarRedirect />}
+          />
+          <Route
+            path="/webinars/registrations/:registrationId/confirm"
+            element={<LegacyWebinarConfirmationRedirect />}
+          />
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </QuizProvider>
     </BrowserRouter>
@@ -294,7 +571,12 @@ function LegacyWebinarRedirect() {
 
 function LegacyWebinarConfirmationRedirect() {
   const { registrationId } = useParams();
-  return <Navigate to={`/webinaires/inscriptions/${registrationId}/confirmer`} replace />;
+  return (
+    <Navigate
+      to={`/webinaires/inscriptions/${registrationId}/confirmer`}
+      replace
+    />
+  );
 }
 
 function LegacyResourceRedirect() {
@@ -303,6 +585,9 @@ function LegacyResourceRedirect() {
 }
 
 function LegacyCommunityRedirect() {
-  const legacyPath = window.location.pathname.replace(/^\/espace-communaute/, routes.community);
+  const legacyPath = window.location.pathname.replace(
+    /^\/espace-communaute/,
+    routes.community,
+  );
   return <Navigate to={`${legacyPath}${window.location.search}`} replace />;
 }

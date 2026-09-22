@@ -1,8 +1,74 @@
-const express = require("express"); const c = require("../../controllers/communications/adminCommunication.controller"); const auth = require("../../middlewares/authenticate.middleware"); const roles = require("../../middlewares/authorize.middleware"); const validateBody = require("../../middlewares/validate.middleware"); const validateParams = require("../../middlewares/validateParams.middleware"); const validateQuery = require("../../middlewares/validateQuery.middleware"); const rate = require("../../middlewares/rateLimit.middleware"); const v = require("../../validations/communication.validation"); const router = express.Router(); const pagination = v.listSchema.pick({ page: true, limit: true });
+const express = require("express");
+const c = require("../../controllers/communications/adminCommunication.controller");
+const auth = require("../../middlewares/authenticate.middleware");
+const roles = require("../../middlewares/authorize.middleware");
+const validateBody = require("../../middlewares/validate.middleware");
+const validateParams = require("../../middlewares/validateParams.middleware");
+const validateQuery = require("../../middlewares/validateQuery.middleware");
+const rate = require("../../middlewares/rateLimit.middleware");
+const v = require("../../validations/communication.validation");
+const router = express.Router();
+const pagination = v.listSchema.pick({ page: true, limit: true });
 router.use(auth, roles("ADMIN"));
-router.get("/", validateQuery(v.listSchema), c.list); router.post("/", validateBody(v.createSchema), c.create);
-router.get("/:communicationId", validateParams(v.idSchema), c.detail); router.patch("/:communicationId", validateParams(v.idSchema), validateBody(v.updateSchema), c.update); router.delete("/:communicationId", validateParams(v.idSchema), c.remove); router.post("/:communicationId/restore", validateParams(v.idSchema), c.restore);
-router.post("/:communicationId/preview", validateParams(v.idSchema), c.preview); router.post("/:communicationId/test", rate({ max: 10, code: "COMMUNICATION_TEST_RATE_LIMIT" }), validateParams(v.idSchema), validateBody(v.testSchema), c.test); router.get("/:communicationId/recipient-preview", validateParams(v.idSchema), validateQuery(pagination), c.recipientPreview);
-router.post("/:communicationId/schedule", validateParams(v.idSchema), validateBody(v.scheduleSchema), c.schedule); router.post("/:communicationId/send", validateParams(v.idSchema), c.send); router.post("/:communicationId/cancel", validateParams(v.idSchema), c.cancel); router.post("/:communicationId/duplicate", validateParams(v.idSchema), c.duplicate); router.post("/:communicationId/retry-failures", validateParams(v.idSchema), c.retry);
-router.get("/:communicationId/recipients", validateParams(v.idSchema), validateQuery(pagination), c.recipients); router.get("/:communicationId/events", validateParams(v.idSchema), validateQuery(pagination), c.events); router.post("/recipients/:recipientId/lift-suppression", validateParams(v.recipientIdSchema), validateBody(v.suppressionLiftSchema), c.liftSuppression);
+router.get("/", validateQuery(v.listSchema), c.list);
+router.post("/", validateBody(v.createSchema), c.create);
+router.get("/:communicationId", validateParams(v.idSchema), c.detail);
+router.patch(
+  "/:communicationId",
+  validateParams(v.idSchema),
+  validateBody(v.updateSchema),
+  c.update,
+);
+router.delete("/:communicationId", validateParams(v.idSchema), c.remove);
+router.post("/:communicationId/restore", validateParams(v.idSchema), c.restore);
+router.post("/:communicationId/preview", validateParams(v.idSchema), c.preview);
+router.post(
+  "/:communicationId/test",
+  rate({ max: 10, code: "COMMUNICATION_TEST_RATE_LIMIT" }),
+  validateParams(v.idSchema),
+  validateBody(v.testSchema),
+  c.test,
+);
+router.get(
+  "/:communicationId/recipient-preview",
+  validateParams(v.idSchema),
+  validateQuery(pagination),
+  c.recipientPreview,
+);
+router.post(
+  "/:communicationId/schedule",
+  validateParams(v.idSchema),
+  validateBody(v.scheduleSchema),
+  c.schedule,
+);
+router.post("/:communicationId/send", validateParams(v.idSchema), c.send);
+router.post("/:communicationId/cancel", validateParams(v.idSchema), c.cancel);
+router.post(
+  "/:communicationId/duplicate",
+  validateParams(v.idSchema),
+  c.duplicate,
+);
+router.post(
+  "/:communicationId/retry-failures",
+  validateParams(v.idSchema),
+  c.retry,
+);
+router.get(
+  "/:communicationId/recipients",
+  validateParams(v.idSchema),
+  validateQuery(pagination),
+  c.recipients,
+);
+router.get(
+  "/:communicationId/events",
+  validateParams(v.idSchema),
+  validateQuery(pagination),
+  c.events,
+);
+router.post(
+  "/recipients/:recipientId/lift-suppression",
+  validateParams(v.recipientIdSchema),
+  validateBody(v.suppressionLiftSchema),
+  c.liftSuppression,
+);
 module.exports = router;

@@ -20,6 +20,9 @@ module.exports = {
     });
   }),
   emailDispatches: wrap(async (req, res) => {
-    res.json({ success: true, ...(await emailDispatchLog.list(req.validatedQuery)) });
+    res.json({
+      success: true,
+      ...(await emailDispatchLog.list(req.validatedQuery)),
+    });
   }),
 };

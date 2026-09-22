@@ -3,36 +3,29 @@ const User = require("../../models/User");
 const Session = require("../../models/Session");
 const EmailChangeRequest = require("../../models/EmailChangeRequest");
 const env = require("../../config/env");
-const { verifyPassword } = require("../password.service");
 const { generateToken, hashToken } = require("../token.service");
 const { sendTransactionalEmail } = require("../email.service");
-const { createEmailChangeConfirmationTemplate, createEmailChangeSecurityTemplate } = require("../../templates/auth");
-const { createConflictError, createBadRequestError, createAuthenticationError } = require("./authErrors");
+const {
+  createEmailChangeConfirmationTemplate,
+  createEmailChangeSecurityTemplate,
+} = require("../../templates/auth");
+const {
+  createConflictError,
+  createBadRequestError,
+  createAuthenticationError,
+} = require("./authErrors");
 const { createNotification } = require("../notification.service");
 const RESEND_COOLDOWN = 5 * 60 * 1000;
 const EMAIL_CHANGE_DURATION = 24 * 60 * 60 * 1000;
 
-async function requestEmailChange({ userId, newEmail, currentPassword }) {
-  const user = await User.findById(userId).select("+passwordHash");
+async function requestEmailChange({ userId, newEmail }) {
+  const user = await User.findById(userId);
 
   if (!user) {
     throw createAuthenticationError({
       message: "Session invalide ou expirée.",
       code: "INVALID_SESSION",
       statusCode: 401,
-    });
-  }
-
-  const passwordIsValid = await verifyPassword(
-    currentPassword,
-    user.passwordHash,
-  );
-
-  if (!passwordIsValid) {
-    throw createAuthenticationError({
-      message: "Le mot de passe actuel est incorrect.",
-      code: "INVALID_CURRENT_PASSWORD",
-      statusCode: 400,
     });
   }
 
@@ -122,7 +115,7 @@ async function requestEmailChange({ userId, newEmail, currentPassword }) {
 
   if (env.NODE_ENV === "development" && env.EMAIL_MODE === "capture") {
     console.log("\n🔗 Lien de confirmation de la nouvelle adresse email :");
-    console.log(`${env.CLIENT_URL}/confirm-email-change?token=${token}`);
+    console.log(`${env.CLIENT_URL}/confirmer-changement-email?token=${token}`);
   }
 
   return {
@@ -229,7 +222,7 @@ async function confirmEmailChange(token) {
       message: "L’adresse email de ton compte a été modifiée.",
       targetType: "USER",
       targetId: confirmedUserId,
-      actionPath: "/profile/security",
+      actionPath: "/mon-compte",
       mandatory: true,
       deduplicationKey: `email-changed:${confirmedUserId}:${Date.now()}`,
     });

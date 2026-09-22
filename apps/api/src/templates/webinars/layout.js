@@ -1,2 +1,3 @@
 const escapeHtml = require("../auth/escapeHtml");
-module.exports = (title, message, actionLabel = null, actionUrl = null) => `<div style="font-family:Arial,sans-serif;line-height:1.6;color:#302827"><h1>${escapeHtml(title)}</h1><p>${escapeHtml(message)}</p>${actionLabel && actionUrl ? `<p><a href="${escapeHtml(actionUrl)}">${escapeHtml(actionLabel)}</a></p>` : ""}<p>À bientôt,<br>Mélanie</p></div>`;
+module.exports = (title, message, actionLabel = null, actionUrl = null) =>
+  `<div style="font-family:Arial,sans-serif;line-height:1.6;color:#302827"><h1>${escapeHtml(title)}</h1><p>${escapeHtml(message)}</p>${actionLabel && actionUrl ? `<p><a href="${escapeHtml(actionUrl)}">${escapeHtml(actionLabel)}</a></p>` : ""}<p>À bientôt,<br>Mélanie</p></div>`;

@@ -21,14 +21,6 @@ async function updateUserProfile(user, changes) {
     }
   }
 
-  if (changes.firstName !== undefined) {
-    user.firstName = changes.firstName;
-  }
-
-  if (changes.lastName !== undefined) {
-    user.lastName = changes.lastName;
-  }
-
   if (changes.pseudonym !== undefined) {
     user.pseudonym = changes.pseudonym;
   }

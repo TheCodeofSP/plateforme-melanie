@@ -10,10 +10,12 @@ const expressions = [
 
 async function filesIn(directory) {
   const entries = await readdir(directory, { withFileTypes: true });
-  const nested = await Promise.all(entries.map((entry) => {
-    const path = join(directory, entry.name);
-    return entry.isDirectory() ? filesIn(path) : [path];
-  }));
+  const nested = await Promise.all(
+    entries.map((entry) => {
+      const path = join(directory, entry.name);
+      return entry.isDirectory() ? filesIn(path) : [path];
+    }),
+  );
   return nested.flat();
 }
 
@@ -34,6 +36,8 @@ for (const root of roots) {
   }
 }
 
-console.log(matches
-  ? `\n${matches} occurrence(s) à relire dans leur contexte.`
-  : "\nAucune expression sensible détectée.");
+console.log(
+  matches
+    ? `\n${matches} occurrence(s) à relire dans leur contexte.`
+    : "\nAucune expression sensible détectée.",
+);
