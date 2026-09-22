@@ -2,20 +2,6 @@ const { z } = require("zod");
 
 const updateProfileSchema = z
   .object({
-    firstName: z
-      .string()
-      .trim()
-      .min(2, "Le prénom doit contenir au moins 2 caractères.")
-      .max(80, "Le prénom ne peut pas dépasser 80 caractères.")
-      .optional(),
-
-    lastName: z
-      .string()
-      .trim()
-      .min(2, "Le nom doit contenir au moins 2 caractères.")
-      .max(80, "Le nom ne peut pas dépasser 80 caractères.")
-      .optional(),
-
     pseudonym: z
       .string()
       .trim()
@@ -27,14 +13,8 @@ const updateProfileSchema = z
       )
       .optional(),
   })
-  .refine(
-    (data) =>
-      data.firstName !== undefined ||
-      data.lastName !== undefined ||
-      data.pseudonym !== undefined,
-    {
-      message: "Au moins une information doit être modifiée.",
-    },
-  );
+  .refine((data) => data.pseudonym !== undefined, {
+    message: "Au moins une information doit être modifiée.",
+  });
 
 module.exports = { updateProfileSchema };

@@ -28,11 +28,29 @@ export default function ResendVerificationEmail({ initialEmail = "" }) {
     <form className="resend-form" onSubmit={handleSubmit}>
       <label className="form-field">
         <span>Adresse email du compte</span>
-        <input className="form-input" type="email" value={email} onChange={(event) => setEmail(event.target.value)} required autoComplete="email" />
+        <input
+          className="form-input"
+          type="email"
+          value={email}
+          onChange={(event) => setEmail(event.target.value)}
+          required
+          autoComplete="email"
+        />
       </label>
       {error && <FormErrorSummary error={error} />}
-      {message && <p className="registration-notice registration-notice--success" role="status">{message}</p>}
-      <button className="btn btn-secondary" type="submit" disabled={isSubmitting}>
+      {message && (
+        <p
+          className="registration-notice registration-notice--success"
+          role="status"
+        >
+          {message}
+        </p>
+      )}
+      <button
+        className="btn btn-secondary"
+        type="submit"
+        disabled={isSubmitting}
+      >
         {isSubmitting ? "Envoi…" : "Renvoyer l’email"}
       </button>
     </form>

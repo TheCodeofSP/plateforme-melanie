@@ -1,1 +1,10 @@
-const layout = require("./layout"); module.exports = ({ title, url }) => ({ subject: `Replay disponible — ${title}`, htmlContent: layout("Le replay est disponible", `Tu n’as pas pu assister à « ${title} ». Son replay est maintenant disponible.`, "Voir le replay", url) });
+const layout = require("./layout");
+module.exports = ({ title, url }) => ({
+  subject: `Replay disponible — ${title}`,
+  htmlContent: layout(
+    "Le replay est disponible",
+    `Tu n’as pas pu assister à « ${title} ». Son replay est maintenant disponible.`,
+    "Voir le replay",
+    url,
+  ),
+});

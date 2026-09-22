@@ -1,7 +1,15 @@
-module.exports = { ...module.exports, ...require("./registration.controller") };
-module.exports = { ...module.exports, ...require("./activation.controller") };
-module.exports = { ...module.exports, ...require("./session.controller") };
-module.exports = { ...module.exports, ...require("./password.controller") };
-module.exports = { ...module.exports, ...require("./profile.controller") };
-module.exports = { ...module.exports, ...require("./emailChange.controller") };
-module.exports = { ...module.exports, ...require("./accountDeletion.controller") };
+const registration = require("./registration.controller");
+const activation = require("./activation.controller");
+const session = require("./session.controller");
+const profile = require("./profile.controller");
+const emailChange = require("./emailChange.controller");
+const accountDeletion = require("./accountDeletion.controller");
+
+module.exports = {
+  ...registration,
+  ...activation,
+  ...session,
+  ...profile,
+  ...emailChange,
+  ...accountDeletion,
+};

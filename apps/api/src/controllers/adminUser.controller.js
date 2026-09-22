@@ -8,7 +8,14 @@ const {
 } = require("../services/adminUser.service");
 
 async function listUsers(req, res, next) {
-  try { res.json({ success: true, ...(await listAdminUsers(req.validatedQuery || req.query)) }); } catch (error) { next(error); }
+  try {
+    res.json({
+      success: true,
+      ...(await listAdminUsers(req.validatedQuery || req.query)),
+    });
+  } catch (error) {
+    next(error);
+  }
 }
 
 async function getUserDetails(req, res, next) {

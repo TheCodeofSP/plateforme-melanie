@@ -5,12 +5,17 @@ const QuizConsentRecord = require("../../models/QuizConsentRecord");
 const User = require("../../models/User");
 const quizQuestions = require("../../data/quizQuestions");
 const profileContents = require("../../data/quizProfileContents");
-const { QUIZ_VERSION, QUIZ_CONSENT_TYPES } = require("../../config/quiz.constants");
+const {
+  QUIZ_VERSION,
+  QUIZ_CONSENT_TYPES,
+} = require("../../config/quiz.constants");
 const DOCUMENT_VERSIONS = require("../../config/documentVersions");
 const env = require("../../config/env");
 const { calculateAge } = require("../../utils/age.utils");
 const { sendTransactionalEmail } = require("../email.service");
-const { createQuizResultTemplate } = require("../../templates/quiz/quizResult.template");
+const {
+  createQuizResultTemplate,
+} = require("../../templates/quiz/quizResult.template");
 const { scoreQuiz } = require("./quizScoring.service");
 const { syncQuizMarketingContact } = require("../marketingContact.service");
 
@@ -35,10 +40,15 @@ function publicQuiz() {
       { value: "PHYSICAL_SYMPTOMS", label: "Symptômes physiques" },
       { value: "EMOTIONAL_SYMPTOMS", label: "Symptômes émotionnels" },
     ],
-    questions: quizQuestions.map(({ id, category, title, helpText, answers }) => ({
-      id, category, title, helpText: helpText || null,
-      answers: answers.map(({ key, label }) => ({ key, label })),
-    })),
+    questions: quizQuestions.map(
+      ({ id, category, title, helpText, answers }) => ({
+        id,
+        category,
+        title,
+        helpText: helpText || null,
+        answers: answers.map(({ key, label }) => ({ key, label })),
+      }),
+    ),
     contraceptionTypes: [
       { value: "INJECTION", label: "Injection contraceptive" },
       { value: "PILL", label: "Pilule contraceptive" },
@@ -57,15 +67,32 @@ async function resolveParticipant(payload, user) {
   const email = (user?.email || payload.email || "").toLowerCase().trim();
   const firstName = (user?.firstName || payload.firstName || "").trim();
 
-  if (!user && (!email || !firstName)) throw httpError("Le prénom et l’adresse email sont obligatoires.", 400, "GUEST_IDENTITY_REQUIRED");
+  if (!user && (!email || !firstName))
+    throw httpError(
+      "Le prénom et l’adresse email sont obligatoires.",
+      400,
+      "GUEST_IDENTITY_REQUIRED",
+    );
 
-  if (!user && await User.exists({ email })) {
-    throw httpError("Un compte utilise déjà cette adresse. Connecte-toi pour protéger et compléter ton historique.", 409, "QUIZ_ACCOUNT_LOGIN_REQUIRED");
+  if (!user && (await User.exists({ email }))) {
+    throw httpError(
+      "Un compte utilise déjà cette adresse. Connecte-toi pour protéger et compléter ton historique.",
+      409,
+      "QUIZ_ACCOUNT_LOGIN_REQUIRED",
+    );
   }
 
-  const age = user ? calculateAge(user.dateOfBirth) : payload.participantInfo.age;
-  if (!Number.isInteger(age)) throw httpError("L’âge est obligatoire.", 400, "AGE_REQUIRED");
-  if (!user && age < 15) throw httpError("Le quiz public est accessible à partir de 15 ans.", 403, "QUIZ_MINIMUM_AGE");
+  const age = user
+    ? calculateAge(user.dateOfBirth)
+    : payload.participantInfo.age;
+  if (!Number.isInteger(age))
+    throw httpError("L’âge est obligatoire.", 400, "AGE_REQUIRED");
+  if (!user && age < 15)
+    throw httpError(
+      "Le quiz public est accessible à partir de 15 ans.",
+      403,
+      "QUIZ_MINIMUM_AGE",
+    );
 
   if (user) await linkQuizHistoryToUser(user);
 
@@ -74,18 +101,33 @@ async function resolveParticipant(payload, user) {
     : await QuizParticipant.findOne({ email });
 
   if (!user && participant?.user) {
-    throw httpError("Un compte utilise déjà cette adresse. Connecte-toi pour protéger et compléter ton historique.", 409, "QUIZ_ACCOUNT_LOGIN_REQUIRED");
+    throw httpError(
+      "Un compte utilise déjà cette adresse. Connecte-toi pour protéger et compléter ton historique.",
+      409,
+      "QUIZ_ACCOUNT_LOGIN_REQUIRED",
+    );
   }
 
-  if (!participant) participant = new QuizParticipant({ email, firstName, user: user?._id || null, linkedAt: user ? new Date() : null });
+  if (!participant)
+    participant = new QuizParticipant({
+      email,
+      firstName,
+      user: user?._id || null,
+      linkedAt: user ? new Date() : null,
+    });
   participant.firstName = firstName;
   participant.email = email;
-  if (user && !participant.user) { participant.user = user._id; participant.linkedAt = new Date(); }
+  if (user && !participant.user) {
+    participant.user = user._id;
+    participant.linkedAt = new Date();
+  }
   try {
     await participant.save();
   } catch (error) {
     if (error.code !== 11000) throw error;
-    participant = await QuizParticipant.findOne(user ? { user: user._id } : { email });
+    participant = await QuizParticipant.findOne(
+      user ? { user: user._id } : { email },
+    );
     if (!participant) throw error;
   }
 
@@ -101,27 +143,48 @@ async function saveConsents(participant, attempt, consents) {
     PERSONAL_CONTACT: consents.personalContact,
   };
 
-  const previous = await QuizConsentRecord.find({ participant: participant._id, type: { $in: QUIZ_CONSENT_TYPES } }).sort({ createdAt: -1 }).lean();
-  const latestByType = new Map();
-  previous.forEach((record) => { if (!latestByType.has(record.type)) latestByType.set(record.type, record); });
-
-  await QuizConsentRecord.insertMany(QUIZ_CONSENT_TYPES.map((type) => ({
+  const previous = await QuizConsentRecord.find({
     participant: participant._id,
-    attempt: attempt._id,
-    type,
-    granted: values[type],
-    textVersion: DOCUMENT_VERSIONS[type] || "draft-1",
-    acceptedAt: values[type] ? now : null,
-    withdrawnAt: !values[type] && latestByType.get(type)?.granted ? now : null,
-  })));
+    type: { $in: QUIZ_CONSENT_TYPES },
+  })
+    .sort({ createdAt: -1 })
+    .lean();
+  const latestByType = new Map();
+  previous.forEach((record) => {
+    if (!latestByType.has(record.type)) latestByType.set(record.type, record);
+  });
+
+  await QuizConsentRecord.insertMany(
+    QUIZ_CONSENT_TYPES.map((type) => ({
+      participant: participant._id,
+      attempt: attempt._id,
+      type,
+      granted: values[type],
+      textVersion: DOCUMENT_VERSIONS[type] || "draft-1",
+      acceptedAt: values[type] ? now : null,
+      withdrawnAt:
+        !values[type] && latestByType.get(type)?.granted ? now : null,
+    })),
+  );
 }
 
 async function syncMarketingConsent(participant, granted) {
   const attempts = (participant.marketingSync?.attempts || 0) + 1;
-  participant.marketingSync = { status: "PENDING", syncedAt: null, lastError: null, attempts, lastAttemptAt: new Date(), nextRetryAt: null };
+  participant.marketingSync = {
+    status: "PENDING",
+    syncedAt: null,
+    lastError: null,
+    attempts,
+    lastAttemptAt: new Date(),
+    nextRetryAt: null,
+  };
   await participant.save();
   try {
-    const sync = await syncQuizMarketingContact({ email: participant.email, firstName: participant.firstName, granted });
+    const sync = await syncQuizMarketingContact({
+      email: participant.email,
+      firstName: participant.firstName,
+      granted,
+    });
     participant.marketingSync = {
       status: sync?.skipped || !granted ? "NOT_REQUESTED" : "SYNCED",
       syncedAt: sync?.skipped ? null : new Date(),
@@ -132,22 +195,60 @@ async function syncMarketingConsent(participant, granted) {
     };
   } catch (error) {
     const delay = attempts === 1 ? 15 * 60 * 1000 : 4 * 60 * 60 * 1000;
-    participant.marketingSync = { status: "FAILED", syncedAt: null, lastError: error.message.slice(0, 500), attempts, lastAttemptAt: new Date(), nextRetryAt: attempts < 3 ? new Date(Date.now() + delay) : null };
+    participant.marketingSync = {
+      status: "FAILED",
+      syncedAt: null,
+      lastError: error.message.slice(0, 500),
+      attempts,
+      lastAttemptAt: new Date(),
+      nextRetryAt: attempts < 3 ? new Date(Date.now() + delay) : null,
+    };
   }
   await participant.save();
 }
 
 async function sendResult(attempt, participant) {
   const attempts = (attempt.resultEmail?.attempts || 0) + 1;
-  attempt.resultEmail = { status: "PENDING", sentAt: null, lastError: null, attempts, lastAttemptAt: new Date(), nextRetryAt: null };
+  attempt.resultEmail = {
+    status: "PENDING",
+    sentAt: null,
+    lastError: null,
+    attempts,
+    lastAttemptAt: new Date(),
+    nextRetryAt: null,
+  };
   await attempt.save();
   try {
-    const template = createQuizResultTemplate({ firstName: participant.firstName, profile: attempt.selectedProfile, isMember: Boolean(participant.user), clientUrl: env.CLIENT_URL });
-    await sendTransactionalEmail({ emailType: "QUIZ_RESULT", recipientEmail: participant.email, recipientName: participant.firstName, ...template });
-    attempt.resultEmail = { status: "SENT", sentAt: new Date(), lastError: null, attempts, lastAttemptAt: new Date(), nextRetryAt: null };
+    const template = createQuizResultTemplate({
+      firstName: participant.firstName,
+      profile: attempt.selectedProfile,
+      isMember: Boolean(participant.user),
+      clientUrl: env.CLIENT_URL,
+    });
+    await sendTransactionalEmail({
+      emailType: "QUIZ_RESULT",
+      recipientEmail: participant.email,
+      recipientName: participant.firstName,
+      ...template,
+    });
+    attempt.resultEmail = {
+      status: "SENT",
+      sentAt: new Date(),
+      lastError: null,
+      attempts,
+      lastAttemptAt: new Date(),
+      nextRetryAt: null,
+    };
   } catch (error) {
     const delay = attempts === 1 ? 15 * 60 * 1000 : 4 * 60 * 60 * 1000;
-    attempt.resultEmail = { status: "FAILED", sentAt: null, lastError: error.message.slice(0, 500), attempts, lastAttemptAt: new Date(), nextRetryAt: attempts < 3 ? new Date(Date.now() + delay) : null };
+    attempt.resultEmail = {
+      status: "FAILED",
+      sentAt: null,
+      lastError: error.message.slice(0, 500),
+      attempts,
+      lastAttemptAt: new Date(),
+      nextRetryAt: attempts < 3 ? new Date(Date.now() + delay) : null,
+    };
   }
   await attempt.save();
 }
@@ -165,7 +266,11 @@ async function completeAttempt(attempt, participant, profile) {
   participant.latestAttempt = attempt._id;
   await participant.save();
 
-  if (participant.user) await User.updateOne({ _id: participant.user }, { $set: { currentSpmProfile: profile, quizCompleted: true } });
+  if (participant.user)
+    await User.updateOne(
+      { _id: participant.user },
+      { $set: { currentSpmProfile: profile, quizCompleted: true } },
+    );
   await require("../dashboard/crm.service").syncIdentity({
     user: participant.user ? await User.findById(participant.user) : null,
     participant,
@@ -186,47 +291,97 @@ async function submitQuiz(payload, user) {
     quizVersion: QUIZ_VERSION,
     status: hasTie ? "AWAITING_PROFILE_SELECTION" : "COMPLETED",
     answers: result.answers,
-    participantInfo: { age, contraception: payload.participantInfo.contraception },
+    participantInfo: {
+      age,
+      contraception: payload.participantInfo.contraception,
+    },
     scores: result.scores,
     calculatedProfiles: result.calculatedProfiles,
     selectedProfile: hasTie ? null : result.calculatedProfiles[0],
     selectionTokenHash: selectionToken ? hashToken(selectionToken) : null,
-    selectionTokenExpiresAt: selectionToken ? new Date(Date.now() + SELECTION_TOKEN_DURATION) : null,
+    selectionTokenExpiresAt: selectionToken
+      ? new Date(Date.now() + SELECTION_TOKEN_DURATION)
+      : null,
     completedAt: hasTie ? null : new Date(),
     resultEmail: { status: hasTie ? "NOT_READY" : "PENDING" },
   });
 
   await saveConsents(participant, attempt, payload.consents);
-  await syncMarketingConsent(participant, payload.consents.marketingCommunications);
+  await syncMarketingConsent(
+    participant,
+    payload.consents.marketingCommunications,
+  );
 
-  if (!hasTie) await completeAttempt(attempt, participant, result.calculatedProfiles[0]);
+  if (!hasTie)
+    await completeAttempt(attempt, participant, result.calculatedProfiles[0]);
 
   return {
     attemptId: attempt._id,
     status: attempt.status,
     selectionToken,
-    candidateProfiles: hasTie ? result.calculatedProfiles.map((profile) => ({ profile, title: profileContents[profile].title, summary: profileContents[profile].summary })) : [],
-    result: !hasTie && user ? { profile: attempt.selectedProfile, ...profileContents[attempt.selectedProfile] } : null,
+    candidateProfiles: hasTie
+      ? result.calculatedProfiles.map((profile) => ({
+          profile,
+          title: profileContents[profile].title,
+          summary: profileContents[profile].summary,
+        }))
+      : [],
+    result:
+      !hasTie && user
+        ? {
+            profile: attempt.selectedProfile,
+            ...profileContents[attempt.selectedProfile],
+          }
+        : null,
     resultDeliveredByEmail: !hasTie,
     accountCreationRecommended: !user,
   };
 }
 
 async function selectProfile(attemptId, payload, user) {
-  const attempt = await QuizAttempt.findById(attemptId).select("+selectionTokenHash");
-  if (!attempt) throw httpError("Cette tentative n’existe pas.", 404, "QUIZ_ATTEMPT_NOT_FOUND");
-  if (attempt.status !== "AWAITING_PROFILE_SELECTION") throw httpError("Cette tentative est déjà finalisée.", 409, "QUIZ_ATTEMPT_ALREADY_COMPLETED");
-  if (!attempt.calculatedProfiles.includes(payload.profile)) throw httpError("Ce profil ne fait pas partie des résultats proposés.", 400, "INVALID_PROFILE_SELECTION");
+  const attempt = await QuizAttempt.findById(attemptId).select(
+    "+selectionTokenHash",
+  );
+  if (!attempt)
+    throw httpError(
+      "Cette tentative n’existe pas.",
+      404,
+      "QUIZ_ATTEMPT_NOT_FOUND",
+    );
+  if (attempt.status !== "AWAITING_PROFILE_SELECTION")
+    throw httpError(
+      "Cette tentative est déjà finalisée.",
+      409,
+      "QUIZ_ATTEMPT_ALREADY_COMPLETED",
+    );
+  if (!attempt.calculatedProfiles.includes(payload.profile))
+    throw httpError(
+      "Ce profil ne fait pas partie des résultats proposés.",
+      400,
+      "INVALID_PROFILE_SELECTION",
+    );
 
   const participant = await QuizParticipant.findById(attempt.participant);
-  const ownsAsUser = user && participant.user?.toString() === user._id.toString();
-  const ownsAsGuest = !user && payload.selectionToken && attempt.selectionTokenExpiresAt > new Date() && hashToken(payload.selectionToken) === attempt.selectionTokenHash;
-  if (!ownsAsUser && !ownsAsGuest) throw httpError("Tu ne peux pas finaliser cette tentative.", 403, "QUIZ_ATTEMPT_FORBIDDEN");
+  const ownsAsUser =
+    user && participant.user?.toString() === user._id.toString();
+  const ownsAsGuest =
+    !user &&
+    payload.selectionToken &&
+    attempt.selectionTokenExpiresAt > new Date() &&
+    hashToken(payload.selectionToken) === attempt.selectionTokenHash;
+  if (!ownsAsUser && !ownsAsGuest)
+    throw httpError(
+      "Tu ne peux pas finaliser cette tentative.",
+      403,
+      "QUIZ_ATTEMPT_FORBIDDEN",
+    );
 
   await completeAttempt(attempt, participant, payload.profile);
   return {
     status: attempt.status,
-    result: user ? { profile: payload.profile, ...profileContents[payload.profile] } : null,
+    result: user
+      ? { profile: payload.profile, ...profileContents[payload.profile] }
+      : null,
     resultDeliveredByEmail: true,
     accountCreationRecommended: !user,
   };
@@ -235,21 +390,47 @@ async function selectProfile(attemptId, payload, user) {
 async function getCurrentResult(user) {
   const participant = await QuizParticipant.findOne({ user: user._id });
   if (!participant?.latestAttempt) return null;
-  const attempt = await QuizAttempt.findOne({ _id: participant.latestAttempt, status: "COMPLETED" }).select("selectedProfile completedAt").lean();
+  const attempt = await QuizAttempt.findOne({
+    _id: participant.latestAttempt,
+    status: "COMPLETED",
+  })
+    .select("selectedProfile completedAt")
+    .lean();
   if (!attempt) return null;
-  return { profile: attempt.selectedProfile, completedAt: attempt.completedAt, ...profileContents[attempt.selectedProfile] };
+  return {
+    profile: attempt.selectedProfile,
+    completedAt: attempt.completedAt,
+    ...profileContents[attempt.selectedProfile],
+  };
 }
 
 async function getHistory(user) {
   const participant = await QuizParticipant.findOne({ user: user._id });
   if (!participant) return [];
-  return QuizAttempt.find({ participant: participant._id, status: "COMPLETED" }).sort({ completedAt: -1 }).select("selectedProfile completedAt -_id").lean();
+  return QuizAttempt.find({ participant: participant._id, status: "COMPLETED" })
+    .sort({ completedAt: -1 })
+    .select("selectedProfile completedAt -_id")
+    .lean();
 }
 
 async function getPrefill(user) {
   const participant = await QuizParticipant.findOne({ user: user._id });
-  const latest = participant ? await QuizAttempt.findOne({ participant: participant._id, status: "COMPLETED" }).sort({ completedAt: -1 }).select("participantInfo -_id").lean() : null;
-  return { firstName: user.firstName, email: user.email, age: calculateAge(user.dateOfBirth), contraception: latest?.participantInfo?.contraception || "PREFER_NOT_TO_SAY" };
+  const latest = participant
+    ? await QuizAttempt.findOne({
+        participant: participant._id,
+        status: "COMPLETED",
+      })
+        .sort({ completedAt: -1 })
+        .select("participantInfo -_id")
+        .lean()
+    : null;
+  return {
+    firstName: user.firstName,
+    email: user.email,
+    age: calculateAge(user.dateOfBirth),
+    contraception:
+      latest?.participantInfo?.contraception || "PREFER_NOT_TO_SAY",
+  };
 }
 
 async function linkQuizHistoryToUser(user) {
@@ -259,17 +440,34 @@ async function linkQuizHistoryToUser(user) {
     QuizParticipant.findOne({ email: normalizedEmail }),
   ]);
 
-  if (participantByEmail?.user && participantByEmail.user.toString() !== user._id.toString()) {
-    throw httpError("Cet historique de quiz est déjà rattaché à un autre compte.", 409, "QUIZ_HISTORY_ALREADY_LINKED");
+  if (
+    participantByEmail?.user &&
+    participantByEmail.user.toString() !== user._id.toString()
+  ) {
+    throw httpError(
+      "Cet historique de quiz est déjà rattaché à un autre compte.",
+      409,
+      "QUIZ_HISTORY_ALREADY_LINKED",
+    );
   }
 
   let participant = participantByUser || participantByEmail;
   if (!participant) return { linked: false };
 
-  if (participantByUser && participantByEmail && participantByUser._id.toString() !== participantByEmail._id.toString()) {
+  if (
+    participantByUser &&
+    participantByEmail &&
+    participantByUser._id.toString() !== participantByEmail._id.toString()
+  ) {
     await Promise.all([
-      QuizAttempt.updateMany({ participant: participantByEmail._id }, { $set: { participant: participantByUser._id } }),
-      QuizConsentRecord.updateMany({ participant: participantByEmail._id }, { $set: { participant: participantByUser._id } }),
+      QuizAttempt.updateMany(
+        { participant: participantByEmail._id },
+        { $set: { participant: participantByUser._id } },
+      ),
+      QuizConsentRecord.updateMany(
+        { participant: participantByEmail._id },
+        { $set: { participant: participantByUser._id } },
+      ),
     ]);
     await QuizParticipant.deleteOne({ _id: participantByEmail._id });
     participant = participantByUser;
@@ -279,15 +477,36 @@ async function linkQuizHistoryToUser(user) {
   participant.email = normalizedEmail;
   participant.firstName = user.firstName;
   participant.linkedAt = new Date();
-  const latest = await QuizAttempt.findOne({ participant: participant._id, status: "COMPLETED" }).sort({ completedAt: -1 });
+  const latest = await QuizAttempt.findOne({
+    participant: participant._id,
+    status: "COMPLETED",
+  }).sort({ completedAt: -1 });
   if (latest) {
     participant.latestAttempt = latest._id;
     participant.currentSpmProfile = latest.selectedProfile;
-    await User.updateOne({ _id: user._id }, { $set: { currentSpmProfile: latest.selectedProfile, quizCompleted: true } });
+    await User.updateOne(
+      { _id: user._id },
+      {
+        $set: {
+          currentSpmProfile: latest.selectedProfile,
+          quizCompleted: true,
+        },
+      },
+    );
   }
   await participant.save();
 
   return { linked: true, quizCompleted: Boolean(latest) };
 }
 
-module.exports = { publicQuiz, submitQuiz, selectProfile, getCurrentResult, getHistory, getPrefill, linkQuizHistoryToUser, sendResult, syncMarketingConsent };
+module.exports = {
+  publicQuiz,
+  submitQuiz,
+  selectProfile,
+  getCurrentResult,
+  getHistory,
+  getPrefill,
+  linkQuizHistoryToUser,
+  sendResult,
+  syncMarketingConsent,
+};

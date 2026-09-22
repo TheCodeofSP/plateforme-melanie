@@ -1,1 +1,25 @@
-require("dotenv").config(); const connectDB = require("../config/db"); const mongoose = require("mongoose"); const SafePlaceCategory = require("../models/SafePlaceCategory"); const { SAFE_PLACE_INITIAL_CATEGORIES } = require("../config/safePlace.constants"); async function main() { await connectDB(); let created = 0; for (const item of SAFE_PLACE_INITIAL_CATEGORIES) { const result = await SafePlaceCategory.updateOne({ slug: item.slug }, { $setOnInsert: item }, { upsert: true }); if (result.upsertedCount) created += 1; } console.log(`${created} catégorie(s) Safe Place créée(s).`); await mongoose.disconnect(); } main().catch((error) => { console.error(error); process.exit(1); });
+require("dotenv").config();
+const connectDB = require("../config/db");
+const mongoose = require("mongoose");
+const SafePlaceCategory = require("../models/SafePlaceCategory");
+const {
+  SAFE_PLACE_INITIAL_CATEGORIES,
+} = require("../config/safePlace.constants");
+async function main() {
+  await connectDB();
+  let created = 0;
+  for (const item of SAFE_PLACE_INITIAL_CATEGORIES) {
+    const result = await SafePlaceCategory.updateOne(
+      { slug: item.slug },
+      { $setOnInsert: item },
+      { upsert: true },
+    );
+    if (result.upsertedCount) created += 1;
+  }
+  console.log(`${created} catégorie(s) Safe Place créée(s).`);
+  await mongoose.disconnect();
+}
+main().catch((error) => {
+  console.error(error);
+  process.exit(1);
+});

@@ -1,1 +1,10 @@
-const express = require("express"); const c = require("../../controllers/communications/preference.controller"); const auth = require("../../middlewares/authenticate.middleware"); const validateBody = require("../../middlewares/validate.middleware"); const v = require("../../validations/communication.validation"); const router = express.Router(); router.use(auth); router.get("/me", c.mine); router.patch("/me", validateBody(v.preferencesSchema), c.update); module.exports = router;
+const express = require("express");
+const c = require("../../controllers/communications/preference.controller");
+const auth = require("../../middlewares/authenticate.middleware");
+const validateBody = require("../../middlewares/validate.middleware");
+const v = require("../../validations/communication.validation");
+const router = express.Router();
+router.use(auth);
+router.get("/me", c.mine);
+router.patch("/me", validateBody(v.preferencesSchema), c.update);
+module.exports = router;

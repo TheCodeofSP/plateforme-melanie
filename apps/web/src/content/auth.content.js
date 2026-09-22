@@ -3,22 +3,15 @@ export const authContent = {
     eyebrow: "Ton espace",
     title: "Heureuse de te retrouver",
     description:
-      "Connecte-toi pour retrouver ton parcours, tes ressources et les espaces qui te sont réservés.",
+      "Renseigne ton adresse email : tu recevras un lien personnel pour ouvrir ton espace sans mot de passe.",
     fields: {
       email: {
         label: "Adresse email",
         placeholder: "ton@email.com",
       },
-      password: {
-        label: "Mot de passe",
-        placeholder: "Ton mot de passe",
-      },
-      rememberMe: "Rester connectée sur cet appareil",
     },
     submit: "Se connecter",
     registrationPrompt: "Pas encore de compte ?",
     registrationLink: "Créer mon compte",
-    passwordResetPending:
-      "La récupération du mot de passe sera disponible dans une prochaine étape.",
   },
 };

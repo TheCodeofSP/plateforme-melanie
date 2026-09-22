@@ -22,7 +22,7 @@ async function run() {
 
   console.log(
     `✅ Migration email terminée : ${renamed.modifiedCount} participante(s) migrée(s), ` +
-    `${cleaned.modifiedCount} doublon(s) nettoyé(s), ${logs.modifiedCount} journal(aux) renommé(s).`,
+      `${cleaned.modifiedCount} doublon(s) nettoyé(s), ${logs.modifiedCount} journal(aux) renommé(s).`,
   );
   await mongoose.connection.close();
 }

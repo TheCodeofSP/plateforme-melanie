@@ -148,7 +148,10 @@ async function maintain() {
   });
   let completedCount = 0;
   for (const session of completed) {
-    if (new Date(session.startsAt).getTime() + session.durationMinutes * 60000 <= now) {
+    if (
+      new Date(session.startsAt).getTime() + session.durationMinutes * 60000 <=
+      now
+    ) {
       session.status = "COMPLETED";
       session.completedAt = now;
       await session.save();

@@ -3,7 +3,7 @@ import { Link, NavLink, useLocation } from "react-router-dom";
 import { FiChevronDown } from "react-icons/fi";
 
 import { navigationContent } from "../../content/navigation.content.js";
-import { roleHome } from "../../config/routes.config.js";
+import { roleHome, routes } from "../../config/routes.config.js";
 import useAuth from "../../hooks/useAuth.js";
 import NotificationBell from "../../features/notifications/components/NotificationBell.jsx";
 
@@ -160,6 +160,13 @@ export default function Navigation() {
           <div className="navigation__actions">
             {isAuthenticated ? (
               <>
+                <Link
+                  to={navigationContent.actions.resources.to}
+                  className="btn btn-primary navigation__resources"
+                  onClick={closeMenu}
+                >
+                  {navigationContent.actions.resources.label}
+                </Link>
                 <NotificationBell onNavigate={closeMenu} />
 
                 <div className="navigation__account">
@@ -177,6 +184,9 @@ export default function Navigation() {
                     <div className="navigation__account-menu">
                       <Link to={roleHome(user.role)} onClick={closeMenu}>
                         Accéder à mon espace
+                      </Link>
+                      <Link to={routes.accountSettings} onClick={closeMenu}>
+                        Mon compte et ma sécurité
                       </Link>
                       <button type="button" onClick={handleLogout}>
                         Se déconnecter

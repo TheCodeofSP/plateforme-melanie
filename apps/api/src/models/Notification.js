@@ -44,7 +44,11 @@ const schema = new mongoose.Schema(
     activeDetailCount: { type: Number, default: 0, min: 0 },
     readAt: { type: Date, default: null, index: true },
     handledAt: { type: Date, default: null, index: true },
-    handledBy: { type: mongoose.Schema.Types.ObjectId, ref: "User", default: null },
+    handledBy: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      default: null,
+    },
     deletedAt: { type: Date, default: null, index: true },
     expiresAt: {
       type: Date,

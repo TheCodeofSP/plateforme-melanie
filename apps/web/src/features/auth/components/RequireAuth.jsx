@@ -11,6 +11,10 @@ export default function RequireAuth() {
 
   if (status === "checking") return <PageLoader />;
 
+  if (status === "suspended") {
+    return <Navigate to={routes.accountSuspended} replace />;
+  }
+
   if (status !== "authenticated") {
     return (
       <Navigate

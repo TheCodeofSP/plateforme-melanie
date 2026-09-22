@@ -22,9 +22,11 @@
     "reset:staging": "node src/scripts/manageFixtures.js --target=staging --reset",
     "audit:data": "node src/scripts/auditData.js",
     "lint": "eslint src api test",
+    "format": "prettier --write src/controllers/auth src/routes/auth src/services/auth src/validations/auth test/integration",
+    "format:check": "prettier --check src/controllers/auth src/routes/auth src/services/auth src/validations/auth test/integration",
     "check:config": "node src/scripts/checkConfiguration.js",
     "check:contract": "node src/scripts/checkApiContract.js",
-    "quality": "npm run lint && npm test && npm run check:config && npm run check:contract && npm audit --omit=dev",
+    "quality": "npm run format:check && npm run lint && npm test && npm run test:integration && npm run check:config && npm run check:contract && npm audit --omit=dev",
     "check": "node src/scripts/checkResources.js",
     "test": "node --test test/*.test.js",
     "test:integration": "node --test test/integration/*.test.js"
@@ -34,7 +36,6 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
-    "bcrypt": "^6.0.0",
     "cloudinary": "^2.10.0",
     "cookie-parser": "^1.4.7",
     "cors": "^2.8.6",
@@ -47,6 +48,7 @@
   },
   "devDependencies": {
     "eslint": "^10.7.0",
-    "nodemon": "^3.1.14"
+    "nodemon": "^3.1.14",
+    "prettier": "^3.9.8"
   }
 }

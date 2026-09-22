@@ -1,23 +1,19 @@
 import { useState } from "react";
-import { Link, Navigate, useLocation, useNavigate } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 
 import FormErrorSummary from "../../../components/feedback/FormErrorSummary.jsx";
 import SEO from "../../../components/seo/SEO.jsx";
 import { roleHome, routes } from "../../../config/routes.config.js";
 import { authContent } from "../../../content/auth.content.js";
 import useAuth from "../../../hooks/useAuth.js";
+import { login as requestLoginLink } from "../api/auth.service.js";
 
 import "../../../styles/pages/login.scss";
 
 export default function LoginPage() {
-  const { isAuthenticated, login, status, user } = useAuth();
-  const navigate = useNavigate();
-  const location = useLocation();
-  const [form, setForm] = useState({
-    email: "",
-    password: "",
-    rememberMe: false,
-  });
+  const { isAuthenticated, status, user } = useAuth();
+  const [form, setForm] = useState({ email: "" });
+  const [message, setMessage] = useState("");
   const [error, setError] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const content = authContent.login;
@@ -40,10 +36,8 @@ export default function LoginPage() {
     setIsSubmitting(true);
 
     try {
-      const authenticatedUser = await login(form);
-      navigate(location.state?.from || roleHome(authenticatedUser.role), {
-        replace: true,
-      });
+      const result = await requestLoginLink(form);
+      setMessage(result.message);
     } catch (apiError) {
       setError(apiError);
     } finally {
@@ -66,6 +60,11 @@ export default function LoginPage() {
           <p className="login-card__description">{content.description}</p>
 
           {error && <FormErrorSummary error={error} />}
+          {message && (
+            <p className="registration-notice" role="status">
+              {message}
+            </p>
+          )}
 
           <form className="login-form" onSubmit={handleSubmit}>
             <label className="form-field">
@@ -81,35 +80,12 @@ export default function LoginPage() {
               />
             </label>
 
-            <label className="form-field">
-              <span>{content.fields.password.label}</span>
-              <input
-                type="password"
-                name="password"
-                value={form.password}
-                onChange={updateField}
-                placeholder={content.fields.password.placeholder}
-                autoComplete="current-password"
-                required
-              />
-            </label>
-
-            <label className="login-form__remember">
-              <input
-                type="checkbox"
-                name="rememberMe"
-                checked={form.rememberMe}
-                onChange={updateField}
-              />
-              <span>{content.fields.rememberMe}</span>
-            </label>
-
             <button
               type="submit"
               className="btn btn-primary"
               disabled={isSubmitting}
             >
-              {isSubmitting ? "Connexion…" : content.submit}
+              {isSubmitting ? "Envoi…" : "Recevoir mon lien de connexion"}
             </button>
           </form>
 
@@ -117,7 +93,6 @@ export default function LoginPage() {
             {content.registrationPrompt}{" "}
             <Link to={routes.registration}>{content.registrationLink}</Link>
           </p>
-          <p className="login-card__pending">{content.passwordResetPending}</p>
           <Link className="login-card__back" to={routes.home}>
             Revenir à l’accueil
           </Link>

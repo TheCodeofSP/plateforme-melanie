@@ -3,6 +3,7 @@ export default function ConfirmDialog({
   title,
   description,
   confirmLabel = "Confirmer",
+  confirmClassName = "btn btn-primary",
   cancelLabel = "Annuler",
   onConfirm,
   onCancel,
@@ -21,10 +22,18 @@ export default function ConfirmDialog({
         <h2 id="confirm-dialog-title">{title}</h2>
         {description && <p>{description}</p>}
         <div className="confirm-dialog__actions">
-          <button type="button" className="btn btn-secondary" onClick={onCancel}>
+          <button
+            type="button"
+            className="btn btn-secondary"
+            onClick={onCancel}
+          >
             {cancelLabel}
           </button>
-          <button type="button" className="btn btn-primary" onClick={onConfirm}>
+          <button
+            type="button"
+            className={confirmClassName}
+            onClick={onConfirm}
+          >
             {confirmLabel}
           </button>
         </div>

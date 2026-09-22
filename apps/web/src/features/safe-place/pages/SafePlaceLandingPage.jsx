@@ -69,14 +69,25 @@ export default function SafePlaceLandingPage() {
   if (!access.allowed && access.reason === "SAFE_PLACE_CHARTER_REQUIRED")
     return (
       <SafePlaceShell compact>
-        <p className="section-eyebrow">Avant d’entrer</p>
-        <h1>Prendre connaissance de la charte</h1>
+        <p className="section-eyebrow">Une étape avant d’entrer</p>
+        <h1>La charte ouvre l’accès au forum</h1>
         <p>
-          La charte protège la liberté de parole et la sécurité de chaque
-          membre.
+          Ton compte est bien actif, mais l’accès aux discussions reste protégé
+          tant que tu n’as pas lu et accepté la charte du forum de La Clairière.
         </p>
+        <div className="clearing-access-steps">
+          <p>
+            <strong>1.</strong> Lis les engagements communs.
+          </p>
+          <p>
+            <strong>2.</strong> Confirme que tu souhaites les respecter.
+          </p>
+          <p>
+            <strong>3.</strong> Entre dans le forum et participe aux échanges.
+          </p>
+        </div>
         <Link className="btn btn-primary" to={routes.communityCharter}>
-          Lire la charte
+          Lire et accepter la charte
         </Link>
       </SafePlaceShell>
     );

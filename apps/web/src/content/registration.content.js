@@ -2,7 +2,7 @@ export const registrationContent = {
   eyebrow: "Créer ton espace",
   title: "Un espace pour avancer à ton rythme",
   description:
-    "Quelques informations suffisent pour personnaliser ton expérience et rejoindre un espace pensé avec douceur.",
+    "La création d’un compte est gratuite dans cette V1 et réservée aux femmes majeures concernées par une problématique gynécologique.",
   steps: [
     { short: "Profil", title: "Faisons connaissance" },
     { short: "Accès", title: "Sécurise ton accès" },
@@ -10,22 +10,20 @@ export const registrationContent = {
   ],
   identity: {
     introduction:
-      "Ton prénom et ton nom resteront privés. Dans La Clairière, les autres membres verront uniquement ton pseudonyme.",
+      "Ton nom reste privé. Tu choisis si le forum affiche ton pseudonyme ou ton prénom.",
   },
   security: {
     introduction:
-      "Utilise une adresse email à laquelle tu as accès : un lien de confirmation va t’être envoyé.",
+      "Utilise une adresse email à laquelle tu as accès. Tu confirmeras ton inscription puis tu te connecteras grâce aux liens reçus par email, sans mot de passe.",
   },
   consents: {
     introduction:
-      "Les choix facultatifs pourront être modifiés plus tard depuis ton espace personnel.",
+      "Les conditions d’utilisation, la politique de confidentialité et la newsletter sont nécessaires dans cette V1. Les communications commerciales restent facultatives.",
   },
   confirmation: {
     title: "Encore une petite étape",
     adult:
       "Ton compte a bien été créé. Consulte ta boîte email pour confirmer ton adresse et activer ton espace.",
-    minor:
-      "Ton compte a bien été créé. Ton adresse email et l’autorisation de ton responsable légal doivent maintenant être confirmées.",
     emailFailure:
       "Le compte est créé, mais l’envoi du message n’a pas abouti. Tu peux demander un nouveau lien ci-dessous.",
   },

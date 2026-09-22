@@ -37,14 +37,14 @@ const userSchema = new mongoose.Schema(
 
     dateOfBirth: {
       type: Date,
-      required: [true, "La date de naissance est obligatoire."],
+      default: null,
       max: [Date.now, "La date de naissance ne peut pas être dans le futur."],
     },
 
-    passwordHash: {
+    profileVisibility: {
       type: String,
-      required: true,
-      select: false,
+      enum: ["PSEUDONYM_ONLY", "FIRST_NAME"],
+      default: "PSEUDONYM_ONLY",
     },
 
     role: {

@@ -1,1 +1,32 @@
-const mongoose = require("mongoose"); const schema = new mongoose.Schema({ email: { type: String, required: true, lowercase: true, trim: true, unique: true }, reason: { type: String, enum: ["PERMANENT_FAILURE", "BLOCKED", "SPAM"], required: true }, active: { type: Boolean, default: true, index: true }, sourceEvent: { type: mongoose.Schema.Types.ObjectId, ref: "CommunicationEvent", default: null }, liftedAt: Date, liftedBy: { type: mongoose.Schema.Types.ObjectId, ref: "User", default: null }, liftReason: { type: String, maxlength: 1000 } }, { timestamps: true }); module.exports = mongoose.model("CommunicationSuppression", schema);
+const mongoose = require("mongoose");
+const schema = new mongoose.Schema(
+  {
+    email: {
+      type: String,
+      required: true,
+      lowercase: true,
+      trim: true,
+      unique: true,
+    },
+    reason: {
+      type: String,
+      enum: ["PERMANENT_FAILURE", "BLOCKED", "SPAM"],
+      required: true,
+    },
+    active: { type: Boolean, default: true, index: true },
+    sourceEvent: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "CommunicationEvent",
+      default: null,
+    },
+    liftedAt: Date,
+    liftedBy: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      default: null,
+    },
+    liftReason: { type: String, maxlength: 1000 },
+  },
+  { timestamps: true },
+);
+module.exports = mongoose.model("CommunicationSuppression", schema);

@@ -29,7 +29,10 @@ async function upsertContact({
       unsubscribed: payload.unsubscribed,
     });
     if (updated.error) {
-      const error = new Error(updated.error.message || "La synchronisation du contact email a échoué.");
+      const error = new Error(
+        updated.error.message ||
+          "La synchronisation du contact email a échoué.",
+      );
       error.statusCode = 502;
       throw error;
     }
@@ -41,7 +44,10 @@ async function upsertContact({
       ? await resend.contacts.segments.add({ email, segmentId })
       : await resend.contacts.segments.remove({ email, segmentId });
     if (segment.error && segment.error.statusCode !== 404) {
-      const error = new Error(segment.error.message || "La synchronisation du segment email a échoué.");
+      const error = new Error(
+        segment.error.message ||
+          "La synchronisation du segment email a échoué.",
+      );
       error.statusCode = 502;
       throw error;
     }

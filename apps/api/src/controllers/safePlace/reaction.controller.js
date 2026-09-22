@@ -1,1 +1,52 @@
-const service = require("../../services/safePlace/reaction.service"); const wrap = (fn) => async (req, res, next) => { try { await fn(req, res); } catch (e) { next(e); } }; module.exports = { postSet: wrap(async (req, res) => res.json({ success: true, ...(await service.setReaction(req.auth.user, "POST", req.params.postId, req.body.type)) })), postRemove: wrap(async (req, res) => res.json({ success: true, ...(await service.removeReaction(req.auth.user, "POST", req.params.postId)) })), commentSet: wrap(async (req, res) => res.json({ success: true, ...(await service.setReaction(req.auth.user, "COMMENT", req.params.commentId, req.body.type)) })), commentRemove: wrap(async (req, res) => res.json({ success: true, ...(await service.removeReaction(req.auth.user, "COMMENT", req.params.commentId)) })) };
+const service = require("../../services/safePlace/reaction.service");
+const wrap = (fn) => async (req, res, next) => {
+  try {
+    await fn(req, res);
+  } catch (e) {
+    next(e);
+  }
+};
+module.exports = {
+  postSet: wrap(async (req, res) =>
+    res.json({
+      success: true,
+      ...(await service.setReaction(
+        req.auth.user,
+        "POST",
+        req.params.postId,
+        req.body.type,
+      )),
+    }),
+  ),
+  postRemove: wrap(async (req, res) =>
+    res.json({
+      success: true,
+      ...(await service.removeReaction(
+        req.auth.user,
+        "POST",
+        req.params.postId,
+      )),
+    }),
+  ),
+  commentSet: wrap(async (req, res) =>
+    res.json({
+      success: true,
+      ...(await service.setReaction(
+        req.auth.user,
+        "COMMENT",
+        req.params.commentId,
+        req.body.type,
+      )),
+    }),
+  ),
+  commentRemove: wrap(async (req, res) =>
+    res.json({
+      success: true,
+      ...(await service.removeReaction(
+        req.auth.user,
+        "COMMENT",
+        req.params.commentId,
+      )),
+    }),
+  ),
+};

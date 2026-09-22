@@ -11,7 +11,7 @@ const accountTokenSchema = new mongoose.Schema(
 
     type: {
       type: String,
-      enum: ["EMAIL_VERIFICATION", "PASSWORD_RESET"],
+      enum: ["EMAIL_VERIFICATION", "LOGIN_LINK"],
       required: true,
     },
 
@@ -46,9 +46,6 @@ accountTokenSchema.index({
   createdAt: -1,
 });
 
-const AccountToken = mongoose.model(
-  "AccountToken",
-  accountTokenSchema,
-);
+const AccountToken = mongoose.model("AccountToken", accountTokenSchema);
 
 module.exports = AccountToken;

@@ -8,7 +8,9 @@ const {
 } = require("../utils/databaseSafety");
 
 async function run() {
-  const target = process.argv.find((arg) => arg.startsWith("--target="))?.split("=")[1];
+  const target = process.argv
+    .find((arg) => arg.startsWith("--target="))
+    ?.split("=")[1];
   const resetRequested = process.argv.includes("--reset");
   let uri;
   if (target === "test") {
@@ -29,17 +31,16 @@ async function run() {
   } else {
     throw new Error("La cible doit être test ou staging.");
   }
-  if (!env.FIXTURE_PASSWORD && !resetRequested) {
-    throw new Error("FIXTURE_PASSWORD est obligatoire pour créer les fixtures.");
-  }
   await mongoose.connect(uri);
   if (resetRequested || target === "test") {
     const removed = await fixtures.reset();
     console.log(`🧹 Fixtures supprimées : ${removed.usersRemoved} compte(s).`);
   }
   if (!resetRequested) {
-    const result = await fixtures.seed(env.FIXTURE_PASSWORD);
-    console.log(`✅ Fixtures ${target} prêtes : ${result.users} compte(s), ${result.profiles} profils SPM.`);
+    const result = await fixtures.seed();
+    console.log(
+      `✅ Fixtures ${target} prêtes : ${result.users} compte(s), ${result.profiles} profils SPM.`,
+    );
   }
   await mongoose.connection.close();
 }

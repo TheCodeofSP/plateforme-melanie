@@ -1,2 +1,77 @@
-const service = require("../../services/safePlace/category.service"); const wrap = (fn) => async (req, res, next) => { try { await fn(req, res); } catch (e) { next(e); } };
-module.exports = { list: wrap(async (req, res) => res.json({ success: true, categories: await service.publicList() })), detail: wrap(async (req, res) => res.json({ success: true, category: await service.publicDetail(req.params.categoryId) })), adminList: wrap(async (req, res) => res.json({ success: true, categories: await service.adminList() })), create: wrap(async (req, res) => res.status(201).json({ success: true, category: await service.create(req.auth.user, req.body) })), update: wrap(async (req, res) => res.json({ success: true, category: await service.update(req.params.categoryId, req.auth.user, req.body) })), hide: wrap(async (req, res) => res.json({ success: true, category: await service.setStatus(req.params.categoryId, req.auth.user, "HIDDEN", req.body.reason) })), restore: wrap(async (req, res) => res.json({ success: true, category: await service.setStatus(req.params.categoryId, req.auth.user, "ACTIVE", req.body.reason) })), archive: wrap(async (req, res) => res.json({ success: true, category: await service.setStatus(req.params.categoryId, req.auth.user, "ARCHIVED", req.body.reason) })), remove: wrap(async (req, res) => { await service.remove(req.params.categoryId, req.auth.user); res.json({ success: true, message: "Catégorie supprimée." }); }) };
+const service = require("../../services/safePlace/category.service");
+const wrap = (fn) => async (req, res, next) => {
+  try {
+    await fn(req, res);
+  } catch (e) {
+    next(e);
+  }
+};
+module.exports = {
+  list: wrap(async (req, res) =>
+    res.json({ success: true, categories: await service.publicList() }),
+  ),
+  detail: wrap(async (req, res) =>
+    res.json({
+      success: true,
+      category: await service.publicDetail(req.params.categoryId),
+    }),
+  ),
+  adminList: wrap(async (req, res) =>
+    res.json({ success: true, categories: await service.adminList() }),
+  ),
+  create: wrap(async (req, res) =>
+    res
+      .status(201)
+      .json({
+        success: true,
+        category: await service.create(req.auth.user, req.body),
+      }),
+  ),
+  update: wrap(async (req, res) =>
+    res.json({
+      success: true,
+      category: await service.update(
+        req.params.categoryId,
+        req.auth.user,
+        req.body,
+      ),
+    }),
+  ),
+  hide: wrap(async (req, res) =>
+    res.json({
+      success: true,
+      category: await service.setStatus(
+        req.params.categoryId,
+        req.auth.user,
+        "HIDDEN",
+        req.body.reason,
+      ),
+    }),
+  ),
+  restore: wrap(async (req, res) =>
+    res.json({
+      success: true,
+      category: await service.setStatus(
+        req.params.categoryId,
+        req.auth.user,
+        "ACTIVE",
+        req.body.reason,
+      ),
+    }),
+  ),
+  archive: wrap(async (req, res) =>
+    res.json({
+      success: true,
+      category: await service.setStatus(
+        req.params.categoryId,
+        req.auth.user,
+        "ARCHIVED",
+        req.body.reason,
+      ),
+    }),
+  ),
+  remove: wrap(async (req, res) => {
+    await service.remove(req.params.categoryId, req.auth.user);
+    res.json({ success: true, message: "Catégorie supprimée." });
+  }),
+};

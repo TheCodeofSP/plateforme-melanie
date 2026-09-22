@@ -32,7 +32,10 @@ const preferenceSchema = z
   .object({
     categories: z
       .partialRecord(z.enum(PREFERENCE_CATEGORIES), channelPreference)
-      .refine((value) => Object.keys(value).length > 0, "Aucune préférence fournie."),
+      .refine(
+        (value) => Object.keys(value).length > 0,
+        "Aucune préférence fournie.",
+      ),
   })
   .strict();
 
@@ -45,7 +48,10 @@ const testSchema = z
       .array(z.enum(["PLATFORM", "EMAIL"]))
       .min(1)
       .max(2)
-      .refine((items) => new Set(items).size === items.length, "Canal dupliqué."),
+      .refine(
+        (items) => new Set(items).size === items.length,
+        "Canal dupliqué.",
+      ),
     actionPath: z
       .string()
       .trim()

@@ -10,7 +10,8 @@ function responseContractMiddleware(req, res, next) {
     delete normalized.stack;
     normalized.success = false;
     normalized.message ||= "La requête n'a pas pu être traitée.";
-    normalized.code ||= res.statusCode >= 500 ? "INTERNAL_ERROR" : "REQUEST_ERROR";
+    normalized.code ||=
+      res.statusCode >= 500 ? "INTERNAL_ERROR" : "REQUEST_ERROR";
     normalized.details ??= null;
     normalized.requestId ||= req.requestId || null;
     return sendJson(normalized);

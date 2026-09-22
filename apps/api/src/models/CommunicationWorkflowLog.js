@@ -1,1 +1,17 @@
-const mongoose = require("mongoose"); const schema = new mongoose.Schema({ communication: { type: mongoose.Schema.Types.ObjectId, ref: "Communication", required: true, index: true }, actor: { type: mongoose.Schema.Types.ObjectId, ref: "User", default: null }, action: { type: String, required: true, maxlength: 100 }, comment: { type: String, maxlength: 2000, default: null }, metadata: { type: mongoose.Schema.Types.Mixed, default: null } }, { timestamps: true }); module.exports = mongoose.model("CommunicationWorkflowLog", schema);
+const mongoose = require("mongoose");
+const schema = new mongoose.Schema(
+  {
+    communication: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Communication",
+      required: true,
+      index: true,
+    },
+    actor: { type: mongoose.Schema.Types.ObjectId, ref: "User", default: null },
+    action: { type: String, required: true, maxlength: 100 },
+    comment: { type: String, maxlength: 2000, default: null },
+    metadata: { type: mongoose.Schema.Types.Mixed, default: null },
+  },
+  { timestamps: true },
+);
+module.exports = mongoose.model("CommunicationWorkflowLog", schema);

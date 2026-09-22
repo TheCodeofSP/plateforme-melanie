@@ -1,13 +1,7 @@
 function authorizeRoles(...allowedRoles) {
-  return function authorizationMiddleware(
-    req,
-    res,
-    next,
-  ) {
+  return function authorizationMiddleware(req, res, next) {
     if (!req.auth?.user) {
-      const error = new Error(
-        "Authentification requise.",
-      );
+      const error = new Error("Authentification requise.");
 
       error.code = "AUTHENTICATION_REQUIRED";
       error.statusCode = 401;
@@ -15,9 +9,7 @@ function authorizeRoles(...allowedRoles) {
       return next(error);
     }
 
-    if (
-      !allowedRoles.includes(req.auth.user.role)
-    ) {
+    if (!allowedRoles.includes(req.auth.user.role)) {
       const error = new Error(
         "Tu n’as pas l’autorisation d’effectuer cette action.",
       );

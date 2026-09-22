@@ -3,7 +3,6 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import {
   getCurrentUser,
   getInitialCurrentUser,
-  login as loginRequest,
   logout as logoutRequest,
 } from "../features/auth/api/auth.service.js";
 import { AuthContext } from "./auth-context.js";
@@ -27,6 +26,11 @@ export function AuthProvider({ children }) {
       setUser(currentUser);
       setStatus("authenticated");
     } catch (error) {
+      if (error.code === "ACCOUNT_SUSPENDED") {
+        setUser(null);
+        setStatus("suspended");
+        return;
+      }
       if (error.status !== 401) {
         console.error("Vérification de session impossible", error);
       }
@@ -50,6 +54,11 @@ export function AuthProvider({ children }) {
       })
       .catch((error) => {
         if (ignore) return;
+        if (error.code === "ACCOUNT_SUSPENDED") {
+          setUser(null);
+          setStatus("suspended");
+          return;
+        }
         if (error.status !== 401) {
           console.error("Vérification de session impossible", error);
         }
@@ -68,13 +77,6 @@ export function AuthProvider({ children }) {
       window.removeEventListener("auth:session-expired", clearSession);
   }, [clearSession]);
 
-  const login = useCallback(async (credentials) => {
-    const authenticatedUser = await loginRequest(credentials);
-    setUser(authenticatedUser);
-    setStatus("authenticated");
-    return authenticatedUser;
-  }, []);
-
   const logout = useCallback(async () => {
     try {
       await logoutRequest();
@@ -88,11 +90,11 @@ export function AuthProvider({ children }) {
       user,
       status,
       isAuthenticated: status === "authenticated",
-      login,
+      clearSession,
       logout,
       refreshUser: checkSession,
     }),
-    [checkSession, login, logout, status, user],
+    [checkSession, clearSession, logout, status, user],
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

@@ -21,7 +21,9 @@ async function renameCollection(database, oldName, newName) {
   const oldCollectionExists = await collectionExists(database, oldName);
 
   if (!oldCollectionExists) {
-    console.log(`ℹ️ Collection ${oldName} absente : aucune migration nécessaire.`);
+    console.log(
+      `ℹ️ Collection ${oldName} absente : aucune migration nécessaire.`,
+    );
     return;
   }
 
@@ -58,10 +60,9 @@ async function migrateIntervenantRole() {
 
   await assertCollectionRenamesAreSafe(database);
 
-  const usersResult = await database.collection("users").updateMany(
-    { role: "CONTRIBUTOR" },
-    { $set: { role: "INTERVENANT" } },
-  );
+  const usersResult = await database
+    .collection("users")
+    .updateMany({ role: "CONTRIBUTOR" }, { $set: { role: "INTERVENANT" } });
 
   console.log(
     `✅ ${usersResult.modifiedCount} compte(s) migré(s) vers le rôle INTERVENANT.`,
@@ -81,25 +82,33 @@ async function migrateIntervenantRole() {
       .updateMany({ action: oldAction }, { $set: { action: newAction } });
   }
 
-  await database.collection("adminactionlogs").updateMany(
-    { "previousState.role": "CONTRIBUTOR" },
-    { $set: { "previousState.role": "INTERVENANT" } },
-  );
+  await database
+    .collection("adminactionlogs")
+    .updateMany(
+      { "previousState.role": "CONTRIBUTOR" },
+      { $set: { "previousState.role": "INTERVENANT" } },
+    );
 
-  await database.collection("adminactionlogs").updateMany(
-    { "newState.role": "CONTRIBUTOR" },
-    { $set: { "newState.role": "INTERVENANT" } },
-  );
+  await database
+    .collection("adminactionlogs")
+    .updateMany(
+      { "newState.role": "CONTRIBUTOR" },
+      { $set: { "newState.role": "INTERVENANT" } },
+    );
 
-  await database.collection("adminactionlogs").updateMany(
-    { "relatedDocument.model": "ContributorApplication" },
-    { $set: { "relatedDocument.model": "IntervenantApplication" } },
-  );
+  await database
+    .collection("adminactionlogs")
+    .updateMany(
+      { "relatedDocument.model": "ContributorApplication" },
+      { $set: { "relatedDocument.model": "IntervenantApplication" } },
+    );
 
-  await database.collection("adminactionlogs").updateMany(
-    { "relatedDocument.model": "ContributorExitRequest" },
-    { $set: { "relatedDocument.model": "IntervenantExitRequest" } },
-  );
+  await database
+    .collection("adminactionlogs")
+    .updateMany(
+      { "relatedDocument.model": "ContributorExitRequest" },
+      { $set: { "relatedDocument.model": "IntervenantExitRequest" } },
+    );
 
   for (const [oldName, newName] of collectionRenames) {
     await renameCollection(database, oldName, newName);

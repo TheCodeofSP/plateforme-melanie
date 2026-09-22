@@ -209,8 +209,21 @@ async function getIntervenantApplications(userId) {
       createdAt: -1,
     })
     .lean();
-  const documents = await ApplicationDocument.find({ application: { $in: applications.map((item) => item._id) }, status: { $in: ["PENDING", "ACTIVE"] } }).select("application originalName mimeType size status confirmedAt createdAt").lean();
-  return applications.map((application) => ({ ...application, documents: documents.filter((document) => document.application.toString() === application._id.toString()) }));
+  const documents = await ApplicationDocument.find({
+    application: { $in: applications.map((item) => item._id) },
+    status: { $in: ["PENDING", "ACTIVE"] },
+  })
+    .select(
+      "application originalName mimeType size status confirmedAt createdAt",
+    )
+    .lean();
+  return applications.map((application) => ({
+    ...application,
+    documents: documents.filter(
+      (document) =>
+        document.application.toString() === application._id.toString(),
+    ),
+  }));
 }
 
 async function cancelIntervenantApplication({ userId, applicationId }) {
@@ -259,7 +272,12 @@ async function getIntervenantApplicationForAdmin(applicationId) {
     );
   }
 
-  const documents = await ApplicationDocument.find({ application: applicationId, status: { $in: ["PENDING", "ACTIVE"] } }).select("originalName mimeType size status confirmedAt createdAt").lean();
+  const documents = await ApplicationDocument.find({
+    application: applicationId,
+    status: { $in: ["PENDING", "ACTIVE"] },
+  })
+    .select("originalName mimeType size status confirmedAt createdAt")
+    .lean();
   return { ...application, documents };
 }
 
@@ -341,7 +359,6 @@ async function decideIntervenantApplication({
               deactivatedAt: null,
 
               sourceApplication: application._id,
-
             },
           },
           {
@@ -434,8 +451,14 @@ async function decideIntervenantApplication({
     const notification = await createNotification({
       recipient: decided.user,
       type: "INTERVENANT_APPLICATION_STATUS",
-      title: decision === "APPROVE" ? "Demande d’intervenante acceptée" : "Décision concernant ta demande",
-      message: decision === "APPROVE" ? "Ta demande d’intervenante a été acceptée." : `Ta demande n’a pas été acceptée.${comment ? ` — ${comment}` : ""}`,
+      title:
+        decision === "APPROVE"
+          ? "Demande d’intervenante acceptée"
+          : "Décision concernant ta demande",
+      message:
+        decision === "APPROVE"
+          ? "Ta demande d’intervenante a été acceptée."
+          : `Ta demande n’a pas été acceptée.${comment ? ` — ${comment}` : ""}`,
       targetType: "INTERVENANT_APPLICATION",
       targetId: decided._id,
       actionPath: "/profile/intervenant-application",
