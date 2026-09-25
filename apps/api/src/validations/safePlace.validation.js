@@ -2,10 +2,7 @@ const { z } = require("zod");
 const objectId = z.string().regex(/^[a-f\d]{24}$/i, "Identifiant invalide.");
 const emptySchema = z.object({}).strict();
 const noHtml = (schema) =>
-  schema.refine(
-    (value) => !/<\/?[a-z][\s\S]*>/i.test(value),
-    "Le HTML n’est pas autorisé.",
-  );
+  schema.refine((value) => !/<\/?[a-z][\s\S]*>/i.test(value), "Le HTML n’est pas autorisé.");
 const categoryIdSchema = z.object({ categoryId: objectId });
 const postIdSchema = z.object({ postId: objectId });
 const commentIdSchema = z.object({ commentId: objectId });
@@ -27,16 +24,14 @@ const categoryCreateSchema = z
   .strict();
 const categoryUpdateSchema = categoryCreateSchema
   .partial()
-  .refine(
-    (value) => Object.keys(value).length > 0,
-    "Au moins un champ doit être modifié.",
-  );
+  .refine((value) => Object.keys(value).length > 0, "Au moins un champ doit être modifié.");
 const linkSchema = z
   .object({ label: z.string().trim().min(1).max(120), url: z.url().max(1000) })
   .strict();
 const postImageSchema = z
   .object({ media: objectId, alt: z.string().trim().min(2).max(300) })
   .strict();
+const signatureTypeSchema = z.enum(["PSEUDONYM", "FIRST_NAME"]);
 const postCreateSchema = z
   .object({
     categoryId: objectId,
@@ -47,6 +42,7 @@ const postCreateSchema = z
     allowComments: z.boolean().optional(),
     allowReactions: z.boolean().optional(),
     notifyMembers: z.boolean().optional(),
+    signatureType: signatureTypeSchema.default("PSEUDONYM"),
   })
   .strict();
 const postUpdateSchema = z
@@ -57,13 +53,14 @@ const postUpdateSchema = z
     images: z.array(postImageSchema).max(3).optional(),
   })
   .strict()
-  .refine(
-    (value) => Object.keys(value).length > 0,
-    "Au moins un champ doit être modifié.",
-  );
-const commentSchema = z
-  .object({ content: noHtml(z.string().trim().min(1).max(5000)) })
+  .refine((value) => Object.keys(value).length > 0, "Au moins un champ doit être modifié.");
+const commentCreateSchema = z
+  .object({
+    content: noHtml(z.string().trim().min(1).max(5000)),
+    signatureType: signatureTypeSchema.default("PSEUDONYM"),
+  })
   .strict();
+const commentSchema = z.object({ content: noHtml(z.string().trim().min(1).max(5000)) }).strict();
 const reactionSchema = z
   .object({ type: z.enum(["SUPPORT", "THANK_YOU", "ME_TOO", "HELPFUL"]) })
   .strict();
@@ -88,9 +85,7 @@ const reportSchema = z
       .transform((v) => v || null),
   })
   .strict();
-const adminReasonSchema = z
-  .object({ reason: z.string().trim().min(2).max(2000) })
-  .strict();
+const adminReasonSchema = z.object({ reason: z.string().trim().min(2).max(2000) }).strict();
 const optionalReasonSchema = z
   .object({
     reason: z
@@ -145,9 +140,7 @@ const suspendSchema = z
     path: ["endsAt"],
     message: "La date de fin doit être future.",
   });
-const notificationPreferenceSchema = z
-  .object({ safePlaceReactions: z.boolean() })
-  .strict();
+const notificationPreferenceSchema = z.object({ safePlaceReactions: z.boolean() }).strict();
 const broadcastSchema = z
   .object({
     postId: objectId,
@@ -237,6 +230,7 @@ module.exports = {
   postCreateSchema,
   postUpdateSchema,
   commentSchema,
+  commentCreateSchema,
   reactionSchema,
   reportSchema,
   adminReasonSchema,

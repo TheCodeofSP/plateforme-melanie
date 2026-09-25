@@ -37,7 +37,7 @@ router.post(
   "/:postId/comments",
   createRateLimit({ max: 60, code: "SAFE_PLACE_COMMENT_RATE_LIMIT" }),
   validateParams(v.postIdSchema),
-  validateBody(v.commentSchema),
+  validateBody(v.commentCreateSchema),
   c.create,
 );
 router.put(
@@ -47,9 +47,5 @@ router.put(
   validateBody(v.reactionSchema),
   r.postSet,
 );
-router.delete(
-  "/:postId/reaction",
-  validateParams(v.postIdSchema),
-  r.postRemove,
-);
+router.delete("/:postId/reaction", validateParams(v.postIdSchema), r.postRemove);
 module.exports = router;

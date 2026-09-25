@@ -58,6 +58,17 @@ export default function LoginPage() {
           <p className="section-eyebrow">{content.eyebrow}</p>
           <h1 id="login-title">{content.title}</h1>
           <p className="login-card__description">{content.description}</p>
+          <aside
+            className="login-card__how"
+            aria-label="Comment fonctionne la connexion sans mot de passe"
+          >
+            <strong>Comment ça fonctionne ?</strong>
+            <ol>
+              {content.steps.map((step) => (
+                <li key={step}>{step}</li>
+              ))}
+            </ol>
+          </aside>
 
           {error && <FormErrorSummary error={error} />}
           {message && (
@@ -80,11 +91,7 @@ export default function LoginPage() {
               />
             </label>
 
-            <button
-              type="submit"
-              className="btn btn-primary"
-              disabled={isSubmitting}
-            >
+            <button type="submit" className="btn btn-primary" disabled={isSubmitting}>
               {isSubmitting ? "Envoi…" : "Recevoir mon lien de connexion"}
             </button>
           </form>
@@ -93,9 +100,11 @@ export default function LoginPage() {
             {content.registrationPrompt}{" "}
             <Link to={routes.registration}>{content.registrationLink}</Link>
           </p>
-          <Link className="login-card__back" to={routes.home}>
-            Revenir à l’accueil
-          </Link>
+          <div className="login-card__back-wrapper">
+            <Link className="login-card__back btn btn-secondary" to={routes.home}>
+              Revenir à l’accueil
+            </Link>
+          </div>
         </section>
       </main>
     </>

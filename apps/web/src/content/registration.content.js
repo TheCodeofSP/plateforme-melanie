@@ -10,7 +10,7 @@ export const registrationContent = {
   ],
   identity: {
     introduction:
-      "Ton nom reste privé. Tu choisis si le forum affiche ton pseudonyme ou ton prénom.",
+      "Ton nom reste privé. Dans le forum, tu choisiras ton prénom ou ton pseudonyme au moment de signer chaque publication.",
   },
   security: {
     introduction:

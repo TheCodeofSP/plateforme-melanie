@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 
 import SEO from "../components/seo/SEO.jsx";
+import PageAnchors from "../components/navigation/PageAnchors.jsx";
 import { routes } from "../config/routes.config.js";
 import { clairiereContent } from "../content/clairiere.content.js";
 import logo from "../assets/images/logo-clairiere.png";
@@ -15,6 +16,14 @@ export default function ClairierePage() {
         description={clairiereContent.hero.text}
         url={routes.platform}
       />
+      <PageAnchors
+        items={[
+          { id: "origine", label: "Son origine" },
+          { id: "besoins", label: "Les besoins" },
+          { id: "espaces", label: "Les espaces" },
+          { id: "engagements", label: "Les engagements" },
+        ]}
+      />
       <section className="editorial-hero">
         <div className="page-container editorial-hero__grid">
           <div>
@@ -28,7 +37,7 @@ export default function ClairierePage() {
           <img src={logo} alt="Logo officiel de La Clairière" />
         </div>
       </section>
-      <section className="editorial-section">
+      <section className="editorial-section" id="origine">
         <div className="page-container editorial-copy">
           <h2>{clairiereContent.meaning.title}</h2>
           {clairiereContent.meaning.paragraphs.map((item) => (
@@ -36,7 +45,7 @@ export default function ClairierePage() {
           ))}
         </div>
       </section>
-      <section className="editorial-section editorial-section--accent">
+      <section className="editorial-section editorial-section--accent" id="besoins">
         <div className="page-container">
           <h2>{clairiereContent.reasons.title}</h2>
           <ul className="editorial-checks">
@@ -46,7 +55,7 @@ export default function ClairierePage() {
           </ul>
         </div>
       </section>
-      <section className="editorial-section">
+      <section className="editorial-section" id="espaces">
         <div className="page-container">
           <header className="section-header">
             <p className="eyebrow">À l’intérieur de La Clairière</p>
@@ -62,7 +71,7 @@ export default function ClairierePage() {
           </div>
         </div>
       </section>
-      <section className="editorial-section editorial-section--warm">
+      <section className="editorial-section editorial-section--warm" id="engagements">
         <div className="page-container editorial-copy">
           <h2>Les engagements de La Clairière</h2>
           <ul className="editorial-checks">

@@ -8,6 +8,7 @@ const {
   validateSafePlaceContent,
   validateLinks,
   publicAuthor,
+  publicationAuthorName,
 } = require("../../utils/safePlace.utils");
 const { notifyNewMentions } = require("./mention.service");
 function snapshot(post) {
@@ -19,21 +20,13 @@ function snapshot(post) {
     status: post.status,
   };
 }
-async function revision(
-  post,
-  actor,
-  action,
-  previousVersion,
-  newVersion,
-  reason = null,
-) {
+async function revision(post, actor, action, previousVersion, newVersion, reason = null) {
   return SafePlaceContentRevision.create({
     targetType: "POST",
     targetId: post._id,
     actor: actor?._id || null,
     actorRole: actor?.role || "SYSTEM",
-    pseudonymSnapshot:
-      actor?.role === "ADMIN" ? "Mélanie" : actor?.pseudonym || null,
+    pseudonymSnapshot: actor?.role === "ADMIN" ? "Mélanie" : actor?.pseudonym || null,
     action,
     previousVersion,
     newVersion,
@@ -76,7 +69,7 @@ async function categoryForPost(categoryId, user) {
     );
   return category;
 }
-function serialize(post, currentReaction = null) {
+function serialize(post, currentReaction = null, currentUserId = null) {
   const data = post.toObject ? post.toObject() : post;
   const deleted = data.status === "AUTHOR_DELETED";
   return {
@@ -86,7 +79,12 @@ function serialize(post, currentReaction = null) {
     content: deleted ? "Publication supprimée par son autrice" : data.content,
     links: deleted ? [] : data.links,
     images: deleted ? [] : data.images,
-    author: deleted ? null : publicAuthor(data.author),
+    author: deleted ? null : publicAuthor(data.author, data.authorNameSnapshot),
+    isOwner: Boolean(
+      currentUserId &&
+      data.author &&
+      String(data.author._id || data.author) === String(currentUserId),
+    ),
     status: data.status,
     isClosed: data.isClosed,
     isPinned: data.isPinned,
@@ -104,10 +102,7 @@ async function list(user, query) {
   const page = query.page;
   const limit = query.limit;
   const visible = {
-    $or: [
-      { status: "VISIBLE" },
-      { status: "AUTHOR_DELETED", "counters.comments": { $gt: 0 } },
-    ],
+    $or: [{ status: "VISIBLE" }, { status: "AUTHOR_DELETED", "counters.comments": { $gt: 0 } }],
   };
   const filter = { ...visible };
   if (query.category) filter.category = query.category;
@@ -115,10 +110,7 @@ async function list(user, query) {
   if (query.author) {
     const users = await require("../../models/User")
       .find({
-        pseudonym: new RegExp(
-          query.author.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"),
-          "i",
-        ),
+        pseudonym: new RegExp(query.author.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"), "i"),
       })
       .distinct("_id");
     filter.author = { $in: users };
@@ -145,9 +137,7 @@ async function list(user, query) {
   }).lean();
   const map = new Map(reactions.map((r) => [String(r.targetId), r.type]));
   return {
-    posts: posts.map((post) =>
-      serialize(post, map.get(String(post._id)) || null),
-    ),
+    posts: posts.map((post) => serialize(post, map.get(String(post._id)) || null, user._id)),
     pagination: { page, limit, total, pages: Math.ceil(total / limit) },
   };
 }
@@ -158,33 +148,24 @@ async function detail(user, id) {
   })
     .populate("author", "pseudonym firstName profileVisibility role")
     .populate("category", "name slug allowComments allowReactions");
-  if (
-    !post ||
-    (post.status === "AUTHOR_DELETED" && post.counters.comments === 0)
-  )
-    throw safePlaceError(
-      "Discussion introuvable.",
-      "SAFE_PLACE_POST_NOT_FOUND",
-      404,
-    );
+  if (!post || (post.status === "AUTHOR_DELETED" && post.counters.comments === 0))
+    throw safePlaceError("Discussion introuvable.", "SAFE_PLACE_POST_NOT_FOUND", 404);
   const reaction = await SafePlaceReaction.findOne({
     user: user._id,
     targetType: "POST",
     targetId: id,
   }).lean();
-  return serialize(post, reaction?.type || null);
+  return serialize(post, reaction?.type || null, user._id);
 }
 async function create(user, data) {
   const category = await categoryForPost(data.categoryId, user);
-  validateSafePlaceContent(
-    data.title,
-    data.content,
-    ...data.links.map((l) => l.label),
-  );
+  validateSafePlaceContent(data.title, data.content, ...data.links.map((l) => l.label));
   validateLinks(data.links);
   await validateMedia(user, data.images);
   const post = await SafePlacePost.create({
     author: user._id,
+    signatureType: data.signatureType,
+    authorNameSnapshot: publicationAuthorName(user, data.signatureType),
     category: category._id,
     title: data.title,
     content: data.content,
@@ -211,10 +192,7 @@ async function create(user, data) {
         },
       },
     );
-  await SafePlaceCategory.updateOne(
-    { _id: category._id },
-    { $inc: { "counters.posts": 1 } },
-  );
+  await SafePlaceCategory.updateOne({ _id: category._id }, { $inc: { "counters.posts": 1 } });
   await revision(post, user, "CREATED", null, snapshot(post));
   await notifyNewMentions({
     actor: user,
@@ -244,11 +222,7 @@ async function update(user, id, changes) {
       409,
     );
   const next = { ...snapshot(post), ...changes };
-  validateSafePlaceContent(
-    next.title,
-    next.content,
-    ...(next.links || []).map((l) => l.label),
-  );
+  validateSafePlaceContent(next.title, next.content, ...(next.links || []).map((l) => l.label));
   validateLinks(next.links);
   if (changes.images) await validateMedia(user, changes.images);
   const previous = snapshot(post);
@@ -271,10 +245,7 @@ async function update(user, id, changes) {
     );
     const replaced = oldIds.filter((x) => !newIds.includes(x));
     if (replaced.length)
-      await MediaAsset.updateMany(
-        { _id: { $in: replaced } },
-        { $set: { status: "REPLACED" } },
-      );
+      await MediaAsset.updateMany({ _id: { $in: replaced } }, { $set: { status: "REPLACED" } });
   }
   await revision(post, user, "UPDATED", previous, snapshot(post));
   await notifyNewMentions({
@@ -306,14 +277,8 @@ async function remove(user, id) {
   if (!post.counters.comments) {
     const ids = post.images.map((x) => x.media);
     if (ids.length)
-      await MediaAsset.updateMany(
-        { _id: { $in: ids } },
-        { $set: { status: "REPLACED" } },
-      );
-    await SafePlaceCategory.updateOne(
-      { _id: post.category },
-      { $inc: { "counters.posts": -1 } },
-    );
+      await MediaAsset.updateMany({ _id: { $in: ids } }, { $set: { status: "REPLACED" } });
+    await SafePlaceCategory.updateOne({ _id: post.category }, { $inc: { "counters.posts": -1 } });
   }
   await revision(post, user, "AUTHOR_DELETED", previous, {
     status: post.status,
@@ -335,17 +300,10 @@ async function submitCorrection(user, id, changes) {
   const next = {
     title: changes.title || post.title,
     content: changes.content || post.content,
-    links:
-      changes.links || post.links.map((x) => ({ label: x.label, url: x.url })),
-    images:
-      changes.images ||
-      post.images.map((x) => ({ media: x.media, alt: x.alt })),
+    links: changes.links || post.links.map((x) => ({ label: x.label, url: x.url })),
+    images: changes.images || post.images.map((x) => ({ media: x.media, alt: x.alt })),
   };
-  validateSafePlaceContent(
-    next.title,
-    next.content,
-    ...next.links.map((x) => x.label),
-  );
+  validateSafePlaceContent(next.title, next.content, ...next.links.map((x) => x.label));
   validateLinks(next.links);
   if (changes.images) await validateMedia(user, changes.images);
   post.correctionDraft = {

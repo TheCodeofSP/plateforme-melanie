@@ -4,14 +4,12 @@ import { platformContent } from "./platform.content.js";
 export const navigationContent = {
   brand: platformContent.brand.name,
   slogan: platformContent.brand.slogan,
-  primaryLinks: [
-    { label: "La Clairière", to: routes.platform },
-    { label: "Accompagnements", to: routes.accompaniments },
+  clairiereLinks: [
+    { label: "Découvrir La Clairière", to: routes.platform },
     { label: "Le forum", to: routes.community },
-    { label: "Contact", to: routes.contact },
   ],
   discoveryLinks: [
-    { label: "Quiz SPM", to: routes.quiz },
+    { label: "Accompagnements", to: routes.accompaniments },
     { label: "Webinaires", to: routes.webinars },
     { label: "Mélanie", to: routes.vision },
   ],

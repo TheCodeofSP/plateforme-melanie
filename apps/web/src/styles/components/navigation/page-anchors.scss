@@ -1,0 +1,88 @@
+.page-anchors {
+  position: relative;
+  z-index: 1;
+  background: transparent;
+}
+
+.page-anchors__inner {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  padding-block: 1rem;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.page-anchors__inner::-webkit-scrollbar {
+  display: none;
+}
+
+.page-anchors__inner > span {
+  flex: 0 0 auto;
+  color: var(--color-primary);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.page-anchors__inner > div {
+  display: flex;
+  align-items: center;
+  gap: 0;
+}
+
+.page-anchors a {
+  position: relative;
+  flex: 0 0 auto;
+  padding: 0.25rem 0.65rem;
+  color: var(--color-text-muted);
+  font-size: 0.8rem;
+  font-weight: 600;
+  transition: color var(--transition-base);
+}
+
+.page-anchors a + a::before {
+  position: absolute;
+  top: 50%;
+  left: -0.1rem;
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: var(--color-primary-soft);
+  content: "";
+  transform: translateY(-50%);
+}
+
+.page-anchors a::after {
+  position: absolute;
+  right: 0.65rem;
+  bottom: 0;
+  left: 0.65rem;
+  height: 1px;
+  background: var(--color-primary);
+  content: "";
+  opacity: 0;
+  transform: scaleX(0.4);
+  transition:
+    opacity var(--transition-base),
+    transform var(--transition-base);
+}
+
+.page-anchors a:hover,
+.page-anchors a:focus-visible {
+  color: var(--color-primary-active);
+}
+
+.page-anchors a:hover::after,
+.page-anchors a:focus-visible::after {
+  opacity: 1;
+  transform: scaleX(1);
+}
+
+@media (min-width: 768px) {
+  .page-anchors__inner {
+    justify-content: center;
+    padding-block: 1.2rem;
+  }
+}

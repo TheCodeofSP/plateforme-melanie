@@ -5,7 +5,6 @@ const validValues = {
   firstName: "Léa",
   lastName: "Martin",
   pseudonym: "LeaM",
-  profileVisibility: "PSEUDONYM_ONLY",
   isAdultConfirmed: true,
   email: "lea@example.com",
   hasAcceptedTerms: true,
@@ -16,8 +15,7 @@ const validValues = {
 describe("validateRegistrationStep", () => {
   it("refuse un compte sans confirmation de majorité", () => {
     expect(
-      validateRegistrationStep(0, { ...validValues, isAdultConfirmed: false })
-        .isAdultConfirmed,
+      validateRegistrationStep(0, { ...validValues, isAdultConfirmed: false }).isAdultConfirmed,
     ).toContain("majeures");
   });
   it("accepte un parcours sans mot de passe", () => {
@@ -27,8 +25,7 @@ describe("validateRegistrationStep", () => {
   });
   it("exige la newsletter selon la décision de V1", () => {
     expect(
-      validateRegistrationStep(2, { ...validValues, newsletterConsent: false })
-        .newsletterConsent,
+      validateRegistrationStep(2, { ...validValues, newsletterConsent: false }).newsletterConsent,
     ).toBeTruthy();
   });
 });

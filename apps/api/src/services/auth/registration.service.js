@@ -71,7 +71,6 @@ async function registerUser(data) {
     firstName,
     lastName,
     pseudonym,
-    profileVisibility,
     hasAcceptedTerms,
     hasAcknowledgedPrivacyPolicy,
     newsletterConsent,
@@ -86,7 +85,7 @@ async function registerUser(data) {
 
   try {
     await session.withTransaction(async () => {
-      [user] = await User.create([{ email, firstName, lastName, pseudonym, profileVisibility }], {
+      [user] = await User.create([{ email, firstName, lastName, pseudonym }], {
         session,
       });
       await ConsentRecord.insertMany(

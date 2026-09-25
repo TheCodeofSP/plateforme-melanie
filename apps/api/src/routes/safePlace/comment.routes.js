@@ -11,7 +11,7 @@ router.use(authenticate, access);
 router.post(
   "/:commentId/replies",
   validateParams(v.commentIdSchema),
-  validateBody(v.commentSchema),
+  validateBody(v.commentCreateSchema),
   c.reply,
 );
 router.patch(
@@ -33,9 +33,5 @@ router.put(
   validateBody(v.reactionSchema),
   r.commentSet,
 );
-router.delete(
-  "/:commentId/reaction",
-  validateParams(v.commentIdSchema),
-  r.commentRemove,
-);
+router.delete("/:commentId/reaction", validateParams(v.commentIdSchema), r.commentRemove);
 module.exports = router;

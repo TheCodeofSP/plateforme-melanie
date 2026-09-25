@@ -4,22 +4,9 @@
   min-height: 100vh;
   overflow: hidden;
   background:
-    radial-gradient(
-      circle at 82% 8%,
-      rgba(255, 255, 255, 0.95),
-      transparent 30%
-    ),
-    radial-gradient(
-      circle at 12% 34%,
-      rgba(223, 232, 226, 0.88),
-      transparent 34%
-    ),
-    linear-gradient(
-      160deg,
-      var(--color-green-light),
-      var(--color-cream) 58%,
-      var(--color-white)
-    );
+    radial-gradient(circle at 82% 8%, rgba(255, 255, 255, 0.95), transparent 30%),
+    radial-gradient(circle at 12% 34%, rgba(223, 232, 226, 0.88), transparent 34%),
+    linear-gradient(160deg, var(--color-green-light), var(--color-cream) 58%, var(--color-white));
 }
 
 .safe-place__light {
@@ -253,6 +240,41 @@
   padding: var(--space-md);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-md);
+}
+
+.clearing-signature {
+  padding: var(--space-md) !important;
+  border: 1px solid var(--color-border-primary) !important;
+  border-radius: var(--radius-md);
+  background: var(--color-primary-extra-soft);
+
+  > p {
+    margin: 0 0 var(--space-sm);
+    color: var(--color-text-muted);
+  }
+
+  > div {
+    display: grid;
+    gap: var(--space-xs);
+  }
+}
+
+.safe-place-shell .btn,
+.clearing-actions a,
+.clearing-actions button {
+  transition:
+    transform var(--transition-base),
+    box-shadow var(--transition-base),
+    background-color var(--transition-base);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .safe-place-shell .btn:hover,
+  .clearing-actions a:hover,
+  .clearing-actions button:hover {
+    transform: translateY(-3px) scale(1.02);
+    box-shadow: 0 12px 24px rgb(166 120 122 / 24%);
+  }
 }
 
 .clearing-composer fieldset > div {

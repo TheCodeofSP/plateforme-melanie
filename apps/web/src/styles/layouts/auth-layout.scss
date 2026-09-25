@@ -2,23 +2,3 @@
   min-height: 100vh;
   background: var(--gradient-hero);
 }
-
-.auth-layout__header {
-  padding: var(--space-md) var(--container-padding);
-}
-
-.auth-layout__header a {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--space-sm);
-  color: var(--color-text);
-  font-family: var(--font-title);
-  font-size: 1.4rem;
-  font-weight: 700;
-}
-
-.auth-layout__header img {
-  width: 44px;
-  height: 44px;
-  object-fit: contain;
-}

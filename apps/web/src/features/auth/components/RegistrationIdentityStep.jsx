@@ -6,12 +6,7 @@ function FieldError({ id, message }) {
   ) : null;
 }
 
-export default function RegistrationIdentityStep({
-  content,
-  errors,
-  onChange,
-  values,
-}) {
+export default function RegistrationIdentityStep({ content, errors, onChange, values }) {
   return (
     <fieldset className="registration-step">
       <legend>{content.title}</legend>
@@ -61,43 +56,14 @@ export default function RegistrationIdentityStep({
           onChange={onChange}
           autoComplete="nickname"
           aria-invalid={Boolean(errors.pseudonym)}
-          aria-describedby={
-            errors.pseudonym ? "pseudonym-error" : "pseudonym-help"
-          }
+          aria-describedby={errors.pseudonym ? "pseudonym-error" : "pseudonym-help"}
         />
         <small className="form-help" id="pseudonym-help">
-          C’est le nom qui sera visible dans le forum de La Clairière.
+          Il pourra être utilisé pour signer tes publications dans le forum. Tu choisiras, avant
+          chaque publication, entre ton pseudonyme et ton prénom.
         </small>
         <FieldError id="pseudonym-error" message={errors.pseudonym} />
       </label>
-
-      <fieldset className="registration-choice">
-        <legend>Nom visible dans le forum</legend>
-        <p className="form-help">
-          Ton nom reste privé. Tu choisis si ton prénom accompagne ton
-          pseudonyme.
-        </p>
-        <label className="registration-check">
-          <input
-            type="radio"
-            name="profileVisibility"
-            value="PSEUDONYM_ONLY"
-            checked={values.profileVisibility === "PSEUDONYM_ONLY"}
-            onChange={onChange}
-          />
-          <span>Mon pseudonyme</span>
-        </label>
-        <label className="registration-check">
-          <input
-            type="radio"
-            name="profileVisibility"
-            value="FIRST_NAME"
-            checked={values.profileVisibility === "FIRST_NAME"}
-            onChange={onChange}
-          />
-          <span>Mon prénom</span>
-        </label>
-      </fieldset>
 
       <div>
         <label className="registration-check">
@@ -108,14 +74,10 @@ export default function RegistrationIdentityStep({
             onChange={onChange}
           />
           <span>
-            Je confirme avoir 18 ans ou plus.{" "}
-            <strong aria-hidden="true">*</strong>
+            Je confirme avoir 18 ans ou plus. <strong aria-hidden="true">*</strong>
           </span>
         </label>
-        <FieldError
-          id="isAdultConfirmed-error"
-          message={errors.isAdultConfirmed}
-        />
+        <FieldError id="isAdultConfirmed-error" message={errors.isAdultConfirmed} />
       </div>
     </fieldset>
   );
