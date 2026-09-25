@@ -2,8 +2,8 @@ import { routes } from "../config/routes.config.js";
 
 export const homeContent = {
   hero: {
-    eyebrow: "Bien-être gynécologique · Gynécologie émotionnelle",
-    title: "Sur le chemin du bien-être gynécologique",
+    eyebrow: "Bien-être gyn'écologique · Gyn'écologie émotionnelle",
+    title: "Sur le chemin du bien-être gyn'écologique",
     introduction: [
       "Tu souffres d’endométriose, du SOPK/SMOP, du syndrome prémenstruel, de douleurs de règles, de cystites ou de mycoses à répétition…",
       "Ou peut-être ressens-tu simplement une fatigue hormonale ou une charge émotionnelle liée à ton cycle.",

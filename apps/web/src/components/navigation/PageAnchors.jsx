@@ -9,6 +9,10 @@ export default function PageAnchors({ label = "Sur cette page", items }) {
               {item.label}
             </a>
           ))}
+          <a className="page-anchors__back-to-top" href="#main-content">
+            <span aria-hidden="true">↑</span>
+            <span>Haut de page</span>
+          </a>
         </div>
       </div>
     </nav>

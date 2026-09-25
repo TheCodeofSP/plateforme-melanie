@@ -6,7 +6,7 @@
 
 .home-story__hero {
   position: relative;
-  padding-block: clamp(2.5rem, 7vw, 5.5rem);
+  padding-block: clamp(1.75rem, 4vw, 3.5rem);
   background:
     radial-gradient(circle at 85% 18%, rgb(255 220 82 / 18%), transparent 28%),
     radial-gradient(circle at 10% 70%, rgb(143 169 155 / 24%), transparent 30%),
@@ -16,7 +16,7 @@
 .home-story__hero-grid,
 .home-story__melanie-grid {
   display: grid;
-  gap: 2.5rem;
+  gap: clamp(1.25rem, 3vw, 2rem);
   align-items: center;
 }
 
@@ -44,6 +44,7 @@
   padding: 0;
   background: transparent;
   color: var(--color-green-deep);
+  font-size: clamp(1.22rem, 3.2vw, 1.55rem) !important;
   line-height: 1.55;
 }
 
@@ -62,8 +63,8 @@
 
 .home-story__logo {
   position: relative;
-  width: min(100%, 18rem);
-  max-width: 34rem;
+  width: min(100%, 16rem);
+  max-width: 26rem;
   margin-inline: auto;
 
   &::before {
@@ -533,8 +534,7 @@
   display: flex;
   gap: 1rem;
   align-items: center;
-  width: 100%;
-  max-width: 60rem;
+  max-width: 48rem;
   margin: 0;
   padding: 1rem 1.5rem;
 
@@ -832,7 +832,7 @@
   }
 
   .home-story__logo {
-    width: 100%;
+    width: min(100%, 26rem);
   }
 
   .home-story__path-grid,
