@@ -35,6 +35,54 @@
   color: var(--color-primary);
 }
 
+.navigation__brand-group {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+}
+
+.navigation__identity {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  min-width: 0;
+  color: var(--color-text-muted);
+}
+
+.navigation__identity-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  min-width: 0;
+  padding: 5px 2px;
+  border: 0;
+  background: transparent;
+  color: var(--color-primary-active);
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.navigation__identity-toggle > svg {
+  flex: 0 0 auto;
+}
+
+.navigation__notification-badge {
+  display: inline-grid;
+  place-items: center;
+  min-width: 1.25rem;
+  height: 1.25rem;
+  padding-inline: 0.25rem;
+  border-radius: var(--radius-pill);
+  background: var(--color-primary);
+  color: var(--color-white);
+  font-size: 0.66rem;
+  line-height: 1;
+}
+
 .navigation__brand img {
   width: 44px;
   height: 44px;
@@ -50,12 +98,6 @@
   font-size: 1.25rem;
   font-weight: 700;
   line-height: 0.9;
-}
-
-.navigation__mobile-actions {
-  display: flex;
-  align-items: center;
-  gap: 8px;
 }
 
 .navigation__quick-action {
@@ -148,7 +190,7 @@
 }
 
 .navigation__link,
-.navigation__discovery-menu a {
+.navigation__dropdown-menu a {
   display: flex;
   align-items: center;
 
@@ -168,30 +210,30 @@
 
 .navigation__link:hover,
 .navigation__link:focus-visible,
-.navigation__discovery-menu a:hover,
-.navigation__discovery-menu a:focus-visible,
+.navigation__dropdown-menu a:hover,
+.navigation__dropdown-menu a:focus-visible,
 .navigation__link--active {
   background: var(--color-primary-extra-soft);
   color: var(--color-primary-active);
 }
 
-.navigation__discovery-toggle {
+.navigation__dropdown-toggle {
   justify-content: space-between;
   width: 100%;
 
   cursor: pointer;
 }
 
-.navigation__discovery-toggle svg {
+.navigation__dropdown-toggle svg {
   transition: transform var(--transition-base);
 }
 
-.navigation__discovery-toggle[aria-expanded="true"] svg {
+.navigation__dropdown-toggle[aria-expanded="true"] svg {
   transform: rotate(180deg);
 }
 
-.navigation__discovery-menu {
-  display: grid;
+.navigation__dropdown-menu {
+  display: none;
   gap: 2px;
 
   margin-left: var(--space-sm);
@@ -200,7 +242,11 @@
   border-left: 2px solid var(--color-primary-soft);
 }
 
-.navigation__discovery-menu a {
+.navigation__dropdown.is-open .navigation__dropdown-menu {
+  display: grid;
+}
+
+.navigation__dropdown-menu a {
   color: var(--color-text-muted);
   font-weight: 600;
 }
@@ -228,37 +274,8 @@
   font-weight: 750;
 }
 
-.navigation__notification {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-
-  width: 44px;
-  min-width: 44px;
-  height: 44px;
-
-  border: 1px solid var(--color-border-soft);
-  border-radius: 50%;
-
-  background: var(--color-white);
-  color: var(--color-text);
-}
-
-.navigation__notification svg {
-  width: 19px;
-  height: 19px;
-}
-
-.navigation__account {
-  position: relative;
-}
-
-.navigation__account-toggle {
-  gap: var(--space-xs);
-}
-
 .navigation__account-menu {
-  display: grid;
+  display: none;
   gap: 4px;
 
   margin-top: var(--space-xs);
@@ -269,6 +286,10 @@
 
   background: var(--color-white);
   box-shadow: var(--shadow-card);
+}
+
+.navigation__identity.is-open .navigation__account-menu {
+  display: grid;
 }
 
 .navigation__account-menu a,
@@ -303,6 +324,10 @@
     flex: 0 0 auto;
   }
 
+  .navigation__toggle {
+    display: none;
+  }
+
   .navigation__brand img {
     width: 52px;
     height: 52px;
@@ -313,10 +338,6 @@
     font-size: 1.45rem;
     line-height: 1;
     white-space: nowrap;
-  }
-
-  .navigation__mobile-actions {
-    display: none;
   }
 
   .navigation__menu,
@@ -380,11 +401,11 @@
     content: "";
   }
 
-  .navigation__discovery {
+  .navigation__dropdown {
     position: relative;
   }
 
-  .navigation__discovery-menu {
+  .navigation__dropdown-menu {
     position: absolute;
     top: calc(100% + 8px);
     right: 0;
@@ -399,6 +420,10 @@
 
     background: var(--color-white);
     box-shadow: var(--shadow-card);
+  }
+
+  .navigation__dropdown.is-open .navigation__dropdown-menu {
+    display: grid;
   }
 
   .navigation__actions {
@@ -425,7 +450,7 @@
   .navigation__account-menu {
     position: absolute;
     top: calc(100% + 6px);
-    right: 0;
+    left: 0;
 
     width: 220px;
     margin-top: 0;

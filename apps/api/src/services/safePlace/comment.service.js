@@ -8,26 +8,19 @@ const {
   safePlaceError,
   validateSafePlaceContent,
   publicAuthor,
+  publicationAuthorName,
 } = require("../../utils/safePlace.utils");
 const { notifyNewMentions } = require("./mention.service");
 function snapshot(comment) {
   return { content: comment.content, status: comment.status };
 }
-async function revision(
-  comment,
-  actor,
-  action,
-  previousVersion,
-  newVersion,
-  reason = null,
-) {
+async function revision(comment, actor, action, previousVersion, newVersion, reason = null) {
   return SafePlaceContentRevision.create({
     targetType: "COMMENT",
     targetId: comment._id,
     actor: actor?._id || null,
     actorRole: actor?.role || "SYSTEM",
-    pseudonymSnapshot:
-      actor?.role === "ADMIN" ? "Mélanie" : actor?.pseudonym || null,
+    pseudonymSnapshot: actor?.role === "ADMIN" ? "Mélanie" : actor?.pseudonym || null,
     action,
     previousVersion,
     newVersion,
@@ -43,20 +36,12 @@ async function interactivePost(postId) {
       404,
     );
   if (post.isClosed)
-    throw safePlaceError(
-      "Cette discussion est fermée.",
-      "SAFE_PLACE_POST_CLOSED",
-      409,
-    );
+    throw safePlaceError("Cette discussion est fermée.", "SAFE_PLACE_POST_CLOSED", 409);
   if (!post.allowComments)
-    throw safePlaceError(
-      "Les commentaires sont désactivés.",
-      "SAFE_PLACE_COMMENTS_DISABLED",
-      409,
-    );
+    throw safePlaceError("Les commentaires sont désactivés.", "SAFE_PLACE_COMMENTS_DISABLED", 409);
   return post;
 }
-function serialize(comment, reaction = null) {
+function serialize(comment, reaction = null, currentUserId = null) {
   const data = comment.toObject ? comment.toObject() : comment;
   const deleted = data.status === "AUTHOR_DELETED";
   return {
@@ -64,7 +49,12 @@ function serialize(comment, reaction = null) {
     post: data.post,
     parent: data.parent,
     content: deleted ? "Commentaire supprimé par son autrice" : data.content,
-    author: deleted ? null : publicAuthor(data.author),
+    author: deleted ? null : publicAuthor(data.author, data.authorNameSnapshot),
+    isOwner: Boolean(
+      currentUserId &&
+      data.author &&
+      String(data.author._id || data.author) === String(currentUserId),
+    ),
     status: data.status,
     counters: data.counters,
     currentReaction: reaction,
@@ -72,7 +62,7 @@ function serialize(comment, reaction = null) {
     createdAt: data.createdAt,
   };
 }
-async function create(user, postId, content, parentId = null) {
+async function create(user, postId, content, parentId = null, signatureType = "PSEUDONYM") {
   validateSafePlaceContent(content);
   const post = await interactivePost(postId);
   let parent = null;
@@ -93,6 +83,8 @@ async function create(user, postId, content, parentId = null) {
   const comment = await SafePlaceComment.create({
     post: postId,
     author: user._id,
+    signatureType,
+    authorNameSnapshot: publicationAuthorName(user, signatureType),
     parent: parentId,
     content,
   });
@@ -102,32 +94,22 @@ async function create(user, postId, content, parentId = null) {
   await SafePlacePost.updateOne(
     { _id: postId },
     {
-      $inc: Object.fromEntries(
-        Object.entries(increments).filter(([, v]) => typeof v === "number"),
-      ),
+      $inc: Object.fromEntries(Object.entries(increments).filter(([, v]) => typeof v === "number")),
       $set: { lastActivityAt: new Date() },
     },
   );
   if (parent)
-    await SafePlaceComment.updateOne(
-      { _id: parent._id },
-      { $inc: { "counters.replies": 1 } },
-    );
-  await SafePlaceCategory.updateOne(
-    { _id: post.category },
-    { $inc: { "counters.comments": 1 } },
-  );
+    await SafePlaceComment.updateOne({ _id: parent._id }, { $inc: { "counters.replies": 1 } });
+  await SafePlaceCategory.updateOne({ _id: post.category }, { $inc: { "counters.comments": 1 } });
   const recipient = parent?.author || post.author;
   await createNotification({
     recipient,
     actor: user._id,
     type: parent ? "SAFE_PLACE_REPLY" : "SAFE_PLACE_COMMENT",
-    title: parent
-      ? "Une réponse à ton commentaire"
-      : "Un commentaire sur ta publication",
+    title: parent ? "Une réponse à ton commentaire" : "Un commentaire sur ta publication",
     message: parent
-      ? `${user.role === "ADMIN" ? "Mélanie" : user.pseudonym} a répondu à ton commentaire.`
-      : `${user.role === "ADMIN" ? "Mélanie" : user.pseudonym} a commenté ta publication.`,
+      ? `${publicationAuthorName(user, signatureType)} a répondu à ton commentaire.`
+      : `${publicationAuthorName(user, signatureType)} a commenté ta publication.`,
     targetType: "POST",
     targetId: post._id,
     actionPath: `/safe-place/posts/${post._id}`,
@@ -148,12 +130,7 @@ async function list(user, postId) {
     _id: postId,
     status: { $in: ["VISIBLE", "AUTHOR_DELETED"] },
   });
-  if (!post)
-    throw safePlaceError(
-      "Discussion introuvable.",
-      "SAFE_PLACE_POST_NOT_FOUND",
-      404,
-    );
+  if (!post) throw safePlaceError("Discussion introuvable.", "SAFE_PLACE_POST_NOT_FOUND", 404);
   const comments = await SafePlaceComment.find({
     post: postId,
     status: { $in: ["VISIBLE", "AUTHOR_DELETED"] },
@@ -168,14 +145,10 @@ async function list(user, postId) {
   const map = new Map(reactions.map((x) => [String(x.targetId), x.type]));
   const visible = comments
     .filter((x) => x.status === "VISIBLE" || x.counters.replies > 0)
-    .map((x) => serialize(x, map.get(String(x._id)) || null));
-  const roots = visible
-    .filter((x) => !x.parent)
-    .map((x) => ({ ...x, replies: [] }));
+    .map((x) => serialize(x, map.get(String(x._id)) || null, user._id));
+  const roots = visible.filter((x) => !x.parent).map((x) => ({ ...x, replies: [] }));
   const rootMap = new Map(roots.map((x) => [String(x._id), x]));
-  visible
-    .filter((x) => x.parent)
-    .forEach((x) => rootMap.get(String(x.parent))?.replies.push(x));
+  visible.filter((x) => x.parent).forEach((x) => rootMap.get(String(x.parent))?.replies.push(x));
   return roots;
 }
 async function update(user, id, content) {
@@ -193,11 +166,7 @@ async function update(user, id, content) {
     );
   const post = await SafePlacePost.findById(comment.post);
   if (post?.isClosed)
-    throw safePlaceError(
-      "Cette discussion est fermée.",
-      "SAFE_PLACE_POST_CLOSED",
-      409,
-    );
+    throw safePlaceError("Cette discussion est fermée.", "SAFE_PLACE_POST_CLOSED", 409);
   const previous = snapshot(comment);
   comment.content = content;
   comment.editedAt = new Date();
@@ -237,10 +206,7 @@ async function remove(user, id) {
     },
   );
   if (comment.parent)
-    await SafePlaceComment.updateOne(
-      { _id: comment.parent },
-      { $inc: { "counters.replies": -1 } },
-    );
+    await SafePlaceComment.updateOne({ _id: comment.parent }, { $inc: { "counters.replies": -1 } });
   const post = await SafePlacePost.findById(comment.post).select("category");
   if (post)
     await SafePlaceCategory.updateOne(

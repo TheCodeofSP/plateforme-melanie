@@ -1,6 +1,4 @@
-const {
-  assertNoSolicitation,
-} = require("../services/professionalProfile.service");
+const { assertNoSolicitation } = require("../services/professionalProfile.service");
 const forbiddenHosts = [
   /calendly\./i,
   /paypal\./i,
@@ -26,10 +24,7 @@ function validateLinks(links = []) {
     try {
       url = new URL(link.url);
     } catch {
-      throw safePlaceError(
-        "Un lien externe est invalide.",
-        "SAFE_PLACE_INVALID_LINK",
-      );
+      throw safePlaceError("Un lien externe est invalide.", "SAFE_PLACE_INVALID_LINK");
     }
     if (
       !["http:", "https:"].includes(url.protocol) ||
@@ -42,17 +37,20 @@ function validateLinks(links = []) {
       );
   }
 }
-function publicAuthor(user) {
+function publicationAuthorName(user, signatureType = "PSEUDONYM") {
+  if (!user) return "Ancienne membre";
+  if (user.role === "ADMIN") return "Mélanie";
+  return signatureType === "FIRST_NAME" ? user.firstName : user.pseudonym;
+}
+function publicAuthor(user, nameSnapshot = null) {
   if (!user) return { name: "Ancienne membre", role: "FORMER_MEMBER" };
-  if (user.role === "ADMIN")
-    return { name: "Mélanie", role: "ADMIN", badge: "Administratrice" };
-  const name =
-    user.profileVisibility === "FIRST_NAME" ? user.firstName : user.pseudonym;
-  return { name, role: "MEMBER" };
+  if (user.role === "ADMIN") return { name: "Mélanie", role: "ADMIN", badge: "Administratrice" };
+  return { name: nameSnapshot || user.pseudonym, role: "MEMBER" };
 }
 module.exports = {
   safePlaceError,
   validateSafePlaceContent,
   validateLinks,
   publicAuthor,
+  publicationAuthorName,
 };

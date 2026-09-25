@@ -25,12 +25,8 @@ describe("RegistrationPage", () => {
     ).toBeInTheDocument();
     expect(screen.getByText("Profil")).toBeInTheDocument();
 
-    expect(
-      screen.getByLabelText(/Je confirme avoir 18 ans/),
-    ).toBeInTheDocument();
-    expect(
-      screen.queryByLabelText(/Date de naissance/),
-    ).not.toBeInTheDocument();
+    expect(screen.getByLabelText(/Je confirme avoir 18 ans/)).toBeInTheDocument();
+    expect(screen.queryByLabelText(/Date de naissance/)).not.toBeInTheDocument();
   });
 
   it("affiche les erreurs avant de changer d’étape", async () => {
@@ -48,13 +44,11 @@ describe("RegistrationPage", () => {
         "Merci de remplir tous les champs obligatoires pour continuer l’inscription.",
       ),
     ).toBeInTheDocument();
-    expect(
-      screen.getByText(/réservée aux personnes majeures/),
-    ).toBeInTheDocument();
+    expect(screen.getByText(/réservée aux personnes majeures/)).toBeInTheDocument();
     expect(screen.getByText("Profil")).toBeInTheDocument();
   });
 
-  it("propose le prénom ou le pseudonyme comme identité publique", () => {
+  it("explique que la signature sera choisie au moment de publier", () => {
     render(
       <HelmetProvider>
         <MemoryRouter>
@@ -63,10 +57,8 @@ describe("RegistrationPage", () => {
       </HelmetProvider>,
     );
 
-    expect(screen.getByLabelText("Mon pseudonyme")).toBeInTheDocument();
-    expect(screen.getByLabelText("Mon prénom")).toBeInTheDocument();
-    expect(
-      screen.queryByText("Uniquement mon pseudonyme"),
-    ).not.toBeInTheDocument();
+    expect(screen.queryByLabelText("Mon pseudonyme")).not.toBeInTheDocument();
+    expect(screen.queryByLabelText("Mon prénom")).not.toBeInTheDocument();
+    expect(screen.getByText(/avant chaque publication/)).toBeInTheDocument();
   });
 });

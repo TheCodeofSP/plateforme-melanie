@@ -10,6 +10,7 @@ import {
 } from "react-icons/fi";
 
 import SEO from "../components/seo/SEO.jsx";
+import PageAnchors from "../components/navigation/PageAnchors.jsx";
 import { homeContent } from "../content/home.content.js";
 import { seoContent } from "../content/seo.content.js";
 import logo from "../assets/images/logo-clairiere.png";
@@ -49,10 +50,7 @@ function ResourceStoryCard({ item }) {
   const [flipped, setFlipped] = useState(false);
 
   function handleClick(event) {
-    if (
-      window.matchMedia("(hover: none), (pointer: coarse)").matches &&
-      !flipped
-    ) {
+    if (window.matchMedia("(hover: none), (pointer: coarse)").matches && !flipped) {
       event.preventDefault();
       setFlipped(true);
     }
@@ -140,39 +138,41 @@ export default function Home() {
         }}
       />
 
+      <PageAnchors
+        items={[
+          { id: "chemins", label: "Les chemins" },
+          { id: "premiers-pas", label: "Ressources" },
+          { id: "forum", label: "La Clairière" },
+          { id: "melanie", label: "Mélanie" },
+          { id: "accompagnements", label: "Accompagnements" },
+        ]}
+      />
+
       <section className="home-story__hero">
         <div className="page-container home-story__hero-grid">
           <div className="home-story__copy">
             <p className="eyebrow">{homeContent.hero.eyebrow}</p>
             <h1>{homeContent.hero.title}</h1>
+            <strong className="home-story__hero-highlight">{homeContent.hero.highlight}</strong>
+
             <div className="home-story__paragraphs">
               {homeContent.hero.introduction.map((paragraph, index) => (
-                <p
-                  className={index === 0 ? "home-story__conditions" : undefined}
-                  key={paragraph}
-                >
+                <p className={index === 0 ? "home-story__conditions" : undefined} key={paragraph}>
                   {index === 0 ? <strong>{paragraph}</strong> : paragraph}
                 </p>
               ))}
+              <p>{homeContent.hero.conclusion}</p>
             </div>
-            <strong className="home-story__hero-highlight">
-              {homeContent.hero.highlight}
-            </strong>
-            <p>{homeContent.hero.conclusion}</p>
           </div>
 
           <div className="home-story__logo">
             <span aria-hidden="true">Une lumière apparaît sur le chemin</span>
-            <img
-              src={logo}
-              alt="Logo officiel de La Clairière"
-              fetchPriority="high"
-            />
+            <img src={logo} alt="Logo officiel de La Clairière" fetchPriority="high" />
           </div>
         </div>
       </section>
 
-      <section className="home-story__paths">
+      <section className="home-story__paths" id="chemins">
         <div className="page-container">
           <header className="section-header">
             <p className="eyebrow">{homeContent.paths.eyebrow}</p>
@@ -291,18 +291,14 @@ export default function Home() {
             <div className="home-story__paragraphs">
               {homeContent.forum.introduction.map((paragraph, index) => (
                 <p
-                  className={
-                    index === 0 ? "home-story__forum-trigger" : undefined
-                  }
+                  className={index === 0 ? "home-story__forum-trigger" : undefined}
                   key={paragraph}
                 >
                   {paragraph}
                 </p>
               ))}
             </div>
-            <strong className="home-story__forum-highlight">
-              {homeContent.forum.highlight}
-            </strong>
+            <strong className="home-story__forum-highlight">{homeContent.forum.highlight}</strong>
             <p>{homeContent.forum.text}</p>
             <div className="home-story__forum-benefits">
               {homeContent.forum.benefits.map((benefit, index) => {
@@ -326,14 +322,10 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="home-story__melanie">
+      <section className="home-story__melanie" id="melanie">
         <div className="page-container home-story__melanie-grid">
           <figure>
-            <img
-              src={melaniePortrait}
-              alt="Portrait de Mélanie Dizet"
-              loading="lazy"
-            />
+            <img src={melaniePortrait} alt="Portrait de Mélanie Dizet" loading="lazy" />
             <figcaption>Mélanie Dizet · coach et accompagnante</figcaption>
           </figure>
 
@@ -348,10 +340,7 @@ export default function Home() {
             <blockquote className="home-story__melanie-highlight">
               <p>« {homeContent.melanie.highlight} »</p>
             </blockquote>
-            <Link
-              className="btn btn-primary"
-              to={homeContent.melanie.action.to}
-            >
+            <Link className="btn btn-primary" to={homeContent.melanie.action.to}>
               {homeContent.melanie.action.label}
             </Link>
           </div>
@@ -400,18 +389,13 @@ export default function Home() {
                 </div>
                 <h3>{item.title}</h3>
                 <p>{item.text}</p>
-                <strong className="home-story__offer-ideal">
-                  {item.ideal}
-                </strong>
+                <strong className="home-story__offer-ideal">{item.ideal}</strong>
               </Link>
             ))}
           </div>
 
           <div className="home-story__accompaniments-action">
-            <Link
-              className="btn btn-primary"
-              to={homeContent.accompaniments.action.to}
-            >
+            <Link className="btn btn-primary" to={homeContent.accompaniments.action.to}>
               {homeContent.accompaniments.action.label}
             </Link>
           </div>

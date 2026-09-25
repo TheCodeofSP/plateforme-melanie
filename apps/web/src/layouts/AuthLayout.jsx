@@ -14,12 +14,6 @@ export default function AuthLayout() {
       <Navigation />
 
       <div className="auth-layout">
-        <header className="auth-layout__header">
-          <Link to={routes.home} aria-label="Revenir à l’accueil">
-            <img src={logoMelanie} alt="" />
-            <span>Mélanie Dizet</span>
-          </Link>
-        </header>
         <Outlet />
         <Footer />
       </div>

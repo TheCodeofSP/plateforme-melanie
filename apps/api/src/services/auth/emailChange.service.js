@@ -8,6 +8,7 @@ const { sendTransactionalEmail } = require("../email.service");
 const {
   createEmailChangeConfirmationTemplate,
   createEmailChangeSecurityTemplate,
+  createEmailChangeCompletedTemplate,
 } = require("../../templates/auth");
 const {
   createConflictError,
@@ -32,9 +33,7 @@ async function requestEmailChange({ userId, newEmail }) {
   const normalizedNewEmail = newEmail.toLowerCase();
 
   if (normalizedNewEmail === user.email) {
-    throw createBadRequestError(
-      "La nouvelle adresse doit être différente de l’adresse actuelle.",
-    );
+    throw createBadRequestError("La nouvelle adresse doit être différente de l’adresse actuelle.");
   }
 
   const emailAlreadyUsed = await User.exists({
@@ -54,10 +53,7 @@ async function requestEmailChange({ userId, newEmail }) {
     createdAt: -1,
   });
 
-  if (
-    latestRequest &&
-    Date.now() - latestRequest.createdAt.getTime() < RESEND_COOLDOWN
-  ) {
+  if (latestRequest && Date.now() - latestRequest.createdAt.getTime() < RESEND_COOLDOWN) {
     throw createBadRequestError(
       "Une demande a déjà été envoyée récemment. Réessaie dans quelques minutes.",
     );
@@ -119,9 +115,7 @@ async function requestEmailChange({ userId, newEmail }) {
   }
 
   return {
-    emailsAccepted: emailResults.every(
-      (result) => result.status === "fulfilled",
-    ),
+    emailsAccepted: emailResults.every((result) => result.status === "fulfilled"),
   };
 }
 
@@ -129,6 +123,9 @@ async function confirmEmailChange(token) {
   const tokenHash = hashToken(token);
   const session = await mongoose.startSession();
   let confirmedUserId = null;
+  let previousEmail = null;
+  let confirmedEmail = null;
+  let confirmedFirstName = null;
 
   try {
     await session.withTransaction(async () => {
@@ -140,9 +137,7 @@ async function confirmEmailChange(token) {
         .session(session);
 
       if (!request) {
-        throw createBadRequestError(
-          "Le lien de confirmation est invalide ou a déjà été utilisé.",
-        );
+        throw createBadRequestError("Le lien de confirmation est invalide ou a déjà été utilisé.");
       }
 
       if (request.expiresAt <= new Date()) {
@@ -152,9 +147,7 @@ async function confirmEmailChange(token) {
       const user = await User.findById(request.user).session(session);
 
       if (!user) {
-        throw createBadRequestError(
-          "Le compte associé à cette demande n’existe plus.",
-        );
+        throw createBadRequestError("Le compte associé à cette demande n’existe plus.");
       }
 
       const emailAlreadyUsed = await User.exists({
@@ -172,6 +165,9 @@ async function confirmEmailChange(token) {
 
       const now = new Date();
 
+      previousEmail = user.email;
+      confirmedEmail = request.newEmail;
+      confirmedFirstName = user.firstName;
       user.email = request.newEmail;
       user.emailVerifiedAt = now;
       confirmedUserId = user._id;
@@ -204,9 +200,7 @@ async function confirmEmailChange(token) {
     });
   } catch (error) {
     if (error.code === 11000) {
-      throw createConflictError(
-        "Cette adresse email est désormais utilisée par un autre compte.",
-      );
+      throw createConflictError("Cette adresse email est désormais utilisée par un autre compte.");
     }
 
     throw error;
@@ -215,6 +209,16 @@ async function confirmEmailChange(token) {
   }
 
   if (confirmedUserId) {
+    const completedTemplate = createEmailChangeCompletedTemplate({
+      firstName: confirmedFirstName,
+      newEmail: confirmedEmail,
+    });
+    await sendTransactionalEmail({
+      emailType: "EMAIL_CHANGE_COMPLETED",
+      recipientEmail: previousEmail,
+      recipientName: confirmedFirstName,
+      ...completedTemplate,
+    });
     await createNotification({
       recipient: confirmedUserId,
       type: "ACCOUNT_SECURITY",

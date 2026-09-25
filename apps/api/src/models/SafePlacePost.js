@@ -22,10 +22,7 @@ const imageSchema = new mongoose.Schema(
   { _id: false },
 );
 const reactionCounts = Object.fromEntries(
-  SAFE_PLACE_REACTIONS.map((key) => [
-    key,
-    { type: Number, default: 0, min: 0 },
-  ]),
+  SAFE_PLACE_REACTIONS.map((key) => [key, { type: Number, default: 0, min: 0 }]),
 );
 const schema = new mongoose.Schema(
   {
@@ -36,6 +33,12 @@ const schema = new mongoose.Schema(
       default: null,
       index: true,
     },
+    signatureType: {
+      type: String,
+      enum: ["PSEUDONYM", "FIRST_NAME"],
+      default: "PSEUDONYM",
+    },
+    authorNameSnapshot: { type: String, trim: true, maxlength: 80, default: null },
     category: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "SafePlaceCategory",
