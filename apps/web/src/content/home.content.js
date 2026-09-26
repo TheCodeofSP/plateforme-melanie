@@ -51,6 +51,10 @@ export const homeContent = {
       "Je mets régulièrement, et gratuitement, à ta disposition plusieurs ressources pour t’aider à développer ce nouveau regard.",
     accessInformation:
       "Tu peux découvrir librement les premières ressources. D’autres contenus viendront compléter ton chemin dans ton espace personnel.",
+    quizAction: {
+      label: "Découvrir le Quiz SPM",
+      to: routes.quiz,
+    },
     conclusion: "Parce que comprendre précède toujours le changement.",
     items: [
       {

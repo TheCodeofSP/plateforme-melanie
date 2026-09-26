@@ -1,3 +1,5 @@
+import { routes } from "../config/routes.config.js";
+
 export const quizContent = {
   hero: {
     badge: "Quiz SPM",
@@ -7,6 +9,7 @@ export const quizContent = {
     text: [
       "Ce quiz t’aide à identifier le profil de SPM qui te correspond le plus et à mieux comprendre les besoins de ton corps, selon l’approche de la Gyn’écologie émotionnelle.",
     ],
+    edition: "Édition 01 · Le test éditorial",
     primaryCta: {
       label: "Commencer le quiz",
       href: "#quiz-start",
@@ -14,11 +17,21 @@ export const quizContent = {
   },
 
   introduction: {
-    title: "Le SPM, ce n’est pas une fatalité",
+    title: "SPM, c’est quoi ?",
     paragraphs: [
       "Le syndrome prémenstruel correspond à l’ensemble des symptômes physiques, émotionnels et psychologiques qui apparaissent après l’ovulation et disparaissent avec l’arrivée des règles, ou dans les premiers jours du cycle.",
       "Beaucoup de femmes ressentent ces symptômes à des degrés très variables. Pourtant, leur souffrance est encore trop souvent minimisée.",
       "Le SPM n’est pas une phase à part entière du cycle menstruel. C’est avant tout un signal que ton corps t’envoie pour indiquer qu’il existe un ou plusieurs déséquilibres qui méritent d’être explorés.",
+    ],
+    highlight: "Le SPM n’est pas une fatalité !",
+  },
+
+  explanation: {
+    title: "Une période qui peut devenir plus confortable",
+    paragraphs: [
+      "La période prémenstruelle restera une phase particulière du cycle. Les fluctuations hormonales peuvent nous rendre plus sensibles, plus introspectives ou plus vulnérables.",
+      "Mais il est possible de vivre cette période avec davantage de confort et de sérénité. Observer la temporalité et la forme de tes symptômes constitue déjà une première étape pour mieux comprendre ce que ton corps exprime.",
+      "Les hormones ne fonctionnent jamais seules : leur équilibre peut aussi être influencé par ton hygiène de vie, ton environnement et ton vécu émotionnel.",
     ],
   },
 
@@ -63,14 +76,11 @@ export const quizContent = {
         title: "Confidentialité",
         text: "Tes réponses servent uniquement à t’orienter vers le profil le plus adapté.",
       },
-    ],
-  },
-
-  note: {
-    title: "À garder en tête",
-    text: [
-      "Ce quiz ne remplace pas un accompagnement médical ou thérapeutique.",
-      "Si tes symptômes sont présents tout au long du cycle, apparaissent avant l’ovulation ou persistent après les règles, il peut s’agir d’autre chose qu’un SPM.",
+      {
+        icon: "info",
+        title: "À garder en tête",
+        text: "Ce quiz ne remplace pas un suivi médical ou thérapeutique. Si tes symptômes dépassent la période prémenstruelle, ils peuvent avoir une autre origine.",
+      },
     ],
   },
 
@@ -80,7 +90,7 @@ export const quizContent = {
     text: "Tu peux commencer le quiz dès maintenant. Prends un moment calme, réponds avec sincérité, et laisse-toi guider.",
     cta: {
       label: "Commencer le quiz",
-      href: "/quiz/questions",
+      href: routes.quizQuestions,
     },
   },
 };

@@ -1,9 +1,5 @@
 const mongoose = require("mongoose");
-const {
-  SPM_PROFILES,
-  QUIZ_CATEGORIES,
-  CONTRACEPTION_TYPES,
-} = require("../config/quiz.constants");
+const { SPM_PROFILES, QUIZ_CATEGORIES, CONTRACEPTION_TYPES } = require("../config/quiz.constants");
 
 const answerSchema = new mongoose.Schema(
   {
@@ -49,7 +45,8 @@ const quizAttemptSchema = new mongoose.Schema(
     },
     answers: { type: [answerSchema], required: true },
     participantInfo: {
-      age: { type: Number, required: true, min: 10, max: 100 },
+      age: { type: Number, required: true, min: 18, max: 100 },
+      adultConfirmed: { type: Boolean, default: false },
       contraception: {
         type: String,
         enum: CONTRACEPTION_TYPES,

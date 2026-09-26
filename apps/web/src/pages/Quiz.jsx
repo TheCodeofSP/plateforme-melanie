@@ -13,26 +13,45 @@ export default function Quiz() {
       <SEO {...seoContent.pages.quiz} />
 
       <main className="page-content quiz-page">
-        <section className="page-hero">
-          <div className="section-header">
-            <span className="eyebrow">{quizContent.hero.badge}</span>
+        <section className="quiz-cover">
+          <div className="page-container quiz-cover__layout">
+            <div className="quiz-cover__copy">
+              <p className="quiz-cover__edition">{quizContent.hero.edition}</p>
+              <span className="eyebrow">{quizContent.hero.badge}</span>
 
-            <h1 className="page-title">{quizContent.hero.title}</h1>
+              <h1 className="page-title">{quizContent.hero.title}</h1>
 
-            <p className="page-intro">{quizContent.hero.subtitle}</p>
+              <p className="page-intro">{quizContent.hero.subtitle}</p>
 
-            <div className="quiz-hero__text">
-              {quizContent.hero.text.map((paragraph) => (
-                <p key={paragraph}>{paragraph}</p>
-              ))}
+              <div className="quiz-hero__text">
+                {quizContent.hero.text.map((paragraph) => (
+                  <p key={paragraph}>{paragraph}</p>
+                ))}
+              </div>
+
+              <a href={quizContent.hero.primaryCta.href} className="btn btn-primary">
+                {quizContent.hero.primaryCta.label}
+              </a>
             </div>
 
-            <a
-              href={quizContent.hero.primaryCta.href}
-              className="btn btn-primary"
-            >
-              {quizContent.hero.primaryCta.label}
-            </a>
+            <aside className="quiz-cover__preview" aria-label="Aperçu du Quiz SPM">
+              <p>Question 01</p>
+              <span className="quiz-cover__number" aria-hidden="true">
+                01
+              </span>
+              <h2>Combien de temps dure ton cycle menstruel&nbsp;?</h2>
+              <ul aria-hidden="true">
+                <li>
+                  <span>A</span> Moins de 21 jours
+                </li>
+                <li>
+                  <span>B</span> Plus de 35 jours
+                </li>
+                <li>
+                  <span>C</span> Cycle irrégulier
+                </li>
+              </ul>
+            </aside>
           </div>
         </section>
 
@@ -44,6 +63,20 @@ export default function Quiz() {
               {quizContent.introduction.paragraphs.map((paragraph) => (
                 <p key={paragraph}>{paragraph}</p>
               ))}
+            </div>
+            <p className="quiz-section__highlight">{quizContent.introduction.highlight}</p>
+          </div>
+        </section>
+
+        <section className="quiz-section quiz-section--editorial">
+          <div className="page-container quiz-section__container quiz-editorial">
+            <div>
+              <h2>{quizContent.explanation.title}</h2>
+              <div className="quiz-section__content">
+                {quizContent.explanation.paragraphs.map((paragraph) => (
+                  <p key={paragraph}>{paragraph}</p>
+                ))}
+              </div>
             </div>
           </div>
         </section>
@@ -79,6 +112,7 @@ export default function Quiz() {
                     {item.icon === "clock" && "⏱️"}
                     {item.icon === "heart" && "🤍"}
                     {item.icon === "lock" && "🔒"}
+                    {item.icon === "info" && "ⓘ"}
                   </span>
 
                   <div>
@@ -99,14 +133,6 @@ export default function Quiz() {
             <Link to={quizContent.start.cta.href} className="btn btn-primary">
               {quizContent.start.cta.label}
             </Link>
-          </div>
-
-          <div className="quiz-note page-container quiz-note__container">
-            <h2>{quizContent.note.title}</h2>
-
-            {quizContent.note.text.map((paragraph, index) => (
-              <p key={index}>{paragraph}</p>
-            ))}
           </div>
         </section>
       </main>

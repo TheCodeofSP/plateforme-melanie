@@ -4,10 +4,7 @@ const questions = require("../src/data/quizQuestions");
 const { QUIZ_VERSION } = require("../src/config/quiz.constants");
 const { SPM_PROFILES } = require("../src/config/quiz.constants");
 const { scoreQuiz } = require("../src/services/quiz/quizScoring.service");
-const {
-  submitQuizSchema,
-  profileSelectionSchema,
-} = require("../src/validations/quiz.validation");
+const { submitQuizSchema, profileSelectionSchema } = require("../src/validations/quiz.validation");
 
 function answersUsing(keys) {
   return questions.map((question) => ({
@@ -20,7 +17,11 @@ const basePayload = {
   quizVersion: QUIZ_VERSION,
   firstName: "Sandrine",
   email: "sandrine@example.com",
-  participantInfo: { age: 30, contraception: "NONE" },
+  participantInfo: {
+    age: 30,
+    contraception: "NONE",
+    adultConfirmed: true,
+  },
   answers: answersUsing({}),
   consents: {
     spmDataProcessing: true,
@@ -43,19 +44,14 @@ test("le quiz contient 11 questions regroupées dans l’ordre validé", () => {
 });
 
 test("les identifiants, réponses et profils du questionnaire sont cohérents", () => {
-  assert.equal(
-    new Set(questions.map((question) => question.id)).size,
-    questions.length,
-  );
+  assert.equal(new Set(questions.map((question) => question.id)).size, questions.length);
   questions.forEach((question) => {
     assert.equal(
       new Set(question.answers.map((answer) => answer.key)).size,
       question.answers.length,
     );
     question.answers.forEach((answer) => {
-      answer.profiles.forEach((profile) =>
-        assert.equal(SPM_PROFILES.includes(profile), true),
-      );
+      answer.profiles.forEach((profile) => assert.equal(SPM_PROFILES.includes(profile), true));
     });
   });
 });
@@ -82,10 +78,7 @@ test("un profil unique est calculé", () => {
 
 test("une égalité conserve uniquement les profils arrivés en tête", () => {
   const result = scoreQuiz(answersUsing({ q5: "gros_caillots" }));
-  assert.deepEqual(result.calculatedProfiles, [
-    "BOULE_DE_NERFS",
-    "DOUCE_MELANCOLIE",
-  ]);
+  assert.deepEqual(result.calculatedProfiles, ["BOULE_DE_NERFS", "DOUCE_MELANCOLIE"]);
 });
 
 test("une question absente ou dupliquée est refusée", () => {
@@ -107,6 +100,12 @@ test("la soumission valide les consentements obligatoires", () => {
   assert.equal(submitQuizSchema.safeParse(invalid).success, false);
 });
 
+test("la soumission exige une confirmation explicite de majorité", () => {
+  const invalid = structuredClone(basePayload);
+  invalid.participantInfo.adultConfirmed = false;
+  assert.equal(submitQuizSchema.safeParse(invalid).success, false);
+});
+
 test("le profil choisi doit appartenir aux profils connus", () => {
   assert.equal(
     profileSelectionSchema.safeParse({
@@ -115,8 +114,5 @@ test("le profil choisi doit appartenir aux profils connus", () => {
     }).success,
     true,
   );
-  assert.equal(
-    profileSelectionSchema.safeParse({ profile: "INCONNU" }).success,
-    false,
-  );
+  assert.equal(profileSelectionSchema.safeParse({ profile: "INCONNU" }).success, false);
 });

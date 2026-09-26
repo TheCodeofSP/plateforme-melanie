@@ -1,12 +1,7 @@
 import { useCallback, useEffect, useMemo, useReducer, useState } from "react";
 
 import useAuth from "../../../hooks/useAuth.js";
-import {
-  getQuiz,
-  getQuizPrefill,
-  selectQuizProfile,
-  submitQuiz,
-} from "../api/quiz.service.js";
+import { getQuiz, getQuizPrefill, selectQuizProfile, submitQuiz } from "../api/quiz.service.js";
 import { initialQuizState, quizReducer } from "./quiz.reducer.js";
 import { QuizContext } from "./quiz-context.js";
 
@@ -60,6 +55,7 @@ export function QuizProvider({ children }) {
         participantInfo: {
           ...(!authenticated ? { age: Number(state.participantInfo.age) } : {}),
           contraception: state.participantInfo.contraception,
+          adultConfirmed: state.participantInfo.adultConfirmed,
         },
         answers,
         consents: state.consents,
@@ -98,9 +94,7 @@ export function QuizProvider({ children }) {
       try {
         const data = await selectQuizProfile(state.attemptId, {
           profile,
-          ...(!isMember && state.selectionToken
-            ? { selectionToken: state.selectionToken }
-            : {}),
+          ...(!isMember && state.selectionToken ? { selectionToken: state.selectionToken } : {}),
         });
         dispatch({ type: "COMPLETED", data });
         return data;
