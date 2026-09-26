@@ -12,6 +12,7 @@
     "migrate:professional-profiles": "node src/scripts/migrateProfessionalProfiles.js",
     "seed:safe-place": "node src/scripts/seedSafePlaceCategories.js",
     "seed:editorial-resources": "node src/scripts/seedEditorialResources.js",
+    "seed:editorial-resources:apply": "node src/scripts/seedEditorialResources.js --apply",
     "seed:circle-demo": "node src/scripts/manageCircleDemo.js",
     "cleanup:circle-demo": "node src/scripts/manageCircleDemo.js --cleanup",
     "migrate:crm-contacts": "node src/scripts/migrateCrmContacts.js",

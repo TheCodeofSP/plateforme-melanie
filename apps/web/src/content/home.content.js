@@ -45,10 +45,8 @@ export const homeContent = {
   firstSteps: {
     eyebrow: "Explorer en autonomie",
     title: "Tes premiers pas",
-    introduction:
-      "Toute transformation commence par une meilleure compréhension.",
-    invitation:
-      "Avant de vouloir changer ton cycle, apprends d’abord à le regarder autrement.",
+    introduction: "Toute transformation commence par une meilleure compréhension.",
+    invitation: "Avant de vouloir changer ton cycle, apprends d’abord à le regarder autrement.",
     description:
       "Je mets régulièrement, et gratuitement, à ta disposition plusieurs ressources pour t’aider à développer ce nouveau regard.",
     accessInformation:
@@ -124,8 +122,7 @@ export const homeContent = {
       "Un résultat personnel à conserver dans ton espace",
       "Des ressources adaptées à ton profil",
     ],
-    reassurance:
-      "Tu restes libre de répondre, de faire une pause et de recommencer.",
+    reassurance: "Tu restes libre de répondre, de faire une pause et de recommencer.",
     actions: {
       primary: { label: "Découvrir mon profil SPM", to: routes.quizQuestions },
       secondary: { label: "Comprendre le Quiz SPM", to: routes.quiz },
@@ -134,11 +131,7 @@ export const homeContent = {
     duration: "Quelques minutes",
     preview: {
       question: "Avant tes règles, comment évolue ton besoin de calme ?",
-      answers: [
-        "Il change peu",
-        "Il devient plus présent",
-        "J’ai besoin de m’isoler",
-      ],
+      answers: ["Il change peu", "Il devient plus présent", "J’ai besoin de m’isoler"],
       note: "Il n’y a pas de bonne ou de mauvaise réponse.",
     },
   },
@@ -210,7 +203,7 @@ export const homeContent = {
         title: "Chemin de traverse",
         text: "Un accompagnement pour explorer plus profondément les liens entre ton corps, ton cycle, tes émotions et ton histoire.",
         ideal:
-          "Un parcours précieux pour une transformation profonde et durable : je te guide jusqu’à trouver paix et sérénité.",
+          "Un parcours précieux pour une transformation profonde et durable, jusqu’à trouver paix et sérénité.",
         to: routes.accompanimentAine,
       },
       {
@@ -219,7 +212,7 @@ export const homeContent = {
         title: "Gestion de la fertilité",
         text: "Un accompagnement pour apprendre à observer ton cycle grâce à la méthode symptothermique.",
         ideal:
-          "Idéal pour une contraception naturelle ou un projet bébé plus conscient.",
+          "Apprends à connaître ton cycle menstruel, pour une contraception naturelle, ou un projet bébé plus conscient.",
         to: routes.accompanimentSymptothermy,
       },
     ],

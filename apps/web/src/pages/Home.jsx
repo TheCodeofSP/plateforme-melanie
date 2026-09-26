@@ -139,25 +139,26 @@ export default function Home() {
 
       <section className="home-story__hero" id="accueil">
         <div className="page-container home-story__hero-grid">
-          <div className="home-story__copy">
-            <p className="eyebrow">{homeContent.hero.eyebrow}</p>
-            <h1>{homeContent.hero.title}</h1>
-            <strong className="home-story__hero-highlight">{homeContent.hero.highlight}</strong>
+          <div className="home-story__hero-top">
+            <div className="home-story__copy">
+              <p className="eyebrow">{homeContent.hero.eyebrow}</p>
+              <h1>{homeContent.hero.title}</h1>
+              <p className="home-story__conditions">{homeContent.hero.introduction[0]}</p>
+            </div>
 
-            <div className="home-story__paragraphs">
-              {homeContent.hero.introduction.map((paragraph, index) => (
-                <p className={index === 0 ? "home-story__conditions" : undefined} key={paragraph}>
-                  {paragraph}
-                </p>
-              ))}
+            <div className="home-story__logo">
+              <span aria-hidden="true">Une lumière apparaît sur le chemin</span>
+              <img src={logo} alt="Logo officiel de La Clairière" fetchPriority="high" />
             </div>
           </div>
 
-          <div className="home-story__logo">
-            <span aria-hidden="true">Une lumière apparaît sur le chemin</span>
-            <img src={logo} alt="Logo officiel de La Clairière" fetchPriority="high" />
+          <div className="home-story__hero-followup">
+            {homeContent.hero.introduction.slice(1).map((paragraph) => (
+              <p key={paragraph}>{paragraph}</p>
+            ))}
+            <p>{homeContent.hero.conclusion}</p>
+            <strong className="home-story__hero-highlight">{homeContent.hero.highlight}</strong>
           </div>
-          <p className="home-story__hero-conclusion">{homeContent.hero.conclusion}</p>
         </div>
       </section>
 

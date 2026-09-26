@@ -6,14 +6,10 @@ import PageLoader from "../components/feedback/PageLoader.jsx";
 import SEO from "../components/seo/SEO.jsx";
 import ShareButton from "../components/ui/ShareButton.jsx";
 import { routes } from "../config/routes.config.js";
-import {
-  getRelatedResources,
-  getResource,
-} from "../features/resources/api/resource.service.js";
-import ApiResourceCard from "../features/resources/components/ApiResourceCard.jsx";
+import { getResource } from "../features/resources/api/resource.service.js";
 import ResourceBlocks from "../features/resources/components/ResourceBlocks.jsx";
 import ResourceCover from "../features/resources/components/ResourceCover.jsx";
-import ResourceInteractions from "../features/resources/components/ResourceInteractions.jsx";
+import ResourceJourneyActions from "../features/resources/components/ResourceJourneyActions.jsx";
 import ResourcePlayer from "../features/resources/components/ResourcePlayer.jsx";
 import {
   formatDate,
@@ -26,7 +22,6 @@ export default function ResourceDetail() {
   const { slug } = useParams();
   const location = useLocation();
   const [resource, setResource] = useState(null);
-  const [related, setRelated] = useState([]);
   const [error, setError] = useState(null);
 
   useEffect(() => {
@@ -36,10 +31,6 @@ export default function ResourceDetail() {
         if (!active) return;
         const formatted = formatResource(result);
         setResource(formatted);
-        if (!formatted.locked)
-          getRelatedResources(formatted._id)
-            .then((items) => active && setRelated(items))
-            .catch(() => {});
       })
       .catch((apiError) => active && setError(apiError));
     return () => {
@@ -69,7 +60,7 @@ export default function ResourceDetail() {
       <main className="resource-detail-api">
         <header className="resource-detail-api__hero page-container">
           <Link to={routes.resources}>← Toutes les ressources</Link>
-          <div className="resource-detail-api__meta">
+          <div className="resource-detail-api__meta section-eyebrow">
             <span>
               {resource.format.icon} {resource.format.label}
             </span>
@@ -79,9 +70,9 @@ export default function ResourceDetail() {
           </div>
           <h1>{resource.title}</h1>
           <p className="resource-detail-api__lead">{resource.description}</p>
-          <p>
-            Par {resource.author?.name || "Mélanie"} · {resource.duration} ·{" "}
-            {formatDate(resource.publishedAt)}
+          <p className="resource-detail-api__byline">
+            {resource.author?.name || "Mélanie"} · {resource.duration}
+            {resource.publishedAt && ` · Publiée le ${formatDate(resource.publishedAt)}`}
           </p>
           <ResourceCover
             media={content.coverMedia}
@@ -95,7 +86,8 @@ export default function ResourceDetail() {
             <p className="section-eyebrow">Espace membre</p>
             <h2>Cette ressource se poursuit dans ton espace</h2>
             <p>
-              Connecte-toi ou crée un compte pour accéder à son contenu complet.
+              Tu peux en découvrir la présentation ici. Connecte-toi ou crée un
+              compte gratuit pour accéder à son contenu complet.
             </p>
             <div>
               <Link
@@ -115,24 +107,15 @@ export default function ResourceDetail() {
             <article className="resource-detail-api__content page-container">
               <ResourceBlocks blocks={content.blocks} />
               <ResourcePlayer resource={resource} />
-              <ShareButton title={resource.title} />
+              <div className="resource-detail-api__share">
+                <ShareButton title={resource.title} copyOnly />
+              </div>
             </article>
-            <div className="page-container">
-              <ResourceInteractions resource={resource} />
-            </div>
           </>
         )}
-        {!!related.length && (
-          <section className="resource-related-api page-container">
-            <p className="section-eyebrow">Poursuivre le chemin</p>
-            <h2>Ressources associées</h2>
-            <div className="resources-api-grid">
-              {related.map((item) => (
-                <ApiResourceCard key={item._id} resource={item} />
-              ))}
-            </div>
-          </section>
-        )}
+        <div className="page-container">
+          <ResourceJourneyActions />
+        </div>
       </main>
     </>
   );

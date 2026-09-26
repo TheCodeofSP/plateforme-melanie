@@ -2,15 +2,9 @@ const Resource = require("../../models/Resource");
 const ProfessionalProfile = require("../../models/ProfessionalProfile");
 const ResourceWorkflowLog = require("../../models/ResourceWorkflowLog");
 const MediaAsset = require("../../models/MediaAsset");
-const {
-  completeResourceVersionSchema,
-} = require("../../validations/resource.validation");
+const { completeResourceVersionSchema } = require("../../validations/resource.validation");
 const { createManagementNotification } = require("../notification.service");
-const {
-  createResourceError,
-  slugify,
-  escapeRegex,
-} = require("../../utils/resource.utils");
+const { createResourceError, slugify, escapeRegex } = require("../../utils/resource.utils");
 const { assertNoSolicitation } = require("../professionalProfile.service");
 
 function validateIntervenantContent(user, version) {
@@ -20,9 +14,7 @@ function validateIntervenantContent(user, version) {
     profession: version.description,
     specialties: version.keywords || [],
     shortPresentation: (version.blocks || [])
-      .map((block) =>
-        [block.text, ...(block.items || [])].filter(Boolean).join(" "),
-      )
+      .map((block) => [block.text, ...(block.items || [])].filter(Boolean).join(" "))
       .join(" "),
     biography: "",
   });
@@ -57,11 +49,7 @@ async function uniqueSlug(title, excludedId) {
 async function getOwnedResource(resourceId, user, editable = false) {
   const resource = await Resource.findById(resourceId);
   if (!resource)
-    throw createResourceError(
-      "Cette ressource n’existe pas.",
-      "RESOURCE_NOT_FOUND",
-      404,
-    );
+    throw createResourceError("Cette ressource n’existe pas.", "RESOURCE_NOT_FOUND", 404);
   if (resource.owner.toString() !== user._id.toString())
     throw createResourceError(
       "Tu ne peux agir que sur tes propres ressources.",
@@ -123,10 +111,7 @@ async function activateVersionMedia(resource, oldVersion = null) {
     );
   const replaced = oldIds.filter((id) => !currentIds.includes(id));
   if (replaced.length)
-    await MediaAsset.updateMany(
-      { _id: { $in: replaced } },
-      { status: "REPLACED" },
-    );
+    await MediaAsset.updateMany({ _id: { $in: replaced } }, { status: "REPLACED" });
   return replaced;
 }
 
@@ -163,16 +148,13 @@ async function updateDraft(resourceId, user, changes) {
       "RESOURCE_PENDING_REVIEW",
       409,
     );
-  const current =
-    resource.workingVersion?.toObject?.() || resource.workingVersion || {};
+  const current = resource.workingVersion?.toObject?.() || resource.workingVersion || {};
   const nextVersion = { ...current, ...changes };
   validateIntervenantContent(user, nextVersion);
   await validateVersionMedia(nextVersion, user);
   resource.workingVersion = nextVersion;
   resource.reviewStatus =
-    resource.reviewStatus === "CHANGES_REQUESTED"
-      ? "CHANGES_REQUESTED"
-      : "NOT_SUBMITTED";
+    resource.reviewStatus === "CHANGES_REQUESTED" ? "CHANGES_REQUESTED" : "NOT_SUBMITTED";
   await resource.save();
   await log(resource._id, user, "DRAFT_UPDATED");
   return resource;
@@ -182,9 +164,7 @@ async function startRevision(resourceId, user) {
   const resource = await getOwnedResource(resourceId, user, true);
   if (
     !resource.publishedVersion ||
-    !["PUBLISHED", "UNPUBLISHED", "SCHEDULED"].includes(
-      resource.publicationStatus,
-    )
+    !["PUBLISHED", "UNPUBLISHED", "SCHEDULED"].includes(resource.publicationStatus)
   )
     throw createResourceError(
       "Aucune version publiée ne peut être modifiée.",
@@ -209,27 +189,18 @@ function validateComplete(resource) {
     resource.workingVersion?.toObject?.() || resource.workingVersion,
   );
   if (!result.success)
-    throw createResourceError(
-      "La ressource est incomplète.",
-      "RESOURCE_INCOMPLETE",
-      400,
-      {
-        errors: result.error.issues.map((i) => ({
-          field: i.path.join("."),
-          message: i.message,
-        })),
-      },
-    );
+    throw createResourceError("La ressource est incomplète.", "RESOURCE_INCOMPLETE", 400, {
+      errors: result.error.issues.map((i) => ({
+        field: i.path.join("."),
+        message: i.message,
+      })),
+    });
   return result.data;
 }
 
 async function submitResource(resourceId, user) {
   if (user.role !== "INTERVENANT")
-    throw createResourceError(
-      "Cette action est réservée aux intervenantes.",
-      "FORBIDDEN",
-      403,
-    );
+    throw createResourceError("Cette action est réservée aux intervenantes.", "FORBIDDEN", 403);
   const resource = await getOwnedResource(resourceId, user, true);
   if (resource.reviewStatus === "PENDING_REVIEW")
     throw createResourceError(
@@ -257,30 +228,20 @@ async function submitResource(resourceId, user) {
   return resource;
 }
 
-async function publishAdminResource(
-  resourceId,
-  admin,
-  { visibility, scheduledFor, comment },
-) {
+async function publishAdminResource(resourceId, admin, { visibility, scheduledFor, comment }) {
   const resource = await getOwnedResource(resourceId, admin, true);
   if (admin.role !== "ADMIN")
-    throw createResourceError(
-      "Action réservée à l’administratrice.",
-      "FORBIDDEN",
-      403,
-    );
+    throw createResourceError("Action réservée à l’administratrice.", "FORBIDDEN", 403);
   const complete = validateComplete(resource);
   await validateVersionMedia(resource.workingVersion, admin);
-  const oldVersion =
-    resource.publishedVersion?.toObject?.() || resource.publishedVersion;
+  const oldVersion = resource.publishedVersion?.toObject?.() || resource.publishedVersion;
   const now = new Date();
   const schedule = scheduledFor ? new Date(scheduledFor) : null;
   resource.publishedVersion = complete;
   resource.workingVersion = undefined;
   resource.finalVisibility = visibility || complete.proposedVisibility;
   resource.scheduledFor = schedule;
-  resource.publicationStatus =
-    schedule && schedule > now ? "SCHEDULED" : "PUBLISHED";
+  resource.publicationStatus = schedule && schedule > now ? "SCHEDULED" : "PUBLISHED";
   resource.reviewStatus = "APPROVED";
   resource.slug = await uniqueSlug(complete.title, resource._id);
   resource.firstPublishedAt ||= schedule || now;
@@ -296,10 +257,8 @@ async function publishAdminResource(
 }
 
 async function listMine(user, query = {}) {
-  const filter =
-    user.role === "ADMIN" && query.all === "true" ? {} : { owner: user._id };
-  if (query.publicationStatus)
-    filter.publicationStatus = query.publicationStatus;
+  const filter = user.role === "ADMIN" && query.all === "true" ? {} : { owner: user._id };
+  if (query.publicationStatus) filter.publicationStatus = query.publicationStatus;
   if (query.reviewStatus) filter.reviewStatus = query.reviewStatus;
   return Resource.find(filter).sort({ updatedAt: -1 }).lean();
 }
@@ -333,9 +292,7 @@ function publicProjection(resource, user) {
     _id: data._id,
     slug: data.slug,
     publicationStatus:
-      data.publicationStatus === "SCHEDULED"
-        ? "PUBLISHED"
-        : data.publicationStatus,
+      data.publicationStatus === "SCHEDULED" ? "PUBLISHED" : data.publicationStatus,
     visibility: data.finalVisibility,
     locked,
     publishedAt: fullVersion.originalPublishedAt || data.lastPublishedAt,
@@ -362,9 +319,7 @@ async function withAuthorDisplay(resources) {
         const profile = resource.professionalProfile;
         const published = profile?.publishedVersion;
         resource.authorDisplay =
-          profile?.isActive &&
-          profile?.publicationStatus === "PUBLISHED" &&
-          published
+          profile?.isActive && profile?.publicationStatus === "PUBLISHED" && published
             ? {
                 profileId: profile._id,
                 name: published.professionalName,
@@ -424,16 +379,54 @@ async function listPublicResources(query, user) {
     liked: { "counters.likes": -1 },
   };
   const filter = buildListFilter(query);
-  const [items, total] = await Promise.all([
-    Resource.find(filter)
+  const sort = sorts[query.sort] || sorts.popular;
+  const profile = user?.currentSpmProfile;
+  const prioritiseProfile = profile && profile !== "NON_DEFINI";
+  const total = await Resource.countDocuments(filter);
+  let items;
+
+  if (prioritiseProfile) {
+    const matchingFilter = {
+      ...filter,
+      "publishedVersion.recommendedSpmProfiles": profile,
+    };
+    const otherFilter = {
+      ...filter,
+      "publishedVersion.recommendedSpmProfiles": { $ne: profile },
+    };
+    const matchingTotal = await Resource.countDocuments(matchingFilter);
+    const offset = (page - 1) * limit;
+    const matchingLimit = Math.max(Math.min(limit, matchingTotal - offset), 0);
+    const matching = matchingLimit
+      ? await Resource.find(matchingFilter)
+          .populate("owner", "pseudonym")
+          .populate("professionalProfile")
+          .sort(sort)
+          .skip(offset)
+          .limit(matchingLimit)
+          .lean()
+      : [];
+    const otherLimit = limit - matching.length;
+    const otherOffset = Math.max(offset - matchingTotal, 0);
+    const others = otherLimit
+      ? await Resource.find(otherFilter)
+          .populate("owner", "pseudonym")
+          .populate("professionalProfile")
+          .sort(sort)
+          .skip(otherOffset)
+          .limit(otherLimit)
+          .lean()
+      : [];
+    items = [...matching, ...others];
+  } else {
+    items = await Resource.find(filter)
       .populate("owner", "pseudonym")
       .populate("professionalProfile")
-      .sort(sorts[query.sort] || sorts.newest)
+      .sort(sort)
       .skip((page - 1) * limit)
       .limit(limit)
-      .lean(),
-    Resource.countDocuments(filter),
-  ]);
+      .lean();
+  }
   await withAuthorDisplay(items);
   return {
     items: items.map((r) => publicProjection(r, user)),
@@ -450,11 +443,7 @@ async function getPublicResource(slug, user) {
     .populate("professionalProfile")
     .lean();
   if (!resource)
-    throw createResourceError(
-      "Cette ressource n’existe pas.",
-      "RESOURCE_NOT_FOUND",
-      404,
-    );
+    throw createResourceError("Cette ressource n’existe pas.", "RESOURCE_NOT_FOUND", 404);
   await withAuthorDisplay(resource);
   return publicProjection(resource, user);
 }
@@ -462,11 +451,7 @@ async function getPublicResource(slug, user) {
 async function getRelated(resourceId, user) {
   const source = await Resource.findById(resourceId).lean();
   if (!source?.publishedVersion)
-    throw createResourceError(
-      "Cette ressource n’existe pas.",
-      "RESOURCE_NOT_FOUND",
-      404,
-    );
+    throw createResourceError("Cette ressource n’existe pas.", "RESOURCE_NOT_FOUND", 404);
   const profile = user?.currentSpmProfile;
   const items = await Resource.find({
     _id: { $ne: resourceId },
@@ -493,26 +478,36 @@ async function getRelated(resourceId, user) {
 }
 
 async function getRecommendations(user, limit = 6) {
-  const filter = activePublicationFilter();
-  if (user.currentSpmProfile && user.currentSpmProfile !== "NON_DEFINI")
-    filter.$and = [
-      {
-        $or: [
-          { "publishedVersion.recommendedSpmProfiles": user.currentSpmProfile },
-          { "publishedVersion.recommendedSpmProfiles": { $size: 0 } },
-        ],
-      },
-    ];
-  const items = await Resource.find(filter)
-    .populate("owner", "pseudonym")
-    .populate("professionalProfile")
-    .sort(
-      user.currentSpmProfile === "NON_DEFINI"
-        ? { "counters.views": -1, lastPublishedAt: -1 }
-        : { lastPublishedAt: -1 },
-    )
-    .limit(Math.min(limit, 20))
-    .lean();
+  const safeLimit = Math.min(limit, 20);
+  const profile = user.currentSpmProfile;
+  const hasProfile = profile && profile !== "NON_DEFINI";
+  let items = [];
+
+  if (hasProfile) {
+    items = await Resource.find({
+      ...activePublicationFilter(),
+      "publishedVersion.recommendedSpmProfiles": profile,
+    })
+      .populate("owner", "pseudonym")
+      .populate("professionalProfile")
+      .sort({ "counters.views": -1, lastPublishedAt: -1 })
+      .limit(safeLimit)
+      .lean();
+  }
+
+  if (items.length < safeLimit) {
+    const fallback = await Resource.find({
+      ...activePublicationFilter(),
+      ...(items.length && { _id: { $nin: items.map((item) => item._id) } }),
+    })
+      .populate("owner", "pseudonym")
+      .populate("professionalProfile")
+      .sort({ "counters.views": -1, lastPublishedAt: -1 })
+      .limit(safeLimit - items.length)
+      .lean();
+    items = [...items, ...fallback];
+  }
+
   await withAuthorDisplay(items);
   return items.map((r) => publicProjection(r, user));
 }
@@ -520,15 +515,8 @@ async function getRecommendations(user, limit = 6) {
 async function getHistory(resourceId, user) {
   const resource = await Resource.findById(resourceId);
   if (!resource)
-    throw createResourceError(
-      "Cette ressource n’existe pas.",
-      "RESOURCE_NOT_FOUND",
-      404,
-    );
-  if (
-    user.role !== "ADMIN" &&
-    resource.owner.toString() !== user._id.toString()
-  )
+    throw createResourceError("Cette ressource n’existe pas.", "RESOURCE_NOT_FOUND", 404);
+  if (user.role !== "ADMIN" && resource.owner.toString() !== user._id.toString())
     throw createResourceError("Accès interdit.", "FORBIDDEN", 403);
   return ResourceWorkflowLog.find({ resource: resourceId })
     .populate("actor", "pseudonym role")

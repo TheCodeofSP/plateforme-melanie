@@ -3,7 +3,7 @@ export function parseResourceQuery(searchParams) {
     q: searchParams.get("recherche") || "",
     formats: searchParams.get("formats")?.split(",").filter(Boolean) || [],
     categories: searchParams.get("categories")?.split(",").filter(Boolean) || [],
-    sort: searchParams.get("tri") || "newest",
+    sort: searchParams.get("tri") || "popular",
   };
 }
 
@@ -23,6 +23,6 @@ export function writeResourceQuery(filters) {
   if (filters.q) params.set("recherche", filters.q);
   if (filters.formats.length) params.set("formats", filters.formats.join(","));
   if (filters.categories.length) params.set("categories", filters.categories.join(","));
-  if (filters.sort !== "newest") params.set("tri", filters.sort);
+  if (filters.sort !== "popular") params.set("tri", filters.sort);
   return params;
 }

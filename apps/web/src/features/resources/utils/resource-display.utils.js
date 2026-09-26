@@ -25,3 +25,16 @@ export function mediaId(media) {
 export function resourcePath(slug) {
   return `/ressources/${slug}`;
 }
+
+export function resourceActionLabel(format) {
+  const labels = {
+    ARTICLE: "Lire la ressource",
+    PODCAST: "Écouter la ressource",
+    AUDIO: "Écouter la ressource",
+    VIDEO: "Regarder la ressource",
+    EBOOK: "Découvrir le livret",
+    TOOL: "Découvrir l’outil",
+  };
+
+  return labels[format] || "Découvrir la ressource";
+}
