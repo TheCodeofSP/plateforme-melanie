@@ -11,7 +11,7 @@ export const quizContent = {
     ],
     edition: "Édition 01 · Le test éditorial",
     primaryCta: {
-      label: "Commencer le quiz",
+      label: "Découvrir comment fonctionne le quiz",
       href: "#quiz-start",
     },
   },

@@ -8,13 +8,11 @@ import ShareButton from "../components/ui/ShareButton.jsx";
 import { routes } from "../config/routes.config.js";
 import { getResource } from "../features/resources/api/resource.service.js";
 import ResourceBlocks from "../features/resources/components/ResourceBlocks.jsx";
+import ResourceAuthorByline from "../features/resources/components/ResourceAuthorByline.jsx";
 import ResourceCover from "../features/resources/components/ResourceCover.jsx";
 import ResourceJourneyActions from "../features/resources/components/ResourceJourneyActions.jsx";
 import ResourcePlayer from "../features/resources/components/ResourcePlayer.jsx";
-import {
-  formatDate,
-  formatResource,
-} from "../features/resources/utils/resource-display.utils.js";
+import { formatResource } from "../features/resources/utils/resource-display.utils.js";
 
 import "../styles/pages/resources/resource-detail-api.scss";
 
@@ -59,21 +57,19 @@ export default function ResourceDetail() {
       <SEO title={resource.title} description={resource.description} />
       <main className="resource-detail-api">
         <header className="resource-detail-api__hero page-container">
-          <Link to={routes.resources}>← Toutes les ressources</Link>
           <div className="resource-detail-api__meta section-eyebrow">
             <span>
               {resource.format.icon} {resource.format.label}
             </span>
-            {resource.locked && (
-              <span className="resource-access">Réservée aux membres</span>
-            )}
+            {resource.locked && <span className="resource-access">Réservée aux membres</span>}
           </div>
           <h1>{resource.title}</h1>
           <p className="resource-detail-api__lead">{resource.description}</p>
-          <p className="resource-detail-api__byline">
-            {resource.author?.name || "Mélanie"} · {resource.duration}
-            {resource.publishedAt && ` · Publiée le ${formatDate(resource.publishedAt)}`}
-          </p>
+          <ResourceAuthorByline
+            author={resource.author}
+            duration={resource.duration}
+            publishedAt={resource.publishedAt}
+          />
           <ResourceCover
             media={content.coverMedia}
             url={content.coverUrl}
@@ -86,8 +82,8 @@ export default function ResourceDetail() {
             <p className="section-eyebrow">Espace membre</p>
             <h2>Cette ressource se poursuit dans ton espace</h2>
             <p>
-              Tu peux en découvrir la présentation ici. Connecte-toi ou crée un
-              compte gratuit pour accéder à son contenu complet.
+              Tu peux en découvrir la présentation ici. Connecte-toi ou crée un compte gratuit pour
+              accéder à son contenu complet.
             </p>
             <div>
               <Link
@@ -116,6 +112,12 @@ export default function ResourceDetail() {
         <div className="page-container">
           <ResourceJourneyActions />
         </div>
+        <footer className="resource-detail-api__footer page-container">
+          <Link className="btn btn-secondary" to={routes.resources}>
+            <span aria-hidden="true">←</span>
+            Toutes les ressources
+          </Link>
+        </footer>
       </main>
     </>
   );
