@@ -11,14 +11,16 @@
 }
 
 .resource-detail-api__hero h1 {
-  max-width: 900px;
   margin: 0;
   font-size: clamp(2.8rem, 12vw, 5.8rem);
 }
 
 .resource-detail-api__lead {
-  max-width: 760px;
   font-size: 1.12rem;
+}
+
+.resource-detail-api__byline {
+  color: var(--color-rose-deep);
 }
 
 .resource-detail-api__meta {
@@ -28,7 +30,7 @@
 }
 
 .resource-detail-api__hero .resource-cover {
-  max-height: 560px;
+  max-height: 360px;
   border-radius: 8px 34px 8px 34px;
   box-shadow: var(--shadow-soft);
 }
@@ -190,4 +192,34 @@
 
 .resource-related-api {
   padding-top: var(--space-xxl);
+}
+
+.resource-detail-api__share {
+  margin-top: var(--space-lg);
+  padding-top: var(--space-md);
+  border-top: 1px solid var(--color-border-soft);
+  display: flex;
+  justify-content: flex-end;
+}
+
+.resource-journey-actions {
+  display: grid;
+  margin-top: var(--space-lg);
+  padding: var(--space-lg) var(--container-padding);
+  background: rgba(255, 255, 255, 0.94);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-card);
+}
+
+.resource-journey-actions h2 {
+  margin: var(--space-xs) 0 var(--space-sm);
+}
+
+
+.resource-journey-actions > div {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-sm);
+  margin-top: var(--space-md);
 }

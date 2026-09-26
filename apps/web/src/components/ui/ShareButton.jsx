@@ -1,9 +1,15 @@
 import toast from "react-hot-toast";
 
-export default function ShareButton({ title, text, url = window.location.href, className = "" }) {
+export default function ShareButton({
+  title,
+  text,
+  url = window.location.href,
+  className = "",
+  copyOnly = false,
+}) {
   async function handleShare() {
     try {
-      if (navigator.share) {
+      if (!copyOnly && navigator.share) {
         await navigator.share({
           title,
           text,
@@ -27,7 +33,7 @@ export default function ShareButton({ title, text, url = window.location.href, c
       type="button"
       onClick={handleShare}
     >
-      Partager la ressource
+      {copyOnly ? "Copier le lien" : "Partager la ressource"}
     </button>
   );
 }

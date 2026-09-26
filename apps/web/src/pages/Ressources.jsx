@@ -4,13 +4,13 @@ import { Link, useSearchParams } from "react-router-dom";
 import EmptyState from "../components/feedback/EmptyState.jsx";
 import ErrorState from "../components/feedback/ErrorState.jsx";
 import SectionLoader from "../components/feedback/SectionLoader.jsx";
-import SEO from "../components/seo/SEO.jsx";
 import ResourcesHero from "../components/pages/resources/ResourcesHero.jsx";
+import SEO from "../components/seo/SEO.jsx";
 import { routes } from "../config/routes.config.js";
+import { resourcesContent } from "../content/resources.content.js";
 import { seoContent } from "../content/seo.content.js";
-import { getRecommendations, getResourceMeta, getResources } from "../features/resources/api/resource.service.js";
+import { getRecommendations, getResources } from "../features/resources/api/resource.service.js";
 import ApiResourceCard from "../features/resources/components/ApiResourceCard.jsx";
-import { publicResourceFormats } from "../features/resources/config/resource.config.js";
 import { parseResourceQuery, toApiResourceParams, writeResourceQuery } from "../features/resources/utils/resource-query.utils.js";
 import useAuth from "../hooks/useAuth.js";
 
@@ -19,80 +19,114 @@ import "../styles/pages/resources/resources-catalogue.scss";
 export default function Resources() {
   const { isAuthenticated, user } = useAuth();
   const [searchParams, setSearchParams] = useSearchParams();
-  const initial = useMemo(() => parseResourceQuery(searchParams), [searchParams]);
-  const [draftQuery, setDraftQuery] = useState(initial.q);
-  const [filtersOpen, setFiltersOpen] = useState(false);
-  const [meta, setMeta] = useState({ categories: [] });
+  const query = useMemo(() => parseResourceQuery(searchParams), [searchParams]);
+  const [draftQuery, setDraftQuery] = useState(query.q);
   const [items, setItems] = useState([]);
   const [pagination, setPagination] = useState(null);
   const [recommendations, setRecommendations] = useState([]);
   const [loading, setLoading] = useState(true);
   const [loadingMore, setLoadingMore] = useState(false);
   const [error, setError] = useState(null);
-
-  useEffect(() => { getResourceMeta().then(setMeta).catch(setError); }, []);
+  const content = resourcesContent;
 
   useEffect(() => {
     const timeout = window.setTimeout(() => {
-      if (draftQuery === initial.q || (draftQuery.length === 1)) return;
-      setSearchParams(writeResourceQuery({ ...initial, q: draftQuery }));
+      if (draftQuery === query.q || draftQuery.length === 1) return;
+      setSearchParams(writeResourceQuery({ ...query, q: draftQuery }));
     }, 350);
     return () => window.clearTimeout(timeout);
-  }, [draftQuery, initial, setSearchParams]);
+  }, [draftQuery, query, setSearchParams]);
 
   useEffect(() => {
     let active = true;
-    getResources(toApiResourceParams(initial)).then((result) => {
-      if (!active) return;
-      setItems(result.items); setPagination(result.pagination);
-    }).catch((apiError) => active && setError(apiError)).finally(() => active && setLoading(false));
+    getResources(toApiResourceParams(query))
+      .then((result) => {
+        if (!active) return;
+        setError(null);
+        setItems(result.items);
+        setPagination(result.pagination);
+      })
+      .catch((apiError) => active && setError(apiError))
+      .finally(() => active && setLoading(false));
     return () => { active = false; };
-  }, [initial]);
+  }, [query]);
 
   useEffect(() => {
     if (!isAuthenticated) return;
-    getRecommendations(4).then(setRecommendations).catch(() => setRecommendations([]));
+    getRecommendations(3).then(setRecommendations).catch(() => setRecommendations([]));
   }, [isAuthenticated, user?.currentSpmProfile]);
 
-  function updateFilter(name, value) {
-    const values = initial[name];
-    const next = values.includes(value) ? values.filter((item) => item !== value) : [...values, value];
-    setSearchParams(writeResourceQuery({ ...initial, [name]: next }));
+  function resetSearch() {
+    setDraftQuery("");
+    setSearchParams(new URLSearchParams());
   }
 
   async function loadMore() {
     setLoadingMore(true);
     try {
-      const result = await getResources(toApiResourceParams(initial, pagination.page + 1));
+      const result = await getResources(toApiResourceParams(query, pagination.page + 1));
       setItems((current) => [...current, ...result.items]);
       setPagination(result.pagination);
-    } catch (apiError) { setError(apiError); } finally { setLoadingMore(false); }
+    } catch (apiError) {
+      setError(apiError);
+    } finally {
+      setLoadingMore(false);
+    }
   }
 
-  const activeCount = initial.formats.length + initial.categories.length;
+  const hasProfile = user?.currentSpmProfile && user.currentSpmProfile !== "NON_DEFINI";
+
   return (
     <>
       <SEO {...seoContent.pages.resources} />
       <main className="resources-api-page">
         <ResourcesHero />
-        {isAuthenticated && <section className="resources-recommendations page-container"><p className="section-eyebrow">Pour toi</p><h2>{user?.currentSpmProfile && user.currentSpmProfile !== "NON_DEFINI" ? "Sélectionnées pour ton profil" : "Une sélection pour commencer"}</h2>{user?.currentSpmProfile === "NON_DEFINI" && <p>Le Quiz SPM permettra d’affiner ces propositions. <Link to={routes.quiz}>Découvrir le quiz</Link></p>}<div className="resources-api-grid">{recommendations.map((resource) => <ApiResourceCard key={resource._id} resource={resource} />)}</div></section>}
+
+        {isAuthenticated && recommendations.length > 0 && (
+          <section className="resources-recommendations">
+            <div className="page-container">
+              <p className="section-eyebrow">{content.recommendations.eyebrow}</p>
+              <h2>{hasProfile ? content.recommendations.withProfile : content.recommendations.withoutProfile}</h2>
+              {!hasProfile && <p>{content.recommendations.quizPrompt} <Link to={routes.quiz}>Découvrir le Quiz SPM</Link></p>}
+              <div className="resources-api-grid">
+                {recommendations.map((resource) => <ApiResourceCard key={resource._id} resource={resource} />)}
+              </div>
+            </div>
+          </section>
+        )}
+
         <section className="resources-catalogue page-container">
-          <div className="resources-search"><label htmlFor="resource-search">Rechercher une ressource</label><input id="resource-search" type="search" value={draftQuery} onChange={(event) => setDraftQuery(event.target.value)} placeholder="Cycle, sommeil, contraception…" /><button className="btn btn-secondary resources-filter-toggle" onClick={() => setFiltersOpen((value) => !value)}>Filtrer les ressources {activeCount ? `(${activeCount})` : ""}</button></div>
-          <div className="resources-catalogue__layout">
-            <aside className={`resources-filters-api ${filtersOpen ? "is-open" : ""}`}>
-              <FilterGroup title="Formats" values={publicResourceFormats} selected={initial.formats} onChange={(value) => updateFilter("formats", value)} />
-              <FilterGroup title="Thématiques" values={meta.categories || []} selected={initial.categories} onChange={(value) => updateFilter("categories", value)} />
-              <label><span>Trier par</span><select value={initial.sort} onChange={(event) => setSearchParams(writeResourceQuery({ ...initial, sort: event.target.value }))}><option value="newest">Les plus récentes</option><option value="liked">Les plus appréciées</option><option value="popular">Les plus consultées</option></select></label>
-              {activeCount > 0 && <button className="resources-clear" onClick={() => setSearchParams(writeResourceQuery({ ...initial, formats: [], categories: [] }))}>Effacer les filtres</button>}
-            </aside>
-            <div>{loading && <SectionLoader />}{error && <ErrorState title="Les ressources sont momentanément indisponibles" description={error.message} action={<button className="btn btn-primary" onClick={() => setSearchParams(new URLSearchParams(searchParams))}>Réessayer</button>} />}{!loading && !error && !items.length && <EmptyState title="Aucune ressource trouvée" description="Essaie de modifier ta recherche ou tes filtres." />}{!loading && <div className="resources-api-grid">{items.map((resource) => <ApiResourceCard key={resource._id} resource={resource} />)}</div>}{pagination?.page < pagination?.pages && <button className="btn btn-secondary resources-load-more" disabled={loadingMore} onClick={loadMore}>{loadingMore ? "Chargement…" : "Voir plus de ressources"}</button>}</div>
+          <header className="resources-catalogue__header">
+            <p className="section-eyebrow">{content.catalogue.eyebrow}</p>
+            <h2>{content.catalogue.title}</h2>
+            <p>{content.catalogue.description}</p>
+          </header>
+          <div className="resources-search">
+            <label htmlFor="resource-search">{content.catalogue.searchLabel}</label>
+            <div className="resources-search__field">
+              <input id="resource-search" type="search" value={draftQuery} onChange={(event) => setDraftQuery(event.target.value)} placeholder={content.catalogue.searchPlaceholder} />
+              {draftQuery && <button type="button" onClick={resetSearch}>Effacer</button>}
+            </div>
+          </div>
+          <p className="resources-catalogue__count" aria-live="polite">
+            {!loading && pagination ? `${pagination.total} ressource${pagination.total > 1 ? "s" : ""}` : "Chargement des ressources…"}
+          </p>
+          {loading && <SectionLoader />}
+          {error && <ErrorState title="Les ressources sont momentanément indisponibles" description={error.message} action={<button className="btn btn-primary" onClick={resetSearch}>Réessayer</button>} />}
+          {!loading && !error && !items.length && <EmptyState title={content.empty.title} description={content.empty.description} action={<button className="btn btn-secondary" onClick={resetSearch}>{content.empty.action}</button>} />}
+          {!loading && items.length > 0 && <div className="resources-api-grid">{items.map((resource) => <ApiResourceCard key={resource._id} resource={resource} />)}</div>}
+          {pagination?.page < pagination?.pages && <button className="btn btn-secondary resources-load-more" disabled={loadingMore} onClick={loadMore}>{loadingMore ? "Chargement…" : "Voir plus de ressources"}</button>}
+        </section>
+
+        <section className="resources-newsletter">
+          <div className="page-container resources-newsletter__content">
+            <p className="section-eyebrow">{content.newsletter.eyebrow}</p>
+            <h2>{content.newsletter.title}</h2>
+            <p>{content.newsletter.text}</p>
+            <Link className="btn btn-primary" to={`${routes.contact}?intention=newsletter`}>{content.newsletter.action}</Link>
           </div>
         </section>
       </main>
     </>
   );
-}
-
-function FilterGroup({ title, values, selected, onChange }) {
-  return <fieldset><legend>{title}</legend>{values.map((item) => <label key={item.value}><input type="checkbox" checked={selected.includes(item.value)} onChange={() => onChange(item.value)} /><span>{item.label}</span></label>)}</fieldset>;
 }
