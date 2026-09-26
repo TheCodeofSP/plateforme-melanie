@@ -36,7 +36,7 @@ $breakpoint-wide: 1280px;
   padding-block: var(--space-xl);
 
   @include tablet {
-  padding-block: var(--space-xxl);
+    padding-block: var(--space-xxl);
   }
 }
 
@@ -149,7 +149,7 @@ $breakpoint-wide: 1280px;
   color: var(--color-primary);
 
   font-size: 1rem;
-  font-weight: 700;
+  font-weight: 500;
   letter-spacing: 0.08em;
   text-transform: uppercase;
 }
@@ -168,7 +168,7 @@ $breakpoint-wide: 1280px;
   border: 1px solid transparent;
   border-radius: var(--radius-pill);
 
-  font-weight: 700;
+  font-weight: 500;
   line-height: 1;
   text-align: center;
 

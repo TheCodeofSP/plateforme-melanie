@@ -2,6 +2,13 @@
 
 .home-story {
   overflow: clip;
+
+  p,
+  a,
+  button,
+  strong {
+    font-weight: 400;
+  }
 }
 
 .home-story__hero {
@@ -25,27 +32,33 @@
   z-index: 2;
 
   h1 {
-    margin-bottom: clamp(1.5rem, 3vw, 2.5rem);
-    font-size: clamp(2.55rem, 9vw, 5.2rem);
+    max-width: 42rem;
+    margin-bottom: clamp(1rem, 2vw, 1.5rem);
+    font-size: clamp(2.35rem, 7vw, 4.35rem);
   }
 
   > p:not(.eyebrow) {
     max-width: 42rem;
-    font-size: clamp(1.05rem, 3vw, 1.25rem);
+    font-size: clamp(0.94rem, 1.6vw, 1rem);
   }
 
   .home-story__paragraphs p {
     max-width: 42rem;
-    font-size: clamp(1.05rem, 3vw, 1.25rem);
+    font-size: clamp(0.94rem, 1.6vw, 1rem);
   }
 }
 
 .home-story__conditions {
-  padding: 0;
-  background: transparent;
+  max-width: 38rem !important;
+  margin-block: 1rem 0.25rem;
+  padding: 0.85rem 1.1rem;
+  border-left: 3px solid var(--color-primary);
+  border-radius: 0 var(--radius-md) var(--radius-md) 0;
+  background: rgb(255 255 255 / 68%);
   color: var(--color-green-deep);
-  font-size: clamp(1.22rem, 3.2vw, 1.55rem) !important;
-  line-height: 1.55;
+  font-family: var(--font-title);
+  font-size: clamp(1.08rem, 2vw, 1.3rem) !important;
+  line-height: 1.4;
 }
 
 .home-story__hero-highlight {
@@ -58,13 +71,14 @@
   background: rgb(255 255 255 / 68%);
   color: var(--color-green-deep);
   font-family: var(--font-title);
-  font-size: clamp(1.3rem, 4vw, 1.75rem);
+  font-size: clamp(1.15rem, 2.4vw, 1.45rem);
+  font-weight: 400;
 }
 
 .home-story__logo {
   position: relative;
-  width: min(100%, 16rem);
-  max-width: 26rem;
+  width: min(100%, 14rem);
+  max-width: 20rem;
   margin-inline: auto;
 
   &::before {
@@ -88,6 +102,12 @@
     height: 1px;
     overflow: hidden;
   }
+}
+
+.home-story__hero-conclusion {
+  max-width: 64rem;
+  color: var(--color-text);
+  font-size: clamp(0.94rem, 1.6vw, 1rem);
 }
 
 .home-story__paths,
@@ -115,117 +135,18 @@
 .home-story__path-grid {
   position: relative;
   align-items: stretch;
-  padding-bottom: 3rem;
 }
 
 .home-story__path-stop {
   position: relative;
   z-index: 2;
-  display: grid;
-  grid-template-rows: 1fr auto;
+  display: block;
   min-width: 0;
-
-  &::before {
-    position: absolute;
-    z-index: -1;
-    right: -1.25rem;
-    bottom: 1.25rem;
-    left: -1.25rem;
-    height: 5rem;
-    border-radius: 50%;
-    background:
-      radial-gradient(ellipse at 20% 55%, rgb(255 255 255 / 72%) 0 18%, transparent 19%),
-      radial-gradient(ellipse at 48% 35%, rgb(255 255 255 / 82%) 0 25%, transparent 26%),
-      radial-gradient(ellipse at 78% 58%, rgb(255 255 255 / 68%) 0 20%, transparent 21%);
-    content: "";
-    filter: blur(0.2rem);
-  }
 
   .home-story__path-card {
     min-height: 0;
     height: 100%;
   }
-}
-
-.home-story__cloud-path {
-  position: absolute;
-  z-index: 0;
-  inset: -1rem 0 0;
-  width: 100%;
-  height: calc(100% + 1rem);
-  overflow: visible;
-  pointer-events: none;
-
-  path {
-    fill: none;
-    stroke-linecap: round;
-  }
-}
-
-.home-story__cloud-trail {
-  stroke: rgb(255 255 255 / 88%);
-  stroke-width: 64;
-  filter: blur(0.55rem);
-}
-
-.home-story__cloud-route {
-  stroke: rgb(102 124 110 / 22%);
-  stroke-width: 9;
-  stroke-dasharray: 1 21;
-  filter: blur(0.12rem);
-}
-
-.home-story__cloud-path--desktop {
-  display: none;
-}
-
-.home-story__card-cloud {
-  position: relative;
-  z-index: 1;
-  justify-self: center;
-  width: 7rem;
-  height: 1.7rem;
-  margin-top: -0.25rem;
-  border-radius: 50%;
-  background: rgb(255 255 255 / 82%);
-  box-shadow:
-    -2rem 0.3rem 0 -0.35rem rgb(255 255 255 / 70%),
-    2rem 0.2rem 0 -0.45rem rgb(255 255 255 / 74%),
-    0 0.65rem 1.4rem rgb(112 132 119 / 12%);
-
-  &::before,
-  &::after {
-    position: absolute;
-    bottom: 0.25rem;
-    border-radius: 50%;
-    background: rgb(255 255 255 / 88%);
-    content: "";
-  }
-
-  &::before {
-    left: 1.25rem;
-    width: 2.6rem;
-    height: 2.6rem;
-  }
-
-  &::after {
-    right: 1.15rem;
-    width: 2rem;
-    height: 2rem;
-  }
-}
-
-.home-story__path-stop:nth-child(2) .home-story__card-cloud {
-  background: linear-gradient(
-    90deg,
-    rgb(255 229 139 / 72%),
-    rgb(218 238 224 / 82%),
-    rgb(239 211 204 / 72%)
-  );
-  box-shadow:
-    -2rem 0.3rem 0 -0.35rem rgb(255 238 182 / 65%),
-    2rem 0.2rem 0 -0.45rem rgb(207 234 218 / 70%),
-    0 0.65rem 1.5rem rgb(166 120 122 / 16%);
 }
 
 .home-story__path-card {
@@ -254,7 +175,8 @@
   h3 {
     margin-block: 0.65rem;
     font-family: var(--font-title);
-    font-size: 1.8rem;
+    font-size: clamp(1.45rem, 2.3vw, 1.7rem);
+    font-weight: 400;
   }
 
   > strong {
@@ -262,6 +184,7 @@
     margin-block: 0.5rem 1.5rem;
     color: var(--color-green-deep);
     font-size: 0.95rem;
+    font-weight: 400;
   }
 }
 
@@ -289,14 +212,15 @@
 .home-story__section-intro {
   h2 {
     margin-bottom: clamp(1.25rem, 2.5vw, 2rem);
+    font-size: clamp(1.8rem, 4.5vw, 2.75rem);
   }
 
   > p:not(.eyebrow) {
-    font-size: 1.08rem;
+    font-size: clamp(0.94rem, 1.6vw, 1rem);
   }
 
   .home-story__paragraphs p {
-    font-size: 1.08rem;
+    font-size: clamp(0.94rem, 1.6vw, 1rem);
   }
 }
 
@@ -309,11 +233,12 @@
 .home-story__forum-card h2,
 .home-story__melanie h2 {
   margin-bottom: clamp(1.25rem, 2.5vw, 2rem);
+  font-size: clamp(1.8rem, 4.5vw, 2.75rem);
 }
 
 .home-story__access-information {
   display: block;
-  max-width: 48rem;
+  max-width: 62rem;
   margin-top: 1.5rem;
   padding: 1rem 1.25rem;
   border-left: 3px solid var(--color-primary);
@@ -321,8 +246,8 @@
   background: rgb(255 255 255 / 68%);
   color: var(--color-green-deep);
   font-family: var(--font-title);
-  font-size: clamp(1.2rem, 3vw, 1.5rem) !important;
-  font-weight: 700;
+  font-size: clamp(1.05rem, 2vw, 1.25rem) !important;
+  font-weight: 400;
 }
 
 .home-story__resource-slider-shell {
@@ -384,8 +309,8 @@
 
 .home-story__resource-card {
   display: block;
-  height: 28rem;
-  min-height: 28rem;
+  height: 26rem;
+  min-height: 26rem;
   border: 0;
   border-radius: var(--radius-lg);
   background: transparent;
@@ -395,12 +320,17 @@
   transform: translateZ(0);
 
   h3 {
-    margin-block: 0.85rem 0.55rem;
+    margin-block: 0.7rem 0.45rem;
+    color: var(--color-secondary);
     font-family: var(--font-title);
-    font-size: clamp(1.8rem, 6vw, 2.4rem);
-    font-weight: 500;
-    line-height: 1.02;
+    font-size: clamp(1.65rem, 5vw, 2.1rem);
+    font-weight: 400;
+    line-height: 1.08;
     text-wrap: balance;
+  }
+
+  p {
+    font-size: 0.94rem;
   }
 }
 
@@ -408,7 +338,7 @@
   position: relative;
   display: block;
   height: 100%;
-  min-height: 28rem;
+  min-height: 26rem;
   transition: transform 1s cubic-bezier(0.22, 0.61, 0.36, 1);
   transform-style: preserve-3d;
   transform-origin: center center;
@@ -441,7 +371,7 @@
 
   img {
     width: 100%;
-    height: 18rem;
+    height: 15rem;
     padding: 0.35rem;
     border-radius: var(--radius-md);
     background: rgb(255 255 255 / 72%);
@@ -450,7 +380,7 @@
 
   span {
     color: var(--color-green-deep);
-    font-weight: 800;
+    font-weight: 400;
   }
 }
 
@@ -477,7 +407,7 @@
   > span {
     color: var(--color-primary);
     font-size: 0.78rem;
-    font-weight: 800;
+    font-weight: 400;
     letter-spacing: 0.1em;
     text-transform: uppercase;
   }
@@ -489,8 +419,12 @@
     background: rgb(255 255 255 / 60%);
     color: var(--color-text-muted);
     font-size: 0.7rem;
-    font-weight: 700;
+    font-weight: 400;
   }
+}
+
+.home-story__resource-card--quiz .home-story__resource-meta small {
+  border-color: transparent;
 }
 
 .home-story__resource-card--quiz {
@@ -603,7 +537,7 @@
     background: var(--color-primary);
     box-shadow: 0 0.7rem 1.8rem rgb(111 78 80 / 25%);
     color: var(--color-white);
-    font-weight: 800;
+    font-weight: 400;
 
     &:hover,
     &:focus-visible {
@@ -633,12 +567,13 @@
   color: var(--color-primary-active);
   font-family: var(--font-title);
   font-size: clamp(1.5rem, 4vw, 2.2rem);
+  font-weight: 400;
 }
 
 .home-story__forum-trigger {
   color: var(--color-green-deep);
-  font-size: clamp(1.2rem, 3vw, 1.45rem);
-  font-weight: 800;
+  font-size: clamp(1.05rem, 2vw, 1.25rem);
+  font-weight: 400;
   line-height: 1.55;
 }
 
@@ -661,6 +596,11 @@
   }
   p {
     margin: 0;
+  }
+
+  strong {
+    color: var(--color-primary-active);
+    font-weight: 400;
   }
 }
 
@@ -746,7 +686,8 @@
   h3 {
     margin-block: 1rem 0.75rem;
     font-family: var(--font-title);
-    font-size: 1.8rem;
+    font-size: 1.6rem;
+    font-weight: 400;
   }
 }
 
@@ -754,7 +695,7 @@
   color: var(--color-primary);
   font-family: var(--font-title);
   font-size: 2rem;
-  font-weight: 700;
+  font-weight: 400;
 }
 
 .home-story__offer-labels {
@@ -768,7 +709,7 @@
     border-radius: 999px;
     color: var(--color-primary);
     font-size: 0.75rem;
-    font-weight: 700;
+    font-weight: 400;
   }
 }
 
@@ -780,6 +721,7 @@
   border-radius: 0 var(--radius-md) var(--radius-md) 0;
   background: var(--color-rose-extra-light);
   color: var(--color-text);
+  font-weight: 400;
 }
 
 .home-story__accompaniments-action {
@@ -797,7 +739,7 @@
     rgb(255 255 255 / 72%);
   box-shadow: 0 0.7rem 1.8rem rgb(90 109 96 / 19%);
   color: var(--color-ink);
-  font-weight: 800;
+  font-weight: 400;
 
   &:hover,
   &:focus-visible {
@@ -812,6 +754,12 @@
 
 .home-story__accompaniments-action .btn {
   color: var(--color-white);
+  font-weight: 400;
+}
+
+.home-story__accompaniments .home-story__paragraphs strong {
+  color: var(--color-primary-active);
+  font-weight: 400;
 }
 
 @keyframes rainbow-glow {
@@ -831,7 +779,11 @@
   }
 
   .home-story__logo {
-    width: min(100%, 26rem);
+    width: min(100%, 20rem);
+  }
+
+  .home-story__hero-conclusion {
+    grid-column: 1 / -1;
   }
 
   .home-story__path-grid,
@@ -839,34 +791,9 @@
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 
-  .home-story__path-grid {
-    padding-bottom: 4rem;
-  }
-
   .home-story__path-card > strong {
     margin-top: auto;
     padding-top: 0.75rem;
-  }
-
-  .home-story__cloud-path--mobile {
-    display: none;
-  }
-  .home-story__cloud-path--desktop {
-    display: block;
-  }
-
-  .home-story__path-stop:nth-child(2) {
-    transform: translateY(1.25rem);
-  }
-
-  .home-story__path-stop:nth-child(1) .home-story__card-cloud {
-    transform: translateX(-10%);
-  }
-  .home-story__path-stop:nth-child(2) .home-story__card-cloud {
-    transform: translateX(4%);
-  }
-  .home-story__path-stop:nth-child(3) .home-story__card-cloud {
-    transform: translateX(10%);
   }
 
   .home-story__resource-slider {
@@ -876,8 +803,14 @@
 
   .home-story__resource-card,
   .home-story__resource-card-inner {
-    height: 27rem;
-    min-height: 27rem;
+    height: 22rem;
+    min-height: 22rem;
+  }
+}
+
+@include desktop {
+  .home-story__copy > .eyebrow {
+    white-space: nowrap;
   }
 }
 

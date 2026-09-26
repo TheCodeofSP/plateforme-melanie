@@ -1,7 +1,6 @@
 import { Link } from "react-router-dom";
 
 import SEO from "../components/seo/SEO.jsx";
-import PageAnchors from "../components/navigation/PageAnchors.jsx";
 import { routes } from "../config/routes.config.js";
 import { clairiereContent } from "../content/clairiere.content.js";
 import logo from "../assets/images/logo-clairiere.png";
@@ -15,14 +14,6 @@ export default function ClairierePage() {
         title="La Clairière — Un espace privé pour ne plus avancer seule"
         description={clairiereContent.hero.text}
         url={routes.platform}
-      />
-      <PageAnchors
-        items={[
-          { id: "origine", label: "Son origine" },
-          { id: "besoins", label: "Les besoins" },
-          { id: "espaces", label: "Les espaces" },
-          { id: "engagements", label: "Les engagements" },
-        ]}
       />
       <section className="editorial-hero">
         <div className="page-container editorial-hero__grid">

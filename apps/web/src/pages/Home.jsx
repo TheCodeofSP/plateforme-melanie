@@ -10,7 +10,6 @@ import {
 } from "react-icons/fi";
 
 import SEO from "../components/seo/SEO.jsx";
-import PageAnchors from "../components/navigation/PageAnchors.jsx";
 import { homeContent } from "../content/home.content.js";
 import { seoContent } from "../content/seo.content.js";
 import logo from "../assets/images/logo-clairiere.png";
@@ -138,17 +137,7 @@ export default function Home() {
         }}
       />
 
-      <PageAnchors
-        items={[
-          { id: "chemins", label: "Les chemins" },
-          { id: "premiers-pas", label: "Ressources" },
-          { id: "forum", label: "La Clairière" },
-          { id: "melanie", label: "Mélanie" },
-          { id: "accompagnements", label: "Accompagnements" },
-        ]}
-      />
-
-      <section className="home-story__hero">
+      <section className="home-story__hero" id="accueil">
         <div className="page-container home-story__hero-grid">
           <div className="home-story__copy">
             <p className="eyebrow">{homeContent.hero.eyebrow}</p>
@@ -158,10 +147,9 @@ export default function Home() {
             <div className="home-story__paragraphs">
               {homeContent.hero.introduction.map((paragraph, index) => (
                 <p className={index === 0 ? "home-story__conditions" : undefined} key={paragraph}>
-                  {index === 0 ? <strong>{paragraph}</strong> : paragraph}
+                  {paragraph}
                 </p>
               ))}
-              <p>{homeContent.hero.conclusion}</p>
             </div>
           </div>
 
@@ -169,6 +157,7 @@ export default function Home() {
             <span aria-hidden="true">Une lumière apparaît sur le chemin</span>
             <img src={logo} alt="Logo officiel de La Clairière" fetchPriority="high" />
           </div>
+          <p className="home-story__hero-conclusion">{homeContent.hero.conclusion}</p>
         </div>
       </section>
 
@@ -180,36 +169,6 @@ export default function Home() {
           </header>
 
           <div className="home-story__path-grid">
-            <svg
-              className="home-story__cloud-path home-story__cloud-path--desktop"
-              viewBox="0 0 1200 430"
-              preserveAspectRatio="none"
-              aria-hidden="true"
-            >
-              <path
-                className="home-story__cloud-trail"
-                d="M20 345 C170 410 280 400 385 330 S610 300 700 365 S960 415 1180 325"
-              />
-              <path
-                className="home-story__cloud-route"
-                d="M20 345 C170 410 280 400 385 330 S610 300 700 365 S960 415 1180 325"
-              />
-            </svg>
-            <svg
-              className="home-story__cloud-path home-story__cloud-path--mobile"
-              viewBox="0 0 360 1160"
-              preserveAspectRatio="none"
-              aria-hidden="true"
-            >
-              <path
-                className="home-story__cloud-trail"
-                d="M180 15 C70 130 285 225 178 350 C75 470 285 575 180 700 C75 825 280 930 175 1145"
-              />
-              <path
-                className="home-story__cloud-route"
-                d="M180 15 C70 130 285 225 178 350 C75 470 285 575 180 700 C75 825 280 930 175 1145"
-              />
-            </svg>
             {homeContent.paths.items.map((item) => (
               <div className="home-story__path-stop" key={item.title}>
                 <a
@@ -221,7 +180,6 @@ export default function Home() {
                   <p>{item.text}</p>
                   <strong>{item.details}</strong>
                 </a>
-                <span className="home-story__card-cloud" aria-hidden="true" />
               </div>
             ))}
           </div>
