@@ -51,10 +51,6 @@ export const homeContent = {
       "Je mets régulièrement, et gratuitement, à ta disposition plusieurs ressources pour t’aider à développer ce nouveau regard.",
     accessInformation:
       "Tu peux découvrir librement les premières ressources. D’autres contenus viendront compléter ton chemin dans ton espace personnel.",
-    quizAction: {
-      label: "Découvrir le Quiz SPM",
-      to: routes.quiz,
-    },
     conclusion: "Parce que comprendre précède toujours le changement.",
     items: [
       {
@@ -216,7 +212,7 @@ export const homeContent = {
         title: "Gestion de la fertilité",
         text: "Un accompagnement pour apprendre à observer ton cycle grâce à la méthode symptothermique.",
         ideal:
-          "Apprends à connaître ton cycle menstruel, pour une contraception naturelle, ou un projet bébé plus conscient.",
+          "Apprends à connaître ton cycle, pour une contraception naturelle, ou un projet bébé plus conscient.",
         to: routes.accompanimentSymptothermy,
       },
     ],

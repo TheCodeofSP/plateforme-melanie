@@ -1,4 +1,8 @@
+@use "../../abstracts/mixins.scss" as *;
+
 .resources-api-page {
+  @include public-page-typography;
+
   min-height: 100vh;
   background: var(--gradient-section-warm);
 }
@@ -14,14 +18,14 @@
 }
 
 .resources-recommendations h2,
-.resources-catalogue h2, .resources-catalogue p,
+.resources-catalogue h2,
+.resources-catalogue p,
 .resources-newsletter h2 {
   margin-top: var(--space-xs);
 }
 
 .resources-catalogue__header {
   margin-bottom: var(--space-lg);
-
 }
 
 .resources-search {
@@ -31,7 +35,7 @@
 }
 
 .resources-search label {
-  font-weight: 750;
+  font-weight: var(--public-body-weight);
 }
 
 .resources-search__field {
@@ -56,7 +60,7 @@
   color: var(--color-primary-active);
   background: transparent;
   border: 0;
-  font-weight: 750;
+  font-weight: var(--public-body-weight);
   text-decoration: underline;
 }
 
@@ -72,19 +76,21 @@
 }
 
 .api-resource-card {
+  @include resource-card-shell;
+
   display: grid;
   grid-template-rows: auto 1fr;
-  overflow: hidden;
-  background: var(--color-white);
-  border: 1px solid var(--color-border);
-  border-radius: 7px 28px 7px 28px;
-  box-shadow: var(--shadow-card);
+  min-width: 0;
 }
 
 .resource-cover {
   width: 100%;
   aspect-ratio: 16 / 10;
   object-fit: cover;
+}
+
+.api-resource-card > .resource-cover {
+  border-radius: 0;
 }
 
 .resource-cover--fallback {
@@ -100,9 +106,9 @@
 
 .api-resource-card__body {
   display: grid;
-  grid-template-rows: auto auto 1fr auto;
+  grid-template-rows: auto minmax(3.75rem, auto) 1fr auto;
   gap: var(--space-sm);
-  padding: var(--space-md);
+  padding: clamp(var(--space-md), 3vw, var(--space-lg));
 }
 
 .api-resource-card__body h3,
@@ -111,24 +117,19 @@
 }
 
 .api-resource-card__body h3 {
-  font-size: 1.7rem;
+  font-size: clamp(1.65rem, 3vw, 2rem);
+  font-weight: var(--public-title-weight);
+  line-height: 1.05;
+  text-wrap: balance;
 }
 
 .api-resource-card__body h3 a {
   color: inherit;
 }
 
-.api-resource-card__meta,
-.api-resource-card__footer {
-  align-items: center;
-  margin-top: var(--space-xs);
-  padding-top: var(--space-sm);
-  border-top: 1px solid var(--color-border-soft);
-}
-
 .api-resource-card__action {
   color: var(--color-primary-active);
-  font-weight: 800;
+  font-weight: var(--public-body-weight);
   text-decoration: underline;
   text-underline-offset: 3px;
 }
@@ -147,17 +148,37 @@
   font-size: 0.82rem;
 }
 
+.api-resource-card__meta {
+  align-items: flex-start;
+}
+
+.api-resource-card__format,
 .resource-access {
-  padding: 4px 9px;
-  background: var(--color-primary-extra-soft);
-  border-radius: var(--radius-pill);
+  @include resource-chip;
+}
+
+.api-resource-card__format {
+  gap: 0.35rem;
   color: var(--color-primary-active);
-  font-weight: 750;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.api-resource-card__footer {
+  align-items: center;
+  margin-top: var(--space-xs);
+  padding-top: var(--space-sm);
+  border-top: 1px solid var(--color-border-soft);
+}
+
+.resource-access {
+  text-transform: none;
 }
 
 .resource-access--private {
+  border-color: var(--color-border-accent);
   background: var(--color-green-light);
-  color: var(--color-green-dark);
+  color: var(--color-green-deep);
 }
 
 .resources-load-more {
