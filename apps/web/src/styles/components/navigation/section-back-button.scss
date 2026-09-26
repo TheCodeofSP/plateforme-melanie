@@ -1,0 +1,28 @@
+.section-back-button {
+  position: fixed;
+  right: var(--container-padding);
+  bottom: 1.25rem;
+  z-index: 40;
+  display: inline-flex;
+  gap: 0.4rem;
+  align-items: center;
+  justify-content: center;
+  min-height: 2.75rem;
+  padding: 0.65rem 0.9rem;
+  border: 0;
+  border-radius: var(--radius-pill);
+  background: rgb(255 253 251 / 92%);
+  box-shadow: var(--shadow-soft);
+  color: var(--color-primary-active);
+  font-weight: 400;
+  backdrop-filter: blur(10px);
+
+  span:first-child {
+    transition: transform var(--transition-base);
+  }
+
+  &:hover span:first-child,
+  &:focus-visible span:first-child {
+    transform: translateY(-2px);
+  }
+}
