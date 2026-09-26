@@ -48,9 +48,7 @@ async function upsertUser(key, data) {
 async function ensureLegalConsents(users) {
   for (const user of users) {
     for (const type of ["TERMS", "PRIVACY_POLICY"]) {
-      if (
-        !(await ConsentRecord.exists({ user: user._id, type, granted: true }))
-      ) {
+      if (!(await ConsentRecord.exists({ user: user._id, type, granted: true }))) {
         await ConsentRecord.create({
           user: user._id,
           type,
@@ -251,9 +249,7 @@ async function seed() {
       },
       { upsert: true, new: true },
     );
-    const scores = Object.fromEntries(
-      profiles.map(([name]) => [name, name === profile ? 10 : 2]),
-    );
+    const scores = Object.fromEntries(profiles.map(([name]) => [name, name === profile ? 10 : 2]));
     const attempt = await QuizAttempt.findOneAndUpdate(
       { fixtureKey: `${PREFIX}quiz-attempt-${index + 1}` },
       {
@@ -263,7 +259,11 @@ async function seed() {
           quizVersion: "1.0",
           status: "COMPLETED",
           answers: [],
-          participantInfo: { age: 30 + index, contraception },
+          participantInfo: {
+            age: 30 + index,
+            contraception,
+            adultConfirmed: true,
+          },
           scores,
           calculatedProfiles: [profile],
           selectedProfile: profile,
@@ -320,8 +320,7 @@ async function seed() {
         author: members[0]._id,
         category: category._id,
         title: "Publication fictive de recette",
-        content:
-          "Cette publication permet de tester le parcours du Safe Place.",
+        content: "Cette publication permet de tester le parcours du Safe Place.",
         status: "VISIBLE",
       },
       $setOnInsert: { fixtureKey: `${PREFIX}safe-place-post` },
@@ -346,9 +345,7 @@ async function seed() {
           recommendedSpmProfiles: ["BOULE_DE_NERFS"],
           durationMinutes: 5,
           proposedVisibility: "PUBLIC",
-          blocks: [
-            { type: "PARAGRAPH", text: "Contenu fictif de démonstration." },
-          ],
+          blocks: [{ type: "PARAGRAPH", text: "Contenu fictif de démonstration." }],
           sourceMode: "TEXT",
         },
         workingVersion: { title: "Ressource fictive de recette" },

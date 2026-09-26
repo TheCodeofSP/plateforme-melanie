@@ -18,7 +18,7 @@ const quizParticipantSchema = new mongoose.Schema(
       minlength: 2,
       maxlength: 80,
     },
-    user: { type: mongoose.Schema.Types.ObjectId, ref: "User", default: null },
+    user: { type: mongoose.Schema.Types.ObjectId, ref: "User", default: undefined },
     linkedAt: { type: Date, default: null },
     latestAttempt: {
       type: mongoose.Schema.Types.ObjectId,
@@ -42,6 +42,12 @@ const quizParticipantSchema = new mongoose.Schema(
   { timestamps: true },
 );
 
-quizParticipantSchema.index({ user: 1 }, { unique: true, sparse: true });
+quizParticipantSchema.index(
+  { user: 1 },
+  {
+    unique: true,
+    partialFilterExpression: { user: { $type: "objectId" } },
+  },
+);
 
 module.exports = mongoose.model("QuizParticipant", quizParticipantSchema);

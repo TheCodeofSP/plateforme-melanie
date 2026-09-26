@@ -274,6 +274,27 @@
   font-weight: 400;
 }
 
+.home-story__quiz-link {
+  display: inline-flex;
+  gap: 0.45rem;
+  align-items: center;
+  align-self: flex-start;
+  width: fit-content;
+  margin-top: 0.85rem;
+  color: var(--color-primary-active);
+  font-size: 0.92rem;
+  font-weight: 700;
+  text-decoration: underline;
+  text-decoration-color: var(--color-primary-soft);
+  text-underline-offset: 0.3rem;
+  transition: gap var(--transition-fast), color var(--transition-fast);
+}
+
+.home-story__quiz-link:hover {
+  gap: 0.7rem;
+  color: var(--color-primary);
+}
+
 .home-story__resource-slider-shell {
   position: relative;
   margin-block: 2.5rem 0.75rem;

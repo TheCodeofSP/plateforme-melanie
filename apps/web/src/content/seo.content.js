@@ -28,6 +28,12 @@ export const seoContent = {
         "Explore les ressources pédagogiques de Mélanie Dizet : articles, vidéos, podcasts et supports pour mieux comprendre ton corps, ton cycle et ton équilibre gynécologique.",
       url: "/ressources",
     },
+    quiz: {
+      title: "Quiz SPM — Découvre ton profil",
+      description:
+        "Un quiz éditorial pour mieux comprendre les signaux physiques et émotionnels de ton syndrome prémenstruel et découvrir ton profil SPM.",
+      url: "/quizspm",
+    },
     accompaniments: {
       title: "Accompagnements | Mélanie Dizet",
       description:

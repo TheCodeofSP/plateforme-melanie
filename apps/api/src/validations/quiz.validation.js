@@ -1,9 +1,5 @@
 const { z } = require("zod");
-const {
-  CONTRACEPTION_TYPES,
-  SPM_PROFILES,
-  QUIZ_VERSION,
-} = require("../config/quiz.constants");
+const { CONTRACEPTION_TYPES, SPM_PROFILES, QUIZ_VERSION } = require("../config/quiz.constants");
 
 const answerSchema = z
   .object({
@@ -35,8 +31,11 @@ const submitQuizSchema = z
       .optional(),
     participantInfo: z
       .object({
-        age: z.number().int().min(10).max(100).optional(),
+        age: z.number().int().min(18).max(100).optional(),
         contraception: z.enum(CONTRACEPTION_TYPES),
+        adultConfirmed: z.literal(true, {
+          error: "La majorité doit être confirmée.",
+        }),
       })
       .strict(),
     answers: z.array(answerSchema).length(11),

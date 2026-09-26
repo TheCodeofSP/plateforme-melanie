@@ -15,15 +15,12 @@ import useQuizLeaveGuard from "../hooks/useQuizLeaveGuard.js";
 import "../../../styles/pages/quiz/quiz-flow.scss";
 
 export default function QuizQuestionsPage() {
-  const { state, dispatch, loading, isMember, loadQuiz, completeQuiz } =
-    useQuiz();
+  const { state, dispatch, loading, isMember, loadQuiz, completeQuiz } = useQuiz();
   const { isAuthenticated, user } = useAuth();
   const navigate = useNavigate();
   const [localError, setLocalError] = useState(null);
   const quiz = state.quiz;
-  const started =
-    state.stage !== quizStages.preparation &&
-    state.stage !== quizStages.completed;
+  const started = state.stage !== quizStages.preparation && state.stage !== quizStages.completed;
   useQuizLeaveGuard(started);
 
   useEffect(() => {
@@ -61,9 +58,8 @@ export default function QuizQuestionsPage() {
         <p className="quiz-flow__eyebrow">Un espace pensé pour chacune</p>
         <h1>Ce quiz est réservé aux participantes</h1>
         <p>
-          Ton compte professionnel ou d’administration ne peut pas enregistrer
-          de résultat personnel. Cela permet de préserver la justesse des
-          statistiques.
+          Ton compte professionnel ou d’administration ne peut pas enregistrer de résultat
+          personnel. Cela permet de préserver la justesse des statistiques.
         </p>
         <Link className="btn btn-primary" to={roleHome(user.role)}>
           Retour à mon espace
@@ -77,6 +73,12 @@ export default function QuizQuestionsPage() {
     if (!isMember && (!Number.isInteger(age) || age < quiz.minimumGuestAge)) {
       setLocalError({
         message: `Le quiz est accessible à partir de ${quiz.minimumGuestAge} ans.`,
+      });
+      return;
+    }
+    if (!state.participantInfo.adultConfirmed) {
+      setLocalError({
+        message: "Confirme que tu es majeure pour commencer le quiz.",
       });
       return;
     }
@@ -110,11 +112,9 @@ export default function QuizQuestionsPage() {
       return;
     }
     const nextIndex = state.currentIndex + 1;
-    const categoryChanges =
-      quiz.questions[nextIndex].category !== question.category;
+    const categoryChanges = quiz.questions[nextIndex].category !== question.category;
     dispatch({ type: "GO_TO", index: nextIndex });
-    if (categoryChanges)
-      dispatch({ type: "STAGE", stage: quizStages.transition });
+    if (categoryChanges) dispatch({ type: "STAGE", stage: quizStages.transition });
   }
 
   function previousQuestion() {
@@ -127,10 +127,7 @@ export default function QuizQuestionsPage() {
 
   async function handleIdentity(event) {
     event.preventDefault();
-    if (
-      state.identity.firstName.trim().length < 2 ||
-      !state.identity.email.includes("@")
-    ) {
+    if (state.identity.firstName.trim().length < 2 || !state.identity.email.includes("@")) {
       setLocalError({
         message: "Indique un prénom et une adresse email valides.",
       });
@@ -144,18 +141,10 @@ export default function QuizQuestionsPage() {
   if (state.stage === quizStages.preparation) {
     return (
       <QuizShell>
-        <p className="quiz-flow__eyebrow">
-          {quizFlowContent.preparation.eyebrow}
-        </p>
+        <p className="quiz-flow__eyebrow">{quizFlowContent.preparation.eyebrow}</p>
         <h1>{quizFlowContent.preparation.title}</h1>
-        <p>
-          {isMember
-            ? quizFlowContent.preparation.member
-            : quizFlowContent.preparation.guest}
-        </p>
-        <div className="quiz-flow__note">
-          {quizFlowContent.preparation.disclaimer}
-        </div>
+        <p>{isMember ? quizFlowContent.preparation.member : quizFlowContent.preparation.guest}</p>
+        <div className="quiz-flow__note">{quizFlowContent.preparation.disclaimer}</div>
         {localError && <FormErrorSummary error={localError} />}
         <div className="quiz-setup">
           {!isMember && (
@@ -196,19 +185,27 @@ export default function QuizQuestionsPage() {
               ))}
             </select>
           </label>
+          <label className="quiz-consent">
+            <input
+              type="checkbox"
+              checked={state.participantInfo.adultConfirmed}
+              onChange={(event) =>
+                dispatch({
+                  type: "SET_PARTICIPANT",
+                  value: { adultConfirmed: event.target.checked },
+                })
+              }
+            />
+            <span>Je confirme être majeure.</span>
+          </label>
           <QuizConsent
             name="spmDataProcessing"
             checked={state.consents.spmDataProcessing}
             dispatch={dispatch}
           >
-            J’accepte le traitement de mes réponses pour déterminer mon profil
-            SPM.
+            J’accepte le traitement de mes réponses pour déterminer mon profil SPM.
           </QuizConsent>
-          <QuizConsent
-            name="resultEmail"
-            checked={state.consents.resultEmail}
-            dispatch={dispatch}
-          >
+          <QuizConsent name="resultEmail" checked={state.consents.resultEmail} dispatch={dispatch}>
             J’accepte de recevoir mon résultat par email.
           </QuizConsent>
         </div>
@@ -231,9 +228,7 @@ export default function QuizQuestionsPage() {
         <p>{category.text}</p>
         <button
           className="btn btn-primary"
-          onClick={() =>
-            dispatch({ type: "STAGE", stage: quizStages.question })
-          }
+          onClick={() => dispatch({ type: "STAGE", stage: quizStages.question })}
         >
           Continuer
         </button>
@@ -250,13 +245,8 @@ export default function QuizQuestionsPage() {
           question={question}
           total={quiz.questions.length}
         />
-        <p className="quiz-question__number" aria-hidden="true">
-          {String(state.currentIndex + 1).padStart(2, "0")}
-        </p>
         <h1 className="quiz-question__title">{question.title}</h1>
-        {question.helpText && (
-          <p className="quiz-flow__note">{question.helpText}</p>
-        )}
+        {question.helpText && <p className="quiz-flow__note">{question.helpText}</p>}
         {localError && <FormErrorSummary error={localError} />}
         <fieldset className="quiz-answers">
           <legend className="sr-only">Choisis une réponse</legend>
@@ -303,39 +293,45 @@ export default function QuizQuestionsPage() {
         {state.error && <FormErrorSummary error={state.error} />}
         <div className="quiz-review">
           {Object.entries(quizCategories).map(([categoryKey, category]) => {
-            const questions = quiz.questions.filter(
-              (item) => item.category === categoryKey,
-            );
-            const answered = questions.filter(
-              (item) => state.answers[item.id],
-            ).length;
+            const questions = quiz.questions.filter((item) => item.category === categoryKey);
             return (
-              <div key={categoryKey}>
-                <span aria-hidden="true">{category.symbol}</span>
-                <div>
-                  <strong>{category.title}</strong>
-                  <p>
-                    {answered} réponse{answered > 1 ? "s" : ""} sur{" "}
-                    {questions.length}
-                  </p>
+              <section className="quiz-review__category" key={categoryKey}>
+                <header>
+                  <span aria-hidden="true">{category.symbol}</span>
+                  <h2>{category.title}</h2>
+                </header>
+                <div className="quiz-review__answers">
+                  {questions.map((item) => {
+                    const answer = item.answers.find(
+                      (choice) => choice.key === state.answers[item.id],
+                    );
+                    const questionIndex = quiz.questions.findIndex(
+                      (quizQuestion) => quizQuestion.id === item.id,
+                    );
+                    return (
+                      <article className="quiz-review__answer" key={item.id}>
+                        <div>
+                          <h3>{item.title}</h3>
+                          <p>{answer?.label}</p>
+                        </div>
+                        <button
+                          type="button"
+                          onClick={() => dispatch({ type: "GO_TO", index: questionIndex })}
+                        >
+                          Modifier
+                        </button>
+                      </article>
+                    );
+                  })}
                 </div>
-              </div>
+              </section>
             );
           })}
         </div>
-        <button
-          className="quiz-review__edit"
-          type="button"
-          onClick={() => dispatch({ type: "GO_TO", index: 0 })}
-        >
-          Relire mes réponses
-        </button>
         <div className="quiz-flow__actions">
           <button
             className="btn btn-secondary"
-            onClick={() =>
-              dispatch({ type: "GO_TO", index: quiz.questions.length - 1 })
-            }
+            onClick={() => dispatch({ type: "GO_TO", index: quiz.questions.length - 1 })}
           >
             Retour
           </button>
@@ -396,8 +392,7 @@ export default function QuizQuestionsPage() {
             checked={state.consents.marketingCommunications}
             dispatch={dispatch}
           >
-            Je souhaite recevoir les contenus et actualités de Mélanie.{" "}
-            <small>Facultatif</small>
+            Je souhaite recevoir les contenus et actualités de Mélanie. <small>Facultatif</small>
           </QuizConsent>
           <QuizConsent
             name="personalContact"
@@ -411,9 +406,7 @@ export default function QuizQuestionsPage() {
             <button
               type="button"
               className="btn btn-secondary"
-              onClick={() =>
-                dispatch({ type: "STAGE", stage: quizStages.review })
-              }
+              onClick={() => dispatch({ type: "STAGE", stage: quizStages.review })}
             >
               Retour
             </button>
@@ -432,12 +425,10 @@ export default function QuizQuestionsPage() {
         <p className="quiz-flow__eyebrow">Ton espace existe déjà</p>
         <h1>Connecte-toi par email</h1>
         <p>
-          Cette adresse appartient à un compte. Demande un lien de connexion,
-          puis reprends le quiz depuis ton espace.
+          Cette adresse appartient à un compte. Demande un lien de connexion, puis reprends le quiz
+          depuis ton espace.
         </p>
-        {(localError || state.error) && (
-          <FormErrorSummary error={localError || state.error} />
-        )}
+        {(localError || state.error) && <FormErrorSummary error={localError || state.error} />}
         <Link className="btn btn-primary" to={routes.login}>
           Recevoir mon lien de connexion
         </Link>
@@ -454,9 +445,7 @@ function QuizConsent({ children, checked, dispatch, name }) {
       <input
         type="checkbox"
         checked={checked}
-        onChange={(event) =>
-          dispatch({ type: "SET_CONSENT", name, value: event.target.checked })
-        }
+        onChange={(event) => dispatch({ type: "SET_CONSENT", name, value: event.target.checked })}
       />
       <span>{children}</span>
     </label>
@@ -466,11 +455,7 @@ function QuizConsent({ children, checked, dispatch, name }) {
 function QuizShell({ children, modifier = "" }) {
   return (
     <>
-      <SEO
-        title="Le Quiz SPM"
-        description="Découvre ton profil de SPM."
-        noIndex
-      />
+      <SEO title="Le Quiz SPM" description="Découvre ton profil de SPM." noIndex />
       <main className={`quiz-flow ${modifier}`}>
         <section className="quiz-flow__paper">
           {children}

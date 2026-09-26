@@ -18,6 +18,7 @@
     "migrate:crm-contacts": "node src/scripts/migrateCrmContacts.js",
     "migrate:email-provider": "node src/scripts/migrateEmailProvider.js",
     "migrate:register-history": "node src/scripts/registerMigrationHistory.js",
+    "migrate:quiz-participant-indexes": "node src/scripts/migrateQuizParticipantIndexes.js",
     "seed:test": "node src/scripts/manageFixtures.js --target=test",
     "seed:staging": "node src/scripts/manageFixtures.js --target=staging",
     "reset:staging": "node src/scripts/manageFixtures.js --target=staging --reset",

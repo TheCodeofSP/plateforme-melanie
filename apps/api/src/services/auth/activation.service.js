@@ -1,21 +1,16 @@
 const mongoose = require("mongoose");
 
-const {
-  ACCOUNT_TOKEN_TYPES,
-  AUTH_DURATIONS,
-} = require("../../config/auth.constants");
+const { ACCOUNT_TOKEN_TYPES, AUTH_DURATIONS } = require("../../config/auth.constants");
 const env = require("../../config/env");
 const AccountToken = require("../../models/AccountToken");
 const User = require("../../models/User");
 const { createEmailVerificationTemplate } = require("../../templates/auth");
 const { sendTransactionalEmail } = require("../email.service");
-const { linkQuizHistoryToUser } = require("../quiz/quiz.service");
 const { generateToken, hashToken } = require("../token.service");
 const { createBadRequestError } = require("./authErrors");
 
 async function verifyEmail(token) {
   const session = await mongoose.startSession();
-  let activatedUser = null;
 
   try {
     await session.withTransaction(async () => {
@@ -48,38 +43,28 @@ async function verifyEmail(token) {
         if (knownToken && knownToken.expiresAt <= now) {
           throw createBadRequestError("Le lien de validation a expiré.");
         }
-        throw createBadRequestError(
-          "Le lien de validation est invalide ou a expiré.",
-        );
+        throw createBadRequestError("Le lien de validation est invalide ou a expiré.");
       }
 
       const user = await User.findById(accountToken.user).session(session);
       if (!user) {
-        throw createBadRequestError(
-          "Le compte associé à ce lien n’existe plus.",
-        );
+        throw createBadRequestError("Le compte associé à ce lien n’existe plus.");
       }
 
       user.emailVerifiedAt ||= now;
       user.accountStatus = "ACTIVE";
       await user.save({ session });
-      activatedUser = user;
     });
   } finally {
     await session.endSession();
   }
 
-  if (activatedUser) await linkQuizHistoryToUser(activatedUser);
   return { accountActivated: true, alreadyVerified: false };
 }
 
 async function resendEmailVerification(email) {
   const user = await User.findOne({ email: email.toLowerCase() });
-  if (
-    !user ||
-    user.accountStatus !== "PENDING_ACTIVATION" ||
-    user.emailVerifiedAt
-  ) {
+  if (!user || user.accountStatus !== "PENDING_ACTIVATION" || user.emailVerifiedAt) {
     return { emailAccepted: false };
   }
 
@@ -90,8 +75,7 @@ async function resendEmailVerification(email) {
 
   if (
     latestToken &&
-    Date.now() - latestToken.createdAt.getTime() <
-      AUTH_DURATIONS.RESEND_COOLDOWN_MS
+    Date.now() - latestToken.createdAt.getTime() < AUTH_DURATIONS.RESEND_COOLDOWN_MS
   ) {
     return { emailAccepted: false };
   }
@@ -117,9 +101,7 @@ async function resendEmailVerification(email) {
             user: user._id,
             type: ACCOUNT_TOKEN_TYPES.EMAIL_VERIFICATION,
             tokenHash: hashToken(token),
-            expiresAt: new Date(
-              now.getTime() + AUTH_DURATIONS.EMAIL_VERIFICATION_MS,
-            ),
+            expiresAt: new Date(now.getTime() + AUTH_DURATIONS.EMAIL_VERIFICATION_MS),
           },
         ],
         { session },
@@ -143,10 +125,7 @@ async function resendEmailVerification(email) {
     }
     return { emailAccepted: true };
   } catch (error) {
-    console.error(
-      "❌ Échec du renvoi de l’email de validation :",
-      error.message,
-    );
+    console.error("❌ Échec du renvoi de l’email de validation :", error.message);
     return { emailAccepted: false };
   }
 }

@@ -200,6 +200,10 @@ export default function Home() {
             <p className="home-story__access-information">
               {homeContent.firstSteps.accessInformation}
             </p>
+            <Link className="home-story__quiz-link" to={homeContent.firstSteps.quizAction.to}>
+              {homeContent.firstSteps.quizAction.label}
+              <span aria-hidden="true">→</span>
+            </Link>
           </header>
 
           <div className="home-story__resource-slider-shell">
