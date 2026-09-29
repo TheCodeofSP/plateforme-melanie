@@ -46,7 +46,6 @@ const quizAttemptSchema = new mongoose.Schema(
     answers: { type: [answerSchema], required: true },
     participantInfo: {
       age: { type: Number, required: true, min: 18, max: 100 },
-      adultConfirmed: { type: Boolean, default: false },
       contraception: {
         type: String,
         enum: CONTRACEPTION_TYPES,

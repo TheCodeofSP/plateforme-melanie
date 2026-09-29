@@ -70,15 +70,9 @@ export default function QuizQuestionsPage() {
 
   function begin() {
     const age = Number(state.participantInfo.age);
-    if (!isMember && (!Number.isInteger(age) || age < quiz.minimumGuestAge)) {
+    if (!Number.isInteger(age) || age < quiz.minimumAge) {
       setLocalError({
-        message: `Le quiz est accessible à partir de ${quiz.minimumGuestAge} ans.`,
-      });
-      return;
-    }
-    if (!state.participantInfo.adultConfirmed) {
-      setLocalError({
-        message: "Confirme que tu es majeure pour commencer le quiz.",
+        message: `Le quiz est accessible à partir de ${quiz.minimumAge} ans.`,
       });
       return;
     }
@@ -147,24 +141,23 @@ export default function QuizQuestionsPage() {
         <div className="quiz-flow__note">{quizFlowContent.preparation.disclaimer}</div>
         {localError && <FormErrorSummary error={localError} />}
         <div className="quiz-setup">
-          {!isMember && (
-            <label className="form-field">
-              <span>Ton âge</span>
-              <input
-                className="form-input"
-                type="number"
-                min={quiz.minimumGuestAge}
-                max="100"
-                value={state.participantInfo.age}
-                onChange={(event) =>
-                  dispatch({
-                    type: "SET_PARTICIPANT",
-                    value: { age: event.target.value },
-                  })
-                }
-              />
-            </label>
-          )}
+          <label className="form-field">
+            <span>Ton âge</span>
+            <input
+              className="form-input"
+              type="number"
+              min={quiz.minimumAge}
+              max="100"
+              value={state.participantInfo.age ?? ""}
+              onChange={(event) =>
+                dispatch({
+                  type: "SET_PARTICIPANT",
+                  value: { age: event.target.value },
+                })
+              }
+              required
+            />
+          </label>
           <label className="form-field">
             <span>Ta contraception actuelle</span>
             <select
@@ -184,19 +177,6 @@ export default function QuizQuestionsPage() {
                 </option>
               ))}
             </select>
-          </label>
-          <label className="quiz-consent">
-            <input
-              type="checkbox"
-              checked={state.participantInfo.adultConfirmed}
-              onChange={(event) =>
-                dispatch({
-                  type: "SET_PARTICIPANT",
-                  value: { adultConfirmed: event.target.checked },
-                })
-              }
-            />
-            <span>Je confirme être majeure.</span>
           </label>
           <QuizConsent
             name="spmDataProcessing"
@@ -219,11 +199,13 @@ export default function QuizQuestionsPage() {
   if (state.stage === quizStages.transition) {
     const category = quizCategories[question.category];
     return (
-      <QuizShell modifier={`quiz-flow--${category.className}`}>
-        <span className="quiz-transition__symbol" aria-hidden="true">
-          {category.symbol}
-        </span>
-        <p className="quiz-flow__eyebrow">{category.kicker}</p>
+      <QuizShell modifier={`quiz-flow--${category.className} quiz-flow--transition`}>
+        <div className="quiz-transition__meta">
+          <span className="quiz-transition__symbol" aria-hidden="true">
+            {category.symbol}
+          </span>
+          <p className="quiz-flow__eyebrow">{category.kicker}</p>
+        </div>
         <h1>{category.title}</h1>
         <p>{category.text}</p>
         <button
@@ -239,7 +221,7 @@ export default function QuizQuestionsPage() {
   if (state.stage === quizStages.question) {
     const category = quizCategories[question.category];
     return (
-      <QuizShell modifier={`quiz-flow--${category.className}`}>
+      <QuizShell modifier={`quiz-flow--${category.className} quiz-flow--question`}>
         <QuizProgress
           index={state.currentIndex}
           question={question}

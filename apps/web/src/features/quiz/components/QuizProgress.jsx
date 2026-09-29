@@ -7,7 +7,7 @@ export default function QuizProgress({ index, question, total }) {
   return (
     <div className="quiz-progress" aria-label={`Question ${index + 1} sur ${total}`}>
       <div>
-        <span>{category?.title}</span>
+        <span className="eyebrow">{category?.title}</span>
         <strong className="quiz-progress__count">
           <span>{String(index + 1).padStart(2, "0")}</span>
           <small>sur {total}</small>

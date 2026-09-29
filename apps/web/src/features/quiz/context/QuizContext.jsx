@@ -53,9 +53,8 @@ export function QuizProvider({ children }) {
             }
           : {}),
         participantInfo: {
-          ...(!authenticated ? { age: Number(state.participantInfo.age) } : {}),
+          age: Number(state.participantInfo.age),
           contraception: state.participantInfo.contraception,
-          adultConfirmed: state.participantInfo.adultConfirmed,
         },
         answers,
         consents: state.consents,

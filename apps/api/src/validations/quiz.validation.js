@@ -31,11 +31,10 @@ const submitQuizSchema = z
       .optional(),
     participantInfo: z
       .object({
-        age: z.number().int().min(18).max(100).optional(),
+        age: z.number().int().min(18).max(100),
         contraception: z.enum(CONTRACEPTION_TYPES),
-        adultConfirmed: z.literal(true, {
-          error: "La majorité doit être confirmée.",
-        }),
+        // Compatibilité temporaire avec les anciennes versions du front.
+        adultConfirmed: z.boolean().optional(),
       })
       .strict(),
     answers: z.array(answerSchema).length(11),

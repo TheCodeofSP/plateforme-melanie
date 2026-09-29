@@ -262,7 +262,6 @@ async function seed() {
           participantInfo: {
             age: 30 + index,
             contraception,
-            adultConfirmed: true,
           },
           scores,
           calculatedProfiles: [profile],
