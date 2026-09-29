@@ -4,9 +4,7 @@ const {
   completeResourceVersionSchema,
   updateResourceSchema,
 } = require("../src/validations/resource.validation");
-const {
-  uploadAuthorizationSchema,
-} = require("../src/validations/media.validation");
+const { uploadAuthorizationSchema } = require("../src/validations/media.validation");
 
 const base = {
   title: "Ressource",
@@ -19,10 +17,7 @@ const base = {
 };
 
 test("un brouillon incomplet reste enregistrable", () => {
-  assert.equal(
-    updateResourceSchema.safeParse({ title: "Début" }).success,
-    true,
-  );
+  assert.equal(updateResourceSchema.safeParse({ title: "Début" }).success, true);
 });
 
 test("un article complet est soumis", () => {
@@ -33,6 +28,26 @@ test("un article complet est soumis", () => {
     blocks: [{ type: "PARAGRAPH", text: "Contenu" }],
   });
   assert.equal(result.success, true);
+});
+
+test("un article distingue les titres de niveau 2 et 3", () => {
+  const result = completeResourceVersionSchema.safeParse({
+    ...base,
+    format: "ARTICLE",
+    sourceMode: "TEXT",
+    blocks: [
+      { type: "HEADING", level: 2, text: "Une partie" },
+      { type: "HEADING", level: 3, text: "Un sous-titre" },
+    ],
+  });
+  assert.equal(result.success, true);
+});
+
+test("un niveau de titre inconnu est refusé", () => {
+  const result = updateResourceSchema.safeParse({
+    blocks: [{ type: "HEADING", level: 4, text: "Titre invalide" }],
+  });
+  assert.equal(result.success, false);
 });
 
 test("un ebook exige un PDF", () => {
@@ -60,11 +75,7 @@ test("deux profils SPM maximum", () => {
     format: "ARTICLE",
     sourceMode: "TEXT",
     blocks: [{ type: "PARAGRAPH", text: "Contenu" }],
-    recommendedSpmProfiles: [
-      "DOUCE_MELANCOLIE",
-      "GONFLEE_A_BLOC",
-      "CROQUE_TOUT",
-    ],
+    recommendedSpmProfiles: ["DOUCE_MELANCOLIE", "GONFLEE_A_BLOC", "CROQUE_TOUT"],
   });
   assert.equal(result.success, false);
 });

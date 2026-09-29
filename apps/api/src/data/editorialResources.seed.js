@@ -1064,6 +1064,7 @@ module.exports = [
       blocks: [
         {
           type: "HEADING",
+          level: 2,
           text: "Apprendre à gérer sa fertilité",
         },
         {
@@ -1072,6 +1073,7 @@ module.exports = [
         },
         {
           type: "HEADING",
+          level: 2,
           text: "Gérer sa fertilité : qu’est-ce que cela signifie ?",
         },
         {
@@ -1084,6 +1086,7 @@ module.exports = [
         },
         {
           type: "HEADING",
+          level: 3,
           text: "La contraception",
         },
         {
@@ -1092,6 +1095,7 @@ module.exports = [
         },
         {
           type: "HEADING",
+          level: 3,
           text: "La conception",
         },
         {
@@ -1104,6 +1108,7 @@ module.exports = [
         },
         {
           type: "HEADING",
+          level: 3,
           text: "Suivi et prévention",
         },
         {
@@ -1112,6 +1117,7 @@ module.exports = [
         },
         {
           type: "HEADING",
+          level: 2,
           text: "Pourquoi est-ce si important de gérer sa fertilité ?",
         },
         {
@@ -1119,16 +1125,12 @@ module.exports = [
           text: "La gestion de la fertilité est nécessaire pour avancer dans l’autonomie en matière de santé. Pour pouvoir gérer notre fertilité, nous avons besoin de connaître notre corps et le fonctionnement de notre organisme. Cette connaissance nous permet d’identifier ce qui nous fait du bien, ainsi que les facteurs qui peuvent dégrader notre état de santé. Nous sommes ainsi capables de :",
         },
         {
-          type: "PARAGRAPH",
-          text: "Mieux comprendre sur ce qui arrive à notre corps, savoir l’exprimer et mieux communiquer avec les médecins",
-        },
-        {
-          type: "PARAGRAPH",
-          text: "Choisir nos contraceptifs en toute connaissance de cause",
-        },
-        {
-          type: "PARAGRAPH",
-          text: "Réaliser des auto soins efficaces au quotidien.",
+          type: "BULLET_LIST",
+          items: [
+            "Mieux comprendre ce qui arrive à notre corps, savoir l’exprimer et mieux communiquer avec les médecins",
+            "Choisir nos contraceptifs en toute connaissance de cause",
+            "Réaliser des auto soins efficaces au quotidien.",
+          ],
         },
         {
           type: "PARAGRAPH",
@@ -1136,6 +1138,7 @@ module.exports = [
         },
         {
           type: "HEADING",
+          level: 2,
           text: "Quels outils pour gérer sa fertilité ?",
         },
         {
@@ -1144,6 +1147,7 @@ module.exports = [
         },
         {
           type: "HEADING",
+          level: 3,
           text: "Les applications de suivi des règles",
         },
         {
@@ -1152,6 +1156,7 @@ module.exports = [
         },
         {
           type: "HEADING",
+          level: 3,
           text: "La fleur de cycle",
         },
         {
@@ -1164,6 +1169,7 @@ module.exports = [
         },
         {
           type: "HEADING",
+          level: 3,
           text: "Le journal menstruel",
         },
         {
@@ -1172,6 +1178,7 @@ module.exports = [
         },
         {
           type: "HEADING",
+          level: 3,
           text: "La Symptothermie",
         },
         {
@@ -1192,6 +1199,7 @@ module.exports = [
         },
         {
           type: "HEADING",
+          level: 3,
           text: "La Gyn’émotion®",
         },
         {
@@ -1203,24 +1211,16 @@ module.exports = [
           text: "Cette méthode comporte trois volets principaux :",
         },
         {
-          type: "PARAGRAPH",
-          text: "La compréhension, qui passe par la connaissance de notre anatomie",
-        },
-        {
-          type: "PARAGRAPH",
-          text: "La traversée et les émotions, qui utilise entre autres la méditation pour mettre en lumière et traverser les émotions refoulées",
-        },
-        {
-          type: "PARAGRAPH",
-          text: "La transformation, qui inclut des auto soins afin de (re)prendre en main son bien-être physique et émotionnel à travers la gynécologie.",
+          type: "BULLET_LIST",
+          items: [
+            "La compréhension, qui passe par la connaissance de notre anatomie",
+            "La traversée et les émotions, qui utilise entre autres la méditation pour mettre en lumière et traverser les émotions refoulées",
+            "La transformation, qui inclut des auto soins afin de (re)prendre en main son bien-être physique et émotionnel à travers la gynécologie.",
+          ],
         },
         {
           type: "PARAGRAPH",
           text: "Bref, gérer sa fertilité en autonomie passe par une connaissance plus poussée du corps et une observation active que l’on peut facilement réaliser avec des outils simples. Il s’agit de se reconnecter à son corps. Pour aller plus loin dans l’autonomie, il existe des méthodes spécifiques à apprivoiser auprès d’une spécialiste.",
-        },
-        {
-          type: "PARAGRAPH",
-          text: "Aina Rakotonjanahary",
         },
       ],
       authorName: "Aina Rakotonjanahary",
