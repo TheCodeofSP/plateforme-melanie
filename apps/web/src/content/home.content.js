@@ -212,7 +212,7 @@ export const homeContent = {
         title: "Gestion de la fertilité",
         text: "Un accompagnement pour apprendre à observer ton cycle grâce à la méthode symptothermique.",
         ideal:
-          "Apprends à connaître ton cycle menstruel, pour une contraception naturelle, ou un projet bébé plus conscient.",
+          "Apprends à connaître ton cycle, pour une contraception naturelle, ou un projet bébé plus conscient.",
         to: routes.accompanimentSymptothermy,
       },
     ],

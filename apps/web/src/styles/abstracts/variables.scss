@@ -80,11 +80,7 @@
     var(--color-grey-extra-light) 100%
   );
 
-  --gradient-surface-warm: linear-gradient(
-    180deg,
-    var(--color-white) 0%,
-    var(--color-cream) 100%
-  );
+  --gradient-surface-warm: linear-gradient(180deg, var(--color-white) 0%, var(--color-cream) 100%);
 
   --gradient-surface-primary: linear-gradient(
     180deg,
@@ -98,11 +94,7 @@
     var(--color-green-light) 100%
   );
 
-  --gradient-primary: linear-gradient(
-    135deg,
-    var(--color-rose) 0%,
-    var(--color-rose-dark) 100%
-  );
+  --gradient-primary: linear-gradient(135deg, var(--color-rose) 0%, var(--color-rose-dark) 100%);
 
   --gradient-primary-soft: linear-gradient(
     135deg,
@@ -113,11 +105,7 @@
   /* Hero */
 
   --gradient-hero:
-    radial-gradient(
-      circle at 88% 10%,
-      rgba(166, 120, 122, 0.12) 0%,
-      transparent 38%
-    ),
+    radial-gradient(circle at 88% 10%, rgba(166, 120, 122, 0.12) 0%, transparent 38%),
     linear-gradient(
       180deg,
       var(--color-rose-extra-light) 0%,
@@ -185,4 +173,13 @@
   /* Transitions */
   --transition-fast: 180ms ease;
   --transition-base: 250ms ease;
+
+  /* Public editorial interface */
+  --public-title-weight: 400;
+  --public-body-weight: 400;
+  --resource-card-radius: var(--radius-lg);
+  --resource-card-surface: #fffdfb;
+  --resource-chip-surface: var(--color-primary-extra-soft);
+  --resource-chip-color: var(--color-primary-active);
+  --article-measure: 72ch;
 }

@@ -2,20 +2,16 @@ const crypto = require("crypto");
 const QuizParticipant = require("../../models/QuizParticipant");
 const QuizAttempt = require("../../models/QuizAttempt");
 const QuizConsentRecord = require("../../models/QuizConsentRecord");
+const Resource = require("../../models/Resource");
 const User = require("../../models/User");
 const quizQuestions = require("../../data/quizQuestions");
 const profileContents = require("../../data/quizProfileContents");
-const {
-  QUIZ_VERSION,
-  QUIZ_CONSENT_TYPES,
-} = require("../../config/quiz.constants");
+const { QUIZ_VERSION, QUIZ_CONSENT_TYPES } = require("../../config/quiz.constants");
 const DOCUMENT_VERSIONS = require("../../config/documentVersions");
 const env = require("../../config/env");
 const { calculateAge } = require("../../utils/age.utils");
 const { sendTransactionalEmail } = require("../email.service");
-const {
-  createQuizResultTemplate,
-} = require("../../templates/quiz/quizResult.template");
+const { createQuizResultTemplate } = require("../../templates/quiz/quizResult.template");
 const { scoreQuiz } = require("./quizScoring.service");
 const { syncQuizMarketingContact } = require("../marketingContact.service");
 
@@ -40,15 +36,13 @@ function publicQuiz() {
       { value: "PHYSICAL_SYMPTOMS", label: "Symptômes physiques" },
       { value: "EMOTIONAL_SYMPTOMS", label: "Symptômes émotionnels" },
     ],
-    questions: quizQuestions.map(
-      ({ id, category, title, helpText, answers }) => ({
-        id,
-        category,
-        title,
-        helpText: helpText || null,
-        answers: answers.map(({ key, label }) => ({ key, label })),
-      }),
-    ),
+    questions: quizQuestions.map(({ id, category, title, helpText, answers }) => ({
+      id,
+      category,
+      title,
+      helpText: helpText || null,
+      answers: answers.map(({ key, label }) => ({ key, label })),
+    })),
     contraceptionTypes: [
       { value: "INJECTION", label: "Injection contraceptive" },
       { value: "PILL", label: "Pilule contraceptive" },
@@ -59,13 +53,20 @@ function publicQuiz() {
       { value: "NONE", label: "Aucune contraception hormonale" },
       { value: "PREFER_NOT_TO_SAY", label: "Je préfère ne pas répondre" },
     ],
-    minimumGuestAge: 15,
+    minimumGuestAge: 18,
   };
 }
 
 async function resolveParticipant(payload, user) {
   const email = (user?.email || payload.email || "").toLowerCase().trim();
   const firstName = (user?.firstName || payload.firstName || "").trim();
+
+  if (payload.participantInfo.adultConfirmed !== true)
+    throw httpError(
+      "Tu dois confirmer être majeure pour participer au quiz.",
+      400,
+      "QUIZ_ADULT_CONFIRMATION_REQUIRED",
+    );
 
   if (!user && (!email || !firstName))
     throw httpError(
@@ -82,22 +83,15 @@ async function resolveParticipant(payload, user) {
     );
   }
 
-  const age = user
-    ? calculateAge(user.dateOfBirth)
-    : payload.participantInfo.age;
-  if (!Number.isInteger(age))
-    throw httpError("L’âge est obligatoire.", 400, "AGE_REQUIRED");
-  if (!user && age < 15)
-    throw httpError(
-      "Le quiz public est accessible à partir de 15 ans.",
-      403,
-      "QUIZ_MINIMUM_AGE",
-    );
-
-  if (user) await linkQuizHistoryToUser(user);
+  const age = user ? calculateAge(user.dateOfBirth) : payload.participantInfo.age;
+  if (!Number.isInteger(age)) throw httpError("L’âge est obligatoire.", 400, "AGE_REQUIRED");
+  if (!user && age < 18)
+    throw httpError("Le quiz public est accessible à partir de 18 ans.", 403, "QUIZ_MINIMUM_AGE");
 
   let participant = user
-    ? await QuizParticipant.findOne({ user: user._id })
+    ? await QuizParticipant.findOne({
+        $or: [{ user: user._id }, { email }],
+      })
     : await QuizParticipant.findOne({ email });
 
   if (!user && participant?.user) {
@@ -125,9 +119,7 @@ async function resolveParticipant(payload, user) {
     await participant.save();
   } catch (error) {
     if (error.code !== 11000) throw error;
-    participant = await QuizParticipant.findOne(
-      user ? { user: user._id } : { email },
-    );
+    participant = await QuizParticipant.findOne(user ? { user: user._id } : { email });
     if (!participant) throw error;
   }
 
@@ -162,8 +154,7 @@ async function saveConsents(participant, attempt, consents) {
       granted: values[type],
       textVersion: DOCUMENT_VERSIONS[type] || "draft-1",
       acceptedAt: values[type] ? now : null,
-      withdrawnAt:
-        !values[type] && latestByType.get(type)?.granted ? now : null,
+      withdrawnAt: !values[type] && latestByType.get(type)?.granted ? now : null,
     })),
   );
 }
@@ -219,11 +210,23 @@ async function sendResult(attempt, participant) {
   };
   await attempt.save();
   try {
+    const resources = await Resource.find({
+      publicationStatus: "PUBLISHED",
+      "publishedVersion.recommendedSpmProfiles": attempt.selectedProfile,
+    })
+      .sort({ lastPublishedAt: -1 })
+      .limit(3)
+      .select("slug publishedVersion.title")
+      .lean();
     const template = createQuizResultTemplate({
       firstName: participant.firstName,
       profile: attempt.selectedProfile,
       isMember: Boolean(participant.user),
       clientUrl: env.CLIENT_URL,
+      resources: resources.map((resource) => ({
+        title: resource.publishedVersion.title,
+        url: `${env.CLIENT_URL}/ressources/${resource.slug}`,
+      })),
     });
     await sendTransactionalEmail({
       emailType: "QUIZ_RESULT",
@@ -294,6 +297,7 @@ async function submitQuiz(payload, user) {
     participantInfo: {
       age,
       contraception: payload.participantInfo.contraception,
+      adultConfirmed: payload.participantInfo.adultConfirmed,
     },
     scores: result.scores,
     calculatedProfiles: result.calculatedProfiles,
@@ -307,13 +311,9 @@ async function submitQuiz(payload, user) {
   });
 
   await saveConsents(participant, attempt, payload.consents);
-  await syncMarketingConsent(
-    participant,
-    payload.consents.marketingCommunications,
-  );
+  await syncMarketingConsent(participant, payload.consents.marketingCommunications);
 
-  if (!hasTie)
-    await completeAttempt(attempt, participant, result.calculatedProfiles[0]);
+  if (!hasTie) await completeAttempt(attempt, participant, result.calculatedProfiles[0]);
 
   return {
     attemptId: attempt._id,
@@ -339,21 +339,10 @@ async function submitQuiz(payload, user) {
 }
 
 async function selectProfile(attemptId, payload, user) {
-  const attempt = await QuizAttempt.findById(attemptId).select(
-    "+selectionTokenHash",
-  );
-  if (!attempt)
-    throw httpError(
-      "Cette tentative n’existe pas.",
-      404,
-      "QUIZ_ATTEMPT_NOT_FOUND",
-    );
+  const attempt = await QuizAttempt.findById(attemptId).select("+selectionTokenHash");
+  if (!attempt) throw httpError("Cette tentative n’existe pas.", 404, "QUIZ_ATTEMPT_NOT_FOUND");
   if (attempt.status !== "AWAITING_PROFILE_SELECTION")
-    throw httpError(
-      "Cette tentative est déjà finalisée.",
-      409,
-      "QUIZ_ATTEMPT_ALREADY_COMPLETED",
-    );
+    throw httpError("Cette tentative est déjà finalisée.", 409, "QUIZ_ATTEMPT_ALREADY_COMPLETED");
   if (!attempt.calculatedProfiles.includes(payload.profile))
     throw httpError(
       "Ce profil ne fait pas partie des résultats proposés.",
@@ -362,26 +351,19 @@ async function selectProfile(attemptId, payload, user) {
     );
 
   const participant = await QuizParticipant.findById(attempt.participant);
-  const ownsAsUser =
-    user && participant.user?.toString() === user._id.toString();
+  const ownsAsUser = user && participant.user?.toString() === user._id.toString();
   const ownsAsGuest =
     !user &&
     payload.selectionToken &&
     attempt.selectionTokenExpiresAt > new Date() &&
     hashToken(payload.selectionToken) === attempt.selectionTokenHash;
   if (!ownsAsUser && !ownsAsGuest)
-    throw httpError(
-      "Tu ne peux pas finaliser cette tentative.",
-      403,
-      "QUIZ_ATTEMPT_FORBIDDEN",
-    );
+    throw httpError("Tu ne peux pas finaliser cette tentative.", 403, "QUIZ_ATTEMPT_FORBIDDEN");
 
   await completeAttempt(attempt, participant, payload.profile);
   return {
     status: attempt.status,
-    result: user
-      ? { profile: payload.profile, ...profileContents[payload.profile] }
-      : null,
+    result: user ? { profile: payload.profile, ...profileContents[payload.profile] } : null,
     resultDeliveredByEmail: true,
     accountCreationRecommended: !user,
   };
@@ -407,7 +389,11 @@ async function getCurrentResult(user) {
 async function getHistory(user) {
   const participant = await QuizParticipant.findOne({ user: user._id });
   if (!participant) return [];
-  return QuizAttempt.find({ participant: participant._id, status: "COMPLETED" })
+  return QuizAttempt.find({
+    participant: participant._id,
+    userSnapshot: user._id,
+    status: "COMPLETED",
+  })
     .sort({ completedAt: -1 })
     .select("selectedProfile completedAt -_id")
     .lean();
@@ -428,8 +414,7 @@ async function getPrefill(user) {
     firstName: user.firstName,
     email: user.email,
     age: calculateAge(user.dateOfBirth),
-    contraception:
-      latest?.participantInfo?.contraception || "PREFER_NOT_TO_SAY",
+    contraception: latest?.participantInfo?.contraception || "PREFER_NOT_TO_SAY",
   };
 }
 
@@ -440,10 +425,7 @@ async function linkQuizHistoryToUser(user) {
     QuizParticipant.findOne({ email: normalizedEmail }),
   ]);
 
-  if (
-    participantByEmail?.user &&
-    participantByEmail.user.toString() !== user._id.toString()
-  ) {
+  if (participantByEmail?.user && participantByEmail.user.toString() !== user._id.toString()) {
     throw httpError(
       "Cet historique de quiz est déjà rattaché à un autre compte.",
       409,

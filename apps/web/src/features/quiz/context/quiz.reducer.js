@@ -5,7 +5,7 @@ export const initialQuizState = {
   stage: quizStages.preparation,
   currentIndex: 0,
   answers: {},
-  participantInfo: { age: "", contraception: "" },
+  participantInfo: { age: "", contraception: "", adultConfirmed: false },
   identity: { firstName: "", email: "" },
   consents: {
     spmDataProcessing: false,
@@ -31,6 +31,7 @@ export function quizReducer(state, action) {
         participantInfo: {
           age: action.prefill.age,
           contraception: action.prefill.contraception,
+          adultConfirmed: false,
         },
         identity: {
           firstName: action.prefill.firstName,

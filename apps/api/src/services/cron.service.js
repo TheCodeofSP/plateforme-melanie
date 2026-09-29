@@ -103,12 +103,8 @@ async function retryQuizDeliveries(limit = 50) {
         },
       ],
     });
-    const attempts = await QuizAttempt.find(retryable("resultEmail")).limit(
-      limit,
-    );
-    const participants = await QuizParticipant.find(
-      retryable("marketingSync"),
-    ).limit(limit);
+    const attempts = await QuizAttempt.find(retryable("resultEmail")).limit(limit);
+    const participants = await QuizParticipant.find(retryable("marketingSync")).limit(limit);
     let failed = 0;
     for (const attempt of attempts) {
       try {
@@ -160,7 +156,7 @@ async function cleanupIncompleteQuizzes(limit = 100) {
 async function cleanupExpiredGuestQuizzes(limit = 100) {
   return withLog("cleanup-expired-guest-quizzes", async () => {
     const threshold = new Date();
-    threshold.setFullYear(threshold.getFullYear() - 3);
+    threshold.setFullYear(threshold.getFullYear() - 5);
     const attempts = await QuizAttempt.find({
       status: "COMPLETED",
       completedAt: { $lte: threshold },
@@ -208,9 +204,7 @@ async function cleanupSafePlaceNotifications() {
   return cleanupNotifications();
 }
 async function processNotificationDeliveries() {
-  return withLog("process-notification-deliveries", () =>
-    notificationDelivery.process(50),
-  );
+  return withLog("process-notification-deliveries", () => notificationDelivery.process(50));
 }
 async function cleanupNotifications() {
   return withLog("cleanup-notifications", async () => {
@@ -254,10 +248,7 @@ async function cleanupSafePlaceDeletedContent() {
     for (const post of posts) {
       const mediaIds = post.images.map((x) => x.media);
       if (mediaIds.length)
-        await MediaAsset.updateMany(
-          { _id: { $in: mediaIds } },
-          { $set: { status: "REPLACED" } },
-        );
+        await MediaAsset.updateMany({ _id: { $in: mediaIds } }, { $set: { status: "REPLACED" } });
       await Promise.all([
         SafePlaceReaction.deleteMany({
           targetType: "POST",
@@ -319,9 +310,7 @@ async function sendScheduledCommunications() {
   });
 }
 async function processCommunicationBatches() {
-  return withLog("process-communication-batches", () =>
-    campaignService.processBatch(50),
-  );
+  return withLog("process-communication-batches", () => campaignService.processBatch(50));
 }
 async function retryCommunicationDeliveries() {
   return withLog("retry-communication-deliveries", async () => ({

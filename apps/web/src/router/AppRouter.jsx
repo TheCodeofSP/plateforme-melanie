@@ -124,6 +124,7 @@ export default function AppRouter() {
             <Route path={routes.resources} element={<Resources />} />
             <Route path={routes.resourceDetail} element={<ResourceDetail />} />
             <Route path={routes.quiz} element={<Quiz />} />
+            <Route path="/quiz" element={<Navigate to={routes.quiz} replace />} />
             <Route path={routes.webinars} element={<WebinarCataloguePage />} />
             <Route path={routes.webinarDetail} element={<WebinarDetailPage />} />
             <Route path={routes.accompaniments} element={<Accompaniments />} />
@@ -190,6 +191,18 @@ export default function AppRouter() {
             <Route path={routes.quizQuestions} element={<QuizQuestionsPage />} />
             <Route path={routes.quizProfileSelection} element={<QuizProfileSelectionPage />} />
             <Route path={routes.quizResultSent} element={<QuizResultSentPage />} />
+            <Route
+              path="/quiz/questions"
+              element={<Navigate to={routes.quizQuestions} replace />}
+            />
+            <Route
+              path="/quiz/choisir-profil"
+              element={<Navigate to={routes.quizProfileSelection} replace />}
+            />
+            <Route
+              path="/quiz/resultat-envoye"
+              element={<Navigate to={routes.quizResultSent} replace />}
+            />
           </Route>
 
           <Route element={<RequireAuth />}>

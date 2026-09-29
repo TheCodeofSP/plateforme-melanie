@@ -1,7 +1,5 @@
 import { resourcesContent } from "../../../content/resources.content.js";
 
-import "../../../styles/components/pages/resources/resources-hero.scss";
-
 export default function ResourcesHero() {
   const { hero } = resourcesContent;
 

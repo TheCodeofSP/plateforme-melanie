@@ -45,8 +45,7 @@ const questions = [
     id: "q3",
     category: "MENSTRUAL_CYCLE",
     title: "Comment est ton flux ?",
-    helpText:
-      "Un flux normal correspond à environ 80 ml sur l’ensemble des règles.",
+    helpText: "Un flux normal correspond à environ 80 ml sur l’ensemble des règles.",
     answers: [
       {
         key: "flux_tres_peu",
@@ -101,14 +100,13 @@ const questions = [
         label: "De la sécheresse (peau, vulve…)",
         profiles: ["DOUCE_MELANCOLIE"],
       },
-      { key: "remarque_inconnue", label: "Je ne sais pas", profiles: [] },
+      { key: "remarque_aucune", label: "Rien", profiles: [] },
     ],
   },
   {
     id: "q9",
     category: "PHYSICAL_SYMPTOMS",
-    title:
-      "Quel symptôme est le plus contraignant pendant ta phase prémenstruelle ?",
+    title: "Quel symptôme est le plus contraignant pendant ta phase prémenstruelle ?",
     answers: [
       {
         key: "pleurer",
@@ -195,8 +193,7 @@ const questions = [
       },
       {
         key: "apathique",
-        label:
-          "Je me sens apathique (perte de motivation, de désir ou d’émotions)",
+        label: "Je me sens apathique (perte de motivation, de désir ou d’émotions)",
         profiles: ["DOUCE_MELANCOLIE"],
       },
       {
@@ -209,7 +206,7 @@ const questions = [
   {
     id: "q8",
     category: "EMOTIONAL_SYMPTOMS",
-    title: "Quelle combinaison te correspond le plus ?",
+    title: "Qu’est-ce qui te correspond le plus ?",
     answers: [
       {
         key: "irritabilite",
