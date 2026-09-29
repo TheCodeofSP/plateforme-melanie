@@ -9,7 +9,7 @@ export default function ResourceAuthorByline({ author, duration, publishedAt }) 
       <span className="resource-author__portrait" aria-hidden="true">
         {initial}
       </span>
-      <div>
+      <div >
         <p className="resource-author__label">Une ressource proposée par</p>
         <p className="resource-author__name">{name}</p>
         <p className="resource-author__details">
