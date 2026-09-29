@@ -2,7 +2,7 @@
 
 body {
   background: var(--color-background);
-  color: var(--color-text);
+  color: var(--grey-dark);
 
   font-family: var(--font-body);
   line-height: 1.6;
@@ -172,7 +172,6 @@ main p {
 .page-hero {
   padding-block: var(--space-xl);
 
-  background: var(--gradient-hero);
 
   text-align: center;
 
@@ -200,4 +199,44 @@ main p {
   .page-hero {
     padding-block: var(--space-xxl);
   }
+}
+
+/* Shared typography for public, account and administration page titles. */
+main[class] h1 {
+  @include page-heading;
+}
+.section-eyebrow {
+  @include eyebrow-style;
+}
+
+.page-hero {
+  @include editorial-hero-surface;
+}
+
+/* The editorial palette is intentional across every page. These two colour
+   rules override older section accents; action-button contrasts stay intact. */
+
+main :is(h1, h2, h3, h4, h5, h6),
+main :is(h1, h2, h3, h4, h5, h6) :is(a, span, strong, em) {
+  color: var(--color-heading) !important;
+}
+main[class]:not(.home-story) p:not(.eyebrow):not(.section-eyebrow):not(.quiz-flow__eyebrow) {
+  @include editorial-body;
+}
+main[class]:not(.home-story) h2 {
+  font-size: clamp(1.8rem, 4.5vw, 2.75rem);
+  font-weight: var(--public-title-weight);
+}
+
+.page-hero .page-container,
+.recette-section__header,
+.resources-catalogue__header,
+.webinars-hero .page-container,
+.intervenant-hero .page-container,
+.contact-page .page-hero,
+.quiz-section__content {
+  @include editorial-copy-spacing;
+}
+.page-hero .page-container {
+  justify-items: center;
 }

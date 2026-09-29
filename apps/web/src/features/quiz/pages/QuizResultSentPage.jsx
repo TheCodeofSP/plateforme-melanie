@@ -29,11 +29,16 @@ export default function QuizResultSentPage() {
           <div className="quiz-sent__account">
             <h2>Poursuis ton chemin à ton rythme</h2>
             <p>
-              Tu peux créer ton espace pour accéder aux contenus privés et réaliser de nouveau le
-              quiz plus tard. Le résultat que tu viens de recevoir restera dans cet email et ne sera
-              pas ajouté rétroactivement à ton compte.
+              **Crée ton espace avec la même adresse email que celle utilisée pour le quiz. Après
+              validation de cette adresse, ton résultat et ton historique seront repris
+              automatiquement. Tu pourras retrouver ton profil et ses ressources sans refaire le
+              quiz.**
             </p>
-            <Link className="btn btn-primary" to={routes.registration}>
+            <Link
+              className="btn btn-primary"
+              to={routes.registration}
+              state={{ source: "quiz", quizEmail: state.identity.email }}
+            >
               Créer mon espace
             </Link>
             <Link className="btn btn-secondary" to={routes.login}>

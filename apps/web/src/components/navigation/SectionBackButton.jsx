@@ -1,7 +1,9 @@
 import { useEffect, useRef, useState } from "react";
 import { useLocation } from "react-router-dom";
 
-const SCROLL_OFFSET = 120;
+function scrollOffset() {
+  return (document.querySelector(".navigation")?.getBoundingClientRect().height || 0) + 16;
+}
 const MIN_SCROLL_DISTANCE = 240;
 
 export default function SectionBackButton() {
@@ -40,7 +42,7 @@ export default function SectionBackButton() {
       const sections = sectionsRef.current;
       if (sections.length === 0) return setIsVisible(false);
 
-      const referenceLine = window.scrollY + SCROLL_OFFSET;
+      const referenceLine = window.scrollY + scrollOffset() + 2;
       let activeIndex = 0;
 
       sections.forEach((section, index) => {
@@ -81,9 +83,11 @@ export default function SectionBackButton() {
 
     const sections = sectionsRef.current;
     const targetIndex = currentSectionIndex > 0 ? currentSectionIndex - 1 : 0;
-    sections[targetIndex]?.scrollIntoView({
-      behavior: "smooth",
-      block: "start",
+    const target = sections[targetIndex];
+    if (!target) return;
+    window.scrollTo({
+      top: Math.max(0, target.getBoundingClientRect().top + window.scrollY - scrollOffset()),
+      behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth",
     });
   }
 

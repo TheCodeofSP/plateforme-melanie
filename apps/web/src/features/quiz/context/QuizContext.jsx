@@ -8,7 +8,7 @@ import { QuizContext } from "./quiz-context.js";
 export function QuizProvider({ children }) {
   const [state, dispatch] = useReducer(quizReducer, initialQuizState);
   const [loading, setLoading] = useState(false);
-  const { isAuthenticated, user } = useAuth();
+  const { isAuthenticated, user, refreshUser } = useAuth();
   const isMember = isAuthenticated && user?.role === "MEMBER";
 
   const loadQuiz = useCallback(async () => {
@@ -73,6 +73,7 @@ export function QuizProvider({ children }) {
           dispatch({ type: "AWAITING_SELECTION", data });
         } else {
           dispatch({ type: "COMPLETED", data });
+          if (isMember) await refreshUser();
         }
         return data;
       } catch (error) {
@@ -84,7 +85,7 @@ export function QuizProvider({ children }) {
         return null;
       }
     },
-    [buildPayload, isMember],
+    [buildPayload, isMember, refreshUser],
   );
 
   const chooseProfile = useCallback(
@@ -96,13 +97,14 @@ export function QuizProvider({ children }) {
           ...(!isMember && state.selectionToken ? { selectionToken: state.selectionToken } : {}),
         });
         dispatch({ type: "COMPLETED", data });
+        if (isMember) await refreshUser();
         return data;
       } catch (error) {
         dispatch({ type: "ERROR", error, stage: "PROFILE_SELECTION" });
         return null;
       }
     },
-    [isMember, state.attemptId, state.selectionToken],
+    [isMember, refreshUser, state.attemptId, state.selectionToken],
   );
 
   const value = useMemo(

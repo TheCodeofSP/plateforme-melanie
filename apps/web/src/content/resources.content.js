@@ -11,7 +11,7 @@ export const resourcesContent = {
     eyebrow: "La bibliothèque",
     title: "Choisis le point de départ qui te ressemble",
     description:
-      "Recherche un sujet ou laisse-toi guider par les ressources les plus consultées.",
+      "**Recherche un sujet qui te concerne. Si tu as réalisé le Quiz SPM, les contenus liés à ton profil apparaissent en priorité, sans masquer les autres ressources.**",
     searchLabel: "Rechercher dans les ressources",
     searchPlaceholder: "Cycle, SPM, endométriose, fertilité…",
   },

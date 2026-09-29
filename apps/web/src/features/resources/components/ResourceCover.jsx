@@ -3,17 +3,12 @@ import { useEffect, useState } from "react";
 import { getMediaAccess } from "../api/resource.service.js";
 import { mediaId } from "../utils/resource-display.utils.js";
 
-export default function ResourceCover({
-  media,
-  url: directUrl = "",
-  alt = "",
-  format,
-}) {
+export default function ResourceCover({ media, url: directUrl = "", alt = "", format }) {
   const [url, setUrl] = useState("");
 
   useEffect(() => {
     const id = mediaId(media);
-    if (!id) return;
+    if (!id || directUrl) return;
     let active = true;
     getMediaAccess(id)
       .then((result) => active && setUrl(result.url))
@@ -21,7 +16,7 @@ export default function ResourceCover({
     return () => {
       active = false;
     };
-  }, [media]);
+  }, [media, directUrl]);
 
   if (directUrl || url)
     return (
@@ -30,6 +25,7 @@ export default function ResourceCover({
         src={directUrl || url}
         alt={alt}
         loading="lazy"
+        decoding="async"
       />
     );
   return (

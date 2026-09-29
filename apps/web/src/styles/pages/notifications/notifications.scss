@@ -1,7 +1,7 @@
 .notifications-page {
   min-height: 70vh;
   padding: 3rem 0 5rem;
-  background: linear-gradient(180deg, #fbf4ef, #fffdfb 20rem);
+  background: var(--gradient-section-warm);
 
   header {
     max-width: 48rem;

@@ -31,7 +31,9 @@
     "quality": "npm run format:check && npm run lint && npm test && npm run test:integration && npm run check:config && npm run check:contract && npm audit --omit=dev",
     "check": "node src/scripts/checkResources.js",
     "test": "node --test test/*.test.js",
-    "test:integration": "node --test test/integration/*.test.js"
+    "test:integration": "node --test test/integration/*.test.js",
+    "recette:resources": "node src/scripts/configureResourceRecette.js",
+    "recette:resources:apply": "node src/scripts/configureResourceRecette.js --apply"
   },
   "keywords": [],
   "author": "",

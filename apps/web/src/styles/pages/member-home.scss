@@ -63,3 +63,38 @@
     flex-direction: row;
   }
 }
+
+.member-home__quiz > div > div {
+  flex-wrap: wrap;
+  align-items: start;
+}
+.member-home__recommendations {
+  display: grid;
+  flex-basis: 100%;
+  width: 100%;
+  gap: 0.65rem;
+  margin: 0 0 0.75rem;
+  padding: 0;
+  list-style: none;
+}
+.member-home__recommendations a {
+  display: grid;
+  gap: 0.35rem;
+  height: 100%;
+  padding: 0.9rem;
+  background: var(--color-white);
+  border: 1px solid var(--color-border-soft);
+  border-radius: var(--radius-md);
+  line-height: 1.4;
+}
+.member-home__recommendations a:hover {
+  border-color: var(--color-primary);
+}
+.member-home__recommendations small {
+  color: var(--color-text-muted);
+}
+@media (min-width: 768px) {
+  .member-home__recommendations {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}

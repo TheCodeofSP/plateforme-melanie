@@ -8,7 +8,7 @@ import { quizCategories, quizStages } from "../../../config/quiz.config.js";
 import { roleHome, routes } from "../../../config/routes.config.js";
 import { quizFlowContent } from "../../../content/quiz-flow.content.js";
 import useAuth from "../../../hooks/useAuth.js";
-import QuizProgress from "../components/QuizProgress.jsx";
+import QuizQuestion from "../components/QuizQuestion.jsx";
 import useQuiz from "../hooks/useQuiz.js";
 import useQuizLeaveGuard from "../hooks/useQuizLeaveGuard.js";
 
@@ -222,38 +222,15 @@ export default function QuizQuestionsPage() {
     const category = quizCategories[question.category];
     return (
       <QuizShell modifier={`quiz-flow--${category.className} quiz-flow--question`}>
-        <QuizProgress
-          index={state.currentIndex}
+        <QuizQuestion
           question={question}
+          index={state.currentIndex}
           total={quiz.questions.length}
-        />
-        <h1 className="quiz-question__title">{question.title}</h1>
-        {question.helpText && <p className="quiz-flow__note">{question.helpText}</p>}
-        {localError && <FormErrorSummary error={localError} />}
-        <fieldset className="quiz-answers">
-          <legend className="sr-only">Choisis une réponse</legend>
-          {question.answers.map((answer) => (
-            <label
-              key={answer.key}
-              className={`quiz-answer ${state.answers[question.id] === answer.key ? "is-selected" : ""}`}
-            >
-              <input
-                type="radio"
-                name={question.id}
-                value={answer.key}
-                checked={state.answers[question.id] === answer.key}
-                onChange={() =>
-                  dispatch({
-                    type: "ANSWER",
-                    questionId: question.id,
-                    answerKey: answer.key,
-                  })
-                }
-              />
-              <span>{answer.label}</span>
-            </label>
-          ))}
-        </fieldset>
+          value={state.answers[question.id]}
+          onAnswer={(answerKey) => dispatch({ type: "ANSWER", questionId: question.id, answerKey })}
+        >
+          {localError && <FormErrorSummary error={localError} />}
+        </QuizQuestion>
         <div className="quiz-flow__actions">
           <button className="btn btn-secondary" onClick={previousQuestion}>
             Retour
@@ -277,11 +254,12 @@ export default function QuizQuestionsPage() {
           {Object.entries(quizCategories).map(([categoryKey, category]) => {
             const questions = quiz.questions.filter((item) => item.category === categoryKey);
             return (
-              <section className="quiz-review__category" key={categoryKey}>
-                <header>
+              <details className="quiz-review__category" key={categoryKey}>
+                <summary>
                   <span aria-hidden="true">{category.symbol}</span>
-                  <h2>{category.title}</h2>
-                </header>
+                  <span>{category.title}</span>
+                  <small>{questions.length} réponses</small>
+                </summary>
                 <div className="quiz-review__answers">
                   {questions.map((item) => {
                     const answer = item.answers.find(
@@ -306,7 +284,7 @@ export default function QuizQuestionsPage() {
                     );
                   })}
                 </div>
-              </section>
+              </details>
             );
           })}
         </div>

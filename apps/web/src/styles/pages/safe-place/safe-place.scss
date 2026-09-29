@@ -3,10 +3,7 @@
   position: relative;
   min-height: 100vh;
   overflow: hidden;
-  background:
-    radial-gradient(circle at 82% 8%, rgba(255, 255, 255, 0.95), transparent 30%),
-    radial-gradient(circle at 12% 34%, rgba(223, 232, 226, 0.88), transparent 34%),
-    linear-gradient(160deg, var(--color-green-light), var(--color-cream) 58%, var(--color-white));
+  background: var(--gradient-section-warm);
 }
 
 .safe-place__light {
@@ -26,7 +23,6 @@
   margin-inline: auto;
   padding-block: var(--space-md) var(--space-xxl);
 }
-
 
 .safe-place__local {
   display: flex;

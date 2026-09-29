@@ -90,9 +90,7 @@
 
 .home-story__logo {
   position: relative;
-  width: min(100%, 14rem);
-  max-width: 20rem;
-  margin-inline: auto;
+  @include clairiere-logo-size;
 
   &::before {
     position: absolute;

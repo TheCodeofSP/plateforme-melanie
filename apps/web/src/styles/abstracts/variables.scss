@@ -17,7 +17,9 @@
 
   /* Grey palette */
   --color-grey-deep: #514849;
-  --color-grey-dark: #645a5b;
+  --grey-dark: #645a5b;
+  --color-grey-dark: var(--grey-dark);
+  --color-heading: #000000;
   --color-grey: #786e6f;
   --color-grey-medium: #a79d9e;
   --color-grey-soft: #d8d1d1;
@@ -63,9 +65,9 @@
   --color-accent-extra-soft: var(--color-green-light);
 
   /* Text */
-  --color-text: var(--color-grey-deep);
+  --color-text: var(--grey-dark);
   --color-text-soft: var(--color-grey-dark);
-  --color-text-muted: var(--color-grey);
+  --color-text-muted: var(--grey-dark);
 
   /* Borders */
   --color-border: var(--color-grey-soft);

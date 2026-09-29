@@ -14,7 +14,7 @@ export function toApiResourceParams(filters, page = 1) {
     ...(filters.categories.length && { category: filters.categories.join(",") }),
     sort: filters.sort,
     page,
-    limit: 12,
+    limit: 9,
   };
 }
 

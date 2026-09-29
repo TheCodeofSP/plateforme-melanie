@@ -1,3 +1,4 @@
+const { linkQuizHistoryToUser } = require("../quiz/quiz.service");
 const mongoose = require("mongoose");
 
 const { ACCOUNT_TOKEN_TYPES, AUTH_DURATIONS } = require("../../config/auth.constants");
@@ -120,6 +121,7 @@ async function consumeLoginLink({ token, userAgent }) {
         { session: databaseSession },
       );
 
+      await linkQuizHistoryToUser(user, databaseSession);
       user.lastLoginAt = now;
       await user.save({ session: databaseSession });
       result = {

@@ -1,4 +1,5 @@
 const Resource = require("../../models/Resource");
+const { getResourceIntroduction } = require("../../utils/resource-preview.utils");
 const ProfessionalProfile = require("../../models/ProfessionalProfile");
 const ResourceWorkflowLog = require("../../models/ResourceWorkflowLog");
 const MediaAsset = require("../../models/MediaAsset");
@@ -281,6 +282,7 @@ function publicProjection(resource, user) {
         title: fullVersion.title,
         description: fullVersion.description,
         format: fullVersion.format,
+        introduction: getResourceIntroduction(fullVersion),
         coverMedia: fullVersion.coverMedia,
         coverUrl: fullVersion.coverUrl,
         coverAlt: fullVersion.coverAlt,
@@ -399,6 +401,7 @@ async function listPublicResources(query, user) {
     const matchingLimit = Math.max(Math.min(limit, matchingTotal - offset), 0);
     const matching = matchingLimit
       ? await Resource.find(matchingFilter)
+          .select("-publishedVersion.blocks")
           .populate("owner", "pseudonym")
           .populate("professionalProfile")
           .sort(sort)
@@ -410,6 +413,7 @@ async function listPublicResources(query, user) {
     const otherOffset = Math.max(offset - matchingTotal, 0);
     const others = otherLimit
       ? await Resource.find(otherFilter)
+          .select("-publishedVersion.blocks")
           .populate("owner", "pseudonym")
           .populate("professionalProfile")
           .sort(sort)
@@ -420,6 +424,7 @@ async function listPublicResources(query, user) {
     items = [...matching, ...others];
   } else {
     items = await Resource.find(filter)
+      .select("-publishedVersion.blocks")
       .populate("owner", "pseudonym")
       .populate("professionalProfile")
       .sort(sort)
@@ -488,6 +493,7 @@ async function getRecommendations(user, limit = 6) {
       ...activePublicationFilter(),
       "publishedVersion.recommendedSpmProfiles": profile,
     })
+      .select("-publishedVersion.blocks")
       .populate("owner", "pseudonym")
       .populate("professionalProfile")
       .sort({ "counters.views": -1, lastPublishedAt: -1 })
@@ -500,6 +506,7 @@ async function getRecommendations(user, limit = 6) {
       ...activePublicationFilter(),
       ...(items.length && { _id: { $nin: items.map((item) => item._id) } }),
     })
+      .select("-publishedVersion.blocks")
       .populate("owner", "pseudonym")
       .populate("professionalProfile")
       .sort({ "counters.views": -1, lastPublishedAt: -1 })
