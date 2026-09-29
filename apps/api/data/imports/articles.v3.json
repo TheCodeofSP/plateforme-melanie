@@ -9,15 +9,7 @@
       "format": "ARTICLE",
       "categories": ["ENDOMETRIOSE_PATHOLOGIES_GYNECOLOGIQUES"],
       "recommendedSpmProfiles": [],
-      "keywords": [
-        "endo",
-        "warrior",
-        "girl",
-        "vivre",
-        "avec",
-        "lendometriose",
-        "enfermer"
-      ],
+      "keywords": ["endo", "warrior", "girl", "vivre", "avec", "lendometriose", "enfermer"],
       "durationMinutes": 5,
       "proposedVisibility": "PUBLIC",
       "sourceMode": "TEXT",
@@ -540,15 +532,7 @@
       "format": "ARTICLE",
       "categories": ["STRESS_SOMMEIL"],
       "recommendedSpmProfiles": [],
-      "keywords": [
-        "fatigue",
-        "chronique",
-        "pourquoi",
-        "dormir",
-        "heures",
-        "suffit",
-        "toujours"
-      ],
+      "keywords": ["fatigue", "chronique", "pourquoi", "dormir", "heures", "suffit", "toujours"],
       "durationMinutes": 5,
       "proposedVisibility": "PUBLIC",
       "sourceMode": "TEXT",
@@ -1220,31 +1204,13 @@
       "title": "La Visualisation : Un Outil Puissant Contre les Mycoses Vaginales",
       "description": "Les mycoses vaginales sont un problème récurrent pour de nombreuses personnes. Elles apparaissent souvent en période de stress, de fatigue ou après un traitement antibiotique, et peuvent devenir chroniques. Et si la clef pour en venir à bout durablement résidait aussi dans l’esprit ?",
       "format": "ARTICLE",
-      "categories": [
-        "ENDOMETRIOSE_PATHOLOGIES_GYNECOLOGIQUES",
-        "APPROCHES_NATURELLES_HOLISTIQUES"
-      ],
+      "categories": ["ENDOMETRIOSE_PATHOLOGIES_GYNECOLOGIQUES", "APPROCHES_NATURELLES_HOLISTIQUES"],
       "recommendedSpmProfiles": [],
-      "keywords": [
-        "visualisation",
-        "outil",
-        "puissant",
-        "contre",
-        "mycoses",
-        "vaginales"
-      ],
+      "keywords": ["visualisation", "outil", "puissant", "contre", "mycoses", "vaginales"],
       "durationMinutes": 5,
       "proposedVisibility": "PUBLIC",
       "sourceMode": "TEXT",
       "blocks": [
-        {
-          "type": "HEADING",
-          "text": "Introduction"
-        },
-        {
-          "type": "PARAGRAPH",
-          "text": "Les mycoses vaginales sont un problème récurrent pour de nombreuses personnes. Elles apparaissent souvent en période de stress, de fatigue ou après un traitement antibiotique, et peuvent devenir chroniques. Et si la clef pour en venir à bout durablement résidait aussi dans l’esprit ?"
-        },
         {
           "type": "PARAGRAPH",
           "text": "La visualisation est une technique puissante qui permet d’agir sur le corps en mobilisant l’imaginaire et la conscience. De plus en plus d’études scientifiques confirment son impact sur la gestion du stress, la régulation du système immunitaire et même la diminution des douleurs chroniques. Explorons ensemble comment cet outil peut aider à soulager et prévenir les mycoses vaginales."
@@ -2763,14 +2729,7 @@
       "format": "ARTICLE",
       "categories": ["BIEN_ETRE_EMOTIONNEL_SANTE_MENTALE"],
       "recommendedSpmProfiles": [],
-      "keywords": [
-        "pourquoi",
-        "etre",
-        "entendue",
-        "professionnels",
-        "aggrave",
-        "douleur"
-      ],
+      "keywords": ["pourquoi", "etre", "entendue", "professionnels", "aggrave", "douleur"],
       "durationMinutes": 2,
       "proposedVisibility": "MEMBERS_ONLY",
       "sourceMode": "TEXT",
@@ -2997,10 +2956,7 @@
       "title": "Règles abondantes",
       "description": "On parle de règles abondantes lorsqu’elles durent plus de 7 jours ou qu’elles dépassent 80 ml en volume. Si tu te demandes comment évaluer cela, le score de Higham est un outil simple et efficace pour t’aider à mieux comprendre où tu te situes. Voici un lien vers cet outil pour te situer, tu peux en trouver plusieurs sur internet :",
       "format": "ARTICLE",
-      "categories": [
-        "ENDOMETRIOSE_PATHOLOGIES_GYNECOLOGIQUES",
-        "CYCLE_MENSTRUEL"
-      ],
+      "categories": ["ENDOMETRIOSE_PATHOLOGIES_GYNECOLOGIQUES", "CYCLE_MENSTRUEL"],
       "recommendedSpmProfiles": [],
       "keywords": ["regles", "abondantes"],
       "durationMinutes": 5,
@@ -3346,18 +3302,9 @@
       "title": "Se reconnecter à son corps avec la gynécologie émotionnelle",
       "description": "Dans un quotidien où « il faut » travailler, avoir une vie sociale, plaire aux autres, réussir dans la vie… notre corps est devenu une machine. Il est là pour servir nos objectifs, et nous ignorons les signaux d’alerte qu’il nous envoie : ce sont de simples signes de « stress » ou de « fatigue » que l’on pourra effacer avec un peu de distraction… Jusqu’à ce qu’on finisse par avoir mal tout le temps sans pouvoir l’expliquer. Pour éviter ce genre de situation, il est important de se reconnecter à son corps, et de cultiver l’amour de soi. La gyn’écologie émotionnelle constitue un moyen d’avancer vers cette reconnexion, afin de vivre en harmonie avec son corps.",
       "format": "ARTICLE",
-      "categories": [
-        "BIEN_ETRE_EMOTIONNEL_SANTE_MENTALE",
-        "APPROCHES_NATURELLES_HOLISTIQUES"
-      ],
+      "categories": ["BIEN_ETRE_EMOTIONNEL_SANTE_MENTALE", "APPROCHES_NATURELLES_HOLISTIQUES"],
       "recommendedSpmProfiles": [],
-      "keywords": [
-        "reconnecter",
-        "corps",
-        "avec",
-        "gynecologie",
-        "emotionnelle"
-      ],
+      "keywords": ["reconnecter", "corps", "avec", "gynecologie", "emotionnelle"],
       "durationMinutes": 4,
       "proposedVisibility": "PUBLIC",
       "sourceMode": "TEXT",

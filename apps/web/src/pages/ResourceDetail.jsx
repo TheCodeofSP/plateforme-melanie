@@ -8,6 +8,7 @@ import useAuth from "../hooks/useAuth.js";
 import ShareButton from "../components/ui/ShareButton.jsx";
 import { routes } from "../config/routes.config.js";
 import { getResource } from "../features/resources/api/resource.service.js";
+import { getArticleLead } from "../features/resources/utils/article-layout.utils.js";
 import ResourceBlocks from "../features/resources/components/ResourceBlocks.jsx";
 import ResourceAuthorByline from "../features/resources/components/ResourceAuthorByline.jsx";
 import ResourceCover from "../features/resources/components/ResourceCover.jsx";
@@ -74,7 +75,11 @@ export default function ResourceDetail() {
             </span>
           </div>
           <h1>{resource.title}</h1>
-          <p className="resource-detail-api__lead">{resource.description}</p>
+          {getArticleLead(content).map((paragraph, index) => (
+            <p className="resource-detail-api__lead" key={index}>
+              {paragraph}
+            </p>
+          ))}
           <ResourceAuthorByline
             author={resource.author}
             duration={resource.duration}
@@ -127,7 +132,7 @@ export default function ResourceDetail() {
         ) : (
           <>
             <article className="resource-detail-api__content page-container">
-              <ResourceBlocks blocks={content.blocks} />
+              <ResourceBlocks blocks={content.blocks} article={content.format === "ARTICLE"} />
               <ResourcePlayer resource={resource} />
               <div className="resource-detail-api__share">
                 <ShareButton title={resource.title} copyOnly />

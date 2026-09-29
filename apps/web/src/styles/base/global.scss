@@ -220,7 +220,8 @@ main[class] h1 {
 main[class]:not(.home-story) p:not(.eyebrow):not(.section-eyebrow):not(.quiz-flow__eyebrow) {
   @include editorial-body;
 }
-main[class]:not(.home-story) h2 {
+
+h2 {
   font-size: clamp(1.8rem, 4.5vw, 2.75rem);
   font-weight: var(--public-title-weight);
 }

@@ -1341,14 +1341,6 @@ module.exports = [
           text: "La Visualisation : Un Outil Puissant Contre les Mycoses Vaginales",
         },
         {
-          type: "HEADING",
-          text: "Introduction",
-        },
-        {
-          type: "PARAGRAPH",
-          text: "Les mycoses vaginales sont un problème récurrent pour de nombreuses personnes. Elles apparaissent souvent en période de stress, de fatigue ou après un traitement antibiotique, et peuvent devenir chroniques. Et si la clef pour en venir à bout durablement résidait aussi dans l’esprit ?",
-        },
-        {
           type: "PARAGRAPH",
           text: "La visualisation est une technique puissante qui permet d’agir sur le corps en mobilisant l’imaginaire et la conscience. De plus en plus d’études scientifiques confirment son impact sur la gestion du stress, la régulation du système immunitaire et même la diminution des douleurs chroniques. Explorons ensemble comment cet outil peut aider à soulager et prévenir les mycoses vaginales.",
         },
