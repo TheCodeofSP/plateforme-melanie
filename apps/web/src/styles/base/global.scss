@@ -216,10 +216,7 @@ main[class] h1 {
 /* The editorial palette is intentional across every page. These two colour
    rules override older section accents; action-button contrasts stay intact. */
 
-main :is(h1, h2, h3, h4, h5, h6),
-main :is(h1, h2, h3, h4, h5, h6) :is(a, span, strong, em) {
-  color: var(--color-heading) !important;
-}
+
 main[class]:not(.home-story) p:not(.eyebrow):not(.section-eyebrow):not(.quiz-flow__eyebrow) {
   @include editorial-body;
 }
