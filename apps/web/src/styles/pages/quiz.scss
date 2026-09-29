@@ -26,14 +26,6 @@
   justify-items: start;
 }
 
-.quiz-cover__copy h1 {
-  max-width: 11ch;
-  margin: 0;
-  font-size: clamp(2.8rem, 10vw, 5.5rem);
-  line-height: 0.92;
-  letter-spacing: -0.045em;
-}
-
 .quiz-cover__edition {
   margin: 0;
   padding-bottom: var(--space-xs);
@@ -78,19 +70,18 @@
 
 .quiz-cover__preview h2 {
   position: relative;
-  max-width: 12ch;
   margin: 0;
-  font-size: clamp(2.2rem, 7vw, 3.8rem);
+  font-size: clamp(2.2rem, 2vw, 3.8rem);
   line-height: 0.98;
 }
 
 .quiz-cover__number {
   position: absolute;
   top: 58px;
-  right: 18px;
+  right: 48px;
   color: var(--color-primary-extra-soft);
   font-family: var(--font-title);
-  font-size: 8rem;
+  font-size: 2rem;
   line-height: 1;
 }
 
@@ -109,6 +100,12 @@
   padding: var(--space-sm);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-md);
+}
+
+.quiz-cover__preview li:hover {
+  border-color: var(--color-primary);
+  transform: translateY(-1px);
+  box-shadow: 4px 5px 0 var(--color-primary-soft);
 }
 
 .quiz-cover__preview li span {
@@ -173,10 +170,6 @@
 
 .quiz-section--editorial {
   background: var(--color-rose-extra-light);
-}
-
-.quiz-editorial {
-  max-width: 920px;
 }
 
 .quiz-section__content {
@@ -250,24 +243,30 @@
 }
 
 .quiz-start {
-  padding-block: var(--space-xl);
-
-  background:
-    radial-gradient(circle at bottom left, var(--color-primary-soft), transparent 32%),
-    var(--color-cream);
+  background: var(--color-rose-extra-light);
 }
 
 .quiz-start__container {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-md);
   align-items: center;
-
+  max-width: 1040px;
   text-align: center;
+}
 
-  h2 {
-    text-wrap: balance;
-  }
+.quiz-start__container h2 {
+  @include title-style;
+
+  margin: 0;
+  text-wrap: balance;
+}
+
+.quiz-start__container p {
+  margin: 0;
+  color: var(--color-text-muted);
+  text-wrap: balance;
+}
+
+.quiz-start__container .btn {
+  margin-top: var(--space-xs);
 }
 
 .quiz-start__container p {
@@ -305,10 +304,6 @@
 
 @include desktop {
   .quiz-section {
-    padding-block: var(--space-xxl);
-  }
-
-  .quiz-start {
     padding-block: var(--space-xxl);
   }
 

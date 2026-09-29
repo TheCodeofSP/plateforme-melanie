@@ -20,7 +20,6 @@ const basePayload = {
   participantInfo: {
     age: 30,
     contraception: "NONE",
-    adultConfirmed: true,
   },
   answers: answersUsing({}),
   consents: {
@@ -100,9 +99,15 @@ test("la soumission valide les consentements obligatoires", () => {
   assert.equal(submitQuizSchema.safeParse(invalid).success, false);
 });
 
-test("la soumission exige une confirmation explicite de majorité", () => {
+test("la soumission exige un âge majeur", () => {
   const invalid = structuredClone(basePayload);
-  invalid.participantInfo.adultConfirmed = false;
+  invalid.participantInfo.age = 17;
+  assert.equal(submitQuizSchema.safeParse(invalid).success, false);
+});
+
+test("la soumission exige l’âge pour chaque tentative", () => {
+  const invalid = structuredClone(basePayload);
+  delete invalid.participantInfo.age;
   assert.equal(submitQuizSchema.safeParse(invalid).success, false);
 });
 

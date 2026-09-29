@@ -9,7 +9,6 @@ const profileContents = require("../../data/quizProfileContents");
 const { QUIZ_VERSION, QUIZ_CONSENT_TYPES } = require("../../config/quiz.constants");
 const DOCUMENT_VERSIONS = require("../../config/documentVersions");
 const env = require("../../config/env");
-const { calculateAge } = require("../../utils/age.utils");
 const { sendTransactionalEmail } = require("../email.service");
 const { createQuizResultTemplate } = require("../../templates/quiz/quizResult.template");
 const { scoreQuiz } = require("./quizScoring.service");
@@ -53,6 +52,7 @@ function publicQuiz() {
       { value: "NONE", label: "Aucune contraception hormonale" },
       { value: "PREFER_NOT_TO_SAY", label: "Je préfère ne pas répondre" },
     ],
+    minimumAge: 18,
     minimumGuestAge: 18,
   };
 }
@@ -60,13 +60,6 @@ function publicQuiz() {
 async function resolveParticipant(payload, user) {
   const email = (user?.email || payload.email || "").toLowerCase().trim();
   const firstName = (user?.firstName || payload.firstName || "").trim();
-
-  if (payload.participantInfo.adultConfirmed !== true)
-    throw httpError(
-      "Tu dois confirmer être majeure pour participer au quiz.",
-      400,
-      "QUIZ_ADULT_CONFIRMATION_REQUIRED",
-    );
 
   if (!user && (!email || !firstName))
     throw httpError(
@@ -83,10 +76,10 @@ async function resolveParticipant(payload, user) {
     );
   }
 
-  const age = user ? calculateAge(user.dateOfBirth) : payload.participantInfo.age;
+  const age = payload.participantInfo.age;
   if (!Number.isInteger(age)) throw httpError("L’âge est obligatoire.", 400, "AGE_REQUIRED");
-  if (!user && age < 18)
-    throw httpError("Le quiz public est accessible à partir de 18 ans.", 403, "QUIZ_MINIMUM_AGE");
+  if (age < 18)
+    throw httpError("Le quiz est accessible à partir de 18 ans.", 403, "QUIZ_MINIMUM_AGE");
 
   let participant = user
     ? await QuizParticipant.findOne({
@@ -297,7 +290,6 @@ async function submitQuiz(payload, user) {
     participantInfo: {
       age,
       contraception: payload.participantInfo.contraception,
-      adultConfirmed: payload.participantInfo.adultConfirmed,
     },
     scores: result.scores,
     calculatedProfiles: result.calculatedProfiles,
@@ -413,7 +405,7 @@ async function getPrefill(user) {
   return {
     firstName: user.firstName,
     email: user.email,
-    age: calculateAge(user.dateOfBirth),
+    age: null,
     contraception: latest?.participantInfo?.contraception || "PREFER_NOT_TO_SAY",
   };
 }

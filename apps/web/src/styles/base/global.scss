@@ -184,9 +184,7 @@ main p {
   }
 
   .page-title {
-    margin: 0;
-
-    font-size: clamp(2.4rem, 10vw, 4rem);
+    @include title-style;
   }
 
   .page-intro {

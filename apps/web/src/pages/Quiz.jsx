@@ -45,10 +45,13 @@ export default function Quiz() {
                   <span>A</span> Moins de 21 jours
                 </li>
                 <li>
-                  <span>B</span> Plus de 35 jours
+                  <span>B</span> Entre 21 et 35 jours
                 </li>
                 <li>
-                  <span>C</span> Cycle irrégulier
+                  <span>C </span> Plus de 35 jours
+                </li>
+                <li>
+                  <span>D</span> Cycle irrégulier
                 </li>
               </ul>
             </aside>
@@ -68,20 +71,21 @@ export default function Quiz() {
           </div>
         </section>
 
-        <section className="quiz-section quiz-section--editorial">
-          <div className="page-container quiz-section__container quiz-editorial">
-            <div>
+        <section className="quiz-section quiz-section--soft">
+          <div className="page-container quiz-section__container">
+            <header className="quiz-section__header">
               <h2>{quizContent.explanation.title}</h2>
-              <div className="quiz-section__content">
-                {quizContent.explanation.paragraphs.map((paragraph) => (
-                  <p key={paragraph}>{paragraph}</p>
-                ))}
-              </div>
+            </header>
+
+            <div className="quiz-section__content">
+              {quizContent.explanation.paragraphs.map((paragraph) => (
+                <p key={paragraph}>{paragraph}</p>
+              ))}
             </div>
           </div>
         </section>
 
-        <section className="quiz-section quiz-section--soft">
+        <section className="quiz-section ">
           <div className="page-container quiz-section__container">
             <header className="quiz-section__header">
               <h2>{quizContent.purpose.title}</h2>
@@ -99,7 +103,7 @@ export default function Quiz() {
           </div>
         </section>
 
-        <section className="quiz-section">
+        <section className="quiz-section quiz-section--soft">
           <div className="page-container quiz-section__container">
             <header className="quiz-section__header">
               <h2>{quizContent.reassurance.title}</h2>
@@ -125,8 +129,8 @@ export default function Quiz() {
           </div>
         </section>
 
-        <section className="quiz-start" id={quizContent.start.id}>
-          <div className="page-container quiz-start__container">
+        <section className="quiz-section quiz-section--soft quiz-start" id={quizContent.start.id}>
+          <div className="page-container quiz-section__container quiz-start__container">
             <h2>{quizContent.start.title}</h2>
             <p>{quizContent.start.text}</p>
 
