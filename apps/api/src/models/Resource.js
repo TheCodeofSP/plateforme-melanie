@@ -12,16 +12,10 @@ const contentBlockSchema = new mongoose.Schema(
   {
     type: {
       type: String,
-      enum: [
-        "PARAGRAPH",
-        "HEADING",
-        "BULLET_LIST",
-        "NUMBERED_LIST",
-        "QUOTE",
-        "IMAGE",
-      ],
+      enum: ["PARAGRAPH", "HEADING", "BULLET_LIST", "NUMBERED_LIST", "QUOTE", "IMAGE"],
       required: true,
     },
+    level: { type: Number, enum: [2, 3], default: 2 },
     text: { type: String, trim: true, maxlength: 10000 },
     items: [{ type: String, trim: true, maxlength: 1000 }],
     links: [

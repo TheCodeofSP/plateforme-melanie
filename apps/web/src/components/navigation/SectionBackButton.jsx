@@ -6,12 +6,18 @@ const MIN_SCROLL_DISTANCE = 240;
 
 export default function SectionBackButton() {
   const { pathname } = useLocation();
+  const isHomePage = pathname === "/";
   const sectionsRef = useRef([]);
   const [currentSectionIndex, setCurrentSectionIndex] = useState(0);
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
     function collectSections() {
+      if (!isHomePage) {
+        sectionsRef.current = [];
+        return;
+      }
+
       const main = document.getElementById("main-content") || document.querySelector("main");
       if (!main) {
         sectionsRef.current = [];
@@ -26,11 +32,13 @@ export default function SectionBackButton() {
     }
 
     function updateCurrentSection() {
-      const sections = sectionsRef.current;
-      if (sections.length === 0) {
-        setIsVisible(false);
+      if (!isHomePage) {
+        setIsVisible(window.scrollY > MIN_SCROLL_DISTANCE);
         return;
       }
+
+      const sections = sectionsRef.current;
+      if (sections.length === 0) return setIsVisible(false);
 
       const referenceLine = window.scrollY + SCROLL_OFFSET;
       let activeIndex = 0;
@@ -63,9 +71,14 @@ export default function SectionBackButton() {
       window.removeEventListener("scroll", updateCurrentSection);
       window.removeEventListener("resize", handleResize);
     };
-  }, [pathname]);
+  }, [isHomePage, pathname]);
 
-  function scrollToPreviousSection() {
+  function handleClick() {
+    if (!isHomePage) {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+      return;
+    }
+
     const sections = sectionsRef.current;
     const targetIndex = currentSectionIndex > 0 ? currentSectionIndex - 1 : 0;
     sections[targetIndex]?.scrollIntoView({
@@ -80,11 +93,11 @@ export default function SectionBackButton() {
     <button
       className="section-back-button"
       type="button"
-      onClick={scrollToPreviousSection}
-      aria-label="Remonter à la section précédente"
+      onClick={handleClick}
+      aria-label={isHomePage ? "Remonter à la section précédente" : "Revenir en haut de la page"}
+      title={isHomePage ? "Section précédente" : "Haut de page"}
     >
       <span aria-hidden="true">↑</span>
-      <span>Section précédente</span>
     </button>
   );
 }

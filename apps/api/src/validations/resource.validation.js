@@ -7,9 +7,7 @@ const {
 } = require("../config/resource.constants");
 
 const objectId = z.string().regex(/^[a-f\d]{24}$/i, "Identifiant invalide.");
-const nullableUrl = z
-  .union([z.url("URL invalide."), z.literal(""), z.null()])
-  .optional();
+const nullableUrl = z.union([z.url("URL invalide."), z.literal(""), z.null()]).optional();
 const publicAssetUrl = z
   .string()
   .trim()
@@ -19,14 +17,8 @@ const publicAssetUrl = z
   );
 const blockSchema = z
   .object({
-    type: z.enum([
-      "PARAGRAPH",
-      "HEADING",
-      "BULLET_LIST",
-      "NUMBERED_LIST",
-      "QUOTE",
-      "IMAGE",
-    ]),
+    type: z.enum(["PARAGRAPH", "HEADING", "BULLET_LIST", "NUMBERED_LIST", "QUOTE", "IMAGE"]),
+    level: z.union([z.literal(2), z.literal(3)]).optional(),
     text: z.string().trim().max(10000).optional(),
     items: z.array(z.string().trim().min(1).max(1000)).max(100).optional(),
     links: z
@@ -91,9 +83,7 @@ const resourceVersionSchema = z
       .array(z.string().trim().min(1).max(60))
       .max(10, "Dix mots-clés maximum.")
       .refine(
-        (items) =>
-          new Set(items.map((item) => item.toLowerCase())).size ===
-          items.length,
+        (items) => new Set(items.map((item) => item.toLowerCase())).size === items.length,
         "Un mot-clé ne peut apparaître qu’une fois.",
       )
       .optional(),
@@ -122,78 +112,67 @@ const createResourceSchema = z
   .strict();
 const updateResourceSchema = resourceVersionSchema;
 
-const completeResourceVersionSchema = resourceVersionSchema.superRefine(
-  (data, ctx) => {
-    for (const field of ["title", "description", "format", "durationMinutes"]) {
-      if (data[field] === undefined || data[field] === "")
-        ctx.addIssue({
-          code: "custom",
-          path: [field],
-          message: "Ce champ est obligatoire.",
-        });
-    }
-    if (!data.categories?.length)
+const completeResourceVersionSchema = resourceVersionSchema.superRefine((data, ctx) => {
+  for (const field of ["title", "description", "format", "durationMinutes"]) {
+    if (data[field] === undefined || data[field] === "")
       ctx.addIssue({
         code: "custom",
-        path: ["categories"],
-        message: "Choisis au moins une catégorie.",
+        path: [field],
+        message: "Ce champ est obligatoire.",
       });
-    if (!data.sourceMode)
-      ctx.addIssue({
-        code: "custom",
-        path: ["sourceMode"],
-        message: "Le mode de diffusion est obligatoire.",
-      });
-    if (data.format === "ARTICLE" && !data.blocks?.length) {
-      ctx.addIssue({
-        code: "custom",
-        path: ["blocks"],
-        message: "Le contenu textuel est obligatoire.",
-      });
-    }
-    if (["EBOOK", "TOOL"].includes(data.format) && !data.pdf)
-      ctx.addIssue({
-        code: "custom",
-        path: ["pdf"],
-        message: "Un fichier PDF est obligatoire.",
-      });
-    if (
-      ["PODCAST", "AUDIO", "VIDEO"].includes(data.format) &&
-      !data.media &&
-      !data.externalUrl
-    ) {
-      ctx.addIssue({
-        code: "custom",
-        path: ["media"],
-        message: "Un fichier ou un lien externe est obligatoire.",
-      });
-    }
-    if (data.format === "PODCAST" && !data.showName)
-      ctx.addIssue({
-        code: "custom",
-        path: ["showName"],
-        message: "Le nom de l’émission est obligatoire.",
-      });
-    if (
-      data.format === "NEWSLETTER" &&
-      !data.blocks?.length &&
-      !data.pdf &&
-      !data.externalUrl
-    ) {
-      ctx.addIssue({
-        code: "custom",
-        path: ["blocks"],
-        message: "Ajoute du texte, un PDF ou un lien.",
-      });
-    }
-    if ((data.coverMedia || data.coverUrl) && !data.coverAlt)
-      ctx.addIssue({
-        code: "custom",
-        path: ["coverAlt"],
-        message: "Le texte alternatif de l’image est obligatoire.",
-      });
-  },
-);
+  }
+  if (!data.categories?.length)
+    ctx.addIssue({
+      code: "custom",
+      path: ["categories"],
+      message: "Choisis au moins une catégorie.",
+    });
+  if (!data.sourceMode)
+    ctx.addIssue({
+      code: "custom",
+      path: ["sourceMode"],
+      message: "Le mode de diffusion est obligatoire.",
+    });
+  if (data.format === "ARTICLE" && !data.blocks?.length) {
+    ctx.addIssue({
+      code: "custom",
+      path: ["blocks"],
+      message: "Le contenu textuel est obligatoire.",
+    });
+  }
+  if (["EBOOK", "TOOL"].includes(data.format) && !data.pdf)
+    ctx.addIssue({
+      code: "custom",
+      path: ["pdf"],
+      message: "Un fichier PDF est obligatoire.",
+    });
+  if (["PODCAST", "AUDIO", "VIDEO"].includes(data.format) && !data.media && !data.externalUrl) {
+    ctx.addIssue({
+      code: "custom",
+      path: ["media"],
+      message: "Un fichier ou un lien externe est obligatoire.",
+    });
+  }
+  if (data.format === "PODCAST" && !data.showName)
+    ctx.addIssue({
+      code: "custom",
+      path: ["showName"],
+      message: "Le nom de l’émission est obligatoire.",
+    });
+  if (data.format === "NEWSLETTER" && !data.blocks?.length && !data.pdf && !data.externalUrl) {
+    ctx.addIssue({
+      code: "custom",
+      path: ["blocks"],
+      message: "Ajoute du texte, un PDF ou un lien.",
+    });
+  }
+  if ((data.coverMedia || data.coverUrl) && !data.coverAlt)
+    ctx.addIssue({
+      code: "custom",
+      path: ["coverAlt"],
+      message: "Le texte alternatif de l’image est obligatoire.",
+    });
+});
 
 const reviewDecisionSchema = z
   .object({
@@ -202,9 +181,7 @@ const reviewDecisionSchema = z
     comment: z.string().trim().max(2000).nullable().optional(),
   })
   .strict();
-const requestChangesSchema = z
-  .object({ comment: z.string().trim().min(5).max(2000) })
-  .strict();
+const requestChangesSchema = z.object({ comment: z.string().trim().min(5).max(2000) }).strict();
 const actionRequestSchema = z
   .object({
     type: z.enum(["UNPUBLISH", "ARCHIVE"]),
