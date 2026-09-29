@@ -181,21 +181,13 @@
 }
 
 .quiz-progress progress::-webkit-progress-value {
-  background: linear-gradient(
-    90deg,
-    var(--color-rose) 35%,
-    var(--color-green) 100%
-  );
+  background: linear-gradient(90deg, var(--color-rose) 35%, var(--color-green) 100%);
   border-radius: var(--radius-pill);
   transition: width 500ms ease;
 }
 
 .quiz-progress progress::-moz-progress-bar {
-  background: linear-gradient(
-    90deg,
-    var(--color-rose) 35%,
-    var(--color-green) 100%
-  );
+  background: linear-gradient(90deg, var(--color-rose) 35%, var(--color-green) 100%);
   border-radius: var(--radius-pill);
 }
 
@@ -516,4 +508,37 @@
   .quiz-answer:hover {
     transform: none;
   }
+}
+
+/* Compact, keyboard-accessible category disclosures. */
+.quiz-review__category > summary {
+  display: grid;
+  grid-template-columns: 1.2rem minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 0.35rem 0.6rem;
+  padding: 1rem;
+  border: 1px solid var(--color-border-primary);
+  border-radius: var(--radius-md);
+  background: var(--color-primary-extra-soft);
+  cursor: pointer;
+}
+.quiz-review__category > summary::after {
+  content: "+";
+  grid-column: 3;
+  grid-row: 1 / span 2;
+}
+.quiz-review__category[open] > summary::after {
+  content: "−";
+}
+.quiz-review__category > summary > span:nth-child(2) {
+  font-family: var(--font-title);
+  font-size: 1.3rem;
+  line-height: 1.2;
+}
+.quiz-review__category > summary small {
+  grid-column: 2;
+  color: var(--color-text-muted);
+}
+.quiz-review__category > summary:focus-visible {
+  @include focus-ring;
 }

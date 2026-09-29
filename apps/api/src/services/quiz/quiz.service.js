@@ -410,13 +410,16 @@ async function getPrefill(user) {
   };
 }
 
-async function linkQuizHistoryToUser(user) {
-  const normalizedEmail = user.email.toLowerCase();
-  const [participantByUser, participantByEmail] = await Promise.all([
-    QuizParticipant.findOne({ user: user._id }),
-    QuizParticipant.findOne({ email: normalizedEmail }),
-  ]);
-
+async function linkQuizHistoryToUser(user, session = null) {
+  if (user.role !== "MEMBER" || !user.emailVerifiedAt || user.accountStatus !== "ACTIVE") {
+    return { linked: false };
+  }
+  const normalizedEmail = user.email.toLowerCase().trim();
+  // Sequential operations: MongoDB transactions do not support parallel queries.
+  const participantByUser = await QuizParticipant.findOne({ user: user._id }).session(session);
+  const participantByEmail = await QuizParticipant.findOne({ email: normalizedEmail }).session(
+    session,
+  );
   if (participantByEmail?.user && participantByEmail.user.toString() !== user._id.toString()) {
     throw httpError(
       "Cet historique de quiz est déjà rattaché à un autre compte.",
@@ -424,52 +427,47 @@ async function linkQuizHistoryToUser(user) {
       "QUIZ_HISTORY_ALREADY_LINKED",
     );
   }
-
   let participant = participantByUser || participantByEmail;
   if (!participant) return { linked: false };
-
   if (
     participantByUser &&
     participantByEmail &&
     participantByUser._id.toString() !== participantByEmail._id.toString()
   ) {
-    await Promise.all([
-      QuizAttempt.updateMany(
-        { participant: participantByEmail._id },
-        { $set: { participant: participantByUser._id } },
-      ),
-      QuizConsentRecord.updateMany(
-        { participant: participantByEmail._id },
-        { $set: { participant: participantByUser._id } },
-      ),
-    ]);
-    await QuizParticipant.deleteOne({ _id: participantByEmail._id });
+    await QuizAttempt.updateMany(
+      { participant: participantByEmail._id },
+      { $set: { participant: participantByUser._id } },
+      { session },
+    );
+    await QuizConsentRecord.updateMany(
+      { participant: participantByEmail._id },
+      { $set: { participant: participantByUser._id } },
+      { session },
+    );
+    await QuizParticipant.deleteOne({ _id: participantByEmail._id }, { session });
     participant = participantByUser;
   }
-
   participant.user = user._id;
   participant.email = normalizedEmail;
   participant.firstName = user.firstName;
-  participant.linkedAt = new Date();
-  const latest = await QuizAttempt.findOne({
-    participant: participant._id,
-    status: "COMPLETED",
-  }).sort({ completedAt: -1 });
+  participant.linkedAt ||= new Date();
+  // Keep completed guest attempts visible in the member history after linking.
+  await QuizAttempt.updateMany(
+    { participant: participant._id, userSnapshot: null, status: "COMPLETED" },
+    { $set: { userSnapshot: user._id } },
+    { session },
+  );
+  const latest = await QuizAttempt.findOne({ participant: participant._id, status: "COMPLETED" })
+    .sort({ completedAt: -1 })
+    .session(session);
   if (latest) {
     participant.latestAttempt = latest._id;
     participant.currentSpmProfile = latest.selectedProfile;
-    await User.updateOne(
-      { _id: user._id },
-      {
-        $set: {
-          currentSpmProfile: latest.selectedProfile,
-          quizCompleted: true,
-        },
-      },
-    );
+    user.currentSpmProfile = latest.selectedProfile;
+    user.quizCompleted = true;
+    await user.save({ session });
   }
-  await participant.save();
-
+  await participant.save({ session });
   return { linked: true, quizCompleted: Boolean(latest) };
 }
 

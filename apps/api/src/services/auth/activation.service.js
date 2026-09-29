@@ -1,3 +1,4 @@
+const { linkQuizHistoryToUser } = require("../quiz/quiz.service");
 const mongoose = require("mongoose");
 
 const { ACCOUNT_TOKEN_TYPES, AUTH_DURATIONS } = require("../../config/auth.constants");
@@ -54,6 +55,7 @@ async function verifyEmail(token) {
       user.emailVerifiedAt ||= now;
       user.accountStatus = "ACTIVE";
       await user.save({ session });
+      await linkQuizHistoryToUser(user, session);
     });
   } finally {
     await session.endSession();

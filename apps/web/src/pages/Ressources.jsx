@@ -11,7 +11,11 @@ import { resourcesContent } from "../content/resources.content.js";
 import { seoContent } from "../content/seo.content.js";
 import { getRecommendations, getResources } from "../features/resources/api/resource.service.js";
 import ApiResourceCard from "../features/resources/components/ApiResourceCard.jsx";
-import { parseResourceQuery, toApiResourceParams, writeResourceQuery } from "../features/resources/utils/resource-query.utils.js";
+import {
+  parseResourceQuery,
+  toApiResourceParams,
+  writeResourceQuery,
+} from "../features/resources/utils/resource-query.utils.js";
 import useAuth from "../hooks/useAuth.js";
 
 import "../styles/pages/resources/resources-catalogue.scss";
@@ -48,13 +52,25 @@ export default function Resources() {
       })
       .catch((apiError) => active && setError(apiError))
       .finally(() => active && setLoading(false));
-    return () => { active = false; };
-  }, [query]);
+    return () => {
+      active = false;
+    };
+  }, [query, isAuthenticated, user?.currentSpmProfile]);
 
   useEffect(() => {
     if (!isAuthenticated) return;
-    getRecommendations(3).then(setRecommendations).catch(() => setRecommendations([]));
-  }, [isAuthenticated, user?.currentSpmProfile]);
+    let active = true;
+    getRecommendations(3)
+      .then((items) => {
+        if (active) setRecommendations(items);
+      })
+      .catch(() => {
+        if (active) setRecommendations([]);
+      });
+    return () => {
+      active = false;
+    };
+  }, [isAuthenticated, user?.id, user?.currentSpmProfile]);
 
   function resetSearch() {
     setDraftQuery("");
@@ -86,10 +102,21 @@ export default function Resources() {
           <section className="resources-recommendations">
             <div className="page-container">
               <p className="section-eyebrow">{content.recommendations.eyebrow}</p>
-              <h2>{hasProfile ? content.recommendations.withProfile : content.recommendations.withoutProfile}</h2>
-              {!hasProfile && <p>{content.recommendations.quizPrompt} <Link to={routes.quiz}>Découvrir le Quiz SPM</Link></p>}
+              <h2>
+                {hasProfile
+                  ? content.recommendations.withProfile
+                  : content.recommendations.withoutProfile}
+              </h2>
+              {!hasProfile && (
+                <p>
+                  {content.recommendations.quizPrompt}{" "}
+                  <Link to={routes.quiz}>Découvrir le Quiz SPM</Link>
+                </p>
+              )}
               <div className="resources-api-grid">
-                {recommendations.map((resource) => <ApiResourceCard key={resource._id} resource={resource} />)}
+                {recommendations.map((resource) => (
+                  <ApiResourceCard key={resource._id} resource={resource} />
+                ))}
               </div>
             </div>
           </section>
@@ -104,18 +131,64 @@ export default function Resources() {
           <div className="resources-search">
             <label htmlFor="resource-search">{content.catalogue.searchLabel}</label>
             <div className="resources-search__field">
-              <input id="resource-search" type="search" value={draftQuery} onChange={(event) => setDraftQuery(event.target.value)} placeholder={content.catalogue.searchPlaceholder} />
-              {draftQuery && <button type="button" onClick={resetSearch}>Effacer</button>}
+              <input
+                id="resource-search"
+                type="search"
+                value={draftQuery}
+                onChange={(event) => setDraftQuery(event.target.value)}
+                placeholder={content.catalogue.searchPlaceholder}
+              />
+              {draftQuery && (
+                <button type="button" onClick={resetSearch}>
+                  Effacer
+                </button>
+              )}
             </div>
           </div>
           <p className="resources-catalogue__count" aria-live="polite">
-            {!loading && pagination ? `${pagination.total} ressource${pagination.total > 1 ? "s" : ""}` : "Chargement des ressources…"}
+            {!loading && pagination
+              ? `${pagination.total} ressource${pagination.total > 1 ? "s" : ""}`
+              : "Chargement des ressources…"}
           </p>
           {loading && <SectionLoader />}
-          {error && <ErrorState title="Les ressources sont momentanément indisponibles" description={error.message} action={<button className="btn btn-primary" onClick={resetSearch}>Réessayer</button>} />}
-          {!loading && !error && !items.length && <EmptyState title={content.empty.title} description={content.empty.description} action={<button className="btn btn-secondary" onClick={resetSearch}>{content.empty.action}</button>} />}
-          {!loading && items.length > 0 && <div className="resources-api-grid">{items.map((resource) => <ApiResourceCard key={resource._id} resource={resource} />)}</div>}
-          {pagination?.page < pagination?.pages && <button className="btn btn-secondary resources-load-more" disabled={loadingMore} onClick={loadMore}>{loadingMore ? "Chargement…" : "Voir plus de ressources"}</button>}
+          {error && (
+            <ErrorState
+              title="Les ressources sont momentanément indisponibles"
+              description={error.message}
+              action={
+                <button className="btn btn-primary" onClick={resetSearch}>
+                  Réessayer
+                </button>
+              }
+            />
+          )}
+          {!loading && !error && !items.length && (
+            <EmptyState
+              title={content.empty.title}
+              description={content.empty.description}
+              action={
+                <button className="btn btn-secondary" onClick={resetSearch}>
+                  {content.empty.action}
+                </button>
+              }
+            />
+          )}
+          {!loading && items.length > 0 && (
+            <div className="resources-api-grid">
+              {items.map((resource) => (
+                <ApiResourceCard key={resource._id} resource={resource} />
+              ))}
+            </div>
+          )}
+          {pagination?.page < pagination?.pages && (
+            <button
+              className="btn btn-secondary resources-load-more"
+              disabled={loadingMore}
+              onClick={loadMore}
+            >
+              {loadingMore ? "Chargement…" : "Voir plus de ressources"}
+            </button>
+          )}
         </section>
 
         <section className="resources-newsletter">
@@ -123,7 +196,9 @@ export default function Resources() {
             <p className="section-eyebrow">{content.newsletter.eyebrow}</p>
             <h2>{content.newsletter.title}</h2>
             <p>{content.newsletter.text}</p>
-            <Link className="btn btn-primary" to={`${routes.contact}?intention=newsletter`}>{content.newsletter.action}</Link>
+            <Link className="btn btn-primary" to={`${routes.contact}?intention=newsletter`}>
+              {content.newsletter.action}
+            </Link>
           </div>
         </section>
       </main>

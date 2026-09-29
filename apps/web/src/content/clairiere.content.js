@@ -3,8 +3,8 @@ import { routes } from "../config/routes.config.js";
 export const clairiereContent = {
   hero: {
     eyebrow: "Bienvenue dans La Clairière",
-    title: "Un espace privé pour ne plus avancer seule.",
-    text: "Approfondis ta connaissance de ton cycle et de ton bien-être gynécologique, pose tes questions, partage ton expérience et avance entourée de femmes qui vivent leurs propres questionnements.",
+    title: "Un espace pour comprendre, partager et avancer à ton rythme.",
+    text: "La Clairière prolonge les chemins proposés à l’accueil : des ressources pour explorer, un forum pour partager ton vécu et des rendez-vous pour approfondir. Choisis ton point de départ selon ce que tu traverses aujourd’hui.",
   },
   meaning: {
     title: "C’est de ce besoin qu’est née La Clairière.",
@@ -14,8 +14,7 @@ export const clairiereContent = {
     ],
   },
   reasons: {
-    title:
-      "Un espace né d’un besoin simple : ne plus devoir avancer sans repères.",
+    title: "Un espace né d’un besoin simple : ne plus devoir avancer sans repères.",
     items: [
       "Un espace safe pour parler librement et partager son vécu sans jugement.",
       "Des contenus privés pour approfondir la compréhension du cycle et du bien-être gynécologique.",

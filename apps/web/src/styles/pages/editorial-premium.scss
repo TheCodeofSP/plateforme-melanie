@@ -1,21 +1,20 @@
 @use "../abstracts/mixins.scss" as *;
 
 .editorial-page {
+  @include public-page-typography;
   overflow: clip;
+  background: var(--gradient-section-warm);
 }
 
 .editorial-hero {
-  padding-block: clamp(3.5rem, 10vw, 7rem);
-  background:
-    radial-gradient(circle at 85% 16%, rgb(240 201 77 / 16%), transparent 27%),
-    var(--gradient-hero);
+  @include editorial-hero-surface;
 
   h1 {
-    font-size: clamp(3rem, 11vw, 6rem);
+    @include page-heading;
   }
 
   p:not(.eyebrow) {
-    font-size: clamp(1.05rem, 3vw, 1.25rem);
+    @include editorial-body;
   }
 }
 
@@ -23,7 +22,7 @@
 .editorial-split,
 .editorial-detail-grid {
   display: grid;
-  gap: clamp(2rem, 7vw, 5rem);
+  gap: clamp(1.25rem, 3vw, 2rem);
   align-items: center;
 }
 
@@ -40,7 +39,7 @@
 }
 
 .editorial-section {
-  padding-block: clamp(3.5rem, 9vw, 6.5rem);
+  padding-block: clamp(1rem, 9vw, 3.5rem);
 }
 
 .editorial-section--warm {
@@ -48,12 +47,9 @@
 }
 
 .editorial-section--accent {
-  background: var(--gradient-section-accent);
+  background: var(--gradient-section-warm);
 }
 
-.editorial-copy p {
-  font-size: 1.08rem;
-}
 
 .editorial-card-grid,
 .editorial-offer-grid,
@@ -220,5 +216,20 @@
 @include desktop {
   .pricing-grid {
     grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+.editorial-hero__grid > div,
+.editorial-copy,
+.editorial-split > div {
+  @include editorial-copy-spacing;
+}
+.editorial-page--clearing .editorial-hero__grid > img {
+  @include clairiere-logo-size;
+}
+.editorial-page--clearing .editorial-hero__grid {
+  grid-template-columns: minmax(0, 1fr);
+  @include tablet {
+    grid-template-columns: minmax(0, 1fr) 20rem;
   }
 }

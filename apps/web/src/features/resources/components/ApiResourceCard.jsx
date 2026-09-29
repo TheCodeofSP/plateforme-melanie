@@ -10,6 +10,8 @@ import {
 
 export default function ApiResourceCard({ resource }) {
   const item = formatResource(resource);
+  const isPrivate =
+    item.visibility === "MEMBERS_ONLY" || item.finalVisibility === "MEMBERS_ONLY" || item.locked;
 
   return (
     <article className="api-resource-card">
@@ -25,8 +27,8 @@ export default function ApiResourceCard({ resource }) {
             <span aria-hidden="true">{item.format.icon}</span>
             {item.format.label}
           </span>
-          <span className={`resource-access ${item.locked ? "resource-access--private" : ""}`}>
-            {item.locked ? "Réservée aux membres" : "Accès libre"}
+          <span className={`resource-access ${isPrivate ? "resource-access--private" : ""}`}>
+            {isPrivate ? "Accès privé" : "Accès libre"}
           </span>
         </div>
         <h3>

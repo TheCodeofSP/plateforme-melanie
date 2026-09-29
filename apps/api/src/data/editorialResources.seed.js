@@ -8,7 +8,7 @@ module.exports = [
       format: "ARTICLE",
       durationMinutes: 4,
       categories: ["CYCLE_MENSTRUEL"],
-      recommendedSpmProfiles: [],
+      recommendedSpmProfiles: ["CROQUE_TOUT", "GONFLEE_A_BLOC"],
       keywords: ["cycle menstruel", "observation", "saisons"],
       proposedVisibility: "PUBLIC",
       sourceMode: "EXTERNAL",
@@ -111,7 +111,7 @@ module.exports = [
         "sante",
         "mentale",
       ],
-      proposedVisibility: "PUBLIC",
+      proposedVisibility: "MEMBERS_ONLY",
       sourceMode: "TEXT",
       blocks: [
         {
@@ -349,9 +349,9 @@ module.exports = [
       format: "ARTICLE",
       durationMinutes: 5,
       categories: ["SANTE_HORMONALE", "CYCLE_MENSTRUEL"],
-      recommendedSpmProfiles: [],
+      recommendedSpmProfiles: ["GONFLEE_A_BLOC"],
       keywords: ["sante", "hormonale", "cycle", "menstruel"],
-      proposedVisibility: "PUBLIC",
+      proposedVisibility: "MEMBERS_ONLY",
       sourceMode: "TEXT",
       blocks: [
         {
@@ -506,7 +506,7 @@ module.exports = [
       categories: ["CYCLE_MENSTRUEL", "BIEN_ETRE_EMOTIONNEL_SANTE_MENTALE"],
       recommendedSpmProfiles: [],
       keywords: ["cycle", "menstruel", "bien", "etre", "emotionnel", "sante", "mentale"],
-      proposedVisibility: "PUBLIC",
+      proposedVisibility: "MEMBERS_ONLY",
       sourceMode: "TEXT",
       blocks: [
         {
@@ -636,9 +636,9 @@ module.exports = [
       format: "ARTICLE",
       durationMinutes: 5,
       categories: ["STRESS_SOMMEIL", "BIEN_ETRE_EMOTIONNEL_SANTE_MENTALE"],
-      recommendedSpmProfiles: [],
+      recommendedSpmProfiles: ["DOUCE_MELANCOLIE", "CROQUE_TOUT"],
       keywords: ["stress", "sommeil", "bien", "etre", "emotionnel", "sante", "mentale"],
-      proposedVisibility: "PUBLIC",
+      proposedVisibility: "MEMBERS_ONLY",
       sourceMode: "TEXT",
       blocks: [
         {
@@ -928,7 +928,7 @@ module.exports = [
       categories: ["SANTE_HORMONALE", "STRESS_SOMMEIL"],
       recommendedSpmProfiles: [],
       keywords: ["sante", "hormonale", "stress", "sommeil"],
-      proposedVisibility: "PUBLIC",
+      proposedVisibility: "MEMBERS_ONLY",
       sourceMode: "TEXT",
       blocks: [
         {
@@ -1235,7 +1235,7 @@ module.exports = [
       format: "ARTICLE",
       durationMinutes: 2,
       categories: ["BIEN_ETRE_EMOTIONNEL_SANTE_MENTALE", "APPROCHES_NATURELLES_HOLISTIQUES"],
-      recommendedSpmProfiles: [],
+      recommendedSpmProfiles: ["DOUCE_MELANCOLIE"],
       keywords: [
         "bien",
         "etre",
@@ -1246,7 +1246,7 @@ module.exports = [
         "naturelles",
         "holistiques",
       ],
-      proposedVisibility: "PUBLIC",
+      proposedVisibility: "MEMBERS_ONLY",
       sourceMode: "TEXT",
       blocks: [
         {
@@ -1333,7 +1333,7 @@ module.exports = [
         "sante",
         "mentale",
       ],
-      proposedVisibility: "PUBLIC",
+      proposedVisibility: "MEMBERS_ONLY",
       sourceMode: "TEXT",
       blocks: [
         {
@@ -1531,7 +1531,7 @@ module.exports = [
       categories: ["APPROCHES_NATURELLES_HOLISTIQUES"],
       recommendedSpmProfiles: [],
       keywords: ["approches", "naturelles", "holistiques"],
-      proposedVisibility: "PUBLIC",
+      proposedVisibility: "MEMBERS_ONLY",
       sourceMode: "TEXT",
       blocks: [
         {
@@ -1685,7 +1685,7 @@ module.exports = [
       categories: ["BIEN_ETRE_EMOTIONNEL_SANTE_MENTALE", "DEVELOPPEMENT_PERSONNEL"],
       recommendedSpmProfiles: [],
       keywords: ["bien", "etre", "emotionnel", "sante", "mentale", "developpement", "personnel"],
-      proposedVisibility: "PUBLIC",
+      proposedVisibility: "MEMBERS_ONLY",
       sourceMode: "TEXT",
       blocks: [
         {
@@ -1817,9 +1817,9 @@ module.exports = [
       format: "ARTICLE",
       durationMinutes: 5,
       categories: ["STRESS_SOMMEIL", "CYCLE_MENSTRUEL"],
-      recommendedSpmProfiles: [],
+      recommendedSpmProfiles: ["BOULE_DE_NERFS"],
       keywords: ["stress", "sommeil", "cycle", "menstruel"],
-      proposedVisibility: "PUBLIC",
+      proposedVisibility: "MEMBERS_ONLY",
       sourceMode: "TEXT",
       blocks: [
         {
@@ -2379,7 +2379,7 @@ module.exports = [
         "naturelles",
         "holistiques",
       ],
-      proposedVisibility: "PUBLIC",
+      proposedVisibility: "MEMBERS_ONLY",
       sourceMode: "TEXT",
       blocks: [
         {
@@ -2458,9 +2458,9 @@ module.exports = [
       format: "ARTICLE",
       durationMinutes: 4,
       categories: ["BIEN_ETRE_EMOTIONNEL_SANTE_MENTALE"],
-      recommendedSpmProfiles: [],
+      recommendedSpmProfiles: ["BOULE_DE_NERFS", "DOUCE_MELANCOLIE"],
       keywords: ["bien", "etre", "emotionnel", "sante", "mentale"],
-      proposedVisibility: "PUBLIC",
+      proposedVisibility: "MEMBERS_ONLY",
       sourceMode: "TEXT",
       blocks: [
         {
@@ -2627,7 +2627,7 @@ module.exports = [
         "sante",
         "mentale",
       ],
-      proposedVisibility: "PUBLIC",
+      proposedVisibility: "MEMBERS_ONLY",
       sourceMode: "TEXT",
       blocks: [
         {
@@ -3221,7 +3221,7 @@ module.exports = [
       format: "ARTICLE",
       durationMinutes: 4,
       categories: ["SPM", "CYCLE_MENSTRUEL"],
-      recommendedSpmProfiles: [],
+      recommendedSpmProfiles: ["CROQUE_TOUT", "GONFLEE_A_BLOC"],
       keywords: ["spm", "cycle", "menstruel"],
       proposedVisibility: "PUBLIC",
       sourceMode: "TEXT",
@@ -3376,9 +3376,9 @@ module.exports = [
       format: "ARTICLE",
       durationMinutes: 4,
       categories: ["BIEN_ETRE_EMOTIONNEL_SANTE_MENTALE", "DEVELOPPEMENT_PERSONNEL"],
-      recommendedSpmProfiles: [],
+      recommendedSpmProfiles: ["BOULE_DE_NERFS"],
       keywords: ["bien", "etre", "emotionnel", "sante", "mentale", "developpement", "personnel"],
-      proposedVisibility: "PUBLIC",
+      proposedVisibility: "MEMBERS_ONLY",
       sourceMode: "TEXT",
       blocks: [
         {
@@ -3485,7 +3485,7 @@ module.exports = [
       categories: ["SANTE_HORMONALE"],
       recommendedSpmProfiles: [],
       keywords: ["sante", "hormonale"],
-      proposedVisibility: "PUBLIC",
+      proposedVisibility: "MEMBERS_ONLY",
       sourceMode: "TEXT",
       blocks: [
         {

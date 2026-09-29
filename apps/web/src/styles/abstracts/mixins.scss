@@ -303,3 +303,43 @@ $breakpoint-wide: 1280px;
     background: var(--color-accent-soft);
   }
 }
+
+/* Page heading shared with the validated home composition. */
+@mixin page-heading {
+  @include title-style;
+  margin-block: var(--space-sm);
+  font-size: clamp(2.35rem, 6vw, 3.9rem);
+  font-weight: var(--public-title-weight);
+  line-height: 1;
+  letter-spacing: -0.04em;
+}
+@mixin editorial-hero-surface {
+  padding-block: clamp(1.75rem, 4vw, 3.5rem);
+}
+
+/* Typography and spacing taken from the home editorial sections. */
+@mixin editorial-body {
+  color: var(--grey-dark);
+  font-family: var(--font-body);
+  font-size: clamp(0.94rem, 1.6vw, 1rem);
+  font-weight: 400;
+  line-height: 1.6;
+}
+@mixin editorial-copy-spacing {
+  display: grid;
+  gap: 0.75rem;
+  align-content: start;
+  justify-items: start;
+  > p {
+    margin: 0;
+  }
+}
+@mixin clairiere-logo-size {
+  width: min(100%, 14rem);
+  max-width: 20rem;
+  height: auto;
+  margin-inline: auto;
+  @include tablet {
+    width: 20rem;
+  }
+}

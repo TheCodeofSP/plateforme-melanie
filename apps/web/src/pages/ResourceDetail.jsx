@@ -4,6 +4,7 @@ import { Link, useLocation, useParams } from "react-router-dom";
 import ErrorState from "../components/feedback/ErrorState.jsx";
 import PageLoader from "../components/feedback/PageLoader.jsx";
 import SEO from "../components/seo/SEO.jsx";
+import useAuth from "../hooks/useAuth.js";
 import ShareButton from "../components/ui/ShareButton.jsx";
 import { routes } from "../config/routes.config.js";
 import { getResource } from "../features/resources/api/resource.service.js";
@@ -19,7 +20,9 @@ import "../styles/pages/resources/resource-detail-api.scss";
 export default function ResourceDetail() {
   const { slug } = useParams();
   const location = useLocation();
+  const { isAuthenticated } = useAuth();
   const [resource, setResource] = useState(null);
+  const [loadedFor, setLoadedFor] = useState(null);
   const [error, setError] = useState(null);
 
   useEffect(() => {
@@ -29,12 +32,14 @@ export default function ResourceDetail() {
         if (!active) return;
         const formatted = formatResource(result);
         setResource(formatted);
+        setLoadedFor({ slug, isAuthenticated });
+        setError(null);
       })
       .catch((apiError) => active && setError(apiError));
     return () => {
       active = false;
     };
-  }, [slug]);
+  }, [slug, isAuthenticated]);
 
   if (error)
     return (
@@ -50,7 +55,8 @@ export default function ResourceDetail() {
         />
       </main>
     );
-  if (!resource) return <PageLoader />;
+  if (!resource || loadedFor?.slug !== slug || loadedFor?.isAuthenticated !== isAuthenticated)
+    return <PageLoader />;
   const content = resource.content;
   return (
     <>
@@ -61,7 +67,11 @@ export default function ResourceDetail() {
             <span>
               {resource.format.icon} {resource.format.label}
             </span>
-            {resource.locked && <span className="resource-access">Réservée aux membres</span>}
+            <span className="resource-access">
+              {resource.visibility === "MEMBERS_ONLY" || resource.locked
+                ? "Accès privé"
+                : "Accès libre"}
+            </span>
           </div>
           <h1>{resource.title}</h1>
           <p className="resource-detail-api__lead">{resource.description}</p>
@@ -78,26 +88,42 @@ export default function ResourceDetail() {
           />
         </header>
         {resource.locked ? (
-          <section className="resource-locked page-container">
-            <p className="section-eyebrow">Espace membre</p>
-            <h2>Cette ressource se poursuit dans ton espace</h2>
-            <p>
-              Tu peux en découvrir la présentation ici. Connecte-toi ou crée un compte gratuit pour
-              accéder à son contenu complet.
-            </p>
-            <div>
-              <Link
-                className="btn btn-primary"
-                to={routes.login}
-                state={{ from: location.pathname }}
-              >
-                Se connecter
-              </Link>
-              <Link className="btn btn-secondary" to={routes.registration}>
-                Créer un compte
-              </Link>
+          <article className="resource-locked page-container">
+            {content.introduction && content.introduction !== resource.description && (
+              <div className="resource-blocks resource-locked__intro">
+                <p>{content.introduction}</p>
+              </div>
+            )}
+            <div className="resource-locked__preview">
+              <div className="resource-locked__blur" aria-hidden="true">
+                {Array.from({ length: 3 }, (_, paragraph) => (
+                  <div className="resource-locked__placeholder" key={paragraph}>
+                    {Array.from({ length: 4 }, (_, line) => (
+                      <span key={line} />
+                    ))}
+                  </div>
+                ))}
+              </div>
+              <section className="resource-locked__notice" aria-labelledby="resource-access-title">
+                <h2 id="resource-access-title">**La suite de cet article t’attend**</h2>
+                <p>
+                  **Pour lire l’article en entier, crée ton compte ou connecte-toi à ton espace.**
+                </p>
+                <div className="resource-locked__actions">
+                  <Link
+                    className="btn btn-primary"
+                    to={routes.login}
+                    state={{ from: location.pathname }}
+                  >
+                    **Se connecter**
+                  </Link>
+                  <Link className="btn btn-secondary" to={routes.registration}>
+                    **Créer mon compte**
+                  </Link>
+                </div>
+              </section>
             </div>
-          </section>
+          </article>
         ) : (
           <>
             <article className="resource-detail-api__content page-container">

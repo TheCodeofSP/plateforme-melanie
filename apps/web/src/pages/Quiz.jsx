@@ -1,4 +1,10 @@
-import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { routes } from "../config/routes.config.js";
+import { getQuiz } from "../features/quiz/api/quiz.service.js";
+import QuizQuestion from "../features/quiz/components/QuizQuestion.jsx";
+import useQuiz from "../features/quiz/hooks/useQuiz.js";
+import "../styles/pages/quiz/quiz-flow.scss";
 
 import { quizContent } from "../content/quiz.content.js";
 import { seoContent } from "../content/seo.content.js";
@@ -8,6 +14,24 @@ import SEO from "../components/seo/SEO.jsx";
 import "../styles/pages/quiz.scss";
 
 export default function Quiz() {
+  const [quiz, setQuiz] = useState(null);
+  const { dispatch } = useQuiz();
+  const navigate = useNavigate();
+  useEffect(() => {
+    let active = true;
+    getQuiz()
+      .then((data) => {
+        if (active) setQuiz(data);
+      })
+      .catch(() => {});
+    return () => {
+      active = false;
+    };
+  }, []);
+  function startPreview() {
+    dispatch({ type: "RESET" });
+    navigate(routes.quizQuestions);
+  }
   return (
     <>
       <SEO {...seoContent.pages.quiz} />
@@ -34,26 +58,20 @@ export default function Quiz() {
               </a>
             </div>
 
-            <aside className="quiz-cover__preview" aria-label="Aperçu du Quiz SPM">
-              <p>Question 01</p>
-              <span className="quiz-cover__number" aria-hidden="true">
-                01
-              </span>
-              <h2>Combien de temps dure ton cycle menstruel&nbsp;?</h2>
-              <ul aria-hidden="true">
-                <li>
-                  <span>A</span> Moins de 21 jours
-                </li>
-                <li>
-                  <span>B</span> Entre 21 et 35 jours
-                </li>
-                <li>
-                  <span>C </span> Plus de 35 jours
-                </li>
-                <li>
-                  <span>D</span> Cycle irrégulier
-                </li>
-              </ul>
+            <aside className="quiz-cover__preview quiz-flow__paper" aria-label="Aperçu du Quiz SPM">
+              {quiz?.questions?.[0] ? (
+                <QuizQuestion
+                  preview
+                  question={quiz.questions[0]}
+                  index={0}
+                  total={quiz.questions.length}
+                  onAnswer={startPreview}
+                />
+              ) : (
+                <Link className="btn btn-primary" to={routes.quizQuestions}>
+                  Découvrir la première question
+                </Link>
+              )}
             </aside>
           </div>
         </section>
