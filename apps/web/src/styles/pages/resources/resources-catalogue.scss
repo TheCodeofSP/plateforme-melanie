@@ -82,8 +82,7 @@
   display: grid;
   grid-template-rows: auto 1fr;
   min-width: 0;
-    max-height: 560px;
-
+  max-height: 560px;
 }
 
 .resource-cover {
@@ -179,12 +178,6 @@
   text-transform: none;
 }
 
-.resource-access--private {
-  border-color: var(--color-border-primary);
-  background: var(--color-primary-extra-soft);
-  color: var(--color-primary-active);
-}
-
 .resources-load-more {
   display: flex;
   margin: var(--space-lg) auto 0;
@@ -224,7 +217,8 @@
   overflow: hidden;
   font-size: 0.92rem;
   line-height: 1.5;
-  max-height: 4.5em;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
 }
 .api-resource-card__body h3 {
   text-wrap: pretty;

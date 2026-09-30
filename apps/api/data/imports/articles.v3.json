@@ -2,7 +2,7 @@
   {
     "externalImportKey": "melanie-article-v3-endo-warrior-et-endo-girl-vivre-avec-lendometriose-sen-sy-enfermer",
     "status": "PUBLISHED",
-    "visibility": "PUBLIC",
+    "visibility": "MEMBERS_ONLY",
     "content": {
       "title": "« Endo Warrior » et « Endo Girl » : Vivre avec l’endométriose s’en s’y enfermer",
       "description": "Recevoir un diagnostic d’endométriose est souvent une étape cruciale pour les personnes concernées. Après des années de douleurs inexpliquées et d’errance médicale, le terme « Endo Warrior » ou « Endo Girl » devient un symbole puissant, représentant non seulement la lutte contre la maladie, mais aussi la victoire sur l’invisibilité. Ces termes sont essentiels, car ils offrent une reconnaissance et un sentiment d’appartenance. Cependant, il est crucial de comprendre que cette nouvelle identité, bien que réconfortante au départ, peut devenir un piège si elle finit par engloutir tout le reste de la vie. Cet article explore à la fois les avantages et les risques de s’identifier à travers ces termes, et propose des pistes pour équilibrer cette identité avec la préservation de soi.",
@@ -11,7 +11,7 @@
       "recommendedSpmProfiles": [],
       "keywords": ["endo", "warrior", "girl", "vivre", "avec", "lendometriose", "enfermer"],
       "durationMinutes": 5,
-      "proposedVisibility": "PUBLIC",
+      "proposedVisibility": "MEMBERS_ONLY",
       "sourceMode": "TEXT",
       "blocks": [
         {
@@ -234,7 +234,7 @@
   {
     "externalImportKey": "melanie-article-v3-douleurs-des-seins-tout-ce-quil-faut-savoir",
     "status": "PUBLISHED",
-    "visibility": "PUBLIC",
+    "visibility": "MEMBERS_ONLY",
     "content": {
       "title": "Douleurs des seins : tout ce qu’il faut savoir",
       "description": "Les douleurs des seins inquiètent souvent, mais la plupart du temps cela manifeste tout simplement la fluctuation naturelle des hormones dans notre corps. Découvrez pourquoi on peut avoir mal aux seins, et dans quels cas il est recommandé de consulter.",
@@ -243,10 +243,10 @@
         "ENDOMETRIOSE_PATHOLOGIES_GYNECOLOGIQUES",
         "BIEN_ETRE_EMOTIONNEL_SANTE_MENTALE"
       ],
-      "recommendedSpmProfiles": [],
+      "recommendedSpmProfiles": ["GONFLEE_A_BLOC"],
       "keywords": ["douleurs", "seins", "tout", "quil", "faut", "savoir"],
       "durationMinutes": 5,
-      "proposedVisibility": "PUBLIC",
+      "proposedVisibility": "MEMBERS_ONLY",
       "sourceMode": "TEXT",
       "blocks": [
         {
@@ -393,7 +393,7 @@
   {
     "externalImportKey": "melanie-article-v3-emotions-et-changement-de-la-couleur-des-regles",
     "status": "PUBLISHED",
-    "visibility": "PUBLIC",
+    "visibility": "MEMBERS_ONLY",
     "content": {
       "title": "Emotions et changement de la couleur des règles",
       "description": "Vous aviez habituellement des règles de couleur rouge vif et voilà qu’elles sont devenues plus foncées, tirant sur le noir… Qu’est-ce que cela signifie ? La couleur des menstrues constitue une indication précieuse sur notre état de santé, et un changement brusque peut révéler une infection, un certain affaiblissement de l’organisme, mais également un état de stress relativement important ou encore une difficulté à rester alignée avec nos propres valeurs. La signification des couleurs des règles, associée à la gyn’écologie émotionnelle, nous aide à comprendre l’impact des émotions sur notre système, et donne des pistes pour améliorer les choses si nécessaire.",
@@ -402,7 +402,7 @@
       "recommendedSpmProfiles": [],
       "keywords": ["emotions", "changement", "couleur", "regles"],
       "durationMinutes": 5,
-      "proposedVisibility": "PUBLIC",
+      "proposedVisibility": "MEMBERS_ONLY",
       "sourceMode": "TEXT",
       "blocks": [
         {
@@ -525,16 +525,16 @@
   {
     "externalImportKey": "melanie-article-v3-fatigue-chronique-pourquoi-dormir-8-heures-ne-suffit-pas-toujours",
     "status": "PUBLISHED",
-    "visibility": "PUBLIC",
+    "visibility": "MEMBERS_ONLY",
     "content": {
       "title": "Fatigue chronique : pourquoi dormir 8 heures ne suffit pas toujours",
       "description": "Dormir huit heures par nuit est généralement considéré comme une base de récupération suffisante. Et pourtant, dans la réalité, une autre observation revient régulièrement : certaines personnes, malgré un sommeil jugé correct, décrivent une fatigue persistante, parfois même installée depuis des mois ou des années. Comme si dormir davantage ne suffisait pas à retrouver de l’énergie. Ce décalage interroge.",
       "format": "ARTICLE",
       "categories": ["STRESS_SOMMEIL"],
-      "recommendedSpmProfiles": [],
+      "recommendedSpmProfiles": ["DOUCE_MELANCOLIE", "CROQUE_TOUT"],
       "keywords": ["fatigue", "chronique", "pourquoi", "dormir", "heures", "suffit", "toujours"],
       "durationMinutes": 5,
-      "proposedVisibility": "PUBLIC",
+      "proposedVisibility": "MEMBERS_ONLY",
       "sourceMode": "TEXT",
       "blocks": [
         {
@@ -791,7 +791,7 @@
   {
     "externalImportKey": "melanie-article-v3-glande-pineale-et-equilibre-hormonal",
     "status": "PUBLISHED",
-    "visibility": "PUBLIC",
+    "visibility": "MEMBERS_ONLY",
     "content": {
       "title": "Glande pinéale et équilibre hormonal",
       "description": "L’activation de la glande pinéale est cruciale pour bénéficier d’un sommeil réparateur et d’un meilleur équilibre hormonal. Egalement appelée « troisième œil », elle produit de la mélatonine et joue un rôle essentiel dans la régulation des hormones sexuelles. Découvrez les techniques et habitudes à adopter pour révéler l’énorme potentiel de cette petite glande.",
@@ -800,7 +800,7 @@
       "recommendedSpmProfiles": [],
       "keywords": ["glande", "pineale", "equilibre", "hormonal"],
       "durationMinutes": 4,
-      "proposedVisibility": "PUBLIC",
+      "proposedVisibility": "MEMBERS_ONLY",
       "sourceMode": "TEXT",
       "blocks": [
         {
@@ -1103,16 +1103,16 @@
   {
     "externalImportKey": "melanie-article-v3-la-gynecologie-emotionnelle",
     "status": "PUBLISHED",
-    "visibility": "PUBLIC",
+    "visibility": "MEMBERS_ONLY",
     "content": {
       "title": "La gyn’écologie émotionnelle",
       "description": "La gyn’écologie émotionnelle est une discipline qui explore le lien profond entre nos émotions et notre bien-être gynécologique. Fondée sur les principes de Maud Renard, cette approche alternative met en lumière l’impact des émotions sur notre bien-être physique et offre des outils précieux pour comprendre et apaiser nos maux.",
       "format": "ARTICLE",
       "categories": ["BIEN_ETRE_EMOTIONNEL_SANTE_MENTALE"],
-      "recommendedSpmProfiles": [],
+      "recommendedSpmProfiles": ["DOUCE_MELANCOLIE"],
       "keywords": ["gynecologie", "emotionnelle"],
       "durationMinutes": 2,
-      "proposedVisibility": "PUBLIC",
+      "proposedVisibility": "MEMBERS_ONLY",
       "sourceMode": "TEXT",
       "blocks": [
         {
@@ -1199,7 +1199,7 @@
   {
     "externalImportKey": "melanie-article-v3-la-visualisation-un-outil-puissant-contre-les-mycoses-vaginales",
     "status": "PUBLISHED",
-    "visibility": "PUBLIC",
+    "visibility": "MEMBERS_ONLY",
     "content": {
       "title": "La Visualisation : Un Outil Puissant Contre les Mycoses Vaginales",
       "description": "Les mycoses vaginales sont un problème récurrent pour de nombreuses personnes. Elles apparaissent souvent en période de stress, de fatigue ou après un traitement antibiotique, et peuvent devenir chroniques. Et si la clef pour en venir à bout durablement résidait aussi dans l’esprit ?",
@@ -1208,9 +1208,17 @@
       "recommendedSpmProfiles": [],
       "keywords": ["visualisation", "outil", "puissant", "contre", "mycoses", "vaginales"],
       "durationMinutes": 5,
-      "proposedVisibility": "PUBLIC",
+      "proposedVisibility": "MEMBERS_ONLY",
       "sourceMode": "TEXT",
       "blocks": [
+        {
+          "type": "HEADING",
+          "text": "Introduction"
+        },
+        {
+          "type": "PARAGRAPH",
+          "text": "Les mycoses vaginales sont un problème récurrent pour de nombreuses personnes. Elles apparaissent souvent en période de stress, de fatigue ou après un traitement antibiotique, et peuvent devenir chroniques. Et si la clef pour en venir à bout durablement résidait aussi dans l’esprit ?"
+        },
         {
           "type": "PARAGRAPH",
           "text": "La visualisation est une technique puissante qui permet d’agir sur le corps en mobilisant l’imaginaire et la conscience. De plus en plus d’études scientifiques confirment son impact sur la gestion du stress, la régulation du système immunitaire et même la diminution des douleurs chroniques. Explorons ensemble comment cet outil peut aider à soulager et prévenir les mycoses vaginales."
@@ -1389,7 +1397,7 @@
   {
     "externalImportKey": "melanie-article-v3-la-medecine-holistique",
     "status": "PUBLISHED",
-    "visibility": "PUBLIC",
+    "visibility": "MEMBERS_ONLY",
     "content": {
       "title": "La médecine holistique",
       "description": "Des pratiques complémentaires pour t’aider sur ton chemin vers le bien-être global.",
@@ -1398,7 +1406,7 @@
       "recommendedSpmProfiles": [],
       "keywords": ["medecine", "holistique"],
       "durationMinutes": 5,
-      "proposedVisibility": "PUBLIC",
+      "proposedVisibility": "MEMBERS_ONLY",
       "sourceMode": "TEXT",
       "blocks": [
         {
@@ -1547,7 +1555,7 @@
   {
     "externalImportKey": "melanie-article-v3-la-place-du-cur-dans-lexercice-de-la-visualisation",
     "status": "PUBLISHED",
-    "visibility": "PUBLIC",
+    "visibility": "MEMBERS_ONLY",
     "content": {
       "title": "La place du cœur dans l’exercice de la visualisation",
       "description": "Dans mes séances de visualisation, le cœur joue un rôle central. Ce choix s’appuie sur les recherches du HeartMath Institute, qui montrent que le cœur agit comme un puissant émetteur et récepteur d’informations, influençant nos émotions, notre esprit et notre corps. En l’intégrant à des exercices d’imaginaire créateur, on amplifie les capacités du subconscient, favorisant ainsi un mieux-être global.",
@@ -1556,7 +1564,7 @@
       "recommendedSpmProfiles": [],
       "keywords": ["place", "dans", "lexercice", "visualisation"],
       "durationMinutes": 3,
-      "proposedVisibility": "PUBLIC",
+      "proposedVisibility": "MEMBERS_ONLY",
       "sourceMode": "TEXT",
       "blocks": [
         {
@@ -1681,16 +1689,16 @@
   {
     "externalImportKey": "melanie-article-v3-le-stress-et-ses-impacts-sur-le-cycle-menstruel",
     "status": "PUBLISHED",
-    "visibility": "PUBLIC",
+    "visibility": "MEMBERS_ONLY",
     "content": {
       "title": "Le stress et ses impacts sur le cycle menstruel",
       "description": "Le stress semble être une notion banalisée aujourd’hui, mais son effet prolongé sur le corps, et en particulier la sphère gynécologique, à des conséquences à connaitre.",
       "format": "ARTICLE",
       "categories": ["CYCLE_MENSTRUEL", "STRESS_SOMMEIL"],
-      "recommendedSpmProfiles": [],
+      "recommendedSpmProfiles": ["BOULE_DE_NERFS"],
       "keywords": ["stress", "impacts", "cycle", "menstruel"],
       "durationMinutes": 5,
-      "proposedVisibility": "PUBLIC",
+      "proposedVisibility": "MEMBERS_ONLY",
       "sourceMode": "TEXT",
       "blocks": [
         {
@@ -2296,7 +2304,7 @@
   {
     "externalImportKey": "melanie-article-v3-leau-les-emotions-et-la-gynecologie-emotionnelle",
     "status": "PUBLISHED",
-    "visibility": "PUBLIC",
+    "visibility": "MEMBERS_ONLY",
     "content": {
       "title": "L’eau, les émotions et la gyn’écologie émotionnelle",
       "description": "Découvre un lien étonnant entre l’eau, les émotions et la gyn’écologie émotionnelle !",
@@ -2305,7 +2313,7 @@
       "recommendedSpmProfiles": [],
       "keywords": ["leau", "emotions", "gynecologie", "emotionnelle"],
       "durationMinutes": 3,
-      "proposedVisibility": "PUBLIC",
+      "proposedVisibility": "MEMBERS_ONLY",
       "sourceMode": "TEXT",
       "blocks": [
         {
@@ -2406,16 +2414,16 @@
   {
     "externalImportKey": "melanie-article-v3-musique-et-emotions",
     "status": "PUBLISHED",
-    "visibility": "PUBLIC",
+    "visibility": "MEMBERS_ONLY",
     "content": {
       "title": "Musique et émotions",
       "description": "La musique fait partie intégrante de nos vies. Présente dans toutes les cultures, elle accompagne nos joies, nos peines et nos transitions. Mais au-delà du simple plaisir auditif, elle a un impact profond sur notre corps et notre bien-être émotionnel. Son influence sur le système nerveux, la gestion du stress et l’expression des émotions en fait un outil puissant dans l’accompagnement en gynécologie émotionnelle. Voyons comment la musique peut soutenir notre équilibre gynécologique et comment l’intégrer dans notre quotidien.",
       "format": "ARTICLE",
       "categories": ["BIEN_ETRE_EMOTIONNEL_SANTE_MENTALE"],
-      "recommendedSpmProfiles": [],
+      "recommendedSpmProfiles": ["BOULE_DE_NERFS", "DOUCE_MELANCOLIE"],
       "keywords": ["musique", "emotions"],
       "durationMinutes": 4,
-      "proposedVisibility": "PUBLIC",
+      "proposedVisibility": "MEMBERS_ONLY",
       "sourceMode": "TEXT",
       "blocks": [
         {
@@ -2560,7 +2568,7 @@
   {
     "externalImportKey": "melanie-article-v3-medecine-symbolique-et-gynecologie-emotionnelle",
     "status": "PUBLISHED",
-    "visibility": "PUBLIC",
+    "visibility": "MEMBERS_ONLY",
     "content": {
       "title": "Médecine symbolique et Gynécologie Emotionnelle",
       "description": "Je me souviens d’une période où j’ai enchaîné les mycoses pendant quatre mois. Un enfer. Cela faisait pourtant des années que je n’en avais plus eu depuis l’arrêt de la pilule, qui était justement la cause de mes mycoses chroniques. Là, j’étais perdue. Je n’avais pas repris de contraception hormonale, ni pris de médicament. Et comme par le passé, aucun traitement antifongique ne faisait effet. C’est le jour où j’ai commencé à regarder la mycose autrement — symboliquement — que tout a changé. J’ai compris que mon corps essayait de me dire quelque chose, et cette écoute a été une clé vers la libération.",
@@ -2569,7 +2577,7 @@
       "recommendedSpmProfiles": [],
       "keywords": ["medecine", "symbolique", "gynecologie", "emotionnelle"],
       "durationMinutes": 5,
-      "proposedVisibility": "PUBLIC",
+      "proposedVisibility": "MEMBERS_ONLY",
       "sourceMode": "TEXT",
       "blocks": [
         {
@@ -3151,7 +3159,7 @@
       "description": "La colère facile, envie de rien, douleurs aux seins, fringale sucrée … Le SPM ou syndrome prémenstruel se présente sous forme de multiples symptômes. Qui disparaissent ensuite pour laisser place à des règles parfois douloureuses. Pourquoi a-t-on ce syndrome ? Comment savoir si c’est le SPM ? Et surtout, comment y remédier ?",
       "format": "ARTICLE",
       "categories": ["SPM", "CYCLE_MENSTRUEL"],
-      "recommendedSpmProfiles": [],
+      "recommendedSpmProfiles": ["CROQUE_TOUT", "GONFLEE_A_BLOC"],
       "keywords": ["syndrome", "premenstruel", "causes", "solutions"],
       "durationMinutes": 4,
       "proposedVisibility": "PUBLIC",
@@ -3297,16 +3305,16 @@
   {
     "externalImportKey": "melanie-article-v3-se-reconnecter-a-son-corps-avec-la-gynecologie-emotionnelle",
     "status": "PUBLISHED",
-    "visibility": "PUBLIC",
+    "visibility": "MEMBERS_ONLY",
     "content": {
       "title": "Se reconnecter à son corps avec la gynécologie émotionnelle",
       "description": "Dans un quotidien où « il faut » travailler, avoir une vie sociale, plaire aux autres, réussir dans la vie… notre corps est devenu une machine. Il est là pour servir nos objectifs, et nous ignorons les signaux d’alerte qu’il nous envoie : ce sont de simples signes de « stress » ou de « fatigue » que l’on pourra effacer avec un peu de distraction… Jusqu’à ce qu’on finisse par avoir mal tout le temps sans pouvoir l’expliquer. Pour éviter ce genre de situation, il est important de se reconnecter à son corps, et de cultiver l’amour de soi. La gyn’écologie émotionnelle constitue un moyen d’avancer vers cette reconnexion, afin de vivre en harmonie avec son corps.",
       "format": "ARTICLE",
       "categories": ["BIEN_ETRE_EMOTIONNEL_SANTE_MENTALE", "APPROCHES_NATURELLES_HOLISTIQUES"],
-      "recommendedSpmProfiles": [],
+      "recommendedSpmProfiles": ["BOULE_DE_NERFS"],
       "keywords": ["reconnecter", "corps", "avec", "gynecologie", "emotionnelle"],
       "durationMinutes": 4,
-      "proposedVisibility": "PUBLIC",
+      "proposedVisibility": "MEMBERS_ONLY",
       "sourceMode": "TEXT",
       "blocks": [
         {
@@ -3405,7 +3413,7 @@
   {
     "externalImportKey": "melanie-article-v3-tout-savoir-sur-les-desequilibres-hormonaux",
     "status": "PUBLISHED",
-    "visibility": "PUBLIC",
+    "visibility": "MEMBERS_ONLY",
     "content": {
       "title": "Tout savoir sur les déséquilibres hormonaux",
       "description": "Quel est le point commun entre une perte de cheveux, une fatigue inhabituelle et un retard des règles ? Ils peuvent être causés par un problème d’hormones. Les déséquilibres hormonaux peuvent affecter l’ensemble de notre organisme, et se manifestent par des symptômes très variés. Heureusement, il est possible d’y remédier grâce à une approche holistique, en intégrant un mode de vie plus sain et des soins adaptés. Et pour les déséquilibres avec des manifestations gynécologiques, il est important de tenir compte de la dimension émotionnelle pour mieux les comprendre et les soulager.",
@@ -3414,7 +3422,7 @@
       "recommendedSpmProfiles": [],
       "keywords": ["tout", "savoir", "desequilibres", "hormonaux"],
       "durationMinutes": 7,
-      "proposedVisibility": "PUBLIC",
+      "proposedVisibility": "MEMBERS_ONLY",
       "sourceMode": "TEXT",
       "blocks": [
         {

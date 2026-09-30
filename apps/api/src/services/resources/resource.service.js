@@ -282,6 +282,7 @@ function publicProjection(resource, user) {
         title: fullVersion.title,
         description: fullVersion.description,
         format: fullVersion.format,
+        durationMinutes: fullVersion.durationMinutes,
         introduction: getResourceIntroduction(fullVersion),
         coverMedia: fullVersion.coverMedia,
         coverUrl: fullVersion.coverUrl,
@@ -532,6 +533,7 @@ async function getHistory(resourceId, user) {
 }
 
 module.exports = {
+  publicProjection,
   log,
   uniqueSlug,
   getOwnedResource,

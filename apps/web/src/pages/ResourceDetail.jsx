@@ -9,6 +9,7 @@ import ShareButton from "../components/ui/ShareButton.jsx";
 import { routes } from "../config/routes.config.js";
 import { getResource } from "../features/resources/api/resource.service.js";
 import { getArticleLead } from "../features/resources/utils/article-layout.utils.js";
+import ResourceAccessBadge from "../features/resources/components/ResourceAccessBadge.jsx";
 import ResourceBlocks from "../features/resources/components/ResourceBlocks.jsx";
 import ResourceAuthorByline from "../features/resources/components/ResourceAuthorByline.jsx";
 import ResourceCover from "../features/resources/components/ResourceCover.jsx";
@@ -68,11 +69,9 @@ export default function ResourceDetail() {
             <span>
               {resource.format.icon} {resource.format.label}
             </span>
-            <span className="resource-access">
-              {resource.visibility === "MEMBERS_ONLY" || resource.locked
-                ? "Accès privé"
-                : "Accès libre"}
-            </span>
+            <ResourceAccessBadge
+              isPrivate={resource.visibility === "MEMBERS_ONLY" || resource.locked}
+            />
           </div>
           <h1>{resource.title}</h1>
           {getArticleLead(content).map((paragraph, index) => (

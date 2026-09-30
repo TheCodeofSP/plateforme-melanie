@@ -27,138 +27,173 @@
     "externalImportKey": "melanie-blog-endo-warrior-et-endo-girl-vivre-avec-lendometriose-sans-sy-enfermer",
     "title": "« Endo Warrior » et « Endo Girl » : vivre avec l’endométriose sans s’y enfermer",
     "visibility": "MEMBERS_ONLY",
-    "recommendedSpmProfiles": []
+    "recommendedSpmProfiles": [],
+    "externalImportAliases": [
+      "melanie-article-v3-endo-warrior-et-endo-girl-vivre-avec-lendometriose-sen-sy-enfermer"
+    ]
   },
   {
     "externalImportKey": "melanie-blog-contraception-masculine",
     "title": "Contraception masculine",
     "visibility": "PUBLIC",
-    "recommendedSpmProfiles": []
+    "recommendedSpmProfiles": [],
+    "externalImportAliases": ["melanie-article-v3-contraception-masculine"]
   },
   {
     "externalImportKey": "melanie-blog-douleurs-des-seins-tout-ce-quil-faut-savoir",
     "title": "Douleurs des seins : tout ce qu’il faut savoir",
     "visibility": "MEMBERS_ONLY",
-    "recommendedSpmProfiles": ["GONFLEE_A_BLOC"]
+    "recommendedSpmProfiles": ["GONFLEE_A_BLOC"],
+    "externalImportAliases": ["melanie-article-v3-douleurs-des-seins-tout-ce-quil-faut-savoir"]
   },
   {
     "externalImportKey": "melanie-blog-emotions-et-changement-de-la-couleur-des-regles",
     "title": "Emotions et changement de la couleur des règles",
     "visibility": "MEMBERS_ONLY",
-    "recommendedSpmProfiles": []
+    "recommendedSpmProfiles": [],
+    "externalImportAliases": ["melanie-article-v3-emotions-et-changement-de-la-couleur-des-regles"]
   },
   {
     "externalImportKey": "melanie-blog-fatigue-chronique-pourquoi-dormir-8-heures-ne-suffit-pas-toujours",
     "title": "Fatigue chronique : pourquoi dormir 8 heures ne suffit pas toujours",
     "visibility": "MEMBERS_ONLY",
-    "recommendedSpmProfiles": ["DOUCE_MELANCOLIE", "CROQUE_TOUT"]
+    "recommendedSpmProfiles": ["DOUCE_MELANCOLIE", "CROQUE_TOUT"],
+    "externalImportAliases": [
+      "melanie-article-v3-fatigue-chronique-pourquoi-dormir-8-heures-ne-suffit-pas-toujours"
+    ]
   },
   {
     "externalImportKey": "melanie-blog-glande-pineale-et-equilibre-hormonal",
     "title": "Glande pinéale et équilibre hormonal",
     "visibility": "MEMBERS_ONLY",
-    "recommendedSpmProfiles": []
+    "recommendedSpmProfiles": [],
+    "externalImportAliases": ["melanie-article-v3-glande-pineale-et-equilibre-hormonal"]
   },
   {
     "externalImportKey": "melanie-blog-gerer-sa-fertilite-en-autonomie",
     "title": "Gérer sa fertilité en autonomie",
     "visibility": "PUBLIC",
-    "recommendedSpmProfiles": []
+    "recommendedSpmProfiles": [],
+    "externalImportAliases": ["melanie-article-v3-gerer-sa-fertilite-en-autonomie"]
   },
   {
     "externalImportKey": "melanie-blog-la-gynecologie-emotionnelle",
     "title": "La gyn’écologie émotionnelle",
     "visibility": "MEMBERS_ONLY",
-    "recommendedSpmProfiles": ["DOUCE_MELANCOLIE"]
+    "recommendedSpmProfiles": ["DOUCE_MELANCOLIE"],
+    "externalImportAliases": ["melanie-article-v3-la-gynecologie-emotionnelle"]
   },
   {
     "externalImportKey": "melanie-blog-la-visualisation-un-outil-puissant-contre-les-mycoses-vaginales",
     "title": "La Visualisation : Un Outil Puissant Contre les Mycoses Vaginales",
     "visibility": "MEMBERS_ONLY",
-    "recommendedSpmProfiles": []
+    "recommendedSpmProfiles": [],
+    "externalImportAliases": [
+      "melanie-article-v3-la-visualisation-un-outil-puissant-contre-les-mycoses-vaginales"
+    ]
   },
   {
     "externalImportKey": "melanie-blog-la-medecine-holistique",
     "title": "La médecine holistique",
     "visibility": "MEMBERS_ONLY",
-    "recommendedSpmProfiles": []
+    "recommendedSpmProfiles": [],
+    "externalImportAliases": ["melanie-article-v3-la-medecine-holistique"]
   },
   {
     "externalImportKey": "melanie-blog-la-place-du-cur-dans-lexercice-de-la-visualisation",
     "title": "La place du cœur dans l’exercice de la visualisation",
     "visibility": "MEMBERS_ONLY",
-    "recommendedSpmProfiles": []
+    "recommendedSpmProfiles": [],
+    "externalImportAliases": [
+      "melanie-article-v3-la-place-du-cur-dans-lexercice-de-la-visualisation"
+    ]
   },
   {
     "externalImportKey": "melanie-blog-le-stress-et-ses-impacts-sur-le-cycle-menstruel",
     "title": "Le stress et ses impacts sur le cycle menstruel",
     "visibility": "MEMBERS_ONLY",
-    "recommendedSpmProfiles": ["BOULE_DE_NERFS"]
+    "recommendedSpmProfiles": ["BOULE_DE_NERFS"],
+    "externalImportAliases": ["melanie-article-v3-le-stress-et-ses-impacts-sur-le-cycle-menstruel"]
   },
   {
     "externalImportKey": "melanie-blog-les-contraceptions-naturelles",
     "title": "Les contraceptions naturelles",
     "visibility": "PUBLIC",
-    "recommendedSpmProfiles": []
+    "recommendedSpmProfiles": [],
+    "externalImportAliases": ["melanie-article-v3-les-contraceptions-naturelles"]
   },
   {
     "externalImportKey": "melanie-blog-lautonomie-de-la-fertilite",
     "title": "L’autonomie de la fertilité",
     "visibility": "PUBLIC",
-    "recommendedSpmProfiles": []
+    "recommendedSpmProfiles": [],
+    "externalImportAliases": ["melanie-article-v3-lautonomie-de-la-fertilite"]
   },
   {
     "externalImportKey": "melanie-blog-leau-les-emotions-et-la-gynecologie-emotionnelle",
     "title": "L’eau, les émotions et la gyn’écologie émotionnelle",
     "visibility": "MEMBERS_ONLY",
-    "recommendedSpmProfiles": []
+    "recommendedSpmProfiles": [],
+    "externalImportAliases": ["melanie-article-v3-leau-les-emotions-et-la-gynecologie-emotionnelle"]
   },
   {
     "externalImportKey": "melanie-blog-musique-et-emotions",
     "title": "Musique et émotions",
     "visibility": "MEMBERS_ONLY",
-    "recommendedSpmProfiles": ["BOULE_DE_NERFS", "DOUCE_MELANCOLIE"]
+    "recommendedSpmProfiles": ["BOULE_DE_NERFS", "DOUCE_MELANCOLIE"],
+    "externalImportAliases": ["melanie-article-v3-musique-et-emotions"]
   },
   {
     "externalImportKey": "melanie-site-medecine-symbolique-2026",
     "title": "Médecine symbolique et Gynécologie Emotionnelle",
     "visibility": "MEMBERS_ONLY",
-    "recommendedSpmProfiles": []
+    "recommendedSpmProfiles": [],
+    "externalImportAliases": ["melanie-article-v3-medecine-symbolique-et-gynecologie-emotionnelle"]
   },
   {
     "externalImportKey": "melanie-blog-pourquoi-ne-pas-etre-entendue-par-des-professionnels-aggrave-la-douleur",
     "title": "Pourquoi ne pas être entendue par des professionnels, aggrave la douleur ?",
     "visibility": "MEMBERS_ONLY",
-    "recommendedSpmProfiles": []
+    "recommendedSpmProfiles": [],
+    "externalImportAliases": [
+      "melanie-article-v3-pourquoi-ne-pas-etre-entendue-par-des-professionnels-aggrave-la-douleur"
+    ]
   },
   {
     "externalImportKey": "melanie-site-douleur-zone-confort-2026",
     "title": "Quand la douleur devient une zone de confort.",
     "visibility": "MEMBERS_ONLY",
-    "recommendedSpmProfiles": []
+    "recommendedSpmProfiles": [],
+    "externalImportAliases": ["melanie-article-v3-quand-la-douleur-devient-une-zone-de-confort"]
   },
   {
     "externalImportKey": "melanie-blog-regles-abondantes",
     "title": "Règles abondantes",
     "visibility": "MEMBERS_ONLY",
-    "recommendedSpmProfiles": []
+    "recommendedSpmProfiles": [],
+    "externalImportAliases": ["melanie-article-v3-regles-abondantes"]
   },
   {
     "externalImportKey": "melanie-blog-spm-syndrome-premenstruel-causes-et-solutions",
     "title": "SPM(Syndrome prémenstruel): causes et solutions",
     "visibility": "PUBLIC",
-    "recommendedSpmProfiles": ["CROQUE_TOUT", "GONFLEE_A_BLOC"]
+    "recommendedSpmProfiles": ["CROQUE_TOUT", "GONFLEE_A_BLOC"],
+    "externalImportAliases": ["melanie-article-v3-spm-syndrome-premenstruel-causes-et-solutions"]
   },
   {
     "externalImportKey": "melanie-blog-se-reconnecter-a-son-corps-avec-la-gynecologie-emotionnelle",
     "title": "Se reconnecter à son corps avec la gynécologie émotionnelle",
     "visibility": "MEMBERS_ONLY",
-    "recommendedSpmProfiles": ["BOULE_DE_NERFS"]
+    "recommendedSpmProfiles": ["BOULE_DE_NERFS"],
+    "externalImportAliases": [
+      "melanie-article-v3-se-reconnecter-a-son-corps-avec-la-gynecologie-emotionnelle"
+    ]
   },
   {
     "externalImportKey": "melanie-blog-tout-savoir-sur-les-desequilibres-hormonaux",
     "title": "Tout savoir sur les déséquilibres hormonaux",
     "visibility": "MEMBERS_ONLY",
-    "recommendedSpmProfiles": []
+    "recommendedSpmProfiles": [],
+    "externalImportAliases": ["melanie-article-v3-tout-savoir-sur-les-desequilibres-hormonaux"]
   }
 ]
