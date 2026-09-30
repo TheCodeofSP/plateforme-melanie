@@ -9,6 +9,7 @@ const questions = [
         label: "Moins de 21 jours",
         profiles: ["DOUCE_MELANCOLIE"],
       },
+      { key: "cycle_21_35", label: "Entre 21 et 35 jours", profiles: [] },
       {
         key: "cycle_plus_35",
         label: "Plus de 35 jours",
@@ -19,7 +20,6 @@ const questions = [
         label: "Cycle irrégulier (10 jours ou plus d’écart entre chaque cycle)",
         profiles: ["BOULE_DE_NERFS"],
       },
-      { key: "cycle_21_35", label: "Entre 21 et 35 jours", profiles: [] },
     ],
   },
   {

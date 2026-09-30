@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 
+import ResourceAccessBadge from "./ResourceAccessBadge.jsx";
 import ResourceCover from "./ResourceCover.jsx";
 import {
   formatDate,
@@ -27,16 +28,18 @@ export default function ApiResourceCard({ resource }) {
             <span aria-hidden="true">{item.format.icon}</span>
             {item.format.label}
           </span>
-          <span className={`resource-access ${isPrivate ? "resource-access--private" : ""}`}>
-            {isPrivate ? "Accès privé" : "Accès libre"}
-          </span>
+          <ResourceAccessBadge isPrivate={isPrivate} />
         </div>
         <h3>
           <Link to={resourcePath(item.slug)}>{item.title}</Link>
         </h3>
         <p>{item.description}</p>
         <div className="api-resource-card__footer">
-          <span>{item.duration || formatDate(item.publishedAt)}</span>
+          {item.publishedAt && (
+            <time dateTime={new Date(item.publishedAt).toISOString()}>
+              {formatDate(item.publishedAt)}
+            </time>
+          )}
           <Link className="api-resource-card__action" to={resourcePath(item.slug)}>
             {resourceActionLabel(item.content.format)}
           </Link>

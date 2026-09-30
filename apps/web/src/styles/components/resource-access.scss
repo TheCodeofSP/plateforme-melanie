@@ -1,0 +1,23 @@
+@use "../abstracts/mixins.scss" as *;
+
+.resource-access {
+  @include resource-chip;
+  text-transform: none;
+}
+
+.resource-access.resource-access--private {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  background: #f0e0e1;
+  color: #663d42;
+  border: 1px solid #ba8c91;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+.resource-access__icon {
+  width: 0.9rem;
+  height: 0.9rem;
+  flex-shrink: 0;
+}
